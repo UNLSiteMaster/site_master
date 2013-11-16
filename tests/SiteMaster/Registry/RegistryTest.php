@@ -5,7 +5,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPossibleSites()
     {
-        $registry = new \SiteMaster\Registry\Registry();
+        $registry = new Registry();
 
         $this->assertEquals(
             array('http://www.domain.com/path1/path2/path3/',
