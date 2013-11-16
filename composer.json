@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-0": {
+            "SiteMaster": "src"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}
