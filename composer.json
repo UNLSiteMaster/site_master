@@ -1,10 +1,21 @@
 {
     "autoload": {
         "psr-0": {
-            "SiteMaster": "src"
+            "SiteMaster": "src",
+            "DB": "vendor/unl",
+            "RegExpRouter": "vendor/unl"
         }
     },
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://phpsavant.com"
+        }
+    ],
     "require": {
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "3.7.*",
+        "pear-savant/Savvy": "*",
+        "symfony/event-dispatcher": "2.2.*",
+        "ircmaxell/password-compat": "dev-master"
     }
 }
