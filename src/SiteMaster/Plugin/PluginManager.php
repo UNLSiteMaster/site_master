@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster\Plugin;
 
+use SiteMaster\Util;
+
 class PluginManager
 {
     protected $eventsManager = false;
@@ -13,7 +15,7 @@ class PluginManager
     protected static $singleton = false;
 
     /**
-     * Initialize the signleton
+     * Initialize the singleton
      *
      * @param $eventsManager
      * @param array $options
@@ -98,15 +100,31 @@ class PluginManager
      */
     public function getInstalledPlugins()
     {
-        $all = $this->options['internal_plugins'] + $this->options['external_plugins'];
+        //$all = $this->options['internal_plugins'] + $this->options['external_plugins'];
 
         $plugins = array();
 
-        foreach ($all as $name=>$options) {
+        if (!$json = @file_get_contents($this->getInstalledPluginsFileName())) {
+            return $plugins;
+        }
+
+        $plugins = json_decode($plugins, true);
+
+        foreach ($plugins as $name=>$options) {
             $plugins[$name] = $this->getPluginInfo($name, $options);
         }
 
         return $plugins;
+    }
+
+    public function updateInstalledPlugins($plugins)
+    {
+        return file_put_contents($this->getInstalledPluginsFileName(), json_encode($plugins));
+    }
+
+    function getInstalledPluginsFileName()
+    {
+        return Util::getRootDir() . 'plugins.json';
     }
 
     /**
@@ -162,6 +180,11 @@ class PluginManager
     public function getExternalPlugins()
     {
         return $this->options['external_plugins'];
+    }
+
+    public function getInternalPlugins()
+    {
+        return $this->options['internal_plugins'];
     }
 
     public function getPluginNameFromClass($class) {
