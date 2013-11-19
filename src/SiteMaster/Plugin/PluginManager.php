@@ -52,9 +52,7 @@ class PluginManager
 
         \SiteMaster\Plugin\PluginManager::autoRegisterExternalPlugins();
 
-        $this->initializePlugins("SiteMaster\\", $this->options['internal_plugins']);
-
-        $this->initializePlugins("SiteMaster\\Plugins\\", $this->getInstalledPlugins());
+        $this->initializePlugins($this->getInstalledPlugins());
     }
 
     /**
@@ -130,15 +128,12 @@ class PluginManager
     /**
      * Initializes a set of plugins.
      *
-     * @param $baseNamespace
      * @param array $plugins
+     * @internal param $baseNamespace
      */
-    protected function initializePlugins($baseNamespace, array $plugins)
+    protected function initializePlugins(array $plugins)
     {
-        foreach ($plugins as $name=>$info) {
-            $class = $baseNamespace . ucfirst($name) . "\\Initialize";
-            $plugin = new $class($this->options);
-            $plugin->initialize();
+        foreach ($plugins as $name=>$plugin) {
             foreach ($plugin->getEventListeners() as $listener) {
                 $priority = 0;
                 if (isset($listener['priority'])) {
@@ -199,7 +194,13 @@ class PluginManager
 
     public function getPluginNamespaceFromName($name)
     {
-        return '\\SiteMaster\\Plugins\\' . strtoupper($name) . '\\';
+        $internalPlugins =$this->getInternalPlugins();
+        if (isset($internalPlugins[$name])) {
+            return '\\SiteMaster\\' . ucfirst($name) . '\\';
+        }
+
+        //Its an external plugin
+        return '\\SiteMaster\\Plugins\\' . ucfirst($name) . '\\';
     }
 
     public function getPluginInfo($name, $options = array()) {
