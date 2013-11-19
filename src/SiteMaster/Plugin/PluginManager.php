@@ -229,6 +229,11 @@ class PluginManager
         return '\\SiteMaster\\Plugins\\' . ucfirst(strtolower($name)) . '\\';
     }
 
+    /**
+     * @param $name
+     * @param array $options
+     * @return \SiteMaster\Plugin\PluginInterface
+     */
     public function getPluginInfo($name, $options = array()) {
         $class = $this->getPluginNamespaceFromName($name) . 'Plugin';
 
