@@ -91,6 +91,19 @@ class PluginManager
         }
     }
 
+    public function getInstalledVersions()
+    {
+        //$all = $this->options['internal_plugins'] + $this->options['external_plugins'];
+
+        $plugins = array();
+
+        if (!$json = @file_get_contents($this->getInstalledPluginsFileName())) {
+            return $plugins;
+        }
+
+        return json_decode($json, true);
+    }
+
     /**
      * Get a list of installed plugins
      *
@@ -106,9 +119,10 @@ class PluginManager
             return $plugins;
         }
 
-        $plugins = json_decode($json, true);
+        $plugins = $this->getInstalledPlugins();
 
         foreach ($plugins as $name=>$options) {
+            //TODO:  Correctly get the options, which will be passed via the config, not the versions file
             $plugins[$name] = $this->getPluginInfo($name, $options);
         }
 
