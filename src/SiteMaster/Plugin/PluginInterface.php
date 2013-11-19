@@ -59,6 +59,14 @@ abstract class PluginInterface
      */
     abstract public function getDescription();
 
+
+    /**
+     * Get an array of event listeners
+     *
+     * @return array
+     */
+    abstract function getEventListeners();
+
     public function getMachineName()
     {
         return PluginManager::getManager()->getPluginNameFromClass(get_called_class());
