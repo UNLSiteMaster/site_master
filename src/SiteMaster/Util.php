@@ -63,4 +63,9 @@ class Util
 
         return \SiteMaster\Config::get('URL') . $requestURI;
     }
+
+    public static function getRootDir()
+    {
+        return dirname(dirname(__FILE__));
+    }
 }
