@@ -122,7 +122,7 @@ abstract class PluginInterface
     {
         $plugins = PluginManager::getManager()->getExternalPlugins();
 
-        if (!isset($plugins[$this->getName()])) {
+        if (!isset($plugins[$this->getMachineName()])) {
             return false;
         }
 
@@ -133,11 +133,11 @@ abstract class PluginInterface
     {
         $plugins = PluginManager::getManager()->getExternalPlugins();
 
-        if (!isset($plugins[$this->getName()])) {
+        if (!isset($plugins[$this->getMachineName()])) {
             return false;
         }
 
-        return $plugins[$this->getName()];
+        return $plugins[$this->getMachineName()];
     }
 
     public function update()
@@ -154,7 +154,7 @@ abstract class PluginInterface
 
         if ($this->onUpdate($installedVersion)) {
             $plugins = PluginManager::getManager()->getExternalPlugins();
-            $plugins[$this->getName()] = $this->getVersion();
+            $plugins[$this->getMachineName()] = $this->getVersion();
             PluginManager::getManager()->updateInstalledPlugins($plugins);
         }
 
