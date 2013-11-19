@@ -122,7 +122,7 @@ class PluginManager
 
     function getInstalledPluginsFileName()
     {
-        return Util::getRootDir() . 'plugins.json';
+        return Util::getRootDir() . '/plugins.json';
     }
 
     /**
