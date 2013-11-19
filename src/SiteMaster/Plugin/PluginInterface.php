@@ -93,7 +93,7 @@ abstract class PluginInterface
             return false;
         }
 
-        $plugins = PluginManager::getManager()->getInstalledPlugins();
+        $plugins = PluginManager::getManager()->getInstalledVersions();
 
         $plugins[$this->getMachineName()] = $this->getVersion();
 
@@ -113,7 +113,7 @@ abstract class PluginInterface
             return false;
         }
 
-        $plugins = PluginManager::getManager()->getInstalledPlugins();
+        $plugins = PluginManager::getManager()->getInstalledVersions();
 
         unset($plugins[$this->getMachineName()]);
 
@@ -124,7 +124,7 @@ abstract class PluginInterface
 
     public function isInstalled()
     {
-        $plugins = PluginManager::getManager()->getInstalledPlugins();
+        $plugins = PluginManager::getManager()->getInstalledVersions();
 
         if (!isset($plugins[$this->getMachineName()])) {
             return false;
@@ -135,7 +135,7 @@ abstract class PluginInterface
 
     public function getInstalledVersion()
     {
-        $plugins = PluginManager::getManager()->getInstalledPlugins();
+        $plugins = PluginManager::getManager()->getInstalledVersions();
 
         if (!isset($plugins[$this->getMachineName()])) {
             return false;
@@ -157,7 +157,7 @@ abstract class PluginInterface
         }
 
         if ($this->onUpdate($installedVersion)) {
-            $plugins = PluginManager::getManager()->getInstalledPlugins();
+            $plugins = PluginManager::getManager()->getInstalledVersions();
             $plugins[$this->getMachineName()] = $this->getVersion();
             PluginManager::getManager()->updateInstalledPlugins($plugins);
         }
