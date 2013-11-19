@@ -106,7 +106,7 @@ class PluginManager
             return $plugins;
         }
 
-        $plugins = json_decode($plugins, true);
+        $plugins = json_decode($json, true);
 
         foreach ($plugins as $name=>$options) {
             $plugins[$name] = $this->getPluginInfo($name, $options);
@@ -174,12 +174,23 @@ class PluginManager
 
     public function getExternalPlugins()
     {
-        return $this->options['external_plugins'];
+        return  $this->sanitizePluginNames($this->options['external_plugins']);
     }
 
     public function getInternalPlugins()
     {
-        return $this->options['internal_plugins'];
+        return $this->sanitizePluginNames($this->options['internal_plugins']);
+    }
+
+    protected function sanitizePluginNames($plugins)
+    {
+        $sanitized = array();
+
+        foreach ($plugins as $name=>$options) {
+            $sanitized[strtoupper($name)] = $options;
+        }
+
+        return $sanitized;
     }
 
     public function getPluginNameFromClass($class) {
@@ -194,13 +205,14 @@ class PluginManager
 
     public function getPluginNamespaceFromName($name)
     {
-        $internalPlugins =$this->getInternalPlugins();
-        if (isset($internalPlugins[$name])) {
-            return '\\SiteMaster\\' . ucfirst($name) . '\\';
+        $internalPlugins = $this->getInternalPlugins();
+
+        if (isset($internalPlugins[strtoupper($name)])) {
+            return '\\SiteMaster\\' . ucfirst(strtolower($name)) . '\\';
         }
 
         //Its an external plugin
-        return '\\SiteMaster\\Plugins\\' . ucfirst($name) . '\\';
+        return '\\SiteMaster\\Plugins\\' . ucfirst(strtolower($name)) . '\\';
     }
 
     public function getPluginInfo($name, $options = array()) {

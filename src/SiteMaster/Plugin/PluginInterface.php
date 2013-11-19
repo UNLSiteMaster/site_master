@@ -69,7 +69,7 @@ abstract class PluginInterface
 
     public function getMachineName()
     {
-        return PluginManager::getManager()->getPluginNameFromClass(get_called_class());
+        return strtoupper(PluginManager::getManager()->getPluginNameFromClass(get_called_class()));
     }
 
     public function getOptions()
