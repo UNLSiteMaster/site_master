@@ -119,7 +119,7 @@ class PluginManager
             return $plugins;
         }
 
-        $plugins = $this->getInstalledPlugins();
+        $plugins = $this->getInstalledVersions();
 
         foreach ($plugins as $name=>$options) {
             //TODO:  Correctly get the options, which will be passed via the config, not the versions file
