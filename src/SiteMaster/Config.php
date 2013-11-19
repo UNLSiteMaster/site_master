@@ -13,6 +13,7 @@ class Config
         'DB_USER'          => false,  //DATABASE USER
         'DB_PASSWORD'      => false,  //DATABASE PASSWORD
         'DB_NAME'          => false,  //DATABASE NAME
+        'PLUGINS'          => array(), //Plugin list and configuration
     );
 
     private function __construct()
