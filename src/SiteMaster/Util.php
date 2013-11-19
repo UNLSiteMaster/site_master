@@ -66,6 +66,6 @@ class Util
 
     public static function getRootDir()
     {
-        return dirname(dirname(__FILE__));
+        return dirname(dirname(dirname(__FILE__)));
     }
 }
