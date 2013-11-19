@@ -89,14 +89,17 @@ abstract class PluginInterface
             return false;
         }
 
-        $plugin = new Plugin();
-        $plugin->name = $this->getMachineName();
-
-        if (!$plugin->save()) {
+        if (!$this->onInstall()) {
             return false;
         }
 
-        return $this->onInstall();
+        $plugins = PluginManager::getManager()->getExternalPlugins();
+
+        $plugins[$this->getMachineName()] = $this->getVersion();
+
+        PluginManager::getManager()->updateInstalledPlugins($plugins);
+
+        return true;
     }
 
     /**
@@ -106,16 +109,17 @@ abstract class PluginInterface
      */
     public function uninstall()
     {
-        //is it already unInstalled?
-        if (!$plugin = Plugin::getByName($this->getMachineName())) {
+        if (!$this->onUnInstall()) {
             return false;
         }
 
-        if (!$plugin->delete()) {
-            return false;
-        }
+        $plugins = PluginManager::getManager()->getExternalPlugins();
 
-        return $this->onUnInstall();
+        unset($plugins[$this->getMachineName()]);
+
+        PluginManager::getManager()->updateInstalledPlugins($plugins);
+
+        return true;
     }
 
     public function isInstalled()
