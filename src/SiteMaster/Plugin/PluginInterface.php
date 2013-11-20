@@ -69,7 +69,7 @@ abstract class PluginInterface
 
     public function getMachineName()
     {
-        return strtoupper(PluginManager::getManager()->getPluginNameFromClass(get_called_class()));
+        return PluginManager::getManager()->getPluginNameFromClass(get_called_class());
     }
 
     public function getOptions()
@@ -82,7 +82,7 @@ abstract class PluginInterface
      *
      * @return bool|mixed
      */
-    public function install()
+    protected function install()
     {
         //is it already installed?
         if ($this->isInstalled()) {
@@ -144,10 +144,10 @@ abstract class PluginInterface
         return $plugins[$this->getMachineName()];
     }
 
-    public function update()
+    protected function update()
     {
         if (!$this->isInstalled()) {
-            return $this->install();
+            return false;
         }
 
         //do we need to update?
@@ -163,5 +163,32 @@ abstract class PluginInterface
         }
 
         return true;
+    }
+
+    public function preformUpdate()
+    {
+        $method = $this->getUpdateMethod();
+        return $this->$method();
+    }
+
+    public function getUpdateMethod()
+    {
+        if (!$this->isInstalled()) {
+            return 'install';
+        }
+
+        //do we need to update?
+        $installedVersion = $this->getInstalledVersion();
+        if ($installedVersion < $this->getVersion()) {
+            return 'update';
+        }
+
+        if ($this->onUpdate($installedVersion)) {
+            $plugins = PluginManager::getManager()->getInstalledVersions();
+            $plugins[$this->getMachineName()] = $this->getVersion();
+            PluginManager::getManager()->updateInstalledPlugins($plugins);
+        }
+
+        return false;
     }
 }
