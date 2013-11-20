@@ -1,0 +1,7 @@
+/.htaccess
+/config.inc.php
+/.buildpath
+data/database.mwb.bak
+/composer.lock
+/.idea/
+/plugins.json
