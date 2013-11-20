@@ -9,18 +9,21 @@ require_once(__DIR__ . "/../init.php");
 //2.  trigger install on internal plugins
 $internalPlugins = \SiteMaster\Plugin\PluginManager::getManager()->getInternalPlugins();
 foreach ($internalPlugins as $name=>$options) {
-    echo 'Updating internal plugin: ' . $name . PHP_EOL;
     $plugin = \SiteMaster\Plugin\PluginManager::getManager()->getPluginInfo($name);
-    $result = $plugin->update();
-    var_dump($result);
-    //plugin->update checks to see if it is already installed, checks version, updates/install if needed.
+    if ($method = $plugin->getUpdateMethod()) {
+        echo 'Preforming ' . $method . ' on internal plugin: ' . $name . PHP_EOL;
+        $result = $plugin->preformUpdate();
+    }
 }
 
 //2.  trigger install on external plugins
 $externalPlugins = \SiteMaster\Plugin\PluginManager::getManager()->getExternalPlugins();
 foreach ($externalPlugins as $plugin) {
-    $result = $plugin->update();
-    echo 'Updating external plugin: ' . $plugin->getName() . PHP_EOL;
-    var_dump($result);
-    //plugin->update checks to see if it is already installed, checks version, updates/install if needed.
+    $plugin = \SiteMaster\Plugin\PluginManager::getManager()->getPluginInfo($name);
+    if ($method = $plugin->getUpdateMethod()) {
+        echo 'Preforming ' . $method . ' on external plugin: ' . $name . PHP_EOL;
+        $result = $plugin->preformUpdate();
+    }
 }
+
+//3. TODO: check for plugins that need to be uninstalled.
