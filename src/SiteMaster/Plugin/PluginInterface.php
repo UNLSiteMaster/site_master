@@ -122,6 +122,11 @@ abstract class PluginInterface
         return true;
     }
 
+    /**
+     * Checks if the plugin is currently installed
+     *
+     * @return bool
+     */
     public function isInstalled()
     {
         $plugins = PluginManager::getManager()->getInstalledVersions();
@@ -133,6 +138,11 @@ abstract class PluginInterface
         return true;
     }
 
+    /**
+     * Gets the installed version of this plugin
+     *
+     * @return int
+     */
     public function getInstalledVersion()
     {
         $plugins = PluginManager::getManager()->getInstalledVersions();
@@ -144,6 +154,11 @@ abstract class PluginInterface
         return $plugins[$this->getMachineName()];
     }
 
+    /**
+     * Updates this plugin if needed.
+     *
+     * @return bool
+     */
     protected function update()
     {
         if (!$this->isInstalled()) {
@@ -165,12 +180,23 @@ abstract class PluginInterface
         return true;
     }
 
+    /**
+     * checks if we need to install, update, or do nothing, then preforms that action
+     *
+     * @return bool
+     */
     public function preformUpdate()
     {
         $method = $this->getUpdateMethod();
         return $this->$method();
     }
 
+    /**
+     * Returns the name of the update action to preform
+     * If no updates are required, it returns false
+     *
+     * @return bool|string
+     */
     public function getUpdateMethod()
     {
         if (!$this->isInstalled()) {
