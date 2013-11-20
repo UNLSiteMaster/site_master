@@ -2,7 +2,9 @@
 
 namespace SiteMaster\Home;
 
-class Plugin extends \SiteMaster\Plugin\PluginInterface
+use SiteMaster\Plugin\PluginInterface;
+
+class Plugin extends PluginInterface
 {
 
     /**
