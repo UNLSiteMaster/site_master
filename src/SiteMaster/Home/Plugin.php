@@ -2,6 +2,7 @@
 
 namespace SiteMaster\Home;
 
+use SiteMaster\Events\RoutesCompile;
 use SiteMaster\Plugin\PluginInterface;
 
 class Plugin extends PluginInterface
@@ -79,6 +80,15 @@ class Plugin extends PluginInterface
      */
     function getEventListeners()
     {
-        return array();
+        $listeners = array();
+
+        $listeners[] = array(
+            'event'    => RoutesCompile::EVENT_NAME,
+            'listener' => function (RoutesCompile $event) {
+                    $event->addRoute('/^\/$/', __NAMESPACE__ . '\Home');
+                }
+        );
+
+        return $listeners;
     }
 }
