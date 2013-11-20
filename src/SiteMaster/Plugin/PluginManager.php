@@ -182,7 +182,7 @@ class PluginManager
 
     protected function registerExternalPlugin($name)
     {
-        $class = '\\SiteMaster\\Plugins\\' . strtoupper($name) . '\\Plugin';
+        $class = '\\SiteMaster\\Plugins\\' . strtolower($name) . '\\Plugin';
         $this->options['external_plugins'][$name] = new $class;
     }
 
@@ -201,7 +201,7 @@ class PluginManager
         $sanitized = array();
 
         foreach ($plugins as $name=>$options) {
-            $sanitized[strtoupper($name)] = $options;
+            $sanitized[strtolower($name)] = $options;
         }
 
         return $sanitized;
@@ -210,18 +210,18 @@ class PluginManager
     public function getPluginNameFromClass($class) {
         $parts = explode('\\', $class);
 
-        if (!isset($parts[2])) {
+        if (!isset($parts[count($parts)-2])) {
             return false;
         }
 
-        return strtolower($parts[2]);
+        return strtolower($parts[count($parts)-2]);
     }
 
     public function getPluginNamespaceFromName($name)
     {
         $internalPlugins = $this->getInternalPlugins();
 
-        if (isset($internalPlugins[strtoupper($name)])) {
+        if (isset($internalPlugins[strtolower($name)])) {
             return '\\SiteMaster\\' . ucfirst(strtolower($name)) . '\\';
         }
 
