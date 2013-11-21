@@ -169,12 +169,6 @@ class PluginManager
         return $this->eventsManager->dispatch($eventName, $event);
     }
 
-    protected function registerExternalPlugin($name)
-    {
-        $class = '\\SiteMaster\\Plugins\\' . strtolower($name) . '\\Plugin';
-        $this->options['external_plugins'][$name] = new $class;
-    }
-
     public function getExternalPlugins()
     {
         return  $this->sanitizePluginNames($this->options['external_plugins']);
