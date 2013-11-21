@@ -76,7 +76,7 @@ class Plugin extends PluginInterface
         $listeners[] = array(
             'event'    => RoutesCompile::EVENT_NAME,
             'listener' => function (RoutesCompile $event) {
-                    $event->addRoute('/^\/example\/$/', __NAMESPACE__ . '\Example');
+                    $event->addRoute('/^example\/$/', __NAMESPACE__ . '\Example');
                 }
         );
 

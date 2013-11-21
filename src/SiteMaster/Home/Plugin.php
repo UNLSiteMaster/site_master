@@ -85,7 +85,7 @@ class Plugin extends PluginInterface
         $listeners[] = array(
             'event'    => RoutesCompile::EVENT_NAME,
             'listener' => function (RoutesCompile $event) {
-                    $event->addRoute('/^\/$/', __NAMESPACE__ . '\Home');
+                    $event->addRoute('/^$/', __NAMESPACE__ . '\Home');
                 }
         );
 
