@@ -18,7 +18,7 @@ foreach ($internalPlugins as $name=>$options) {
 
 //2.  trigger install on external plugins
 $externalPlugins = \SiteMaster\Plugin\PluginManager::getManager()->getExternalPlugins();
-foreach ($externalPlugins as $plugin) {
+foreach ($externalPlugins as $name=>$options) {
     $plugin = \SiteMaster\Plugin\PluginManager::getManager()->getPluginInfo($name);
     if ($method = $plugin->getUpdateMethod()) {
         echo 'Preforming ' . $method . ' on external plugin: ' . $name . PHP_EOL;
