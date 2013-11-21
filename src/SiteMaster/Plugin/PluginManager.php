@@ -50,8 +50,6 @@ class PluginManager
     {
         $this->initializeIncludePaths();
 
-        \SiteMaster\Plugin\PluginManager::autoRegisterExternalPlugins();
-
         $this->initializePlugins($this->getInstalledPlugins());
     }
 
@@ -169,15 +167,6 @@ class PluginManager
     public function dispatchEvent($eventName, \Symfony\Component\EventDispatcher\Event $event = null)
     {
         return $this->eventsManager->dispatch($eventName, $event);
-    }
-
-    protected function autoRegisterExternalPlugins()
-    {
-        foreach (new \DirectoryIterator(dirname(dirname(dirname(__DIR__))) . '/plugins') as $fileInfo) {
-            if ($fileInfo->isDir() && file_exists($fileInfo->getPath() . '/' .$fileInfo->getFilename() . '/src/Plugin.php')) {
-                $this->registerExternalPlugin($fileInfo->getFilename());
-            }
-        }
     }
 
     protected function registerExternalPlugin($name)
