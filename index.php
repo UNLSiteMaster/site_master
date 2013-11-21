@@ -9,6 +9,8 @@ $app = new \SiteMaster\Controller($_GET);
 
 //Render Away
 $savvy = new \SiteMaster\OutputController($app->options);
+$savvy->setTheme(\SiteMaster\Config::get('THEME'));
+$savvy->initialize();
 $savvy->addGlobal('app', $app);
 
 //TODO: implement users

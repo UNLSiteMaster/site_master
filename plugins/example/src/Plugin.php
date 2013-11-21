@@ -3,6 +3,7 @@ namespace SiteMaster\Plugins\Example;
 
 use SiteMaster\Plugin\PluginInterface;
 use SiteMaster\Events\RoutesCompile;
+use SiteMaster\Events\RegisterTheme;
 
 class Plugin extends PluginInterface
 {
@@ -76,6 +77,15 @@ class Plugin extends PluginInterface
             'event'    => RoutesCompile::EVENT_NAME,
             'listener' => function (RoutesCompile $event) {
                     $event->addRoute('/^\/example\/$/', __NAMESPACE__ . '\Example');
+                }
+        );
+
+        $listeners[] = array(
+            'event'    => RegisterTheme::EVENT_NAME,
+            'listener' => function (RegisterTheme $event) {
+                    if ($event->getTheme() == 'example') {
+                        $event->setPlugin($this);
+                    }
                 }
         );
 

@@ -2,6 +2,7 @@
 namespace SiteMaster\Plugin;
 
 use SiteMaster\Plugin\PluginManager;
+use SiteMaster\Util;
 
 abstract class PluginInterface
 {
@@ -216,5 +217,10 @@ abstract class PluginInterface
         }
 
         return false;
+    }
+
+    public function getRootDirectory()
+    {
+        return Util::getRootDir() . '/plugins/' . $this->getMachineName();
     }
 }

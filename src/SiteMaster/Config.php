@@ -14,6 +14,9 @@ class Config
         'DB_PASSWORD'      => false,  //DATABASE PASSWORD
         'DB_NAME'          => false,  //DATABASE NAME
         'PLUGINS'          => array(), //Plugin list and configuration
+
+        //OTHER SETTINGS
+        'THEME'            => 'bootstrap',
     );
 
     private function __construct()

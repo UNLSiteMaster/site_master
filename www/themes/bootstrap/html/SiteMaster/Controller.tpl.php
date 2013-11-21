@@ -1,4 +1,4 @@
-Base Controller
+Bootstrap Controller
 
 <?php
 echo $savvy->render($context->output);

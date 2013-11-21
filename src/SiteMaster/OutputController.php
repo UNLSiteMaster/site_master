@@ -1,20 +1,62 @@
 <?php
 namespace SiteMaster;
 
+use SiteMaster\Events\RegisterTheme;
+use SiteMaster\Plugin\PluginManager;
+use SiteMaster\Util;
+
 class OutputController extends \Savvy
 {
-    public $format = "html";
+    public $format = 'html';
+    protected $options = array();
+    protected $theme = 'bootstrap';
 
     public function __construct($options = array())
     {
         parent::__construct();
-        $this->initialize($options);
+        $this->options = $options;
     }
 
-    public function initialize($options = array())
+    /**
+     * Set a specific theme for this instance
+     *
+     * @param string $theme Theme name, which corresponds to a directory in www/
+     *
+     * @throws Exception
+     */
+    function setTheme($theme)
     {
+        $this->theme = $theme;
+    }
 
-        switch ($options['format']) {
+    /**
+     * @param $theme
+     * @throws Exception
+     * @return string - the absolute path to the theme directory
+     */
+    function getThemeDir($theme)
+    {
+        $event = PluginManager::getManager()->dispatchEvent(
+            RegisterTheme::EVENT_NAME,
+            new RegisterTheme($theme)
+        );
+
+        $dir = Util::getRootDir() . '/www/themes/' . $theme;
+
+        if ($plugin = $event->getPlugin()) {
+            $dir = $plugin->getRootDirectory() . '/www/themes/' . $theme;
+        }
+
+        if (!is_dir($dir)) {
+            throw new Exception('Invalid theme, there are no files in '.$dir);
+        }
+
+        return $dir;
+    }
+
+    public function initialize()
+    {
+        switch ($this->options['format']) {
             case 'html':
                 // Always escape output, use $context->getRaw('var'); to get the raw data.
                 $this->setEscape(function($data) {
@@ -44,6 +86,7 @@ class OutputController extends \Savvy
             array(
                 $web_dir . '/templates/' . $format,
                 $plugin_dir,
+                $this->getThemeDir($this->theme) . '/' . $format
             )
         );
     }
