@@ -223,6 +223,15 @@ abstract class PluginInterface
         return false;
     }
 
+    public function getPluginType()
+    {
+        if (strpos(get_class($this), 'SiteMaster\\Plugins\\') === 0) {
+            return 'external';
+        }
+
+        return 'internal';
+    }
+
     public function getRootDirectory()
     {
         return Util::getRootDir() . '/plugins/' . $this->getMachineName();
