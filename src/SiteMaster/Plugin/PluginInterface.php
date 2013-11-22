@@ -218,6 +218,11 @@ abstract class PluginInterface
         return false;
     }
 
+    /**
+     * Get the plugin type
+     *
+     * @return string - internal or external
+     */
     public function getPluginType()
     {
         if (strpos(get_class($this), 'SiteMaster\\Plugins\\') === 0) {
@@ -227,6 +232,11 @@ abstract class PluginInterface
         return 'internal';
     }
 
+    /**
+     * Get the absolute path to this plugin's root directory
+     *
+     * @return string
+     */
     public function getRootDirectory()
     {
         return Util::getRootDir() . '/plugins/' . $this->getMachineName();
