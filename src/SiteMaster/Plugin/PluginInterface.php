@@ -232,6 +232,15 @@ abstract class PluginInterface
         return 'internal';
     }
 
+    public function isExternal()
+    {
+        if ($this->getPluginType() == 'internal') {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Get the absolute path to this plugin's root directory
      *
@@ -239,6 +248,10 @@ abstract class PluginInterface
      */
     public function getRootDirectory()
     {
-        return Util::getRootDir() . '/plugins/' . $this->getMachineName();
+        if ($this->isExternal()) {
+            return Util::getRootDir() . '/plugins/' . $this->getMachineName();
+        }
+
+        return \SiteMaster\Util::getRootDir();
     }
 }
