@@ -22,7 +22,7 @@ function preformPluginUpdate(\SiteMaster\Plugin\PluginInterface $plugin)
     $checked[] = $name;
 
     if ($method = $plugin->getUpdateMethod()) {
-        echo 'Preforming ' . $method . ' on internal plugin: ' . $name . PHP_EOL;
+        echo 'Preforming ' . $method . ' on ' . $plugin->getPluginType() . ' plugin: ' . $name . PHP_EOL;
         return $plugin->preformUpdate();
     }
 
