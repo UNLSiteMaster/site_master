@@ -179,6 +179,14 @@ class PluginManager
         return $this->sanitizePluginNames($this->options['internal_plugins']);
     }
 
+    public function getAllPlugins()
+    {
+        return array_merge(
+            array_keys($this->getInternalPlugins()),
+            array_keys($this->getExternalPlugins())
+        );
+    }
+
     protected function sanitizePluginNames($plugins)
     {
         $sanitized = array();
