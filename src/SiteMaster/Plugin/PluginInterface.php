@@ -211,12 +211,7 @@ abstract class PluginInterface
         }
 
         //do we need to uninstall?
-        $installedPlugins = PluginManager::getManager()->getInstalledPlugins();
-        foreach ($installedPlugins as $name=>$plugin) {
-            if (in_array($name, PluginManager::getManager()->getAllPlugins())) {
-                continue;
-            }
-
+        if (!in_array($this->getMachineName(), PluginManager::getManager()->getAllPlugins())) {
             return 'uninstall';
         }
 
