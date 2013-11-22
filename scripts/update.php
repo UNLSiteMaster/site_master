@@ -6,10 +6,12 @@ require_once(__DIR__ . "/../init.php");
 
 //1.  install all the default stuff.
 
+$pluginManager = \SiteMaster\Plugin\PluginManager::getManager();
+
 //2.  trigger install on internal plugins
-$internalPlugins = \SiteMaster\Plugin\PluginManager::getManager()->getInternalPlugins();
+$internalPlugins = $pluginManager->getInternalPlugins();
 foreach ($internalPlugins as $name=>$options) {
-    $plugin = \SiteMaster\Plugin\PluginManager::getManager()->getPluginInfo($name);
+    $plugin = $pluginManager->getPluginInfo($name);
     if ($method = $plugin->getUpdateMethod()) {
         echo 'Preforming ' . $method . ' on internal plugin: ' . $name . PHP_EOL;
         $result = $plugin->preformUpdate();
@@ -17,9 +19,9 @@ foreach ($internalPlugins as $name=>$options) {
 }
 
 //2.  trigger install on external plugins
-$externalPlugins = \SiteMaster\Plugin\PluginManager::getManager()->getExternalPlugins();
+$externalPlugins = $pluginManager->getExternalPlugins();
 foreach ($externalPlugins as $name=>$options) {
-    $plugin = \SiteMaster\Plugin\PluginManager::getManager()->getPluginInfo($name);
+    $plugin = $pluginManager->getPluginInfo($name);
     if ($method = $plugin->getUpdateMethod()) {
         echo 'Preforming ' . $method . ' on external plugin: ' . $name . PHP_EOL;
         $result = $plugin->preformUpdate();
