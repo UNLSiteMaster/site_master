@@ -210,12 +210,6 @@ abstract class PluginInterface
             return 'update';
         }
 
-        if ($this->onUpdate($installedVersion)) {
-            $plugins = PluginManager::getManager()->getInstalledVersions();
-            $plugins[$this->getMachineName()] = $this->getVersion();
-            PluginManager::getManager()->updateInstalledPlugins($plugins);
-        }
-
         return false;
     }
 
