@@ -73,22 +73,19 @@ class Plugin extends PluginInterface
     {
         $listeners = array();
 
+
+
+        $listener = new Listener($this);
+
         $listeners[] = array(
             'event'    => RoutesCompile::EVENT_NAME,
-            'listener' => function (RoutesCompile $event) {
-                    $event->addRoute('/^example\/$/', __NAMESPACE__ . '\Example');
-                }
+            'listener' => array($listener, 'onRoutesCompile')
         );
 
         $listeners[] = array(
             'event'    => RegisterTheme::EVENT_NAME,
-            'listener' => function (RegisterTheme $event) {
-                    if ($event->getTheme() == 'example') {
-                        $event->setPlugin($this);
-                    }
-                }
+            'listener' => array($listener, 'onRegisterTheme')
         );
-
         return $listeners;
     }
 }
