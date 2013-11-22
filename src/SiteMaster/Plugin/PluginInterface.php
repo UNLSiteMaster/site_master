@@ -210,6 +210,16 @@ abstract class PluginInterface
             return 'update';
         }
 
+        //do we need to uninstall?
+        $installedPlugins = PluginManager::getManager()->getInstalledPlugins();
+        foreach ($installedPlugins as $name=>$plugin) {
+            if (in_array($name, PluginManager::getManager()->getAllPlugins())) {
+                continue;
+            }
+
+            return 'uninstall';
+        }
+
         return false;
     }
 
