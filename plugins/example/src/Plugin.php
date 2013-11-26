@@ -86,6 +86,12 @@ class Plugin extends PluginInterface
             'event'    => RegisterTheme::EVENT_NAME,
             'listener' => array($listener, 'onRegisterTheme')
         );
+
+        $listeners[] = array(
+            'event'    => \SiteMaster\Events\Navigation\MainCompile::EVENT_NAME,
+            'listener' => array($listener, 'onNavigationMainCompile')
+        );
+
         return $listeners;
     }
 }
