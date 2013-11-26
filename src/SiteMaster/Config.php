@@ -16,7 +16,7 @@ class Config
         'PLUGINS'          => array(), //Plugin list and configuration
 
         //OTHER SETTINGS
-        'THEME'            => 'bootstrap',
+        'THEME'            => false,
     );
 
     private function __construct()

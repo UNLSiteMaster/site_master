@@ -19,8 +19,9 @@ Config::set('DB_USER'     , 'user');
 Config::set('DB_PASSWORD' , 'password');
 Config::set('DB_NAME'     , 'database');
 
-Config::set('THEME', 'example');
+Config::set('THEME', 'foundation');
 
 \SiteMaster\Config::set('PLUGINS', array(
-    'example' => array('test'=>'value'),
+    'example' => array('setting'=>'value'),
+    'theme_foundation' => array('setting'=>'value'),
 ));
