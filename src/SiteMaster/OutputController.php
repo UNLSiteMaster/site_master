@@ -10,11 +10,13 @@ class OutputController extends \Savvy
     public $format = 'html';
     protected $options = array();
     protected $theme = 'bootstrap';
+    protected $webDir = '';
 
     public function __construct($options = array())
     {
         parent::__construct();
         $this->options = $options;
+        $this->webDir = dirname(dirname(__DIR__)) . '/www';
     }
 
     /**
@@ -70,6 +72,10 @@ class OutputController extends \Savvy
         }
     }
 
+    public function getBaseTemplatePath($format) {
+        return $this->webDir . '/templates/' . $format;
+    }
+
     /**
      * Set the array of template paths necessary for this format
      *
@@ -77,18 +83,26 @@ class OutputController extends \Savvy
      */
     public function setTemplateFormatPaths($format)
     {
-        $web_dir = dirname(dirname(__DIR__)) . '/www';
         $plugin_dir = dirname(dirname(__DIR__)) . '/plugins';
 
         $this->format = $format;
 
         $this->setTemplatePath(
             array(
-                $web_dir . '/templates/' . $format,
+                $this->getBaseTemplatePath($format),
                 $plugin_dir,
                 $this->getThemeDir($this->theme) . '/' . $format
             )
         );
+    }
+
+    public function renderWithBase($mixed = null)
+    {
+        $tmp = $this->getTemplatePath();
+        $this->setTemplatePath($this->getBaseTemplatePath($this->format));
+        $result = $this->render($mixed);
+        $this->setTemplatePath($tmp);
+        return $result;
     }
 
 
