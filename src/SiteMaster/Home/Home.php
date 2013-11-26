@@ -18,6 +18,6 @@ class Home implements ViewableInterface
 
     public function getPageTitle()
     {
-        return "Chat";
+        return "Welcome";
     }
 }
