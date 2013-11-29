@@ -74,11 +74,16 @@ function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
 //1.  install all the default stuff.
 $pluginManager = \SiteMaster\Plugin\PluginManager::getManager();
 
+echo '===== Generating composer.json and updating libraries. =====' . PHP_EOL;
+echo 'This may take some time...' . PHP_EOL;
+
 //Update base_composer.json
 updateComposerJSON($pluginManager);
 
 //Update composer
 echo shell_exec('php ' . \SiteMaster\Util::getRootDir() . '/composer.phar update');
+
+echo '===== Updating Plugins =====' . PHP_EOL;
 
 //2.  trigger install on internal plugins
 $internalPlugins = $pluginManager->getInternalPlugins();
@@ -97,3 +102,5 @@ $installedPlugins = $pluginManager->getInstalledPlugins();
 foreach ($installedPlugins as $name=>$plugin) {
     preformPluginUpdate($plugin);
 }
+
+echo '===== Finished! =====' . PHP_EOL;
