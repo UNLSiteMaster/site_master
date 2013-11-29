@@ -77,6 +77,8 @@ $pluginManager = \SiteMaster\Plugin\PluginManager::getManager();
 //Update base_composer.json
 updateComposerJSON($pluginManager);
 
+//Update composer
+echo shell_exec('php ' . \SiteMaster\Util::getRootDir() . '/composer.phar update');
 
 //2.  trigger install on internal plugins
 $internalPlugins = $pluginManager->getInternalPlugins();
