@@ -29,8 +29,54 @@ function preformPluginUpdate(\SiteMaster\Plugin\PluginInterface $plugin)
     return true;
 }
 
+function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
+{
+    $plugins = $pluginManager->getAllPlugins();
+    $combinedJson = array();
+
+    $files = array();
+
+    foreach ($plugins as $pluginName) {
+        $plugin = $pluginManager->getPluginInfo($pluginName);
+
+        $files[] = $plugin->getRootDirectory() . '/' . $pluginName . '_composer.json';
+    }
+
+    $files[] = \SiteMaster\Util::getRootDir() . '/base_composer.json';
+
+    foreach ($files as $filename) {
+        if (!file_exists($filename)) {
+            continue;
+        }
+
+        if (!$contents = file_get_contents($filename)) {
+            echo "ERROR: unable to get " . $filename . PHP_EOL;
+            continue;
+        }
+
+        if (!$json = json_decode($contents, true)) {
+            echo "ERROR: unable to json_decode contents of " . $filename . PHP_EOL;
+            continue;
+        }
+
+        $combinedJson = array_replace_recursive($combinedJson, $json);
+    }
+
+    $combinedJson = array_replace_recursive($combinedJson, $json);
+
+    return file_put_contents(
+        \SiteMaster\Util::getRootDir() . '/composer.json',
+        json_encode($combinedJson, JSON_PRETTY_PRINT)
+    );
+}
+
+
 //1.  install all the default stuff.
 $pluginManager = \SiteMaster\Plugin\PluginManager::getManager();
+
+//Update base_composer.json
+updateComposerJSON($pluginManager);
+
 
 //2.  trigger install on internal plugins
 $internalPlugins = $pluginManager->getInternalPlugins();
