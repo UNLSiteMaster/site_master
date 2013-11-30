@@ -24,4 +24,5 @@ Config::set('THEME', 'foundation');
 \SiteMaster\Config::set('PLUGINS', array(
     'example' => array('setting'=>'value'),
     'theme_foundation' => array('setting'=>'value'),
+    'auth_google' => array('setting'=>'value'),
 ));

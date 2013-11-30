@@ -1,0 +1,6 @@
+{
+    "require": {
+        "opauth/opauth": "dev-wip/1.0",
+        "opauth/google": "dev-wip/1.0"
+    }
+}
