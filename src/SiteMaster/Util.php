@@ -68,4 +68,22 @@ class Util
     {
         return dirname(dirname(dirname(__FILE__)));
     }
+
+    /**
+     * Parse the base path from the URL set in the config
+     * 
+     * @return string
+     */
+    public static function getBaseURLPath()
+    {
+        if (!$parts = parse_url(Config::get('URL'))) {
+            return '/';
+        }
+        
+        if (!isset($parts['path'])) {
+            return '/';
+        }
+        
+        return $parts['path'];
+    }
 }
