@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Plugins\Auth_Google;
 
+use SiteMaster\Events\RoutesCompile;
 use SiteMaster\Plugin\PluginInterface;
 
 class Plugin extends PluginInterface
@@ -69,8 +70,15 @@ class Plugin extends PluginInterface
      */
     function getEventListeners()
     {
-        $listeners = array();
+      $listeners = array();
 
-        return $listeners;
+      $listener = new Listener($this);
+
+      $listeners[] = array(
+          'event'    => RoutesCompile::EVENT_NAME,
+          'listener' => array($listener, 'onRoutesCompile')
+      );
+
+      return $listeners;
     }
 }
