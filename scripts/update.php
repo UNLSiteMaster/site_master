@@ -70,6 +70,52 @@ function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
     );
 }
 
+function exec_sql($db, $sql, $message, $fail_ok = false)
+{
+    echo $message.PHP_EOL;
+
+    //Replace all instances of DEFAULTDATABASENAME with the config db name.
+    $sql = str_replace('DEFAULTDATABASENAME', \SiteMaster\Config::get("DB_NAME"), $sql);
+
+    try {
+        $result = true;
+        if ($db->multi_query($sql)) {
+            do {
+                /* store first result set */
+                if ($result = $db->store_result()) {
+                    $result->free();
+                }
+
+                if (!$db->more_results()) {
+                    break;
+                }
+            } while ($db->next_result());
+        } else {
+            echo "Query Failed: " . $db->error . PHP_EOL;
+        }
+    } catch (Exception $e) {
+        $result = false;
+        if (!$fail_ok) {
+            echo 'The query failed:'.$result->errorInfo();
+            exit();
+        }
+    }
+    echo 'finished.'.PHP_EOL;
+    echo '------------------------------------------'.PHP_EOL;
+    return $result;
+}
+
+$db = \SiteMaster\Util::getDB();
+
+$sql = "";
+
+$sql .= file_get_contents(dirname(__DIR__) . "/data/database.sql");
+
+exec_sql($db, $sql, 'updatating core database');
+
+//Install/update the database
+
+
 
 //1.  install all the default stuff.
 $pluginManager = \SiteMaster\Plugin\PluginManager::getManager();
