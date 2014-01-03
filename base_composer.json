@@ -2,7 +2,7 @@
     "autoload": {
         "psr-0": {
             "SiteMaster": "src",
-            "DB": "vendor/unl/DB",
+            "DB": "vendor/unl",
             "RegExpRouter": "vendor/unl/RegExpRouter/src"
         }
     },
