@@ -29,12 +29,28 @@
         <!-- Right Nav Section -->
         <ul class="right">
             <li class="has-dropdown">
-                <a href="#">Login (user)</a>
-                <ul class="dropdown">
-                    <li>
-                        <a href="#">Settings</a>
-                    </li>
-                </ul>
+                <?php
+                if ($user = \SiteMaster\User\Session::getCurrentUser()) {
+                    ?>
+                    <a href="#"><?php echo $user->first_name ?></a>
+                    <ul class="dropdown">
+                        <li>
+                            <a href="<?php \SiteMaster\Config::get('URL') ?>user/settings">Settings</a>
+                            <a href="<?php \SiteMaster\Config::get('URL') ?>logout">Log Out</a>
+                        </li>
+                    </ul>
+                     <?php
+                } else {
+                    ?>
+                    <a href="#">Login</a>
+                    <ul class="dropdown">
+                        <li>
+                            <a href="#">Google</a>
+                        </li>
+                    </ul>
+                    <?php
+                }
+                ?>
             </li>
         </ul>
     </section>
