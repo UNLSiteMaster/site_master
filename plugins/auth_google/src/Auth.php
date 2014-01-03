@@ -2,6 +2,8 @@
 namespace SiteMaster\Plugins\Auth_Google;
 
 use \SiteMaster\Config;
+use SiteMaster\Session;
+use SiteMaster\User\User;
 use SiteMaster\Util;
 use \SiteMaster\ViewableInterface;
 
@@ -49,10 +51,15 @@ class Auth implements ViewableInterface
      */
     public function handleCallback()
     {
-        $result = $this->opauth->run();
-        //Result as deifned in https://github.com/opauth/opauth/wiki/Auth-response
-
-        //TODO: create account and log the user in
+        if (!$result = $this->opauth->run()) {
+            throw new Exception("Oops.  It looks like you failed to log in with google.  :(", 400);
+        }
+        
+        if (!$user = User::getByUIDAndProvider($result->uid, $result->provider)) {
+            $user = User::createUser($result->uid, $result->provider, $result->info['email'], $result->info['first_name'], $result->info['last_name']);
+        }
+        
+        \SiteMaster\User\Session::logIn($user);
     }
 
     /**
