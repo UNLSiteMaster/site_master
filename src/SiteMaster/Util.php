@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster;
 
+use \DB\Connection;
+
 class Util
 {
     protected static $db = false;
@@ -17,7 +19,7 @@ class Util
         self::$db->set_charset('utf8');
 
         //Set DB connection
-        \DB\Connection::setDB(self::$db);
+        Connection::setDB(self::$db);
     }
 
     /**
