@@ -35,8 +35,8 @@
                     <a href="#"><?php echo $user->first_name ?></a>
                     <ul class="dropdown">
                         <li>
-                            <a href="<?php \SiteMaster\Config::get('URL') ?>user/settings/">Settings</a>
-                            <a href="<?php \SiteMaster\Config::get('URL') ?>logout/">Log Out</a>
+                            <a href="<?php echo \SiteMaster\Config::get('URL') ?>user/settings/">Settings</a>
+                            <a href="<?php echo \SiteMaster\Config::get('URL') ?>logout/">Log Out</a>
                         </li>
                     </ul>
                      <?php
