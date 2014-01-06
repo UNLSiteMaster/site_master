@@ -45,7 +45,18 @@
                     <a href="#">Login</a>
                     <ul class="dropdown">
                         <li>
-                            <a href="#">Google</a>
+                            <?php
+                            $authPlugins = \SiteMaster\Plugin\PluginManager::getManager()->dispatchEvent(
+                                \SiteMaster\Events\GetAuthenticationPlugins::EVENT_NAME,
+                                new \SiteMaster\Events\GetAuthenticationPlugins()
+                            );
+                            
+                            foreach ($authPlugins->getPlugins() as $plugin) {
+                                ?>
+                                <a href="<?php echo $plugin->getLoginURL(); ?>"><?php echo $plugin->getProviderHumanName() ?></a>
+                            <?php
+                            }
+                            ?>
                         </li>
                     </ul>
                     <?php
