@@ -73,9 +73,14 @@
         <h1><?php echo $context->output->getPageTitle() ?></h1>
     </div>
 </div>
-<?php
-echo $savvy->render($context->output);
-?>
+<div class="row">
+    <div class="large-12 columns">
+        <?php
+        echo $savvy->render($context->output);
+        ?>
+    </div>
+</div>
+
 
 <script src="<?php echo \SiteMaster\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/jquery.js"></script>
 <script src="<?php echo \SiteMaster\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/foundation.min.js"></script>
