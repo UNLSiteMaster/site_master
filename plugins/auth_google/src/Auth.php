@@ -1,7 +1,9 @@
 <?php
 namespace SiteMaster\Plugins\Auth_Google;
 
+use Opauth\Opauth;
 use \SiteMaster\Config;
+use SiteMaster\Plugin\PluginManager;
 use SiteMaster\Session;
 use SiteMaster\User\User;
 use SiteMaster\Util;
@@ -10,7 +12,7 @@ use \SiteMaster\ViewableInterface;
 class Auth implements ViewableInterface
 {
     /**
-     * @var \Opauth\Opauth
+     * @var Opauth
      */
     protected $opauth;
 
@@ -65,11 +67,11 @@ class Auth implements ViewableInterface
     /**
      * Get the opauth object for this authentication plugin
      * 
-     * @return \Opauth\Opauth
+     * @return Opauth
      */
     public function getOpauth()
     {
-        $plugin = \SiteMaster\Plugin\PluginManager::getManager()->getPluginInfo('auth_google');
+        $plugin = PluginManager::getManager()->getPluginInfo('auth_google');
 
         
         $options = array(
@@ -79,7 +81,7 @@ class Auth implements ViewableInterface
         
         $options += $plugin->getOptions();
 
-        return new \Opauth\Opauth($options);
+        return new Opauth($options);
     }
 
     /**
