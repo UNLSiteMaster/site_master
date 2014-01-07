@@ -58,7 +58,12 @@ class Auth implements ViewableInterface
         }
         
         if (!$user = User::getByUIDAndProvider($result->uid, $result->provider)) {
-            $user = User::createUser($result->uid, $result->provider, $result->info['email'], $result->info['first_name'], $result->info['last_name']);
+            $info = array();
+            $info['first_name'] = $result->info['first_name'];
+            $info['last_name'] = $result->info['last_name'];
+            $info['email'] = $result->info['email'];
+            
+            $user = User::createUser($result->uid, $result->provider, $info);
         }
         
         \SiteMaster\User\Session::logIn($user);

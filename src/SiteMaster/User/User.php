@@ -25,15 +25,12 @@ class User extends Record
         return 'users';
     }
     
-    public static function createUser($uid, $provider, $email, $first_name = '', $last_name = '', $role = 'USER')
+    public static function createUser($uid, $provider, array $info = array())
     {
         $user = new self();
+        $user->synchronizeWithArray($info);
         $user->uid = $uid;
-        $user->email = $email;
         $user->provider = $provider;
-        $user->first_name = $first_name;
-        $user->last_name = $last_name;
-        $user->role = $role;
         
         if (!$user->save()) {
             return false;
