@@ -43,7 +43,8 @@ function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
     }
 
     $files[] = \SiteMaster\Util::getRootDir() . '/base_composer.json';
-
+    
+    $repositories = array();
     foreach ($files as $filename) {
         if (!file_exists($filename)) {
             continue;
@@ -58,12 +59,22 @@ function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
             echo "ERROR: unable to json_decode contents of " . $filename . PHP_EOL;
             continue;
         }
-
+        
+        if (isset($json['repositories'])) {
+            /* array_replace_recursive will replace values of an array by int indexes,
+             * which we do not want to do in the case of repositories.  We want ALL of the unique
+             * repositories, so create an array of them and add them back later.
+             */
+            $repositories = array_merge($repositories, $json['repositories']);
+        }
+        
         $combinedJson = array_replace_recursive($combinedJson, $json);
     }
 
-    $combinedJson = array_replace_recursive($combinedJson, $json);
-
+    if (isset($combinedJson['repositories'])) {
+        $combinedJson['repositories'] = array_unique($repositories, SORT_REGULAR);
+    }
+    
     return file_put_contents(
         \SiteMaster\Util::getRootDir() . '/composer.json',
         json_encode($combinedJson, JSON_PRETTY_PRINT)
