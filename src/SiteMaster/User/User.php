@@ -4,6 +4,8 @@ namespace SiteMaster\User;
 
 use DB\Record;
 use DB\RecordList;
+use SiteMaster\Events\GetAuthenticationPlugins;
+use SiteMaster\Plugin\PluginManager;
 
 class User extends Record
 {
@@ -47,5 +49,27 @@ class User extends Record
     public static function getByUIDAndProvider($uid, $provider)
     {
         return self::getByAnyField(__CLASS__, 'uid', $uid, 'provider = "' . \DB\RecordList::escapeString($provider) . '"');
+    }
+
+    /**
+     * Get the authentication plugin for this user's provider
+     * 
+     * @return bool | \SiteMaster\Plugin\AuthenticationInterface object
+     */
+    public function getAuthenticationPlugin()
+    {
+        $authPlugins = PluginManager::getManager()->dispatchEvent(
+            GetAuthenticationPlugins::EVENT_NAME,
+            new GetAuthenticationPlugins()
+        );
+
+        foreach ($authPlugins->getPlugins() as $plugin) {
+            if ($plugin->getProviderMachineName() == $this->provider) {
+
+                return $plugin;
+            }
+        }
+        
+        return false;
     }
 }
