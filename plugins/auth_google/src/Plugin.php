@@ -1,9 +1,13 @@
 <?php
 namespace SiteMaster\Plugins\Auth_Google;
 
+use SiteMaster\Config;
+use SiteMaster\Events\GetAuthenticationPlugins;
+use SiteMaster\Events\RoutesCompile;
+use SiteMaster\Plugin\AuthenticationInterface;
 use SiteMaster\Plugin\PluginInterface;
 
-class Plugin extends PluginInterface
+class Plugin extends PluginInterface implements AuthenticationInterface
 {
     /**
      * @return bool|mixed
@@ -70,7 +74,51 @@ class Plugin extends PluginInterface
     function getEventListeners()
     {
         $listeners = array();
+        
+        $listener = new Listener($this);
+        
+        $listeners[] = array(
+          'event'    => RoutesCompile::EVENT_NAME,
+          'listener' => array($listener, 'onRoutesCompile')
+        );
+
+        $listeners[] = array(
+            'event'    => GetAuthenticationPlugins::EVENT_NAME,
+            'listener' => array($listener, 'onGetAuthenticationPlugins')
+        );
 
         return $listeners;
+    }
+
+    /**
+     * Get the URL to log in using this authentication method
+     *
+     * @return string
+     */
+    public function getLoginURL()
+    {
+        return Config::get('URL') . 'auth/google/';
+    }
+
+    /**
+     * Get the name of the provider that this authentication method provides
+     * This is what is stored in the users.provider table
+     *
+     * @return string
+     */
+    public function getProviderMachineName()
+    {
+        return 'Google';
+    }
+
+    /**
+     * Get the name of the authentication provider that this plugin provides, as
+     * readable by humans
+     *
+     * @return string
+     */
+    public function getProviderHumanName()
+    {
+        return 'Google';
     }
 }

@@ -29,12 +29,39 @@
         <!-- Right Nav Section -->
         <ul class="right">
             <li class="has-dropdown">
-                <a href="#">Login (user)</a>
-                <ul class="dropdown">
-                    <li>
-                        <a href="#">Settings</a>
-                    </li>
-                </ul>
+                <?php
+                if ($user = \SiteMaster\User\Session::getCurrentUser()) {
+                    ?>
+                    <a href="#"><?php echo $user->first_name ?></a>
+                    <ul class="dropdown">
+                        <li>
+                            <a href="<?php echo \SiteMaster\Config::get('URL') ?>user/settings/">Settings</a>
+                            <a href="<?php echo \SiteMaster\Config::get('URL') ?>logout/">Log Out</a>
+                        </li>
+                    </ul>
+                     <?php
+                } else {
+                    ?>
+                    <a href="#">Login</a>
+                    <ul class="dropdown">
+                        <li>
+                            <?php
+                            $authPlugins = \SiteMaster\Plugin\PluginManager::getManager()->dispatchEvent(
+                                \SiteMaster\Events\GetAuthenticationPlugins::EVENT_NAME,
+                                new \SiteMaster\Events\GetAuthenticationPlugins()
+                            );
+                            
+                            foreach ($authPlugins->getPlugins() as $plugin) {
+                                ?>
+                                <a href="<?php echo $plugin->getLoginURL(); ?>"><?php echo $plugin->getProviderHumanName() ?></a>
+                            <?php
+                            }
+                            ?>
+                        </li>
+                    </ul>
+                    <?php
+                }
+                ?>
             </li>
         </ul>
     </section>
@@ -46,9 +73,14 @@
         <h1><?php echo $context->output->getPageTitle() ?></h1>
     </div>
 </div>
-<?php
-echo $savvy->render($context->output);
-?>
+<div class="row">
+    <div class="large-12 columns">
+        <?php
+        echo $savvy->render($context->output);
+        ?>
+    </div>
+</div>
+
 
 <script src="<?php echo \SiteMaster\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/jquery.js"></script>
 <script src="<?php echo \SiteMaster\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/foundation.min.js"></script>

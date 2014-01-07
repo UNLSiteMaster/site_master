@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster;
 
+use \DB\Connection;
+
 class Util
 {
     protected static $db = false;
@@ -17,7 +19,7 @@ class Util
         self::$db->set_charset('utf8');
 
         //Set DB connection
-        \DB\Connection::setDB(self::$db);
+        Connection::setDB(self::$db);
     }
 
     /**
@@ -67,5 +69,23 @@ class Util
     public static function getRootDir()
     {
         return dirname(dirname(dirname(__FILE__)));
+    }
+
+    /**
+     * Parse the base path from the URL set in the config
+     * 
+     * @return string
+     */
+    public static function getBaseURLPath()
+    {
+        if (!$parts = parse_url(Config::get('URL'))) {
+            return '/';
+        }
+        
+        if (!isset($parts['path'])) {
+            return '/';
+        }
+        
+        return $parts['path'];
     }
 }

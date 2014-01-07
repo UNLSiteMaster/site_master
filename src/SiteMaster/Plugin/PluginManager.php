@@ -228,6 +228,17 @@ class PluginManager
     public function getPluginInfo($name, $options = array()) {
         $class = $this->getPluginNamespaceFromName($name) . 'Plugin';
 
+        //make sure that the passed options are an array
+        $options = (array)$options;
+        
+        //Insert default configured options for the plugin
+        if (isset($this->options['internal_plugins'][$name])) {
+            $options = $options + $this->options['internal_plugins'][$name];
+        } else if (isset($this->options['external_plugins'][$name])) {
+            $options = $options + $this->options['external_plugins'][$name];
+        }
+        
+        //Return the plugin class
         return new $class($options);
     }
 

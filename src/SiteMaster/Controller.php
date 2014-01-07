@@ -22,7 +22,12 @@ class Controller
                 $this->handlePost();
             }
             $this->run();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
+            if (get_class($exception) == 'Exception') {
+                $e = new Exception($exception->getMessage(), $exception->getCode(), $exception);
+            } else {
+                $e = $exception;
+            }
             $this->output = $e;
         }
     }

@@ -8,19 +8,17 @@ if (file_exists(__DIR__ . '/config.inc.php')) {
 
 require_once $config_file;
 
-//TODO: Establish a connection to the DB.
-//\SiteMaster\Util::connectDB();
+\SiteMaster\Util::connectDB();
 
 //Register the plugin autoloader
 spl_autoload_register('\SiteMaster\Plugin\PluginManager::autoload');
-
-
 
 \SiteMaster\Plugin\PluginManager::initialize(
     new \Symfony\Component\EventDispatcher\EventDispatcher(),
     array(
         'internal_plugins' => array(
             'Home' => array(),
+            'User' => array(),
             'Plugin' => array(),
         ),
         'external_plugins' => \SiteMaster\Config::get('PLUGINS')
