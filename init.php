@@ -10,6 +10,8 @@ require_once $config_file;
 
 \SiteMaster\Util::connectDB();
 
+\SiteMaster\User\Session::start();
+
 //Register the plugin autoloader
 spl_autoload_register('\SiteMaster\Plugin\PluginManager::autoload');
 

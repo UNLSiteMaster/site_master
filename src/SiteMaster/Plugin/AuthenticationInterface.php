@@ -18,6 +18,13 @@ interface AuthenticationInterface
     public function getLoginURL();
 
     /**
+     * Get the URL to log out of this authentication method
+     * 
+     * @return mixed
+     */
+    public function getLogoutURL();
+
+    /**
      * Get the name of the provider that this authentication method provides
      * This is what is stored in the users.provider table
      * 

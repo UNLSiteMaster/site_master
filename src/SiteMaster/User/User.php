@@ -4,6 +4,8 @@ namespace SiteMaster\User;
 
 use DB\Record;
 use DB\RecordList;
+use SiteMaster\Events\GetAuthenticationPlugins;
+use SiteMaster\Plugin\PluginManager;
 
 class User extends Record
 {
@@ -25,15 +27,12 @@ class User extends Record
         return 'users';
     }
     
-    public static function createUser($uid, $provider, $email, $first_name = '', $last_name = '', $role = 'USER')
+    public static function createUser($uid, $provider, array $info = array())
     {
         $user = new self();
+        $user->synchronizeWithArray($info);
         $user->uid = $uid;
-        $user->email = $email;
         $user->provider = $provider;
-        $user->first_name = $first_name;
-        $user->last_name = $last_name;
-        $user->role = $role;
         
         if (!$user->save()) {
             return false;
@@ -50,5 +49,27 @@ class User extends Record
     public static function getByUIDAndProvider($uid, $provider)
     {
         return self::getByAnyField(__CLASS__, 'uid', $uid, 'provider = "' . \DB\RecordList::escapeString($provider) . '"');
+    }
+
+    /**
+     * Get the authentication plugin for this user's provider
+     * 
+     * @return bool | \SiteMaster\Plugin\AuthenticationInterface object
+     */
+    public function getAuthenticationPlugin()
+    {
+        $authPlugins = PluginManager::getManager()->dispatchEvent(
+            GetAuthenticationPlugins::EVENT_NAME,
+            new GetAuthenticationPlugins()
+        );
+
+        foreach ($authPlugins->getPlugins() as $plugin) {
+            if ($plugin->getProviderMachineName() == $this->provider) {
+
+                return $plugin;
+            }
+        }
+        
+        return false;
     }
 }

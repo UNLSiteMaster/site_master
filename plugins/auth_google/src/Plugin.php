@@ -101,6 +101,16 @@ class Plugin extends PluginInterface implements AuthenticationInterface
     }
 
     /**
+     * Get the URL to log out of this authentication method
+     *
+     * @return mixed
+     */
+    public function getLogoutURL()
+    {
+        return Config::get('URL') . 'logout/';
+    }
+
+    /**
      * Get the name of the provider that this authentication method provides
      * This is what is stored in the users.provider table
      *

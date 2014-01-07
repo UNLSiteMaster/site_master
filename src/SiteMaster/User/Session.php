@@ -33,12 +33,18 @@ class Session
             throw new RequiredLoginException();
         }
     }
-
-    public static function getSession()
+    
+    public static function start()
     {
         if (!self::$session) {
             self::$session = new \Symfony\Component\HttpFoundation\Session\Session();
+            self::$session->start();
         }
+    }
+
+    public static function getSession()
+    {
+        self::start();
 
         return self::$session;
     }
