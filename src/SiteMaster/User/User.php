@@ -30,6 +30,7 @@ class User extends Record
     public static function createUser($uid, $provider, array $info = array())
     {
         $user = new self();
+        $user->role = 'USER';
         $user->synchronizeWithArray($info);
         $user->uid = $uid;
         $user->provider = $provider;
