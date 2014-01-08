@@ -19,6 +19,11 @@ class Role extends Record
     {
         return 'site_member_roles';
     }
+    
+    public static function getByRoleIDANDMembershipID($role_id, $membership_id)
+    {
+        return self::getByAnyField(__CLASS__, 'site_members_id', $membership_id, '' .(int)$role_id);
+    }
 
     /**
      * Create a role for a site member
@@ -29,10 +34,10 @@ class Role extends Record
      */
     public static function createRole(\SiteMaster\Registry\Site\Role $role, Member $member)
     {
-        $role = new self();
-        $role->site_members_id = $member->id;
-        $role->roles_id = $role->id;
+        $membership_role = new self();
+        $membership_role->site_members_id = $member->id;
+        $membership_role->roles_id = $role->id;
         
-        return $role->insert();
+        return $membership_role->insert();
     }
 }
