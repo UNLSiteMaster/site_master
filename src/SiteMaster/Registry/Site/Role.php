@@ -28,4 +28,22 @@ class Role extends Record
     {
         return self::getByAnyField(__class__, 'role_name', $role_name);
     }
+
+    /**
+     * Create a new role
+     * 
+     * @param $role_name
+     * @return bool|Role
+     */
+    public static function createRole($role_name)
+    {
+        $role = new self();
+        $role->role_name = $role_name;
+        
+        if (!$role->insert()) {
+            return false;
+        }
+        
+        return $role;
+    }
 }
