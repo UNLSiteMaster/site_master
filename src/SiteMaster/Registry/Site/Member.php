@@ -97,7 +97,7 @@ class Member extends Record
         
         $manager_role = Role::getByRoleName('manager');
         
-        $approvedMembers = new Member\Members\WithRole($this->sites_id, $manager_role->id);
+        $approvedMembers = new Members\WithRole($this->sites_id, $manager_role->id);
         
         if (count($approvedMembers) == 0) {
             Member\Role::createRole($manager_role, $this);
