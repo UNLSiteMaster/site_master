@@ -80,7 +80,7 @@ CREATE  TABLE IF NOT EXISTS `site_member_roles` (
   PRIMARY KEY (`id`, `site_members_id`) ,
   INDEX `fk_site_member_roles_site_members1` (`site_members_id` ASC) ,
   INDEX `fk_site_member_roles_roles1` (`roles_id` ASC) ,
-  INDEX `unique_site_member_roles` (`site_members_id` ASC, `roles_id` ASC) ,
+  UNIQUE INDEX `unique_site_member_roles` (`site_members_id` ASC, `roles_id` ASC) ,
   CONSTRAINT `fk_site_member_roles_site_members1`
     FOREIGN KEY (`site_members_id` )
     REFERENCES `site_members` (`id` )
