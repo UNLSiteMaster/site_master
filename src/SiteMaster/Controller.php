@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster;
 
+use SiteMaster\RuntimeException;
+
 class Controller
 {
     public $output = null;
@@ -23,8 +25,8 @@ class Controller
             }
             $this->run();
         } catch (\Exception $exception) {
-            if (get_class($exception) == 'Exception') {
-                $e = new Exception($exception->getMessage(), $exception->getCode(), $exception);
+            if (get_class($exception) != 'ViewableInterface') {
+                $e = new ViewableException($exception->getMessage(), $exception->getCode(), $exception);
             } else {
                 $e = $exception;
             }
@@ -62,13 +64,13 @@ class Controller
     {
         if (!isset($this->options['model'])
             || false === $this->options['model']) {
-            throw new \SiteMaster\Exception('Un-registered view', 404);
+            throw new RuntimeException('Un-registered view', 404);
         }
 
         $this->output = new $this->options['model']($this->options);
 
         if (!$this->output instanceof \SiteMaster\ViewableInterface) {
-            throw new \SiteMaster\Exception("All Output must be an instance of \\Chat\\ViewableInterface");
+            throw new RuntimeException("All Output must be an instance of \\Chat\\ViewableInterface");
         }
     }
 
@@ -77,7 +79,7 @@ class Controller
         $object = new $this->options['model']($this->options);
 
         if (!$object instanceof \SiteMaster\PostHandlerInterface) {
-            throw new Exception("All Post Handlers must be an instance of \\Chat\\PostHandlerInterface");
+            throw new RuntimeException("All Post Handlers must be an instance of \\Chat\\PostHandlerInterface");
         }
 
         return $object->handlePost($this->options, $_POST, $_FILES);

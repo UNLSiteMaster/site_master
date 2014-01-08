@@ -2,18 +2,18 @@
 namespace SiteMaster\Registry\Site\Members;
 
 use DB\RecordList;
-use SiteMaster\Exception;
+use SiteMaster\InvalidArgumentException;
 
 class WithRole extends RecordList
 {
     public function __construct(array $options = array())
     {
         if (!isset($options['site_id'])) {
-            throw new Exception('A site_id must be set', 500);
+            throw new InvalidArgumentException('A site_id must be set', 500);
         }
 
         if (!isset($options['role_id'])) {
-            throw new Exception('A role_id must be set', 500);
+            throw new InvalidArgumentException('A role_id must be set', 500);
         }
 
         $options['sql'] = $this->getSQL($options['site_id'], $options['role_id']);
