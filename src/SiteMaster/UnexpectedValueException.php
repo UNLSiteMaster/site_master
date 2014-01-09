@@ -1,4 +1,4 @@
 <?php
 namespace SiteMaster;
 
-class UnexpectedValueException extends \UnexpectedValueException {}
+class UnexpectedValueException extends \UnexpectedValueException implements Exception {}
