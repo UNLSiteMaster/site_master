@@ -32,7 +32,7 @@ class Role extends Record
      * @param Member $member
      * @return bool
      */
-    public static function createRole(\SiteMaster\Registry\Site\Role $role, Member $member)
+    public static function createRoleForSiteMember(\SiteMaster\Registry\Site\Role $role, Member $member)
     {
         $membership_role = new self();
         $membership_role->site_members_id = $member->id;
