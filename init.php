@@ -21,6 +21,7 @@ spl_autoload_register('\SiteMaster\Plugin\PluginManager::autoload');
         'internal_plugins' => array(
             'Home' => array(),
             'User' => array(),
+            'Registry' => array(),
             'Plugin' => array(),
         ),
         'external_plugins' => \SiteMaster\Config::get('PLUGINS')
