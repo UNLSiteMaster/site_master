@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Plugin;
 
+use SiteMaster\RuntimeException;
 use SiteMaster\Util;
 
 class PluginManager
@@ -30,13 +31,13 @@ class PluginManager
     /**
      * Get the plugin manager singleton
      *
+     * @throws \SiteMaster\RuntimeException
      * @return bool | \SiteMaster\Plugin\PluginManager
-     * @throws \SiteMaster\Exception
      */
     public static function getManager()
     {
         if (!self::$singleton) {
-            throw new \SiteMaster\Exception("Plugin Manager has not been initialized yet", 500);
+            throw new RuntimeException("Plugin Manager has not been initialized yet", 500);
         }
 
         return self::$singleton;
@@ -58,12 +59,12 @@ class PluginManager
      *
      * @param $eventsManager
      * @param array $options
-     * @throws \SiteMaster\Exception
+     * @throws \SiteMaster\RuntimeException
      */
     public static function initialize($eventsManager, $options = array())
     {
         if (self::$singleton) {
-            throw new \SiteMaster\Exception("Plugin Manager can only be initialized once", 500);
+            throw new RuntimeException("Plugin Manager can only be initialized once", 500);
         }
 
         self::$singleton = new self($eventsManager, $options);

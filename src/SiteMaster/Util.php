@@ -12,7 +12,7 @@ class Util
         self::$db = new \mysqli($host, $user, $password, $database);
 
         if (mysqli_connect_error()) {
-            throw new \SiteMaster\Exception('Database connection error (' . mysqli_connect_errno() . ') '
+            throw new RuntimeException('Database connection error (' . mysqli_connect_errno() . ') '
                 . mysqli_connect_error());
         }
 
@@ -32,8 +32,7 @@ class Util
 
     /**
      * Connect to the database and return it
-     *
-     * @throws \SiteMaster\Exception
+     * 
      * @return mysqli
      */
     public static function getDB()
