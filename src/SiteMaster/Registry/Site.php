@@ -82,4 +82,18 @@ class Site extends Record
         
         return $site;
     }
+
+    /**
+     * Get the title of the site.  The title is the base_url, unless the title field is not null
+     * 
+     * @return string
+     */
+    function getTitle()
+    {
+        if ($this->title) {
+            return $this->title;
+        }
+        
+        return $this->base_url;
+    }
 }
