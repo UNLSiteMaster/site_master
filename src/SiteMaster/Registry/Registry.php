@@ -25,10 +25,10 @@ class Registry
 
         $paths = explode('/',$parts['path']);
 
-        $dirs = count($paths);
+        $total_dirs = count($paths);
 
         //Loop over the paths (starting from the last path) to find the closest site.
-        for ($i=$dirs-1; $i>=0; $i--) {
+        for ($i=$total_dirs-1; $i>=0; $i--) {
             $path = implode('/',$paths);
             
             //Add on a trailing slash if we need it.
