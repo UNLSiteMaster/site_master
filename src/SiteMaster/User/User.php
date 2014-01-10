@@ -84,4 +84,19 @@ class User extends Record
     {
         return new ApprovedForUser(array('user_id'=>$this->id));
     }
+
+
+    /**
+     * Get the full name of this user
+     * 
+     * @return string
+     */
+    public function getName()
+    {
+        if ($this->first_name || $this->last_name) {
+            return $this->first_name . ' ' . $this->last_name;
+        }
+        
+        return $this->uid;
+    }
 }
