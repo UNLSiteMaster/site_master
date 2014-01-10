@@ -2,6 +2,8 @@
 namespace SiteMaster\Registry;
 
 use SiteMaster\InvalidArgumentException;
+use SiteMaster\Plugins\Auth_Unl\RuntimeException;
+use SiteMaster\Util;
 
 class Registry
 {
@@ -88,19 +90,66 @@ class Registry
     }
 
     /**
-     * Get the closest site for a given uri
+     * Get the sql to get the closest site for a set of URIs
+     * This method generates a prepared statement for mysqli
      * 
+     * Note, this method exists mostly for testing
+     * 
+     * @param $possible_uris
+     * @return string
+     */
+    public function getClosestSiteSQL($possible_uris)
+    {
+        $sql = "SELECT * FROM " . Site::getTable() . PHP_EOL;
+        $sql .= "WHERE" . PHP_EOL;
+        
+        foreach ($possible_uris as $uri) {
+            $sql .= ' base_url LIKE ? OR ' . PHP_EOL;
+        }
+
+        $sql = substr($sql, 0, -5) . PHP_EOL . 'ORDER BY base_url DESC LIMIT 1';
+        
+        return $sql;
+    }
+
+    /**
+     * Get the closest site for a given uri
+     *
      * @param $uri
+     * @throws \SiteMaster\Plugins\Auth_Unl\RuntimeException
      * @return bool|Site
      */
     public function getClosestSite($uri)
     {
-        foreach ($this->getPossibleSiteURIs($uri) as $possible_uri) {
-            if ($site = Site::getByBaseURL($possible_uri)) {
-                return $site;
-            }
+        $possible_uris = $this->getPossibleSiteURIs($uri);
+        
+        $sql = $this->getClosestSiteSQL($possible_uris);
+        
+        $mysqli = Util::getDB();
+        
+        $stmt = $mysqli->prepare($sql);
+
+        foreach ($possible_uris as $uri) {
+            $stmt->bind_param('s', $uri);
+        }
+
+        if (!$stmt->execute()) {
+            throw new RuntimeException('Error executing mysqli statement ' . $stmt->error);
+        }
+
+        $stmt->close();
+        
+        if (!$result = $stmt->get_result()) {
+            return false;
         }
         
-        return false;
+        if (!$result->num_rows) {
+            return false;
+        }
+
+        $site = new Site();
+        $site->synchronizeWithArray($result->fetch_array());
+        
+        return $site;
     }
 }

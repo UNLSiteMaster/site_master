@@ -61,4 +61,21 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/test/test/', $registry->trimFileName('/test/test/test.php#fragment'));
         $this->assertEquals('/test/test/', $registry->trimFileName('/test/test/test.php?url=test#fragment'));
     }
+
+    /**
+     * @test
+     */
+    public function getClosestSiteSQL()
+    {
+        $registry = new Registry();
+        
+        $this->assertEquals('SELECT * FROM sites
+WHERE
+ base_url LIKE ? OR 
+ base_url LIKE ? OR 
+ base_url LIKE ? OR 
+ base_url LIKE ?
+ORDER BY base_url DESC LIMIT 1', 
+            $registry->getClosestSiteSQL($registry->getPossibleSiteURIs('http://www.domain.com/path1/path2/path3/index')));
+    }
 }
