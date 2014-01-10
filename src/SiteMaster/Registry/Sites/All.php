@@ -24,7 +24,7 @@ class All extends RecordList
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT id
+        $sql = "SELECT sites.id
                 FROM sites";
 
         return $sql;
