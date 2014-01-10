@@ -1,10 +1,4 @@
-
-<ul>
 <?php
 foreach ($context as $site) {
-    ?>
-    <li><?php echo $site->base_url; ?></li>
-    <?php
+    echo $savvy->render($site, 'SiteMaster/Registry/Site/Summary.tpl.php');
 }
-?>
-</ul>
