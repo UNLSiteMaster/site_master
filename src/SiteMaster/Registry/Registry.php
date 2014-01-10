@@ -136,12 +136,12 @@ class Registry
         if (!$stmt->execute()) {
             throw new RuntimeException('Error executing mysqli statement ' . $stmt->error);
         }
-
-        $stmt->close();
         
         if (!$result = $stmt->get_result()) {
             return false;
         }
+
+        $stmt->close();
         
         if (!$result->num_rows) {
             return false;
