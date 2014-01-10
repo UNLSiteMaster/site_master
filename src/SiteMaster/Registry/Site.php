@@ -55,4 +55,31 @@ class Site extends Record
     {
         
     }
+
+    /**
+     * Get the closest parent site
+     * 
+     * @return bool|Site
+     */
+    public function getParentSite()
+    {
+        $query = $this->base_url;
+        
+        //All base URLs must end in a /, so trim it off
+        $query = rtrim($query, "/");
+        
+        $registry = new Registry();
+        
+        $site = $registry->getClosestSite($query);
+
+        /**
+         * It might be the case that the base urls are the same.
+         * This is because Registry::getClosestSite('http://domain.com') returns http://domain.com/
+         */
+        if ($site->base_url == $this->base_url) {
+            return false;
+        }
+        
+        return $site;
+    }
 }
