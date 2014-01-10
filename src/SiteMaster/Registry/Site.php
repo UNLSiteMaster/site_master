@@ -50,10 +50,15 @@ class Site extends Record
         
         return $site;
     }
-    
+
+    /**
+     * Get the approved members of this site
+     * 
+     * @return Site\Members\Approved
+     */
     public function getMembers()
     {
-        
+        return new Site\Members\Approved(array('site_id' => $this->id));
     }
 
     /**
