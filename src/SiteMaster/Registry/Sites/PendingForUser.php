@@ -12,7 +12,10 @@ class PendingForUser extends RecordList
             throw new InvalidArgumentException('A user_id must be set', 500);
         }
 
-        $options['sql'] = $this->getSQL($options['user_id']);
+        $options['array'] = self::getBySQL(array(
+            'sql'         => $this->getSQL($options['user_id']),
+            'returnArray' => true
+        ));
 
         parent::__construct($options);
     }

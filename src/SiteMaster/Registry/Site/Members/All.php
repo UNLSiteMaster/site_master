@@ -11,8 +11,11 @@ class All extends RecordList
         if (!isset($options['site_id'])) {
             throw new InvalidArgumentException('A site_id must be set', 500);
         }
-        
-        $options['sql'] = $this->getSQL($options['site_id']);
+
+        $options['array'] = self::getBySQL(array(
+            'sql'         => $this->getSQL($options['site_id']),
+            'returnArray' => true
+        ));
         
         parent::__construct($options);
     }
