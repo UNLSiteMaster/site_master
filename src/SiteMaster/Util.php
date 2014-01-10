@@ -33,7 +33,7 @@ class Util
     /**
      * Connect to the database and return it
      * 
-     * @return mysqli
+     * @return \mysqli
      */
     public static function getDB()
     {
