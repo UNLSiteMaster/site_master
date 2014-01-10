@@ -6,7 +6,14 @@ use SiteMaster\InvalidArgumentException;
 class Registry
 {
     public static $aliases = array();
-    
+
+    /**
+     * Get an array of possible base uris for a given uri
+     * 
+     * @param $uri
+     * @return array
+     * @throws \SiteMaster\InvalidArgumentException
+     */
     public function getPossibleSiteURIs($uri)
     {
         $uris = array();
@@ -47,7 +54,13 @@ class Registry
         //Make sure that they are indexed correctly if array_unique removed any
         return array_values($uris);
     }
-    
+
+    /**
+     * Trim a filename from a given path
+     * 
+     * @param $path
+     * @return string - the path without a filename
+     */
     public function trimFileName($path)
     {
         $parts = explode('/', $path);
@@ -64,7 +77,13 @@ class Registry
         
         return substr_replace($path, '', $location);
     }
-    
+
+    /**
+     * Get the closest site for a given uri
+     * 
+     * @param $uri
+     * @return bool|Site
+     */
     public function getClosestSite($uri)
     {
         foreach ($this->getPossibleSiteURIs($uri) as $possible_uri) {
