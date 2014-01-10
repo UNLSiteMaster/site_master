@@ -2,13 +2,13 @@
 namespace SiteMaster\Registry;
 
 use SiteMaster\InvalidArgumentException;
+use SiteMaster\Registry\Query\Result;
 use SiteMaster\User\User;
 
 class Query extends \IteratorIterator
 {
     public $sites = array();
     public $registry;
-    public $query;
     
     const QUERY_TYPE_ALL  = 1;
     const QUERY_TYPE_URL  = 2;
@@ -16,30 +16,36 @@ class Query extends \IteratorIterator
 
     function __construct($options = array())
     {
-        if (!isset($options['query'])) {
-            throw new InvalidArgumentException('You must pass a query', 400);
-        }
-
         $this->registry = new Registry();
-        $this->query = $options['query'];
+    }
+
+    /**
+     * Query for a list of sites
+     * 
+     * @param $query
+     * @return Result
+     */
+    public function query($query)
+    {
+        $type = $this->getQueryType($query);
+        $function = $this->getQueryFunction($type);
         
-        $result = $this->query($this->query);
+        $result = $this->$function($query);
+
         if (is_array($result)) {
             //Make sure it is traversable
             $result = new \ArrayIterator($result);
         }
         
-        parent::__construct($result);
+        return new Result(array('result' => $result));
     }
 
-    protected function query($query)
-    {
-        $type = $this->getQueryType($query);
-        $function = $this->getQueryFunction($type);
-        
-        return $this->$function($query);
-    }
-    
+    /**
+     * Get the query function for a given type of query
+     * 
+     * @param $type
+     * @return string
+     */
     public function getQueryFunction($type)
     {
         switch ($type) {
