@@ -5,6 +5,15 @@ use SiteMaster\InvalidArgumentException;
 
 class Registry
 {
+    /**
+     * An array of sites to be aliased in key=>value pairs.
+     * the key is the base url to alias, the value is the base url that you want the system to return
+     *
+     * Note: it should be discouraged to use this in practice
+     * 
+     * array('from'=>'to');
+     * @var array
+     */
     public static $aliases = array();
 
     /**
