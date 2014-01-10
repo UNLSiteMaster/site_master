@@ -40,4 +40,9 @@ class Role extends Record
         
         return $membership_role->insert();
     }
+    
+    public function getRole()
+    {
+        return \SiteMaster\Registry\Site\Role::getByID($this->roles_id);
+    }
 }
