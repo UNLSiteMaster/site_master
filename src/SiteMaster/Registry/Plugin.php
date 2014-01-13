@@ -3,6 +3,7 @@
 namespace SiteMaster\Registry;
 
 use SiteMaster\Plugin\PluginInterface;
+use SiteMaster\Events\RoutesCompile;
 
 class Plugin extends PluginInterface
 {
@@ -79,6 +80,13 @@ class Plugin extends PluginInterface
      */
     function getEventListeners()
     {
-        return array();
+        $listener = new Listener($this);
+
+        $listeners[] = array(
+            'event'    => RoutesCompile::EVENT_NAME,
+            'listener' => array($listener, 'onRoutesCompile')
+        );
+
+        return $listeners;
     }
 }

@@ -96,11 +96,11 @@ class OutputController extends \Savvy
         );
     }
 
-    public function renderWithBase($mixed = null)
+    public function renderWithBase($mixed = null, $template = null)
     {
         $tmp = $this->getTemplatePath();
         $this->setTemplatePath($this->getBaseTemplatePath($this->format));
-        $result = $this->render($mixed);
+        $result = $this->render($mixed, $template);
         $this->setTemplatePath($tmp);
         return $result;
     }

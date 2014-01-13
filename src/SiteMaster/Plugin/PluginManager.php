@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Plugin;
 
+use SiteMaster\Events\GetAuthenticationPlugins;
 use SiteMaster\RuntimeException;
 use SiteMaster\Util;
 
@@ -32,7 +33,7 @@ class PluginManager
      * Get the plugin manager singleton
      *
      * @throws \SiteMaster\RuntimeException
-     * @return bool | \SiteMaster\Plugin\PluginManager
+     * @return bool | PluginManager
      */
     public static function getManager()
     {
@@ -241,6 +242,21 @@ class PluginManager
         
         //Return the plugin class
         return new $class($options);
+    }
+
+    /**
+     * Get the registered auth plugins
+     * 
+     * @return array
+     */
+    public function getAuthPlugins()
+    {
+        $authPlugins = PluginManager::getManager()->dispatchEvent(
+            GetAuthenticationPlugins::EVENT_NAME,
+            new GetAuthenticationPlugins()
+        );
+        
+        return $authPlugins->getPlugins();
     }
 
     public static function autoload($class)

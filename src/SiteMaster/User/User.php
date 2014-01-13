@@ -6,6 +6,7 @@ use DB\Record;
 use DB\RecordList;
 use SiteMaster\Events\GetAuthenticationPlugins;
 use SiteMaster\Plugin\PluginManager;
+use SiteMaster\Registry\Sites\ApprovedForUser;
 
 class User extends Record
 {
@@ -72,5 +73,30 @@ class User extends Record
         }
         
         return false;
+    }
+
+    /**
+     * Get approved sites for this user
+     * 
+     * @return ApprovedForUser
+     */
+    public function getSites()
+    {
+        return new ApprovedForUser(array('user_id'=>$this->id));
+    }
+
+
+    /**
+     * Get the full name of this user
+     * 
+     * @return string
+     */
+    public function getName()
+    {
+        if ($this->first_name || $this->last_name) {
+            return $this->first_name . ' ' . $this->last_name;
+        }
+        
+        return $this->uid;
     }
 }

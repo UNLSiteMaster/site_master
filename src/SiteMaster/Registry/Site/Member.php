@@ -110,4 +110,9 @@ class Member extends Record
         
         return true;
     }
+    
+    public function getRoles()
+    {
+        return new Member\Roles\All(array('member_id' => $this->id));
+    }
 }

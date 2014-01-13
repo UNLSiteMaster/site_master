@@ -50,12 +50,9 @@
                     <ul class="dropdown">
                         <li>
                             <?php
-                            $authPlugins = \SiteMaster\Plugin\PluginManager::getManager()->dispatchEvent(
-                                \SiteMaster\Events\GetAuthenticationPlugins::EVENT_NAME,
-                                new \SiteMaster\Events\GetAuthenticationPlugins()
-                            );
+                            $authPlugins = \Sitemaster\Plugin\PluginManager::getManager()->getAuthPlugins();
                             
-                            foreach ($authPlugins->getPlugins() as $plugin) {
+                            foreach ($authPlugins as $plugin) {
                                 ?>
                                 <a href="<?php echo $plugin->getLoginURL(); ?>"><?php echo $plugin->getProviderHumanName() ?></a>
                             <?php

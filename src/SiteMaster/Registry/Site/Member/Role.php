@@ -22,7 +22,7 @@ class Role extends Record
     
     public static function getByRoleIDANDMembershipID($role_id, $membership_id)
     {
-        return self::getByAnyField(__CLASS__, 'site_members_id', $membership_id, '' .(int)$role_id);
+        return self::getByAnyField(__CLASS__, 'site_members_id', $membership_id, 'roles_id=' .(int)$role_id);
     }
 
     /**
@@ -39,5 +39,10 @@ class Role extends Record
         $membership_role->roles_id = $role->id;
         
         return $membership_role->insert();
+    }
+    
+    public function getRole()
+    {
+        return \SiteMaster\Registry\Site\Role::getByID($this->roles_id);
     }
 }
