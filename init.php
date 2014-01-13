@@ -19,6 +19,7 @@ spl_autoload_register('\SiteMaster\Plugin\PluginManager::autoload');
     new \Symfony\Component\EventDispatcher\EventDispatcher(),
     array(
         'internal_plugins' => array(
+            'Core' => array(),
             'Home' => array(),
             'User' => array(),
             'Registry' => array(),
