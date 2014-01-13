@@ -3,6 +3,7 @@ namespace SiteMaster;
 
 use SiteMaster\Events\RegisterTheme;
 use SiteMaster\Plugin\PluginManager;
+use SiteMaster\Plugins\Auth_Unl\RuntimeException;
 use SiteMaster\Util;
 
 class OutputController extends \Savvy
@@ -50,7 +51,7 @@ class OutputController extends \Savvy
         }
 
         if (!is_dir($dir)) {
-            throw new Exception('Invalid theme, there are no files in '.$dir);
+            throw new RuntimeException('Invalid theme, there are no files in '.$dir);
         }
 
         return $dir;
@@ -68,7 +69,7 @@ class OutputController extends \Savvy
                 $this->setTemplateFormatPaths('html');
                 break;
             default:
-                throw new Exception('Invalid/unsupported output format', 500);
+                throw new UnexpectedValueException('Invalid/unsupported output format', 500);
         }
     }
 
