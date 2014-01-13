@@ -1,5 +1,5 @@
 Base Controller
 
 <?php
-echo $savvy->render($context->output);
+echo $savvy->renderWithTheme($context->output);
 ?>

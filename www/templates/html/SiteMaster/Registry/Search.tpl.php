@@ -22,6 +22,6 @@ foreach ($authPlugins as $plugin) {
 
 <?php
 if ($context->result) {
-    echo $savvy->render($context->result);
+    echo $savvy->renderWithTheme($context->result);
 }
 ?>
