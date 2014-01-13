@@ -68,6 +68,11 @@ class OutputController extends \Savvy
                 header('Content-type:text/html;charset=UTF-8');
                 $this->setTemplateFormatPaths('html');
                 break;
+            case 'json':
+                header('Content-type:application/json');
+                $this->setTemplateFormatPaths('json');
+                break;
+                break;
             default:
                 throw new UnexpectedValueException('Invalid/unsupported output format', 500);
         }
