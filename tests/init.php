@@ -8,6 +8,4 @@ if (file_exists(__DIR__ . '/../config.inc.php')) {
 
 require_once $config_file;
 
-\SiteMaster\Util::connectTestDB();
-
 require_once(__DIR__ . '/../init_plugins.php');
