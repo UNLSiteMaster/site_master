@@ -66,6 +66,7 @@ class Member extends Record
     {
         //Create base object
         $membership = new self();
+        $membership->status = 'PENDING';
         
         //Set optional fields
         $membership->synchronizeWithArray($fields);
