@@ -35,7 +35,8 @@ class Pending extends RecordList
         $sql = "SELECT id
                 FROM site_members
                 WHERE sites_id = " .  (int)$site_id . "
-                AND status = 'PENDING'";
+                AND status = 'PENDING'
+                ORDER by id ASC";
 
         return $sql;
     }
