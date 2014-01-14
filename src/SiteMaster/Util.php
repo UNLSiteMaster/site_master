@@ -31,6 +31,14 @@ class Util
     }
 
     /**
+     * Connect using default settings
+     */
+    public static function connectTestDB()
+    {
+        self::setDB(Config::get('TEST_DB_HOST'), Config::get('TEST_DB_USER'), Config::get('TEST_DB_PASSWORD'), Config::get('TEST_DB_NAME'));
+    }
+
+    /**
      * Connect to the database and return it
      * 
      * @return \mysqli
