@@ -36,7 +36,8 @@ class ApprovedForUser extends RecordList
                 FROM sites
                 LEFT JOIN site_members ON (site_members.sites_id = sites.id)
                 WHERE site_members.users_id = " . (int)$user_id ."
-                    AND site_members.status = 'APPROVED'";
+                    AND site_members.status = 'APPROVED'
+                ORDER BY sites.base_url ASC";
 
         return $sql;
     }

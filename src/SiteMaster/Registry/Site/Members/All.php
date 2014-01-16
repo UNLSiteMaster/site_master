@@ -34,7 +34,8 @@ class All extends RecordList
         //Build the list
         $sql = "SELECT id
                 FROM site_members
-                WHERE sites_id = " .  (int)$site_id;
+                WHERE sites_id = " .  (int)$site_id . "
+                ORDER by id ASC";
 
         return $sql;
     }

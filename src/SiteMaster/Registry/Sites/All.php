@@ -28,7 +28,8 @@ class All extends RecordList
     {
         //Build the list
         $sql = "SELECT sites.id
-                FROM sites";
+                FROM sites
+                ORDER BY sites.base_url ASC";
 
         return $sql;
     }

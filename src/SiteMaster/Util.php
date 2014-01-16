@@ -31,6 +31,14 @@ class Util
     }
 
     /**
+     * Connect using default settings
+     */
+    public static function connectTestDB()
+    {
+        self::setDB(Config::get('TEST_DB_HOST'), Config::get('TEST_DB_USER'), Config::get('TEST_DB_PASSWORD'), Config::get('TEST_DB_NAME'));
+    }
+
+    /**
      * Connect to the database and return it
      * 
      * @return \mysqli
@@ -86,5 +94,44 @@ class Util
         }
         
         return $parts['path'];
+    }
+    
+    public static function execMultiQuery($sql, $fail_ok = false)
+    {
+        $db = self::getDB();
+        
+        //Replace all instances of DEFAULTDATABASENAME with the config db name.
+        $sql = str_replace('DEFAULTDATABASENAME', \SiteMaster\Config::get("DB_NAME"), $sql);
+        
+        $return = array(
+            'errors' => array(),
+            'result' => false
+        );
+
+        try {
+            $result = true;
+            if ($db->multi_query($sql)) {
+                do {
+                    /* store first result set */
+                    if ($result = $db->store_result()) {
+                        $result->free();
+                    }
+
+                    if (!$db->more_results()) {
+                        break;
+                    }
+                } while ($db->next_result());
+            } else {
+                $return['errors'] = "Query Failed: " . $db->error;
+            }
+        } catch (Exception $e) {
+            $result = false;
+            if (!$fail_ok) {
+                return false;
+            }
+        }
+
+        $return['result'] = $result;
+        return $return;
     }
 }

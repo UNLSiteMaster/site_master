@@ -41,7 +41,8 @@ class WithRole extends RecordList
                 LEFT JOIN site_member_roles ON (site_members.id = site_member_roles.site_members_id)
                 WHERE sites_id = " .  (int)$site_id . "
                 AND site_members.status = 'APPROVED'
-                AND site_member_roles.roles_id = " . (int)$role_id;
+                AND site_member_roles.roles_id = " . (int)$role_id . "
+                ORDER by id ASC";
 
         return $sql;
     }

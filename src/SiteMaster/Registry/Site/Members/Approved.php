@@ -35,7 +35,8 @@ class Approved extends RecordList
         $sql = "SELECT id
                 FROM site_members
                 WHERE sites_id = " .  (int)$site_id . "
-                AND status = 'APPROVED'";
+                AND status = 'APPROVED'
+                ORDER by id ASC";
 
         return $sql;
     }

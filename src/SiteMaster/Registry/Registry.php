@@ -129,9 +129,14 @@ class Registry
         
         $stmt = $mysqli->prepare($sql);
 
-        foreach ($possible_uris as $uri) {
-            $stmt->bind_param('s', $uri);
+        $values = array();
+        $values[0] = '';
+        foreach ($possible_uris as $key=>$uri) {
+            $values[0] .= 's';
+            $values[] = &$possible_uris[$key];
         }
+
+        call_user_func_array(array($stmt, 'bind_param'), $values);
 
         if (!$stmt->execute()) {
             throw new RuntimeException('Error executing mysqli statement ' . $stmt->error);

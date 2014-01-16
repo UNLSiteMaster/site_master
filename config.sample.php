@@ -19,10 +19,25 @@ Config::set('DB_USER'     , 'user');
 Config::set('DB_PASSWORD' , 'password');
 Config::set('DB_NAME'     , 'database');
 
+/**********************************************************************************************************************
+ * Other settings, including theme
+ */
 Config::set('THEME', 'foundation');
 
+
+/**********************************************************************************************************************
+ * Plugin related settings
+ */
 \SiteMaster\Config::set('PLUGINS', array(
     'example' => array('setting'=>'value'),
     'theme_foundation' => array('setting'=>'value'),
     'auth_google' => array('setting'=>'value'),
 ));
+
+/**********************************************************************************************************************
+ * unit test settings
+ */
+Config::set('TEST_DB_HOST'     , 'localhost');
+Config::set('TEST_DB_USER'     , 'user');
+Config::set('TEST_DB_PASSWORD' , 'password');
+Config::set('TEST_DB_NAME'     , 'database');

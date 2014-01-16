@@ -3,6 +3,7 @@ namespace SiteMaster;
 
 use SiteMaster\Events\RegisterTheme;
 use SiteMaster\Plugin\PluginManager;
+use SiteMaster\Plugins\Auth_Unl\RuntimeException;
 use SiteMaster\Util;
 
 class OutputController extends \Savvy
@@ -50,7 +51,7 @@ class OutputController extends \Savvy
         }
 
         if (!is_dir($dir)) {
-            throw new Exception('Invalid theme, there are no files in '.$dir);
+            throw new RuntimeException('Invalid theme, there are no files in '.$dir);
         }
 
         return $dir;
@@ -67,8 +68,13 @@ class OutputController extends \Savvy
                 header('Content-type:text/html;charset=UTF-8');
                 $this->setTemplateFormatPaths('html');
                 break;
+            case 'json':
+                header('Content-type:application/json');
+                $this->setTemplateFormatPaths('json');
+                break;
+                break;
             default:
-                throw new Exception('Invalid/unsupported output format', 500);
+                throw new UnexpectedValueException('Invalid/unsupported output format', 500);
         }
     }
 
@@ -96,6 +102,13 @@ class OutputController extends \Savvy
         );
     }
 
+    /**
+     * Render an object with the base theme
+     * 
+     * @param mixed $mixed
+     * @param string $template
+     * @return string
+     */
     public function renderWithBase($mixed = null, $template = null)
     {
         $tmp = $this->getTemplatePath();
@@ -105,6 +118,21 @@ class OutputController extends \Savvy
         return $result;
     }
 
+    /**
+     * Render an object with the theme stack
+     * 
+     * This is generally used within the base templates, so that if a theme uses renderWithBase(), the base theme
+     * does not continue to render the entire stack with the base theme.
+     * 
+     * @param mixed $mixed
+     * @param string $template
+     * @return string
+     */
+    public function renderWithTheme($mixed = null, $template = null)
+    {
+        $this->setTemplateFormatPaths($this->format);
+        return $this->render($mixed, $template);
+    }
 
     public function findTemplateFile($file)
     {
