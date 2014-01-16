@@ -103,40 +103,85 @@ class OutputController extends \Savvy
     }
 
     /**
-     * Render an object with the base theme
+     * Find and render with these closest parent template
      * 
-     * @param mixed $mixed
-     * @param string $template
+     * @param null $mixed
+     * @param null $template
      * @return string
      */
-    public function renderWithBase($mixed = null, $template = null)
+    function renderWithParent($mixed = null, $template = null)
     {
-        $tmp = $this->getTemplatePath();
-        $this->setTemplatePath($this->getBaseTemplatePath($this->format));
-        $result = $this->render($mixed, $template);
-        $this->setTemplatePath($tmp);
-        return $result;
+        /**
+         * going up the template paths, find the closest parent template, and render with that.
+         * If nothing was found, throw and exception
+         */
+        if (!$template) {
+            if ($mixed instanceof \Savvy_ObjectProxy) {
+                $class = $mixed->__getClass();
+            } else {
+                $class = get_class($mixed);
+            }
+
+            $template = $this->getClassToTemplateMapper()->map($class);
+        }
+        
+        $fullname = $this->findParentTemplateFile($template);
+        
+        return $this->render($mixed, $fullname);
     }
 
     /**
-     * Render an object with the theme stack
+     * Finds the parent template for a given file.
      * 
-     * This is generally used within the base templates, so that if a theme uses renderWithBase(), the base theme
-     * does not continue to render the entire stack with the base theme.
+     * It finds the next closest template for the file, and returns it.
      * 
-     * @param mixed $mixed
-     * @param string $template
+     * @param $file
      * @return string
+     * @throws Savvy_TemplateException
      */
-    public function renderWithTheme($mixed = null, $template = null)
+    public function findParentTemplateFile($file)
     {
-        $this->setTemplateFormatPaths($this->format);
-        return $this->render($mixed, $template);
+        //First, find the closest template
+        $closest_fullname = $this->findTemplateFile($file);
+        
+        // start looping through the path set
+        foreach ($this->template_path as $path) {
+            // get the path to the file
+            $fullname = $path . $file;
+            
+            if ($fullname == $closest_fullname) {
+                //We want the next closest template, so skip the closest one.
+                continue;
+            }
+
+            if (isset($this->templateMap[$fullname])) {
+                return $fullname;
+            }
+
+            if (!@is_readable($fullname)) {
+                continue;
+            }
+
+            return $fullname;
+        }
+
+        // could not find the file in the set of paths
+        throw new Savvy_TemplateException('Could not find a parent template for ' . $file);
     }
 
+    /**
+     * Find the template for a filename
+     * 
+     * @param string $file
+     * @return bool|string
+     */
     public function findTemplateFile($file)
     {
-
+        //If this file is readable, return it right away.
+        if (is_readable($file)) {
+            return $file;
+        }
+        
         //take of the plugin namespace
         $tmp = str_replace("SiteMaster/Plugins/", "", $file, $count);
 
