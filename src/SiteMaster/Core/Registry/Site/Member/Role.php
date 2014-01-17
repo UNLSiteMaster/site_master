@@ -28,11 +28,11 @@ class Role extends Record
     /**
      * Create a role for a site member
      * 
-     * @param \SiteMaster\Registry\Site\Role $role
+     * @param \SiteMaster\Core\Registry\Site\Role $role
      * @param Member $member
      * @return bool
      */
-    public static function createRoleForSiteMember(\SiteMaster\Registry\Site\Role $role, Member $member)
+    public static function createRoleForSiteMember(\SiteMaster\Core\Registry\Site\Role $role, Member $member)
     {
         $membership_role = new self();
         $membership_role->site_members_id = $member->id;
@@ -43,6 +43,6 @@ class Role extends Record
     
     public function getRole()
     {
-        return \SiteMaster\Registry\Site\Role::getByID($this->roles_id);
+        return \SiteMaster\Core\Registry\Site\Role::getByID($this->roles_id);
     }
 }
