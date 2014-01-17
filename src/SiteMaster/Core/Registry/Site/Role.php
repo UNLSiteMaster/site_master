@@ -26,7 +26,7 @@ class Role extends Record
      */
     public static function getByRoleName($role_name)
     {
-        return self::getByAnyField(__class__, 'role_name', $role_name);
+        return self::getByAnyField(__CLASS__, 'role_name', $role_name);
     }
 
     /**
