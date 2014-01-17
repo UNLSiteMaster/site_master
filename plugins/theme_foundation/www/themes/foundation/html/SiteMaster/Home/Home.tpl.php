@@ -1,3 +1,3 @@
 <div class="panel">
-<?php echo $savvy->renderWithBase($context) ?>
+<?php echo $savvy->renderWithParent($context) ?>
 </div>
