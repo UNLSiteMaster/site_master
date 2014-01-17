@@ -8,8 +8,8 @@ if (file_exists(__DIR__ . '/config.inc.php')) {
 
 require_once $config_file;
 
-\SiteMaster\Util::connectDB();
+\SiteMaster\Core\Util::connectDB();
 
-\SiteMaster\User\Session::start();
+\SiteMaster\Core\User\Session::start();
 
 require_once(__DIR__ . '/init_plugins.php');

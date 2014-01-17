@@ -4,7 +4,7 @@ ini_set('display_errors', true);
 //Initialize all settings and autoloaders
 require_once(__DIR__ . "/../init.php");
 
-function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
+function updateComposerJSON(\SiteMaster\Core\Plugin\PluginManager $pluginManager)
 {
     $plugins = $pluginManager->getAllPlugins();
     $combinedJson = array();
@@ -17,7 +17,7 @@ function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
         $files[] = $plugin->getRootDirectory() . '/' . $pluginName . '_composer.json';
     }
 
-    $files[] = \SiteMaster\Util::getRootDir() . '/base_composer.json';
+    $files[] = \SiteMaster\Core\Util::getRootDir() . '/base_composer.json';
 
     $repositories = array();
     foreach ($files as $filename) {
@@ -51,13 +51,13 @@ function updateComposerJSON(\SiteMaster\Plugin\PluginManager $pluginManager)
     }
 
     return file_put_contents(
-        \SiteMaster\Util::getRootDir() . '/composer.json',
+        \SiteMaster\Core\Util::getRootDir() . '/composer.json',
         json_encode($combinedJson, JSON_PRETTY_PRINT)
     );
 }
 
 //1.  install all the default stuff.
-$pluginManager = \SiteMaster\Plugin\PluginManager::getManager();
+$pluginManager = \SiteMaster\Core\Plugin\PluginManager::getManager();
 
 echo '===== Generating composer.json and updating libraries. =====' . PHP_EOL;
 echo 'This may take some time...' . PHP_EOL;
@@ -66,4 +66,4 @@ echo 'This may take some time...' . PHP_EOL;
 updateComposerJSON($pluginManager);
 
 //Update composer
-echo shell_exec('php ' . \SiteMaster\Util::getRootDir() . '/composer.phar update');
+echo shell_exec('php ' . \SiteMaster\Core\Util::getRootDir() . '/composer.phar update');

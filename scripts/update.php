@@ -4,7 +4,7 @@ ini_set('display_errors', true);
 //Initialize all settings and autoloaders
 require_once(__DIR__ . "/../init.php");
 
-function preformPluginUpdate(\SiteMaster\Plugin\PluginInterface $plugin)
+function preformPluginUpdate(\SiteMaster\Core\Plugin\PluginInterface $plugin)
 {
     static $checked;
 
@@ -30,7 +30,7 @@ function preformPluginUpdate(\SiteMaster\Plugin\PluginInterface $plugin)
 }
 
 //1.  install all the default stuff.
-$pluginManager = \SiteMaster\Plugin\PluginManager::getManager();
+$pluginManager = \SiteMaster\Core\Plugin\PluginManager::getManager();
 
 echo '===== Updating Plugins =====' . PHP_EOL;
 

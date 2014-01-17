@@ -1,5 +1,5 @@
 <?php
-use SiteMaster\Config;
+use SiteMaster\Core\Config;
 
 /**********************************************************************************************************************
  * php related settings
@@ -28,7 +28,7 @@ Config::set('THEME', 'foundation');
 /**********************************************************************************************************************
  * Plugin related settings
  */
-\SiteMaster\Config::set('PLUGINS', array(
+\SiteMaster\Core\Config::set('PLUGINS', array(
     'example' => array('setting'=>'value'),
     'theme_foundation' => array('setting'=>'value'),
     'auth_google' => array('setting'=>'value'),

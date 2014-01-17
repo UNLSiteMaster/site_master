@@ -2,9 +2,10 @@
 
 namespace SiteMaster\Core;
 
-use SiteMaster\Plugin\PluginInterface;
-use SiteMaster\Registry\Site\Role;
-use SiteMaster\Util;
+use SiteMaster\Core\Plugin\PluginInterface;
+use SiteMaster\Core\Events\RoutesCompile;
+use SiteMaster\Core\Registry\Site\Role;
+use SiteMaster\Core\Util;
 
 /**
  * This class is the plugin class for the core system.
@@ -112,7 +113,12 @@ class Plugin extends PluginInterface
      */
     function getEventListeners()
     {
-        $listeners = array();
+        $listener = new Listener($this);
+
+        $listeners[] = array(
+            'event'    => RoutesCompile::EVENT_NAME,
+            'listener' => array($listener, 'onRoutesCompile')
+        );
 
         return $listeners;
     }
