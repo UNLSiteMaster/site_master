@@ -18,7 +18,7 @@ class All extends RecordList
     public function getDefaultOptions()
     {
         $options = array();
-        $options['itemClass'] = '\SiteMaster\Registry\Site';
+        $options['itemClass'] = '\SiteMaster\Core\Registry\Site';
         $options['listClass'] = __CLASS__;
 
         return $options;

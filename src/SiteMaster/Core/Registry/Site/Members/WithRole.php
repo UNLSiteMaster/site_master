@@ -27,7 +27,7 @@ class WithRole extends RecordList
     public function getDefaultOptions()
     {
         $options = array();
-        $options['itemClass'] = '\SiteMaster\Registry\Site\Member';
+        $options['itemClass'] = '\SiteMaster\Core\Registry\Site\Member';
         $options['listClass'] = __CLASS__;
 
         return $options;
