@@ -1,11 +1,11 @@
 <?php
 namespace SiteMaster\Plugins\Auth_Google;
 
-use SiteMaster\Config;
-use SiteMaster\Events\GetAuthenticationPlugins;
-use SiteMaster\Events\RoutesCompile;
-use SiteMaster\Plugin\AuthenticationInterface;
-use SiteMaster\Plugin\PluginInterface;
+use SiteMaster\Core\Config;
+use SiteMaster\Core\Events\GetAuthenticationPlugins;
+use SiteMaster\Core\Events\RoutesCompile;
+use SiteMaster\Core\Plugin\AuthenticationInterface;
+use SiteMaster\Core\Plugin\PluginInterface;
 
 class Plugin extends PluginInterface implements AuthenticationInterface
 {

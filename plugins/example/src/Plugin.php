@@ -1,9 +1,9 @@
 <?php
 namespace SiteMaster\Plugins\Example;
 
-use SiteMaster\Plugin\PluginInterface;
-use SiteMaster\Events\RoutesCompile;
-use SiteMaster\Events\RegisterTheme;
+use SiteMaster\Core\Plugin\PluginInterface;
+use SiteMaster\Core\Events\RoutesCompile;
+use SiteMaster\Core\Events\RegisterTheme;
 
 class Plugin extends PluginInterface
 {
@@ -88,7 +88,7 @@ class Plugin extends PluginInterface
         );
 
         $listeners[] = array(
-            'event'    => \SiteMaster\Events\Navigation\MainCompile::EVENT_NAME,
+            'event'    => \SiteMaster\Core\Events\Navigation\MainCompile::EVENT_NAME,
             'listener' => array($listener, 'onNavigationMainCompile')
         );
 

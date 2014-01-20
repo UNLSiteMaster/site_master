@@ -2,10 +2,10 @@
 
 namespace SiteMaster\Plugins\Example;
 
-use SiteMaster\Events\Navigation\MainCompile;
-use SiteMaster\Events\RoutesCompile;
-use SiteMaster\Plugin\PluginListener;
-use SiteMaster\Events\RegisterTheme;
+use SiteMaster\Core\Events\Navigation\MainCompile;
+use SiteMaster\Core\Events\RoutesCompile;
+use SiteMaster\Core\Plugin\PluginListener;
+use SiteMaster\Core\Events\RegisterTheme;
 
 class Listener extends PluginListener
 {
@@ -23,6 +23,6 @@ class Listener extends PluginListener
 
     public function onNavigationMainCompile(MainCompile $event)
     {
-        $event->addNavigationItem(\SiteMaster\Config::get('URL') . 'example/', 'Example');
+        $event->addNavigationItem(\SiteMaster\Core\Config::get('URL') . 'example/', 'Example');
     }
 }

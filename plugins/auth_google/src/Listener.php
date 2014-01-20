@@ -2,9 +2,9 @@
 
 namespace SiteMaster\Plugins\Auth_Google;
 
-use SiteMaster\Events\GetAuthenticationPlugins;
-use SiteMaster\Events\RoutesCompile;
-use SiteMaster\Plugin\PluginListener;
+use SiteMaster\Core\Events\GetAuthenticationPlugins;
+use SiteMaster\Core\Events\RoutesCompile;
+use SiteMaster\Core\Plugin\PluginListener;
 
 class Listener extends PluginListener
 {

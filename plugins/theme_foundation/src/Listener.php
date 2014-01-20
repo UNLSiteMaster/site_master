@@ -2,9 +2,9 @@
 
 namespace SiteMaster\Plugins\Theme_Foundation;
 
-use SiteMaster\Events\RoutesCompile;
-use SiteMaster\Plugin\PluginListener;
-use SiteMaster\Events\RegisterTheme;
+use SiteMaster\Core\Events\RoutesCompile;
+use SiteMaster\Core\Plugin\PluginListener;
+use SiteMaster\Core\Events\RegisterTheme;
 
 class Listener extends PluginListener
 {

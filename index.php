@@ -5,11 +5,11 @@ ini_set('display_errors', true);
 require_once(__DIR__ . "/init.php");
 
 // Initialize App, and construct everything
-$app = new \SiteMaster\Controller($_GET);
+$app = new \SiteMaster\Core\Controller($_GET);
 
 //Render Away
-$savvy = new \SiteMaster\OutputController($app->options);
-$savvy->setTheme(\SiteMaster\Config::get('THEME'));
+$savvy = new \SiteMaster\Core\OutputController($app->options);
+$savvy->setTheme(\SiteMaster\Core\Config::get('THEME'));
 $savvy->initialize();
 $savvy->addGlobal('app', $app);
 

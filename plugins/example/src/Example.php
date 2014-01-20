@@ -1,8 +1,8 @@
 <?php
 namespace SiteMaster\Plugins\Example;
 
-use \SiteMaster\Config;
-use \SiteMaster\ViewableInterface;
+use \SiteMaster\Core\Config;
+use \SiteMaster\Core\ViewableInterface;
 
 class Example implements ViewableInterface
 {
