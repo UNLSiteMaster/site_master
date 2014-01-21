@@ -15,9 +15,9 @@ Config::set('URL', 'http://sitemaster.dev'); //Trailing slash is important
  * DB related settings
  */
 Config::set('DB_HOST'     , 'localhost');
-Config::set('DB_USER'     , 'user');
+Config::set('DB_USER'     , 'sitemaster');
 Config::set('DB_PASSWORD' , 'password');
-Config::set('DB_NAME'     , 'database');
+Config::set('DB_NAME'     , 'sitemaster');
 
 /**********************************************************************************************************************
  * Other settings, including theme
