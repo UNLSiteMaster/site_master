@@ -4,7 +4,6 @@ namespace SiteMaster\Core;
 use SiteMaster\Core\Events\RegisterTheme;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Plugins\Auth_Unl\RuntimeException;
-use SiteMaster\Core\Util;
 
 class OutputController extends \Savvy
 {

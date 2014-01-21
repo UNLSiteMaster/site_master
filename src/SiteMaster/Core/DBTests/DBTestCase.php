@@ -1,7 +1,6 @@
 <?php
 namespace SiteMaster\Core\DBTests;
 
-use SiteMaster\Core\DBTests\MockTestDataInstallerInterface;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Util;
 
@@ -27,7 +26,7 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
         
         //Clear the database
         foreach ($installedPlugins as $name=>$plugin) {
-            //Don't actually uninstall, just preform uninstall logic defined by the plugin (which should remove all SQL)
+            //Don't actually uninstall, just perform uninstall logic defined by the plugin (which should remove all SQL)
             $plugin->onUninstall();
         }
 

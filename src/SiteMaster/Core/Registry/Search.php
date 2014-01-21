@@ -1,8 +1,8 @@
 <?php
 namespace SiteMaster\Core\Registry;
 
-use \SiteMaster\Core\Config;
-use \SiteMaster\Core\ViewableInterface;
+use SiteMaster\Core\Config;
+use SiteMaster\Core\ViewableInterface;
 
 class Search implements ViewableInterface
 {

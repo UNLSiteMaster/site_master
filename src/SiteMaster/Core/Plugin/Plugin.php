@@ -1,8 +1,5 @@
 <?php
-
 namespace SiteMaster\Core\Plugin;
-
-use SiteMaster\Core\Plugin\PluginInterface;
 
 class Plugin extends PluginInterface
 {

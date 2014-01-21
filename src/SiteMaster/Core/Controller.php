@@ -2,14 +2,9 @@
 namespace SiteMaster\Core;
 
 use RegExpRouter\Router;
-use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\RoutesCompile;
-use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\Plugin\PluginManager;
-use SiteMaster\Core\PostHandlerInterface;
 use SiteMaster\Core\User\Session;
-use SiteMaster\Core\ViewableInterface;
-use SiteMaster\Core\RuntimeException;
 
 class Controller
 {

@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core;
 
-use \DB\Connection;
+use DB\Connection;
 
 class Util
 {
