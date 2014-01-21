@@ -1,4 +1,4 @@
-SITEMASTER_BASEDIR="../../../../../"
+SITEMASTER_BASEDIR="/var/www"
 SITEMASTER_INSTALL="scripts/install.php"
 
 echo "installing sitemaster"
@@ -9,15 +9,15 @@ cd $SITEMASTER_BASEDIR
 php $SITEMASTER_INSTALL
 
 #copy .htaccess
-if [ ! -f .htaccess ]; then
+if [ ! -f /var/www/.htaccess ]; then
     echo "Creating .htaccess"
-    cp sample.htaccess .htaccess
+    cp /var/www/sample.htaccess /var/www/.htaccess
 fi
 
 #copy config
-if [ ! -f config.inc.php ]; then
+if [ ! -f /var/www/config.inc.php ]; then
     echo "Creating config.inc.php"
-    cp config.sample.php config.inc.php
+    cp /var/www/config.sample.php /var/www/config.inc.php
 fi
 
 echo "FINISHED installing sitemaster"

@@ -1,7 +1,11 @@
+SITEMASTER_BASEDIR="/var/www"
+SITEMASTER_UPDATE="scripts/update.php"
+
 echo "updating sitemaster"
-SITEMASTER_BASEDIR="../../../../../"
-SITEMASTER_UPDATE=$SITEMASTER_BASEDIR"scripts/update.php"
+
+#Go to the basedir to preform commands.
+cd $SITEMASTER_BASEDIR
 
 php $SITEMASTER_UPDATE
 
-#echo "FINISHED updating sitemaster"
+echo "FINISHED updating sitemaster"
