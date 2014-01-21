@@ -6,10 +6,10 @@ echo "installing sitemaster"
 #Go to the basedir to preform commands.
 cd $SITEMASTER_BASEDIR
 
-php $SITEMASTER_INSTALL
-
 git submodule init
 git submodule update
+
+php $SITEMASTER_INSTALL
 
 #copy .htaccess
 if [ ! -f /var/www/.htaccess ]; then
