@@ -2,12 +2,12 @@
 namespace SiteMaster\Plugins\Auth_Google;
 
 use Opauth\Opauth;
-use \SiteMaster\Core\Config;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\User\Session;
 use SiteMaster\Core\User\User;
 use SiteMaster\Core\Util;
-use \SiteMaster\Core\ViewableInterface;
+use SiteMaster\Core\ViewableInterface;
 
 class Auth implements ViewableInterface
 {

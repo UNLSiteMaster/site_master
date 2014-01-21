@@ -1,8 +1,6 @@
 <?php
-
 namespace SiteMaster\Plugins\Theme_Foundation;
 
-use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Plugin\PluginListener;
 use SiteMaster\Core\Events\RegisterTheme;
 

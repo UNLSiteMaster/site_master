@@ -1,5 +1,4 @@
 <?php
-
 namespace SiteMaster\Plugins\Example;
 
 use SiteMaster\Core\Events\Navigation\MainCompile;

@@ -2,7 +2,6 @@
 namespace SiteMaster\Plugins\Theme_Foundation;
 
 use SiteMaster\Core\Plugin\PluginInterface;
-use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Events\RegisterTheme;
 
 class Plugin extends PluginInterface

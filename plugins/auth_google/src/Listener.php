@@ -1,5 +1,4 @@
 <?php
-
 namespace SiteMaster\Plugins\Auth_Google;
 
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
