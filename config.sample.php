@@ -9,7 +9,7 @@ ini_set('display_errors', true);
 
 error_reporting(E_ALL);
 
-Config::set('URL', 'http://localhost/site_master/'); //Trailing slash is important
+Config::set('URL', 'http://sitemaster.dev'); //Trailing slash is important
 
 /**********************************************************************************************************************
  * DB related settings
