@@ -1,8 +1,8 @@
 <?php
 namespace SiteMaster\Core\Home;
 
-use \SiteMaster\Core\Config;
-use \SiteMaster\Core\ViewableInterface;
+use SiteMaster\Core\Config;
+use SiteMaster\Core\ViewableInterface;
 
 class Home implements ViewableInterface
 {

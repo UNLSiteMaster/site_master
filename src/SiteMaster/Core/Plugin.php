@@ -5,7 +5,6 @@ namespace SiteMaster\Core;
 use SiteMaster\Core\Plugin\PluginInterface;
 use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Registry\Site\Role;
-use SiteMaster\Core\Util;
 
 /**
  * This class is the plugin class for the core system.

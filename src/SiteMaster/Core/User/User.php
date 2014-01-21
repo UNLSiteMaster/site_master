@@ -3,7 +3,6 @@
 namespace SiteMaster\Core\User;
 
 use DB\Record;
-use DB\RecordList;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Sites\ApprovedForUser;

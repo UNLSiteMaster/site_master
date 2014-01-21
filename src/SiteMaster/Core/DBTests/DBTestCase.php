@@ -1,7 +1,6 @@
 <?php
 namespace SiteMaster\Core\DBTests;
 
-use SiteMaster\Core\DBTests\MockTestDataInstallerInterface;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Util;
 

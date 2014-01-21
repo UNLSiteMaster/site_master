@@ -1,8 +1,8 @@
 <?php
 namespace SiteMaster\Core\User;
 
-use \SiteMaster\Core\Config;
-use \SiteMaster\Core\ViewableInterface;
+use SiteMaster\Core\Config;
+use SiteMaster\Core\ViewableInterface;
 
 class Logout implements ViewableInterface
 {

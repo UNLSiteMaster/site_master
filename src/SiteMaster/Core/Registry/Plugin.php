@@ -3,7 +3,6 @@
 namespace SiteMaster\Core\Registry;
 
 use SiteMaster\Core\Plugin\PluginInterface;
-use SiteMaster\Core\Events\RoutesCompile;
 
 class Plugin extends PluginInterface
 {

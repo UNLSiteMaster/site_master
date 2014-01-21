@@ -1,7 +1,6 @@
 <?php
 namespace SiteMaster\Core\Plugin;
 
-use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Util;
 
 abstract class PluginInterface
