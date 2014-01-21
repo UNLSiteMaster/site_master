@@ -87,7 +87,7 @@ class OutputController extends \Savvy
      */
     public function setTemplateFormatPaths($format)
     {
-        $plugin_dir = dirname(dirname(__DIR__)) . '/plugins';
+        $plugin_dir = dirname(dirname(dirname(__DIR__))) . '/plugins';
 
         $this->format = $format;
 
