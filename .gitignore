@@ -6,3 +6,7 @@ data/database.mwb.bak
 /.idea/
 /plugins.json
 /composer.json
+/xhprof
+/phpmyadmin
+/sitemaster
+/.vagrant
