@@ -28,7 +28,7 @@ Config::set('THEME', 'foundation');
 /**********************************************************************************************************************
  * Plugin related settings
  */
-\SiteMaster\Core\Config::set('PLUGINS', array(
+Config::set('PLUGINS', array(
     'example' => array('setting'=>'value'),
     'theme_foundation' => array('setting'=>'value'),
     'auth_google' => array('setting'=>'value'),
