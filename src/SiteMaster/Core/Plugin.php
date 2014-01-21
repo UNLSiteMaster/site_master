@@ -32,8 +32,13 @@ class Plugin extends PluginInterface
         }
         
         //Set up the default roles
-        Role::createRole('manager');
-        Role::createRole('developer');
+        if (!Role::getByRoleName('manager')) {
+            Role::createRole('manager');
+        }
+        
+        if (!Role::getByRoleName('developer')) {
+            Role::createRole('developer');
+        }
         
         return true;
     }
