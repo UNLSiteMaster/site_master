@@ -4,6 +4,8 @@ ini_set('display_errors', true);
 //Initialize all settings and autoloaders
 require_once(__DIR__ . "/init.php");
 
+\SiteMaster\Core\User\Session::start();
+
 // Initialize App, and construct everything
 $app = new \SiteMaster\Core\Controller($_GET);
 

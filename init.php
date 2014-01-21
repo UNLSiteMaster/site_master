@@ -10,6 +10,4 @@ require_once $config_file;
 
 \SiteMaster\Core\Util::connectDB();
 
-\SiteMaster\Core\User\Session::start();
-
 require_once(__DIR__ . '/init_plugins.php');
