@@ -182,18 +182,18 @@ abstract class PluginInterface
     }
 
     /**
-     * checks if we need to install, update, or do nothing, then preforms that action
+     * checks if we need to install, update, or do nothing, then performs that action
      *
      * @return bool
      */
-    public function preformUpdate()
+    public function performUpdate()
     {
         $method = $this->getUpdateMethod();
         return $this->$method();
     }
 
     /**
-     * Returns the name of the update action to preform
+     * Returns the name of the update action to perform
      * If no updates are required, it returns false
      *
      * @return bool|string

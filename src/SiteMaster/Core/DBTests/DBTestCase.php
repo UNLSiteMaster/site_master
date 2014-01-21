@@ -27,7 +27,7 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
         
         //Clear the database
         foreach ($installedPlugins as $name=>$plugin) {
-            //Don't actually uninstall, just preform uninstall logic defined by the plugin (which should remove all SQL)
+            //Don't actually uninstall, just perform uninstall logic defined by the plugin (which should remove all SQL)
             $plugin->onUninstall();
         }
 

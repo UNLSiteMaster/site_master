@@ -45,7 +45,7 @@ class PluginManager
     }
 
     /**
-     * Preform tasks that are usually preformed on load such as,
+     * Perform tasks that are usually performed on load such as,
      * set up include paths and initialize plugins.
      */
     public function load()
