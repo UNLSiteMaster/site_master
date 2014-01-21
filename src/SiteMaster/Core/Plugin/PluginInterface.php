@@ -251,6 +251,6 @@ abstract class PluginInterface
             return Util::getRootDir() . '/plugins/' . $this->getMachineName();
         }
 
-        return \SiteMaster\Util::getRootDir();
+        return Util::getRootDir();
     }
 }
