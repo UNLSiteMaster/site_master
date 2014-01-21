@@ -8,6 +8,9 @@ cd $SITEMASTER_BASEDIR
 
 php $SITEMASTER_INSTALL
 
+git submodule init
+git submodule update
+
 #copy .htaccess
 if [ ! -f /var/www/.htaccess ]; then
     echo "Creating .htaccess"
