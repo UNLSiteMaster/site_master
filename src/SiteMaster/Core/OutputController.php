@@ -3,7 +3,6 @@ namespace SiteMaster\Core;
 
 use SiteMaster\Core\Events\RegisterTheme;
 use SiteMaster\Core\Plugin\PluginManager;
-use SiteMaster\Plugins\Auth_Unl\RuntimeException;
 
 class OutputController extends \Savvy
 {
@@ -33,7 +32,7 @@ class OutputController extends \Savvy
 
     /**
      * @param $theme
-     * @throws Exception
+     * @throws RuntimeException
      * @return string - the absolute path to the theme directory
      */
     function getThemeDir($theme)
@@ -88,7 +87,7 @@ class OutputController extends \Savvy
      */
     public function setTemplateFormatPaths($format)
     {
-        $plugin_dir = dirname(dirname(__DIR__)) . '/plugins';
+        $plugin_dir = dirname(dirname(dirname(__DIR__))) . '/plugins';
 
         $this->format = $format;
 

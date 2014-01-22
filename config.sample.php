@@ -9,15 +9,15 @@ ini_set('display_errors', true);
 
 error_reporting(E_ALL);
 
-Config::set('URL', 'http://localhost/site_master/'); //Trailing slash is important
+Config::set('URL', '/'); //Trailing slash is important
 
 /**********************************************************************************************************************
  * DB related settings
  */
 Config::set('DB_HOST'     , 'localhost');
-Config::set('DB_USER'     , 'user');
+Config::set('DB_USER'     , 'sitemaster');
 Config::set('DB_PASSWORD' , 'password');
-Config::set('DB_NAME'     , 'database');
+Config::set('DB_NAME'     , 'sitemaster');
 
 /**********************************************************************************************************************
  * Other settings, including theme
@@ -28,7 +28,7 @@ Config::set('THEME', 'foundation');
 /**********************************************************************************************************************
  * Plugin related settings
  */
-\SiteMaster\Core\Config::set('PLUGINS', array(
+Config::set('PLUGINS', array(
     'example' => array('setting'=>'value'),
     'theme_foundation' => array('setting'=>'value'),
     'auth_google' => array('setting'=>'value'),

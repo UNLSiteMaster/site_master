@@ -1,32 +1,21 @@
 <?php
 namespace SiteMaster\Plugin;
 
+use SiteMaster\Core\Plugin\PluginManager;
+
 class PluginManagerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetMachineName()
+    /**
+     * @test
+     */
+    public function getPluginNamespaceFromName()
     {
-        $plugin = new \SiteMaster\Plugins\Example\Plugin();
-        $this->assertEquals('example', $plugin->getMachineName());
+        $plugin_manager = PluginManager::getManager();
+        
+        $this->assertEquals('Example', $plugin_manager->getPluginNamespaceFromName('example'));
+        $this->assertEquals('example', $plugin_manager->getPluginNamespaceFromName('Example'));
 
-        $plugin = new \SiteMaster\Core\Plugin();
-        $this->assertEquals('core', $plugin->getMachineName());
-    }
-
-    public function testGetPluginType()
-    {
-        $plugin = new \SiteMaster\Plugins\Example\Plugin();
-        $this->assertEquals('external', $plugin->getPluginType());
-
-        $plugin = new \SiteMaster\Core\Plugin();
-        $this->assertEquals('internal', $plugin->getPluginType());
-    }
-
-    public function testIsExternal()
-    {
-        $plugin = new \SiteMaster\Plugins\Example\Plugin();
-        $this->assertEquals(true, $plugin->isExternal());
-
-        $plugin = new \SiteMaster\Core\Plugin();
-        $this->assertEquals(false, $plugin->isExternal());
+        $this->assertEquals('Core', $plugin_manager->getPluginNamespaceFromName('core'));
+        $this->assertEquals('Core', $plugin_manager->getPluginNamespaceFromName('Core'));
     }
 }
