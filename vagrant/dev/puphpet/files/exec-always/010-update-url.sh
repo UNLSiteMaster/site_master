@@ -1,4 +1,4 @@
-PORT="8010"
+PORT="8001"
 
 URL="http://localhost:${PORT}/"
 SEARCH="Config\:\:set('URL', '.*')"
