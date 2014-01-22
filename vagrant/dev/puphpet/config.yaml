@@ -59,6 +59,7 @@ apache:
             servername: localhost
             serveraliases:
                 - localhost
+                - *
             docroot: /var/www
             port: '80'
             setenv:
