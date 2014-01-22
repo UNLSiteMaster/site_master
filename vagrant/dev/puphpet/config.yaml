@@ -7,9 +7,9 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.201
             forwarded_port:
-                AZzTRbjIYOaJ:
-                    host: '8994'
-                    guest: '22'
+                gjd3tcNh8Yvn:
+                    host: '8010'
+                    guest: '80'
         provider:
             virtualbox:
                 modifyvm:
@@ -26,7 +26,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            lF6d6GFPXAap:
+            VkeZuNRXOQbV:
                 id: vagrant-root
                 source: ./../../
                 target: /var/www
@@ -55,8 +55,10 @@ apache:
         - php
         - rewrite
     vhosts:
-        6KtbiKp20Hdk:
-            servername: sitemaster.dev
+        j32bg1Zs3Wom:
+            servername: localhost
+            serveraliases:
+                - localhost
             docroot: /var/www
             port: '80'
             setenv:
@@ -105,7 +107,7 @@ mysql:
     phpmyadmin: '1'
     adminer: 0
     databases:
-        eiIjSzXM0L1P:
+        aJh0yjTMvIY1:
             grant:
                 - ALL
             name: sitemaster
@@ -113,7 +115,7 @@ mysql:
             user: sitemaster
             password: password
             sql_file: ''
-        WiKHxnVEeur9:
+        E6N9TGJNfk4s:
             grant:
                 - ALL
             name: sitemaster_test
