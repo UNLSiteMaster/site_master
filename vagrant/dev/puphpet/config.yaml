@@ -1,13 +1,13 @@
 ---
 vagrantfile-local:
     vm:
-        box: ubuntu-precise12042-x64-vbox43
-        box_url: 'http://box.puphpet.com/ubuntu-precise12042-x64-vbox43.box'
+        box: centos64-x64-vbox43-1383512148
+        box_url: 'http://box.puphpet.com/centos64-x64-vbox43.box'
         hostname: null
         network:
             private_network: 192.168.56.201
             forwarded_port:
-                gjd3tcNh8Yvn:
+                g0C9AFAAwVR9:
                     host: '8001'
                     guest: '80'
         provider:
@@ -26,7 +26,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            VkeZuNRXOQbV:
+            0OUuei9okTNJ:
                 id: vagrant-root
                 source: ./../../
                 target: /var/www
@@ -55,7 +55,7 @@ apache:
         - php
         - rewrite
     vhosts:
-        j32bg1Zs3Wom:
+        1KWllM8sOJYb:
             servername: localhost
             serveraliases:
                 - localhost
@@ -73,12 +73,11 @@ apache:
     mod_pagespeed: 0
     mod_spdy: 0
 php:
-    version: '54'
+    version: '55'
     composer: '1'
     modules:
         php:
             - cli
-            - curl
             - intl
             - mcrypt
             - tidy
@@ -108,7 +107,7 @@ mysql:
     phpmyadmin: '1'
     adminer: 0
     databases:
-        aJh0yjTMvIY1:
+        nf5m764PszJu:
             grant:
                 - ALL
             name: sitemaster
@@ -116,7 +115,7 @@ mysql:
             user: sitemaster
             password: password
             sql_file: ''
-        E6N9TGJNfk4s:
+        HA8ZE89TYmfF:
             grant:
                 - ALL
             name: sitemaster_test
