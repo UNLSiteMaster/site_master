@@ -17,5 +17,13 @@ class Listener extends PluginListener
     public function onNavigationMainCompile(MainCompile $event)
     {
         $event->addNavigationItem(Config::get('URL') . 'registry/', 'Registry');
+        
+        if ($user = User\Session::getCurrentUser()) {
+            $event->addNavigationItem($user->getURL(), 'My Sites');
+        }
+        
+        if ($user && $user->isAdmin()) {
+            $event->addNavigationItem(Config::get('URL') . 'admin/', 'Administration');
+        }
     }
 }
