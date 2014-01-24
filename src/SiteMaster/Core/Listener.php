@@ -12,6 +12,7 @@ class Listener extends PluginListener
         $event->addRoute('/^$/',           'SiteMaster\Core\Home\Home');
         $event->addRoute('/^registry\/$/', 'SiteMaster\Core\Registry\Search');
         $event->addRoute('/^logout\/$/',   'SiteMaster\Core\User\Logout');
+        $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',   'SiteMaster\Core\User\View');
     }
 
     public function onNavigationMainCompile(MainCompile $event)
