@@ -20,6 +20,11 @@ class Session
         $session->invalidate();
     }
 
+    /**
+     * Get the currently logged in user
+     * 
+     * @return bool|\SiteMaster\Core\User\User
+     */
     public static function getCurrentUser()
     {
         $session = self::getSession();
