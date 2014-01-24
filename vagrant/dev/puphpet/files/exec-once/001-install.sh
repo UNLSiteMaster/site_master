@@ -1,4 +1,4 @@
-SITEMASTER_BASEDIR="/var/www"
+SITEMASTER_BASEDIR="/var/www/html"
 SITEMASTER_INSTALL="scripts/install.php"
 
 echo "installing sitemaster"
@@ -12,15 +12,15 @@ git submodule update
 php $SITEMASTER_INSTALL
 
 #copy .htaccess
-if [ ! -f /var/www/.htaccess ]; then
+if [ ! -f ${SITEMASTER_BASEDIR}/.htaccess ]; then
     echo "Creating .htaccess"
-    cp /var/www/sample.htaccess /var/www/.htaccess
+    cp ${SITEMASTER_BASEDIR}/sample.htaccess ${SITEMASTER_BASEDIR}/.htaccess
 fi
 
 #copy config
-if [ ! -f /var/www/config.inc.php ]; then
+if [ ! -f ${SITEMASTER_BASEDIR}/config.inc.php ]; then
     echo "Creating config.inc.php"
-    cp /var/www/config.sample.php /var/www/config.inc.php
+    cp ${SITEMASTER_BASEDIR}/config.sample.php ${SITEMASTER_BASEDIR}/config.inc.php
 fi
 
 echo "FINISHED installing sitemaster"

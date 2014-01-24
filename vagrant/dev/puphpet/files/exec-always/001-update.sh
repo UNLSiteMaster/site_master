@@ -1,4 +1,4 @@
-SITEMASTER_BASEDIR="/var/www"
+SITEMASTER_BASEDIR="/var/www/html"
 SITEMASTER_UPDATE="scripts/update.php"
 
 echo "updating sitemaster"
