@@ -3,6 +3,7 @@
 namespace SiteMaster\Core\User;
 
 use DB\Record;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Sites\ApprovedForUser;
@@ -111,5 +112,15 @@ class User extends Record
         }
         
         return true;
+    }
+
+    /**
+     * Get the view URL for this user
+     * 
+     * @return string
+     */
+    public function getURL()
+    {
+        return Config::get('URL') . 'users/' . $this->provider . '/' . $this->uid . '/';
     }
 }
