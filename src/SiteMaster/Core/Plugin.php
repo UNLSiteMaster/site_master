@@ -2,6 +2,7 @@
 
 namespace SiteMaster\Core;
 
+use SiteMaster\Core\Events\Navigation\MainCompile;
 use SiteMaster\Core\Plugin\PluginInterface;
 use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Registry\Site\Role;
@@ -122,6 +123,11 @@ class Plugin extends PluginInterface
         $listeners[] = array(
             'event'    => RoutesCompile::EVENT_NAME,
             'listener' => array($listener, 'onRoutesCompile')
+        );
+
+        $listeners[] = array(
+            'event'    => MainCompile::EVENT_NAME,
+            'listener' => array($listener, 'onNavigationMainCompile')
         );
 
         return $listeners;
