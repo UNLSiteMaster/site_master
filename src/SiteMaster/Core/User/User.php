@@ -98,4 +98,18 @@ class User extends Record
         
         return $this->uid;
     }
+
+    /**
+     * Determine if this user is an admin
+     * 
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        if ($this->role != 'ADMIN') {
+            return false;
+        }
+        
+        return true;
+    }
 }
