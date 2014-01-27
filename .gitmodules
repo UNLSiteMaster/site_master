@@ -1,6 +1,6 @@
-[submodule "vendor/unl/RegExpRouter"]
-	path = vendor/unl/RegExpRouter
+[submodule "vendor/unl_submodules/RegExpRouter"]
+	path = vendor/unl_submodules/RegExpRouter
 	url = https://github.com/unl/RegExpRouter.git
-[submodule "vendor/unl/DB"]
-	path = vendor/unl/DB
+[submodule "vendor/unl_submodules/DB"]
+	path = vendor/unl_submodules/DB
 	url = https://github.com/unl/DB.git
