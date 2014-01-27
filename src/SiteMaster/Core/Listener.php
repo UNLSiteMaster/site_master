@@ -2,6 +2,7 @@
 namespace SiteMaster\Core;
 
 use SiteMaster\Core\Events\Navigation\MainCompile;
+use SiteMaster\Core\Events\Navigation\SubCompile;
 use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Plugin\PluginListener;
 
@@ -15,6 +16,11 @@ class Listener extends PluginListener
         $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',   'SiteMaster\Core\User\View');
     }
 
+    /**
+     * Compile primary navigation
+     * 
+     * @param MainCompile $event
+     */
     public function onNavigationMainCompile(MainCompile $event)
     {
         $event->addNavigationItem(Config::get('URL') . 'registry/', 'Registry');
@@ -25,6 +31,26 @@ class Listener extends PluginListener
         
         if ($user && $user->isAdmin()) {
             $event->addNavigationItem(Config::get('URL') . 'admin/', 'Administration');
+        }
+    }
+
+    /**
+     * Compile sub navigation
+     * 
+     * @param SubCompile $event
+     */
+    public function onNavigationSubCompile(SubCompile $event)
+    {
+        if ($user = User\Session::getCurrentUser()) {
+            if ($event->isFor($user->getURL())) {
+                $event->addNavigationItem(Config::get('URL') . 'sites/add/', 'Add a site');
+            }
+        }
+        
+        switch ($event->getFor()) {
+            case Config::get('URL') . 'registry/':
+                $event->addNavigationItem(Config::get('URL') . 'registry/all', 'All Sites');
+                break;
         }
     }
 }

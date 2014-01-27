@@ -16,7 +16,7 @@
     </ul>
     <section class="top-bar-section">
         <!-- Left Nav Section -->
-        <ul class="left">
+        <ul class="left has-dropdown">
             <?php
             $mainNav = \SiteMaster\Core\Plugin\PluginManager::getManager()->dispatchEvent(
                 \SiteMaster\Core\Events\Navigation\MainCompile::EVENT_NAME,
