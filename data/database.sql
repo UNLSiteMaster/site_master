@@ -26,6 +26,9 @@ CREATE  TABLE IF NOT EXISTS `sites` (
   `base_url` VARCHAR(255) NOT NULL COMMENT 'the base url of the site' ,
   `title` VARCHAR(255) NULL COMMENT 'The title of the site' ,
   `support_email` VARCHAR(45) NULL COMMENT 'The support email for the site' ,
+  `last_connection_error` DATETIME NULL ,
+  `http_code` INT(10) NULL ,
+  `curl_code` INT(10) NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `baseurl_UNIQUE` (`base_url` ASC) )
 ENGINE = InnoDB;
@@ -65,6 +68,8 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `roles` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `role_name` VARCHAR(45) NOT NULL ,
+  `description` LONGTEXT NULL ,
+  `protected` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'A protected role means that only a manager can assign/approve it' ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `rolename_UNIQUE` (`role_name` ASC) )
 ENGINE = InnoDB;
