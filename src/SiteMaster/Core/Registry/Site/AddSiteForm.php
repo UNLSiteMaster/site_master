@@ -25,7 +25,7 @@ class AddSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public function getURL()
     {
-        return Config::get('URL') . 'sites/add';
+        return Config::get('URL') . 'sites/add/';
 
     }
 
