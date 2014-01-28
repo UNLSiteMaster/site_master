@@ -23,6 +23,8 @@ class Controller
         $this->route();
 
         try {
+            $this->verifyModel();
+            
             if (!empty($_POST)) {
                 $this->handlePost();
             }
@@ -65,16 +67,27 @@ class Controller
      */
     public function run()
     {
-        if (!isset($this->options['model'])
-            || false === $this->options['model']) {
-            throw new RuntimeException('Un-registered view', 404);
-        }
-
         $this->output = new $this->options['model']($this->options);
 
         if (!$this->output instanceof ViewableInterface) {
             throw new RuntimeException("All Output must be an instance of \\SiteMaster\\Core\\ViewableInterface");
         }
+    }
+
+    /**
+     * Verify that a model has been requested
+     * 
+     * @return bool
+     * @throws RuntimeException
+     */
+    public function verifyModel()
+    {
+        if (!isset($this->options['model'])
+            || false === $this->options['model']) {
+            throw new RuntimeException('Un-registered view', 404);
+        }
+        
+        return true;
     }
 
     public function handlePost()
