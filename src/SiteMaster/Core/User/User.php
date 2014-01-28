@@ -3,6 +3,7 @@
 namespace SiteMaster\Core\User;
 
 use DB\Record;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Sites\ApprovedForUser;
@@ -97,5 +98,29 @@ class User extends Record
         }
         
         return $this->uid;
+    }
+
+    /**
+     * Determine if this user is an admin
+     * 
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        if ($this->role != 'ADMIN') {
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Get the view URL for this user
+     * 
+     * @return string
+     */
+    public function getURL()
+    {
+        return Config::get('URL') . 'users/' . $this->provider . '/' . $this->uid . '/';
     }
 }

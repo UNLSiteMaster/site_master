@@ -6,6 +6,30 @@
     <title>Foundation | Welcome</title>
     <link rel="stylesheet" href="<?php echo \SiteMaster\Core\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/css/foundation.css" />
     <script src="<?php echo \SiteMaster\Core\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/modernizr.js"></script>
+    
+    <?php
+    $style_sheets_event = \SiteMaster\Core\Plugin\PluginManager::getManager()->dispatchEvent(
+        \SiteMaster\Core\Events\Theme\RegisterStyleSheets::EVENT_NAME,
+        new \SiteMaster\Core\Events\Theme\RegisterStyleSheets()
+    );
+
+    foreach ($style_sheets_event->getStyleSheets() as $url=>$media) {
+        ?>
+        <link rel="stylesheet" href="<?php echo $url?>" media="<?php echo $media ?>"/>
+        <?php
+    }
+    
+    $scripts_event = \SiteMaster\Core\Plugin\PluginManager::getManager()->dispatchEvent(
+        \SiteMaster\Core\Events\Theme\RegisterScripts::EVENT_NAME,
+        new \SiteMaster\Core\Events\Theme\RegisterScripts()
+    );
+
+    foreach ($scripts_event->getScripts() as $url=>$type) {
+        ?>
+        <script src="<?php echo $url?>" type="<?php echo $type ?>"></script>
+        <?php
+    }
+    ?>
 </head>
 <body>
 <nav class="top-bar" data-topbar>
@@ -16,7 +40,7 @@
     </ul>
     <section class="top-bar-section">
         <!-- Left Nav Section -->
-        <ul class="left">
+        <ul class="left has-dropdown">
             <?php
             $mainNav = \SiteMaster\Core\Plugin\PluginManager::getManager()->dispatchEvent(
                 \SiteMaster\Core\Events\Navigation\MainCompile::EVENT_NAME,

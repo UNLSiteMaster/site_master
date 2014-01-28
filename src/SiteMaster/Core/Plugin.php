@@ -2,6 +2,10 @@
 
 namespace SiteMaster\Core;
 
+use SiteMaster\Core\Events\Navigation\MainCompile;
+use SiteMaster\Core\Events\Navigation\SubCompile;
+use SiteMaster\Core\Events\Theme\RegisterScripts;
+use SiteMaster\Core\Events\Theme\RegisterStyleSheets;
 use SiteMaster\Core\Plugin\PluginInterface;
 use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Registry\Site\Role;
@@ -122,6 +126,26 @@ class Plugin extends PluginInterface
         $listeners[] = array(
             'event'    => RoutesCompile::EVENT_NAME,
             'listener' => array($listener, 'onRoutesCompile')
+        );
+
+        $listeners[] = array(
+            'event'    => MainCompile::EVENT_NAME,
+            'listener' => array($listener, 'onNavigationMainCompile')
+        );
+
+        $listeners[] = array(
+            'event'    => SubCompile::EVENT_NAME,
+            'listener' => array($listener, 'onNavigationSubCompile')
+        );
+
+        $listeners[] = array(
+            'event'    => RegisterStyleSheets::EVENT_NAME,
+            'listener' => array($listener, 'onThemeRegisterStyleSheets')
+        );
+
+        $listeners[] = array(
+            'event'    => RegisterScripts::EVENT_NAME,
+            'listener' => array($listener, 'onThemeRegisterScripts')
         );
 
         return $listeners;

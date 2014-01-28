@@ -3,6 +3,8 @@ namespace SiteMaster\Plugins\Theme_Foundation;
 
 use SiteMaster\Core\Plugin\PluginInterface;
 use SiteMaster\Core\Events\RegisterTheme;
+use SiteMaster\Core\Events\Theme\RegisterScripts;
+use SiteMaster\Core\Events\Theme\RegisterStyleSheets;
 
 class Plugin extends PluginInterface
 {
@@ -77,6 +79,16 @@ class Plugin extends PluginInterface
         $listeners[] = array(
             'event'    => RegisterTheme::EVENT_NAME,
             'listener' => array($listener, 'onRegisterTheme')
+        );
+
+        $listeners[] = array(
+            'event'    => RegisterStyleSheets::EVENT_NAME,
+            'listener' => array($listener, 'onThemeRegisterStyleSheets')
+        );
+
+        $listeners[] = array(
+            'event'    => RegisterScripts::EVENT_NAME,
+            'listener' => array($listener, 'onThemeRegisterScripts')
         );
 
         return $listeners;
