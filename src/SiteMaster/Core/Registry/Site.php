@@ -5,10 +5,14 @@ use DB\Record;
 
 class Site extends Record
 {
-    public $id;               //int required
-    public $base_url;         //varchar required
-    public $title;            //varchar
-    public $support_email;    //varchar
+    public $id;                    //int required
+    public $base_url;              //varchar required
+    public $title;                 //varchar
+    public $support_email;         //varchar
+    public $last_connection_error; //datetime
+    public $http_code;             //int
+    public $curl_code;             //int
+    
 
     public function keys()
     {
