@@ -37,11 +37,16 @@ class Plugin extends PluginInterface
         
         //Set up the default roles
         if (!Role::getByRoleName('manager')) {
-            Role::createRole('manager');
+            Role::createRole('manager', array(
+                'protected' => 'YES',
+                'description' => 'A manager can manually add/remove/approve members and roles'
+            ));
         }
         
         if (!Role::getByRoleName('developer')) {
-            Role::createRole('developer');
+            Role::createRole('developer', array(
+                'description' => 'This member is responsible for developing the site code'
+            ));
         }
         
         return true;
