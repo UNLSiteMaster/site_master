@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Registry;
 
 use DB\Record;
+use SiteMaster\Core\Config;
 
 class Site extends Record
 {
@@ -104,5 +105,15 @@ class Site extends Record
         }
         
         return $this->base_url;
+    }
+    
+    public function getURL()
+    {
+        return Config::get('URL') . 'sites/' . $this->id . '/';
+    }
+    
+    public function getJoinURL()
+    {
+        return $this->getURL() . 'join/';
     }
 }
