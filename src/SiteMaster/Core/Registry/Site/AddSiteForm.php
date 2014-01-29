@@ -22,6 +22,9 @@ class AddSiteForm implements ViewableInterface, PostHandlerInterface
     function __construct($options = array())
     {
         $this->options += $options;
+
+        //Require login
+        Session::requireLogin();
     }
 
     /**
