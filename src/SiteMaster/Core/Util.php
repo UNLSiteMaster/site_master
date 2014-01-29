@@ -251,4 +251,27 @@ class Util
         
         return false;
     }
+
+    /**
+     * Get a page title via it's <title> tag
+     * 
+     * @param $url
+     * @return string
+     */
+    public static function getPageTitle($url)
+    {
+        $page = @file_get_contents($url);
+
+        if (strlen($page)) {
+            $results = array();
+
+            preg_match("/\<title\>(.*)\<\/title\>/", $page, $results);
+
+            if (isset($results[1])) {
+                return $results[1];
+            }
+        }
+
+        return "unknown";
+    }
 }
