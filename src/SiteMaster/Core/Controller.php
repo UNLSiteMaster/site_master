@@ -25,7 +25,7 @@ class Controller
         try {
             $this->verifyModel();
             
-            if (!empty($_POST)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $this->handlePost();
             }
             $this->run();
