@@ -18,6 +18,26 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public $site = false;
 
+    /**
+     * @var bool|\SiteMaster\Core\User\
+     */
+    public $user = false;
+
+    /**
+     * @var bool|Member
+     */
+    public $membership = false;
+
+    /**
+     * @var bool|\SiteMaster\Core\Registry\Site\Member\Roles\All
+     */
+    public $user_roles = false;
+
+    /**
+     * @var bool|\SiteMaster\Core\Registry\Site\Roles\All
+     */
+    public $all_roles = false;
+
 
     function __construct($options = array())
     {
@@ -33,6 +53,14 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         
         if (!$this->site = Site::getByID($this->options['site_id'])) {
             throw new \InvalidArgumentException('Could not find that site', 400);
+        }
+
+        $this->user = Session::getCurrentUser();
+        $this->all_roles = new Roles\All();
+        $this->membership = Member::getByUserIDAndSiteID($this->user->id, $this->site->id);
+        
+        if ($this->membership) {
+            $this->user_roles = $this->membership->getRoles();
         }
     }
 
@@ -65,5 +93,22 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
     public function getEditURL()
     {
         return $this->getURL();
+    }
+
+    /**
+     * Determines if the user currently has a specific role for this site
+     * 
+     * @param $role_id
+     * @return bool
+     */
+    public function userHasRole($role_id)
+    {
+        if (!$this->user_roles) {
+            return false;
+        }
+        
+        $roles = $this->user_roles->getInnerIterator();
+        
+        return isset($roles[$role_id]);
     }
 }
