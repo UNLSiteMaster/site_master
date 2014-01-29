@@ -9,7 +9,7 @@
         ?>
         <li>
             <label>
-                <input type="checkbox" name="role_ids[]" value="<?php echo $role->id; ?>">
+                <input type="checkbox" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked ?>>
                 <?php echo $role->role_name ?> - <?php echo $role->description ?>
             </label>
         </li>
