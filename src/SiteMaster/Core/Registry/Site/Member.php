@@ -34,7 +34,7 @@ class Member extends Record
     /**
      * Get the site for this membership
      * 
-     * @return false|\SiteMaster\Registry\Site
+     * @return false|\SiteMaster\Core\Registry\Site
      */
     public function getSite()
     {
@@ -44,7 +44,7 @@ class Member extends Record
     /**
      * Get the user for this membership
      * 
-     * @return false|\SiteMaster\User\User
+     * @return false|\SiteMaster\Core\User\User
      */
     public function getUser()
     {
