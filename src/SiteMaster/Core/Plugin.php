@@ -38,13 +38,13 @@ class Plugin extends PluginInterface
         //Set up the default roles
         if (!Role::getByRoleName('admin')) {
             Role::createRole('admin', array(
-                'description' => 'This member is an administrative member of the site'
+                'description' => 'administrative member of the site'
             ));
         }
         
         if (!Role::getByRoleName('developer')) {
             Role::createRole('developer', array(
-                'description' => 'This member is responsible for developing the site code'
+                'description' => 'responsible for developing the site code'
             ));
         }
         
