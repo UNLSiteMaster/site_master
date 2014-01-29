@@ -20,7 +20,7 @@
 
     <div class="panel">
         <p>
-            Once the site is created, you can choose your role.  We will walk you though that process after you submit this form.
+            Select some roles for this site.  Once you are added, you will need to verify your membership.  We will walk you though that step next.
         </p>
     </div>
 
