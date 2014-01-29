@@ -52,4 +52,13 @@ class Role extends Record
     {
         return \SiteMaster\Core\Registry\Site\Role::getByID($this->roles_id);
     }
+
+    /**
+     * Approve this role
+     */
+    public function approve()
+    {
+        $this->approved = 'YES';
+        $this->save();
+    }
 }
