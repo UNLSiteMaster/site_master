@@ -124,6 +124,9 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
             $this->membership->removeRoles($this->getRolesToRemove($role_ids));
         }
         
+        //Reset $this->membership, because removing roles could have also removed the membership
+        $this->membership = Member::getByUserIDAndSiteID($this->user->id, $this->site->id);
+        
         //If we need to be verified, redirect them to that form
         if ($this->membership && !$this->membership->isVerified()) {
             Controller::redirect($this->site->getURL() . 'verify/');
