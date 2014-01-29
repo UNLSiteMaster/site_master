@@ -8,7 +8,6 @@ class Role extends Record
     public $id;               //int required
     public $role_name;        //varchar required
     public $description;      //longtext
-    public $protected;        //enum('YES', NO') default=no
 
     public function keys()
     {
@@ -41,7 +40,6 @@ class Role extends Record
     public static function createRole($role_name, $options = array())
     {
         $role = new self();
-        $role->protected = 'NO';
         $role->synchronizeWithArray($options);
         $role->role_name = $role_name;
         
