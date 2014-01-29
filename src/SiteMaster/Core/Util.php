@@ -134,4 +134,121 @@ class Util
         $return['result'] = $result;
         return $return;
     }
+
+    /**
+     * Validate a url and return a sanitized version of it
+     * 
+     * @param $url
+     * @param bool $verify - set to true to verify a 200 level http response for the URL
+     * @return string - the sanitized base_url
+     * @throws HTTPConnectionException
+     * @throws InvalidArgumentException
+     */
+    public static function validateBaseURL($url, $verify = false)
+    {
+        $valid_schemes = array('http', 'https');
+        $url_parts     = parse_url($url);
+        
+        if (!isset($url_parts['host'])) {
+            throw new InvalidArgumentException('Invalid host', 400);
+        }
+        
+        if (!isset($url_parts['scheme'])) {
+            $url_parts['scheme'] = 'http';
+        }
+        
+        if (!in_array($url_parts['scheme'], $valid_schemes)) {
+            throw new InvalidArgumentException('Invalid scheme', 400);
+        }
+
+        if (!isset($url_parts['path'])) {
+            throw new InvalidArgumentException('A path must be set', 400);
+        }
+        
+        if (isset($url_parts['query'])) {
+            throw new InvalidArgumentException('A query string must not be set', 400);
+        }
+
+        if (isset($url_parts['fragment'])) {
+            throw new InvalidArgumentException('A fragment must not be set', 400);
+        }
+
+        if (isset($url_parts['user'])) {
+            throw new InvalidArgumentException('A user must not be set', 400);
+        }
+
+        if (isset($url_parts['pass'])) {
+            throw new InvalidArgumentException('A password must not be set', 400);
+        }
+        
+        if (substr($url_parts['path'], -1) != '/') {
+            throw new InvalidArgumentException('The Path must end in a /', 400);
+        }
+        
+        //sanitize because things like http://www.test.com/?# are valid with the above
+        $port = '';
+        if (isset($url_parts['port'])) {
+            $port = ':' . $url_parts['port'];
+        }
+        $base_url = $url_parts['scheme'] . '://' . $url_parts['host'] . $port . $url_parts['path'];
+        
+        if ($verify) {
+            $http_info = self::getHTTPInfo($base_url);
+            if (!$http_info['okay']) {
+                throw new HTTPConnectionException('Unable to connect to ' . $base_url . ' HTTP Code: ' . $http_info['http_code'], 400);
+            }
+        }
+        
+        return $base_url;
+    }
+
+    /**
+     * @param $url
+     * @param bool $followLocation
+     *
+     * @return array
+     */
+    public static function getHTTPInfo($url, $followLocation = false)
+    {
+        $curl = curl_init($url);
+
+        curl_setopt($curl, CURLOPT_NOBODY, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 5);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, $followLocation);
+        curl_setopt($curl, CURLOPT_USERAGENT, 'UNL_SITEMASTER/1.0');
+
+        curl_exec($curl);
+
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $effective_url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+        $curl_error_no = curl_errno($curl);
+
+        curl_close($curl);
+        
+        $okay = self::httpCodeIsOkay($http_status);
+
+        return array(
+            'http_code'     => $http_status,
+            'curl_code'     => $curl_error_no,
+            'effective_url' => $effective_url,
+            'okay'          => $okay
+        );
+    }
+
+    /**
+     * Determine if the URL is okay
+     * 
+     * @param $http_code
+     * @return bool
+     */
+    public static function httpCodeIsOkay($http_code)
+    {
+        if ($http_code >= 200 && $http_code < 300) {
+            return true;
+        }
+        
+        return false;
+    }
 }
