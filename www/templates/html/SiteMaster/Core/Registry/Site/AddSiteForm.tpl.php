@@ -4,7 +4,7 @@
 
     <div class="panel">
         <p>
-            We will add you as a 'Manager' to the site.  You will have to verify that you are able to upload files to the site.  We will walk you though that process after you submit this form.
+            Once the site is created, you can choose your role.  We will walk you though that process after you submit this form.
         </p>
     </div>
     
