@@ -157,4 +157,18 @@ class Member extends Record
             Member\Role::createRoleForSiteMember($role, $this);
         }
     }
+
+    /**
+     * determine if this membership is verified
+     * 
+     * @return bool
+     */
+    public function isVerified()
+    {
+        if ($this->verified == 'YES') {
+            return true;
+        }
+        
+        return false;
+    }
 }
