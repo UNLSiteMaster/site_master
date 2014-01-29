@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster\Core\Registry\Site;
 
+use SiteMaster\Core\Controller;
+use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
 use Sitemaster\Core\User\Session;
 use SiteMaster\Core\ViewableInterface;
@@ -38,6 +40,11 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public $all_roles = false;
 
+    /**
+     * @var array The roles.id for each member_roles entry
+     */
+    public $user_role_ids = array();
+
 
     function __construct($options = array())
     {
@@ -61,6 +68,12 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         
         if ($this->membership) {
             $this->user_roles = $this->membership->getRoles();
+        }
+        
+        if ($this->user_roles) {
+            foreach ($this->user_roles as $role) {
+                $this->user_role_ids[] = $role->roles_id;
+            }
         }
     }
 
@@ -87,7 +100,63 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        $role_ids = array();
+        if (isset($post['role_ids'])) {
+            $role_ids = $post['role_ids'];
+        }
+        
+        if (!is_array($role_ids)) {
+            throw new InvalidArgumentException('roles_ids must be an array', 400);
+        }
+        
+        //Find and add all 'new' roles
+        $add_roles = $this->getRolesToAdd($role_ids);
+        if (!empty($add_roles)) {
+            if (!$this->membership) {
+                $this->membership = Member::createMembership($this->user, $this->site);
+            }
 
+            $this->membership->addRoles($add_roles);
+        }
+
+        //Find and remove all 'unselected' roles
+        if ($this->membership) {
+            $this->membership->removeRoles($this->getRolesToRemove($role_ids));
+        }
+        
+        Controller::redirect($this->site->getURL() . 'members/');
+    }
+
+    /**
+     * @param array $role_ids
+     * @return array roles.ids to add
+     */
+    protected function getRolesToAdd(array $role_ids)
+    {
+        if (!$this->user_role_ids) {
+            return $role_ids;
+        }
+
+        return array_diff(
+            array_values($role_ids),
+            array_values($this->user_role_ids)
+        );
+    }
+
+    /**
+     * @param array $role_ids
+     * @return array roles.ids to remove
+     */
+    protected function getRolesToRemove(array $role_ids)
+    {
+        if (!$this->user_role_ids) {
+            return array();
+        }
+        
+        return array_diff(
+            array_values($this->user_role_ids),
+            array_values($role_ids)
+        );
     }
 
     public function getEditURL()
@@ -103,12 +172,10 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public function userHasRole($role_id)
     {
-        if (!$this->user_roles) {
+        if (!$this->user_role_ids) {
             return false;
         }
-        
-        $roles = $this->user_roles->getInnerIterator();
-        
-        return isset($roles[$role_id]);
+
+        return in_array($role_id, $this->user_role_ids);
     }
 }
