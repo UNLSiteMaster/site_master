@@ -17,6 +17,7 @@ class Listener extends PluginListener
         $event->addRoute('/^logout\/$/',                                     'SiteMaster\Core\User\Logout');
         $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',   'SiteMaster\Core\User\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/join\/$/',            'SiteMaster\Core\registry\site\JoinSiteForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/verify\/$/',          'SiteMaster\Core\registry\site\VerifyForm');
         $event->addRoute('/^sites\/add\/$/',                                 'SiteMaster\Core\Registry\Site\AddSiteForm');
     }
 
