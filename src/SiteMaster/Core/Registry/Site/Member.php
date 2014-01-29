@@ -171,4 +171,18 @@ class Member extends Record
         
         return false;
     }
+
+    /**
+     * Verify this membership.
+     * This will also approve all pending roles.
+     */
+    public function verify()
+    {
+        $this->verified = 'YES';
+        $this->save();
+        
+        foreach ($this->getRoles() as $role) {
+            $role->approve();
+        }
+    }
 }
