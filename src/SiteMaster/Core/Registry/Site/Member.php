@@ -111,7 +111,10 @@ class Member extends Record
         
         return true;
     }
-    
+
+    /**
+     * @return Member\Roles\All
+     */
     public function getRoles()
     {
         return new Member\Roles\All(array('member_id' => $this->id));
