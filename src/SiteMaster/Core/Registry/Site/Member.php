@@ -119,4 +119,42 @@ class Member extends Record
     {
         return new Member\Roles\All(array('member_id' => $this->id));
     }
+
+    /**
+     * Remove roles for this membership
+     * 
+     * @param array $role_ids
+     */
+    public function removeRoles(array $role_ids)
+    {
+        foreach ($role_ids as $role_id) {
+            if (!$role = Member\Role::getByRoleIDANDMembershipID($role_id, $this->id)) {
+                continue;
+            }
+
+            $role->delete();
+        }
+        
+        //Check if we need to remove the membership because there are no roles left.
+        $roles = $this->getRoles();
+        if ($roles->count() == 0) {
+            $this->delete();
+        }
+    }
+
+    /**
+     * Add roles for this membership
+     * 
+     * @param array $role_ids
+     */
+    public function addRoles(array $role_ids)
+    {
+        foreach ($role_ids as $role_id) {
+            if (!$role = Role::getByID($role_id)) {
+                continue;
+            }
+
+            Member\Role::createRoleForSiteMember($role, $this);
+        }
+    }
 }
