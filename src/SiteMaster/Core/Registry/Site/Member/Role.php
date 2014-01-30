@@ -54,6 +54,20 @@ class Role extends Record
     }
 
     /**
+     * Determine if this role is approved
+     * 
+     * @return bool
+     */
+    public function isApproved()
+    {
+        if ($this->approved == 'YES') {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
      * Approve this role
      */
     public function approve()
