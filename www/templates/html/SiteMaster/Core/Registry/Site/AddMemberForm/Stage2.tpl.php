@@ -14,7 +14,7 @@
         <tr>
             <td>
                 <label>
-                    <input name="user" type="radio" />
+                    <input name="user" type="radio" required />
                     <span class="hide wdn-hide">Select <?php echo $result['first_name'] . ' ' . $result['last_name']?></span>
                 </label>
                 
