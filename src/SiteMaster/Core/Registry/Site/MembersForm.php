@@ -3,6 +3,8 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\FlashBagMessage;
+use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\UnexpectedValueException;
@@ -88,7 +90,28 @@ class MembersForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!$this->canEdit()) {
+            throw new RuntimeException('You are not allowed to edit this form', 401);
+        }
         
+        if (!empty($post['approve'])) {
+            $this->approve($post['approve']);
+        }
+        
+        Controller::redirect($this->getURL());
+    }
+    
+    public function approve(array $membership_role_ids)
+    {
+        foreach ($membership_role_ids as $id) {
+            if (!$role = Member\Role::getByID($id)) {
+                continue;
+            }
+            
+            $role->approve();
+        }
+        
+        Controller::addFlashBagMessage(new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Approved Memberships'));
     }
 
     /**
