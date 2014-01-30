@@ -152,6 +152,11 @@ class Plugin extends PluginInterface
             'listener' => array($listener, 'onThemeRegisterScripts')
         );
 
+        $listeners[] = array(
+            'event'    => Events\User\Search::EVENT_NAME,
+            'listener' => array($listener, 'onUserSearch')
+        );
+
         return $listeners;
     }
 }

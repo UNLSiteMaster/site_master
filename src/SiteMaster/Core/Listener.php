@@ -76,4 +76,13 @@ class Listener extends PluginListener
     {
         $event->addScript(Config::get('URL') . 'www/js/core.js');
     }
+    
+    public function onUserSearch(Events\User\Search $event)
+    {
+        $search = new User\Search(array('term' => $event->getSearchTerm()));
+        
+        foreach ($search as $result) {
+            $event->addResult($result->provider, $result->uid, $result->email, $result->first_name, $result->last_name);
+        }
+    }
 }
