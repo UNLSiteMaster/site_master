@@ -8,12 +8,8 @@ class All extends RecordList
 {
     public function __construct(array $options = array())
     {
-        if (!isset($options['member_id'])) {
-            throw new InvalidArgumentException('A member_id must be set', 500);
-        }
-        
         $options['array'] = self::getBySQL(array(
-            'sql'         => $this->getSQL($options['member_id']),
+            'sql'         => $this->getSQL($options),
             'returnArray' => true
         ));
 
@@ -28,13 +24,40 @@ class All extends RecordList
 
         return $options;
     }
-
-    public function getSQL($member_id)
+    
+    public function getWhere()
     {
+        $where = '';
+        
+        if (isset($this->options['member_id'])) {
+            $where .= 'site_members_id = ' . (int) $this->options['member_id'] . ' ';
+        }
+
+        if (isset($this->options['approved'])) {
+            $where .= 'approved = ' . self::escapeString($this->options['approved']) . ' ';
+        }
+        
+        if ($where == '') {
+            $where = 'true';
+        }
+        
+        return 'WHERE ' . $where;
+    }
+    
+    public function getOrderBy()
+    {
+        return 'ORDER BY roles.role_name ASC';
+    }
+
+    public function getSQL()
+    {
+        
         //Build the list
         $sql = "SELECT site_member_roles.id
                 FROM site_member_roles
-                WHERE site_members_id = " . (int)$member_id;
+                LEFT JOIN roles ON (site_member_roles.roles_id = roles.id)
+                " . $this->getWhere() . " 
+                " . $this->getOrderBy();
 
         return $sql;
     }
