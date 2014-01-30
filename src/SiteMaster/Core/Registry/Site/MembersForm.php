@@ -38,6 +38,11 @@ class MembersForm implements ViewableInterface, PostHandlerInterface
      */
     public $members = false;
 
+    /**
+     * @var bool|Member
+     */
+    public $membership = false;
+
 
     function __construct($options = array())
     {
@@ -50,6 +55,10 @@ class MembersForm implements ViewableInterface, PostHandlerInterface
 
         if (!$this->site = Site::getByID($this->options['site_id'])) {
             throw new \InvalidArgumentException('Could not find that site', 400);
+        }
+
+        if ($this->user = Session::getCurrentUser()) {
+            $this->membership = Member::getByUserIDAndSiteID($this->user->id, $this->site->id);
         }
         
         $this->pending  = new Member\Roles\Pending(array('site_id'=>$this->site->id));
@@ -80,6 +89,30 @@ class MembersForm implements ViewableInterface, PostHandlerInterface
     public function handlePost($get, $post, $files)
     {
         
+    }
+
+    /**
+     * Determine if this user can edit members
+     * 
+     * This includes Verifying, add/remove/approving roles
+     * 
+     * @return bool
+     */
+    public function canEdit()
+    {
+        if (!$this->user) {
+            return false;
+        }
+        
+        if (!$this->membership) {
+            return false;
+        }
+        
+        if ($this->membership->isVerified()) {
+            return true;
+        }
+        
+        return false;
     }
 
     public function getEditURL()
