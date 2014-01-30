@@ -3,8 +3,10 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\Events\User\Search;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
+use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\UnexpectedValueException;
@@ -31,10 +33,15 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
      * @var bool|\SiteMaster\Core\User\User
      */
     public $user = false;
+    
     /**
      * @var bool|Member
      */
     public $membership = false;
+    
+    public $stage = 1;
+    
+    public  $results = array();
 
 
     function __construct($options = array())
@@ -84,7 +91,37 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!isset($post['stage'])) {
+            throw new InvalidArgumentException('You must pass a stage', 400);
+        }
         
+        $this->stage = $post['stage'];
+
+        $method = 'handlePostForStage' . ($this->stage);
+        
+        $this->$method($get, $post, $files);
+        
+        $this->stage++;
+    }
+    
+    public function handlePostForStage1($get, $post, $files)
+    {
+        //get results
+        if (!isset($post['term'])) {
+            throw new InvalidArgumentException('a term must be passed', 400);
+        }
+
+        $event = PluginManager::getManager()->dispatchEvent(
+            Search::EVENT_NAME,
+            new Search($post['term'])
+        );
+        
+        $this->results = $event->getResults();
+    }
+
+    public function handlePostForStage2($get, $post, $files)
+    {
+
     }
 
     /**
