@@ -127,6 +127,10 @@ class MembersForm implements ViewableInterface, PostHandlerInterface
             return false;
         }
         
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+        
         if (!$this->membership) {
             return false;
         }
