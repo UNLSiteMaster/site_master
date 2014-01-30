@@ -3,7 +3,7 @@
 if (!$context->members->count()) {
     ?>
     There are currently no members
-<?php
+    <?php
 } else {
     ?>
     <ul>
