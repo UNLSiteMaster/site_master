@@ -36,7 +36,7 @@ class All extends RecordList
         }
 
         if (isset($this->options['approved'])) {
-            $where .= 'approved = ' . self::escapeString($this->options['approved']) . ' ';
+            $where .= 'approved = "' . self::escapeString($this->options['approved']) . '" ';
         }
         
         if ($where == '') {
