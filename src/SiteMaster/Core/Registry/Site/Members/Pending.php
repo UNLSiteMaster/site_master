@@ -32,12 +32,13 @@ class Pending extends RecordList
     public function getSQL($site_id)
     {
         //Build the list
-        $sql = "SELECT id
+        $sql = "SELECT site_members.id
                 FROM site_members
                 LEFT JOIN site_member_roles ON (site_members.id = site_member_roles.site_members_id)
+                LEFT JOIN users ON (site_members.users_id = users.id)
                 WHERE sites_id = " .  (int)$site_id . "
                     AND site_member_roles.approved = 'NO'
-                ORDER by id ASC";
+                ORDER by users.first_name ASC";
 
         return $sql;
     }
