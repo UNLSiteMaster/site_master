@@ -34,8 +34,9 @@ class Approved extends RecordList
         //Build the list
         $sql = "SELECT id
                 FROM site_members
+                LEFT JOIN site_member_roles ON (site_members.id = site_member_roles.site_members_id)
                 WHERE sites_id = " .  (int)$site_id . "
-                AND status = 'APPROVED'
+                    AND site_member_roles.approved = 'YES'
                 ORDER by id ASC";
 
         return $sql;
