@@ -92,6 +92,15 @@
     </section>
 </nav>
 
+<div class="row">
+    <div class="large-12 columns">
+        <?php
+        foreach ($app->getFlashBagMessages() as $message) {
+            echo $savvy->render($message);
+        }
+        ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="large-12 columns">
