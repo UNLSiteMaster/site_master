@@ -8,6 +8,8 @@ class All extends RecordList
 {
     public function __construct(array $options = array())
     {
+        $this->options = $options + $this->options;
+        
         $options['array'] = self::getBySQL(array(
             'sql'         => $this->getSQL($options),
             'returnArray' => true
