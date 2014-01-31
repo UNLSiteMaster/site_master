@@ -13,6 +13,7 @@ use SiteMaster\Core\UnexpectedValueException;
 use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\RequiredLoginException;
 use Sitemaster\Core\User\Session;
+use SiteMaster\Core\User\User;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\PostHandlerInterface;
@@ -30,7 +31,7 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
     public $site = false;
 
     /**
-     * @var bool|\SiteMaster\Core\User\User
+     * @var bool|User
      */
     public $user = false;
     
@@ -121,7 +122,38 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePostForStage2($get, $post, $files)
     {
+        //get results
+        if (!isset($post['user'])) {
+            throw new InvalidArgumentException('a user must be selected', 400);
+        }
 
+        $user_details = explode('?', $post['user']);
+        
+        if (count($user_details) !== 2) {
+            throw new UnexpectedValueException('A provider and uid must be specified');
+        }
+        
+        if (!$user = User::getByUIDAndProvider($user_details[0], $user_details[1])) {
+            //Get user details
+            $event = PluginManager::getManager()->dispatchEvent(
+                Search::EVENT_NAME,
+                new Search($user_details[1])
+            );
+            
+            $fields = array();
+            
+            $results = $event->getResults();
+
+            if (isset($results[$post['user']])) {
+                $fields = $results[$post['user']];
+            }
+            
+            if (!$user = User::createUser($user_details[1], $user_details[0], $fields)) {
+                throw new RuntimeException('Unable to create that user', 500);
+            }
+        }
+        
+        Controller::redirect($this->site->getJoinURL() . $user->id . '/');
     }
 
     /**
