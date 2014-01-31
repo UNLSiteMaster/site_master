@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Registry\Site;
 
+use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\RuntimeException;
@@ -85,6 +86,10 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
         if ($this->verify_membership->isVerified()) {
             throw new \InvalidArgumentException('That membership is already verified', 400);
         }
+
+        if (!$this->canEdit()) {
+            throw new AccessDeniedException('You do not have permission to join this user', 403);
+        }
     }
 
     /**
@@ -110,6 +115,47 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
     public function getPageTitle()
     {
         return 'Verify Membership for ' . $this->verify_user->getName() . ' at ' . $this->site->base_url;
+    }
+
+    /**
+     * Determine if the current_user can join the join_user
+     *
+     * @return bool
+     */
+    public function canEdit()
+    {
+        if (!$this->current_user) {
+            //no current user set
+            return false;
+        }
+
+        if (!$this->verify_user) {
+            //No join user set
+            return false;
+        }
+
+        if ($this->current_user->isAdmin()) {
+            //admin can join anyone
+            return true;
+        }
+
+        if ($this->current_user->id == $this->verify_user->id) {
+            //The current user can verify their self
+            return true;
+        }
+
+        if (!$this->current_user_membership) {
+            //The current user needs a membership if they want to verify someone else.
+            return false;
+        }
+
+        if ($this->current_user_membership->isVerified()) {
+            //The current user needs to be verified to verify someone else
+            return true;
+        }
+
+        //Default to false
+        return false;
     }
 
     public function handlePost($get, $post, $files)
