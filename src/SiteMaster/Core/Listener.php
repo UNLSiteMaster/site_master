@@ -12,15 +12,15 @@ class Listener extends PluginListener
 {
     public function onRoutesCompile(RoutesCompile $event)
     {
-        $event->addRoute('/^$/',                                             'SiteMaster\Core\Home\Home');
-        $event->addRoute('/^registry\/$/',                                   'SiteMaster\Core\Registry\Search');
-        $event->addRoute('/^logout\/$/',                                     'SiteMaster\Core\User\Logout');
-        $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',   'SiteMaster\Core\User\View');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/join\/$/',            'SiteMaster\Core\registry\site\JoinSiteForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/$/',         'SiteMaster\Core\registry\site\MembersForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',    'SiteMaster\Core\registry\site\AddMemberForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/verify\/$/',          'SiteMaster\Core\registry\site\VerifyForm');
-        $event->addRoute('/^sites\/add\/$/',                                 'SiteMaster\Core\Registry\Site\AddSiteForm');
+        $event->addRoute('/^$/',                                                            'SiteMaster\Core\Home\Home');
+        $event->addRoute('/^registry\/$/',                                                  'SiteMaster\Core\Registry\Search');
+        $event->addRoute('/^logout\/$/',                                                    'SiteMaster\Core\User\Logout');
+        $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',                  'SiteMaster\Core\User\View');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/join\/?((?P<users_id>(\d*))\/)$/',   'SiteMaster\Core\registry\site\JoinSiteForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/$/',                        'SiteMaster\Core\registry\site\MembersForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',                   'SiteMaster\Core\registry\site\AddMemberForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/verify\/?((?P<users_id>(\d*))\/)$/', 'SiteMaster\Core\registry\site\VerifyForm');
+        $event->addRoute('/^sites\/add\/$/',                                                'SiteMaster\Core\Registry\Site\AddSiteForm');
     }
 
     /**
