@@ -144,17 +144,18 @@ class Member extends Record
 
     /**
      * Add roles for this membership
-     * 
+     *
      * @param array $role_ids
+     * @param string $approved
      */
-    public function addRoles(array $role_ids)
+    public function addRoles(array $role_ids, $approved = 'NO')
     {
         foreach ($role_ids as $role_id) {
             if (!$role = Role::getByID($role_id)) {
                 continue;
             }
 
-            Member\Role::createRoleForSiteMember($role, $this);
+            Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved));
         }
     }
 
