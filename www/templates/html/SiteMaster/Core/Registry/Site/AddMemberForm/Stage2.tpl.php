@@ -9,12 +9,12 @@
             <th>Email</th>
         </tr>
     <?php
-    foreach ($context->results as $result) {
+    foreach ($context->results as $key=>$result) {
         ?>
         <tr>
             <td>
                 <label>
-                    <input name="user" type="radio" required />
+                    <input name="user" type="radio" value="<?php echo $key; ?>" required />
                     <span class="hide wdn-hide">Select <?php echo $result['first_name'] . ' ' . $result['last_name']?></span>
                 </label>
                 
