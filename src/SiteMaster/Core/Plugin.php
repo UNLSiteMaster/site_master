@@ -143,6 +143,11 @@ class Plugin extends PluginInterface
         );
 
         $listeners[] = array(
+            'event'    => Events\Navigation\SiteCompile::EVENT_NAME,
+            'listener' => array($listener, 'onNavigationSiteCompile')
+        );
+
+        $listeners[] = array(
             'event'    => RegisterStyleSheets::EVENT_NAME,
             'listener' => array($listener, 'onThemeRegisterStyleSheets')
         );

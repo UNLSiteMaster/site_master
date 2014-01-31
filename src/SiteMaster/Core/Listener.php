@@ -63,11 +63,30 @@ class Listener extends PluginListener
     }
 
     /**
+     * Compile sub navigation
+     *
+     * @param \SiteMaster\Core\Events\Navigation\SiteCompile|\SiteMaster\Core\Events\Navigation\SubCompile $event
+     */
+    public function onNavigationSiteCompile(Events\Navigation\SiteCompile $event)
+    {
+        $site = $event->getSite();
+        
+        $event->addNavigationItem($site->getURL(), 'Pages');
+        $event->addNavigationItem($site->getURL() . 'members/', 'Members');
+
+        if ($user = User\Session::getCurrentUser()) {
+            $event->addNavigationItem($site->getURL() . 'join/', 'Join');
+        }
+    }
+
+    /**
      * @param RegisterStyleSheets $event
      */
     public function onThemeRegisterStyleSheets(RegisterStyleSheets $event)
     {
         $event->addStyleSheet(Config::get('URL') . 'www/css/core.css');
+        
+        $event->addStyleSheet(Config::get('URL') . 'www/css/vendor/flexnav.css');
     }
 
     /**
@@ -75,7 +94,10 @@ class Listener extends PluginListener
      */
     public function onThemeRegisterScripts(RegisterScripts $event)
     {
+        $event->addScript(Config::get('URL') . 'www/js/vendor/modernizr.js');
+        $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.js');
         $event->addScript(Config::get('URL') . 'www/js/core.js');
+        $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.flexnav.min.js');
     }
     
     public function onUserSearch(Events\User\Search $event)
