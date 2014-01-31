@@ -9,6 +9,7 @@ use Sitemaster\Core\User\Session;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\PostHandlerInterface;
+use SiteMaster\Core\User\User;
 
 class VerifyForm implements ViewableInterface, PostHandlerInterface
 {
@@ -23,14 +24,28 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
     public $site = false;
 
     /**
-     * @var bool|\SiteMaster\Core\User\
+     * @var bool|\SiteMaster\Core\User\User
      */
-    public $user = false;
+    public $current_user = false;
 
     /**
+     * @var bool|\SiteMaster\Core\User\User
+     */
+    public $verify_user = false;
+
+    /**
+     * The membership for the current_user
+     * 
      * @var bool|Member
      */
-    public $membership = false;
+    public $current_user_membership = false;
+
+    /**
+     * The membership for the verify_user
+     *
+     * @var bool|Member
+     */
+    public $verify_user_membership = false;
 
 
     function __construct($options = array())
@@ -39,8 +54,6 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
 
         //Require login
         Session::requireLogin();
-
-        $this->user = Session::getCurrentUser();
 
         //get the site
         if (!isset($this->options['site_id'])) {
@@ -51,11 +64,25 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
             throw new \InvalidArgumentException('Could not find that site', 400);
         }
 
-        if (!$this->membership = Member::getByUserIDAndSiteID($this->user->id, $this->site->id)) {
+        $this->current_user = Session::getCurrentUser();
+        $this->current_user_membership = Member::getByUserIDAndSiteID($this->current_user->id, $this->site->id);
+
+        //Set the verify_user
+        if (isset($this->options['users_id'])) {
+            if (!$this->verify_user = User::getByID($this->options['users_id'])) {
+                throw new \InvalidArgumentException('Could not find that user', 400);
+            }
+            $this->verify_membership = Member::getByUserIDAndSiteID($this->verify_user->id, $this->site->id);
+        } else {
+            $this->verify_user = $this->current_user;
+            $this->verify_user_membership = $this->current_user_membership;
+        }
+
+        if (!$this->verify_membership = Member::getByUserIDAndSiteID($this->verify_user->id, $this->site->id)) {
             throw new \InvalidArgumentException('Could not find a membership to verify', 400);
         }
         
-        if ($this->membership->isVerified()) {
+        if ($this->verify_membership->isVerified()) {
             throw new \InvalidArgumentException('That membership is already verified', 400);
         }
     }
@@ -77,7 +104,7 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
      */
     public function getPageTitle()
     {
-        return 'Verify Membership for ' . $this->user->getName() . ' at ' . $this->site->base_url;
+        return 'Verify Membership for ' . $this->verify_user->getName() . ' at ' . $this->site->base_url;
     }
 
     public function handlePost($get, $post, $files)
@@ -102,7 +129,7 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
             throw new RuntimeException('Unable to find the verification file.  Please make sure it is present and try again.', 400);
         }
         
-        $this->membership->verify();
+        $this->verify_membership->verify();
         
         Controller::redirect($this->site->getURL() . 'members/');
     }
@@ -114,6 +141,6 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
 
     public function getVerificationURL()
     {
-        return $this->site->base_url . 'sitemaster_v_' . $this->membership->verification_code . '.txt';
+        return $this->site->base_url . 'sitemaster_v_' . $this->verify_membership->verification_code . '.txt';
     }
 }
