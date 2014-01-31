@@ -118,7 +118,7 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
     }
 
     /**
-     * Determine if the current_user can join the join_user
+     * Determine if the current_user can verify the verify_user
      *
      * @return bool
      */
