@@ -20,6 +20,23 @@ if (!$context->members->count()) {
             <ul>
                 <li>
                     <span class="member-name"><?php echo $user->getName() ?></span>
+                    <div class="options">
+                        <?php
+                        if ($member->isVerified()) {
+                            echo "Verified";
+                        } else if ($can_edit) {
+                            ?>
+                            <a href="<?php echo $context->site->getURL()?>verify/<?php echo $user->id;?>/">Verify</a>
+                            <?php
+                        }
+
+                        if ($can_edit) {
+                            ?>
+                            <a href="<?php echo $context->site->getURL()?>join/<?php echo $user->id;?>/">Edit Roles</a>
+                            <?php
+                        }
+                        ?>
+                    </div>
                     <ul>
                         <?php
                         foreach ($roles as $role) {
