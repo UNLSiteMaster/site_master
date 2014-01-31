@@ -193,7 +193,10 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
             }
 
             $approved = 'NO';
-            $this->join_user_membership->addRoles($add_roles);
+            if ($this->approveRoles()) {
+                $approved = 'YES';
+            }
+            $this->join_user_membership->addRoles($add_roles, $approved);
         }
 
         //Find and remove all 'unselected' roles
@@ -211,6 +214,37 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         
         //Otherwise, redirect them to the members page for this site
         Controller::redirect($this->site->getURL() . 'members/');
+    }
+
+    /**
+     * Determine if roles should be approved
+     * 
+     * @return bool
+     */
+    public function approveRoles()
+    {
+        if ($this->current_user->isAdmin()) {
+            //Approve roles if the current user is an admin
+            return true;
+        }
+        
+        if ($this->current_user_membership && $this->current_user_membership->isVerified()) {
+            //Approve roles if the current user is verified
+            return true;
+        }
+        
+        if (!$this->join_user_membership) {
+            //Don't approve roles if the join user is not yet a member
+            return false;
+        }
+        
+        if ($this->join_user_membership->isVerified()) {
+            //Approve roles if the join_user is verified
+            return true;
+        }
+        
+        //Default to not approving roles
+        return false;
     }
 
     /**
