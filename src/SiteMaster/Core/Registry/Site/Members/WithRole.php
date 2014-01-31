@@ -43,6 +43,7 @@ class WithRole extends RecordList
                 WHERE sites_id = " .  (int)$site_id . "
                 AND site_member_roles.approved = 'YES'
                 AND site_member_roles.roles_id = " . (int)$role_id . "
+                GROUP BY site_members.id
                 ORDER by users.first_name ASC";
 
         return $sql;

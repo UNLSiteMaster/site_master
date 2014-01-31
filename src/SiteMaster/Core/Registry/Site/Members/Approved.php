@@ -38,6 +38,7 @@ class Approved extends RecordList
                 LEFT JOIN users ON (site_members.users_id = users.id)
                 WHERE sites_id = " .  (int)$site_id . "
                     AND site_member_roles.approved = 'YES'
+                GROUP BY site_members.id
                 ORDER by users.first_name ASC";
 
         return $sql;
