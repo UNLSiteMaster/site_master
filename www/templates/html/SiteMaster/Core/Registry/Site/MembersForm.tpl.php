@@ -77,7 +77,7 @@ if ($can_edit) {
         
         <h2>Other Options</h2>
 
-        <a href="#" class="wdn-button button">Add a member</a>
+        <a href="<?php echo $context->site->getURL()?>members/add/" class="wdn-button button">Add a member</a>
     </form>
     <?php
 }
