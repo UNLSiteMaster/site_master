@@ -94,7 +94,12 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
      */
     public function getURL()
     {
-        return $this->site->getURL() . 'verify/';
+        $url = $this->site->getURL() . 'verify/';
+        if ($this->verify_user->id != $this->current_user->id) {
+            $url .= $this->verify_user->id . '/';
+        }
+        
+        return $url;
     }
 
     /**
