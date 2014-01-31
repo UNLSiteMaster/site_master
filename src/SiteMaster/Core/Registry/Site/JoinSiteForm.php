@@ -120,7 +120,12 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public function getURL()
     {
-        return $this->site->getJoinURL();
+        $url = $this->site->getJoinURL();
+        if ($this->join_user->id != $this->current_user->id) {
+            $url .= $this->join_user->id . '/';
+        }
+        
+        return $url;
 
     }
 
@@ -212,7 +217,7 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         
         //If we need to be verified, redirect them to that form
         if ($this->needsVerification()) {
-            Controller::redirect($this->site->getURL() . 'verify/', $notice);
+            Controller::redirect($this->site->getURL() . 'verify/' . $this->join_user->id . '/', $notice);
         }
         
         //Otherwise, redirect them to the members page for this site
