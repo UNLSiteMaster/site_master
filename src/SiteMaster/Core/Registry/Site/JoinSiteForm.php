@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
 use Sitemaster\Core\User\Session;
@@ -207,13 +208,15 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         //Reset $this->join_user_membership, because removing roles could have also removed the membership
         $this->join_user_membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         
+        $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Roles were added for ' . $this->join_user->getName());
+        
         //If we need to be verified, redirect them to that form
         if ($this->needsVerification()) {
-            Controller::redirect($this->site->getURL() . 'verify/');
+            Controller::redirect($this->site->getURL() . 'verify/', $notice);
         }
         
         //Otherwise, redirect them to the members page for this site
-        Controller::redirect($this->site->getURL() . 'members/');
+        Controller::redirect($this->site->getURL() . 'members/', $notice);
     }
 
     /**
