@@ -66,14 +66,13 @@
 
 
 .site-nav {
-    border: 1px solid black;
-    background-color: black;
+    background-color: #748b80;
     color: white;
     padding: 5px;
 }
 
 .site-nav nav {
-    background-color: #a6a6a2;
+    background-color: #eaedeb;
 }
 
 .site-nav nav ul {
@@ -86,4 +85,8 @@
 
 .site-nav .title {
     font-size: .75em;
+}
+
+.site-nav .flexnav li a {
+    background-color: #bfc9c4;
 }
