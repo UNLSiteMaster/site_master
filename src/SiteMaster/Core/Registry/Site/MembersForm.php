@@ -85,7 +85,7 @@ class MembersForm implements ViewableInterface, PostHandlerInterface
      */
     public function getPageTitle()
     {
-        return 'Members of ' . $this->site->base_url;
+        return 'Site Members';
     }
 
     public function handlePost($get, $post, $files)

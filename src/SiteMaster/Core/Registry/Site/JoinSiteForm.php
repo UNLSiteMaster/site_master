@@ -136,7 +136,7 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public function getPageTitle()
     {
-        return 'Join ' . $this->join_user->getName() . ' to ' . $this->site->base_url;
+        return 'Join for ' . $this->join_user->getName();
     }
 
     /**

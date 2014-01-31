@@ -47,6 +47,6 @@ class View implements ViewableInterface
      */
     public function getPageTitle()
     {
-        return $this->site->getTitle();
+        return 'Site Home';
     }
 }

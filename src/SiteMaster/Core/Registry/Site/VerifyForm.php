@@ -115,7 +115,7 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
      */
     public function getPageTitle()
     {
-        return 'Verify Membership for ' . $this->verify_user->getName() . ' at ' . $this->site->base_url;
+        return 'Verify Membership for ' . $this->verify_user->getName();
     }
 
     /**

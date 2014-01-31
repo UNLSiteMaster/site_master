@@ -87,7 +87,7 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
      */
     public function getPageTitle()
     {
-        return 'Add a member to ' . $this->site->base_url;
+        return 'Add a Member';
     }
 
     public function handlePost($get, $post, $files)
