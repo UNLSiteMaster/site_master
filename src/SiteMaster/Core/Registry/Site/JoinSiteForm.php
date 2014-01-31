@@ -85,7 +85,7 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
 
 
         //Set the join_user
-        if (isset($this->options['users_id'])) {
+        if (isset($this->options['users_id']) && !empty($this->options['users_id'])) {
             if (!$this->join_user = User::getByID($this->options['users_id'])) {
                 throw new \InvalidArgumentException('Could not find that user', 400);
             }

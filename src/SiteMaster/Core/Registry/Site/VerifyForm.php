@@ -70,7 +70,7 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
         $this->current_user_membership = Member::getByUserIDAndSiteID($this->current_user->id, $this->site->id);
 
         //Set the verify_user
-        if (isset($this->options['users_id'])) {
+        if (isset($this->options['users_id']) && !empty($this->options['users_id'])) {
             if (!$this->verify_user = User::getByID($this->options['users_id'])) {
                 throw new \InvalidArgumentException('Could not find that user', 400);
             }
