@@ -33,10 +33,19 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
     public $current_user = false;
 
     /**
+     * The membership for the join_user
+     * 
      * @var bool|Member
      */
-    public $membership = false;
+    public $join_user_membership = false;
 
+    /**
+     * The membership for the current_user
+     *
+     * @var bool|Member
+     */
+    public $current_user_membership = false;
+    
     /**
      * @var bool|\SiteMaster\Core\Registry\Site\Member\Roles\All
      */
@@ -71,14 +80,18 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
 
         //Set the current user
         $this->current_user = Session::getCurrentUser();
-        
+        $this->current_user_membership = Member::getByUserIDAndSiteID($this->current_user->id, $this->site->id);
+
+
         //Set the join_user
         if (isset($this->options['users_id'])) {
             if (!$this->join_user = User::getByID($this->options['users_id'])) {
                 throw new \InvalidArgumentException('Could not find that user', 400);
             }
+            $this->join_user_membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         } else {
             $this->join_user = $this->current_user;
+            $this->join_user_membership = $this->current_user_membership;
         }
         
         if (!$this->canEdit()) {
@@ -87,10 +100,9 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         
         //Gather available and current roles
         $this->all_roles = new Roles\All();
-        $this->membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         
-        if ($this->membership) {
-            $this->user_roles = $this->membership->getRoles();
+        if ($this->join_user_membership) {
+            $this->user_roles = $this->join_user_membership->getRoles();
         }
         
         if ($this->user_roles) {
@@ -148,12 +160,12 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
             return true;
         }
         
-        if (!$membership = Member::getByUserIDAndSiteID($this->current_user->id, $this->site->id)) {
+        if (!$this->current_user_membership) {
             //The current user needs a membership if they want to join someone else.
             return false;
         }
         
-        if ($membership->isVerified()) {
+        if ($this->current_user_membership->isVerified()) {
             //The current user needs to be verified to join someone else
             return true;
         }
@@ -176,23 +188,24 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         //Find and add all 'new' roles
         $add_roles = $this->getRolesToAdd($role_ids);
         if (!empty($add_roles)) {
-            if (!$this->membership) {
-                $this->membership = Member::createMembership($this->join_user, $this->site);
+            if (!$this->join_user_membership) {
+                $this->join_user_membership = Member::createMembership($this->join_user, $this->site);
             }
 
-            $this->membership->addRoles($add_roles);
+            $approved = 'NO';
+            $this->join_user_membership->addRoles($add_roles);
         }
 
         //Find and remove all 'unselected' roles
-        if ($this->membership) {
-            $this->membership->removeRoles($this->getRolesToRemove($role_ids));
+        if ($this->join_user_membership) {
+            $this->join_user_membership->removeRoles($this->getRolesToRemove($role_ids));
         }
         
-        //Reset $this->membership, because removing roles could have also removed the membership
-        $this->membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
+        //Reset $this->join_user_membership, because removing roles could have also removed the membership
+        $this->join_user_membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         
         //If we need to be verified, redirect them to that form
-        if ($this->membership && !$this->membership->isVerified()) {
+        if ($this->join_user_membership && !$this->join_user_membership->isVerified()) {
             Controller::redirect($this->site->getURL() . 'verify/');
         }
         
