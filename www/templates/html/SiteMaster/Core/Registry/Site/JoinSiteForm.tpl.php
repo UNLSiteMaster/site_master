@@ -20,9 +20,29 @@
 
     <div class="panel">
         <p>
-            Select some roles for this site.  Once you are added, you will need to verify your membership.  We will walk you though that step next.
+            Select some roles for this site.
         </p>
+        
+        <p>
+        <?php
+        if ($context->approveRoles()) {
+            echo 'The roles that you select will be approved';
+        } else {
+            echo 'The roles that you select will need to be approved';
+        }
+        ?>
+        </p>
+        
+        <?php
+        if ($context->needsVerification()) {
+            ?>
+            <p>
+                You are not yet verified as a member of the site.  Once you add some roles, we will walk you though the verification process.
+            </p>
+            <?php
+        }
+        ?>
     </div>
 
-    <input type="submit" value="Update my roles" />
+    <input type="submit" value="Update roles" />
 </form>

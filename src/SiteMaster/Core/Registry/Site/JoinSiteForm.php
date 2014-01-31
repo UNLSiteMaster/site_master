@@ -208,12 +208,30 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         $this->join_user_membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         
         //If we need to be verified, redirect them to that form
-        if ($this->join_user_membership && !$this->join_user_membership->isVerified()) {
+        if ($this->needsVerification()) {
             Controller::redirect($this->site->getURL() . 'verify/');
         }
         
         //Otherwise, redirect them to the members page for this site
         Controller::redirect($this->site->getURL() . 'members/');
+    }
+
+    /**
+     * Determine if the join_user needs to be verified
+     * 
+     * @return bool
+     */
+    public function needsVerification()
+    {
+        if (!$this->join_user_membership) {
+            return true;
+        }
+        
+        if (!$this->join_user_membership->isVerified()) {
+            return true;
+        }
+        
+        return false;
     }
 
     /**
