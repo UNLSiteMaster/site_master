@@ -46,7 +46,7 @@ class User extends Record
     /**
      * @param $uid
      * @param $provider
-     * @return bool | \SiteMaster\User\User
+     * @return bool | \SiteMaster\Core\User\User
      */
     public static function getByUIDAndProvider($uid, $provider)
     {
