@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\AccessDeniedException;
+use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\Registry\Site;
@@ -59,11 +60,11 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
 
         //get the site
         if (!isset($this->options['site_id'])) {
-            throw new \InvalidArgumentException('a site id is required', 400);
+            throw new InvalidArgumentException('a site id is required', 400);
         }
 
         if (!$this->site = Site::getByID($this->options['site_id'])) {
-            throw new \InvalidArgumentException('Could not find that site', 400);
+            throw new InvalidArgumentException('Could not find that site', 400);
         }
 
         $this->current_user = Session::getCurrentUser();
@@ -72,7 +73,7 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
         //Set the verify_user
         if (isset($this->options['users_id']) && !empty($this->options['users_id'])) {
             if (!$this->verify_user = User::getByID($this->options['users_id'])) {
-                throw new \InvalidArgumentException('Could not find that user', 400);
+                throw new InvalidArgumentException('Could not find that user', 400);
             }
             $this->verify_membership = Member::getByUserIDAndSiteID($this->verify_user->id, $this->site->id);
         } else {
@@ -81,11 +82,11 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
         }
 
         if (!$this->verify_membership = Member::getByUserIDAndSiteID($this->verify_user->id, $this->site->id)) {
-            throw new \InvalidArgumentException('Could not find a membership to verify', 400);
+            throw new InvalidArgumentException('Could not find a membership to verify', 400);
         }
         
         if ($this->verify_membership->isVerified()) {
-            throw new \InvalidArgumentException('That membership is already verified', 400);
+            throw new InvalidArgumentException('That membership is already verified', 400);
         }
 
         if (!$this->canEdit()) {
