@@ -10,6 +10,7 @@ class Role extends Record
     public $site_members_id;  //int required fk -> site_members
     public $roles_id;         //int required fk -> roles
     public $approved;         //ENUM('YES', 'NO') default = NO
+    public $source;           //varchar(64) default = null
 
     public function keys()
     {

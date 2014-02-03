@@ -82,6 +82,7 @@ CREATE  TABLE IF NOT EXISTS `site_member_roles` (
   `site_members_id` INT NOT NULL ,
   `roles_id` INT NOT NULL ,
   `approved` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' ,
+  `source` VARCHAR(64) NULL COMMENT 'The source of the member role.  If null, it means that the system generated it.' ,
   PRIMARY KEY (`id`, `site_members_id`) ,
   INDEX `fk_site_member_roles_site_members1` (`site_members_id` ASC) ,
   INDEX `fk_site_member_roles_roles1` (`roles_id` ASC) ,
