@@ -57,6 +57,8 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
 
         //Require login
         Session::requireLogin();
+        
+        $this->setSite();
 
         $this->setCurrentUser();
         
