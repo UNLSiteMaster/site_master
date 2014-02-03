@@ -1,0 +1,165 @@
+<?php
+namespace SiteMaster\Core\Registry\Site;
+
+use SiteMaster\Core\AccessDeniedException;
+use SiteMaster\Core\Config;
+use SiteMaster\Core\Controller;
+use SiteMaster\Core\FlashBagMessage;
+use SiteMaster\Core\InvalidArgumentException;
+use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\RuntimeException;
+use SiteMaster\Core\UnexpectedValueException;
+use Sitemaster\Core\User\Session;
+use SiteMaster\Core\Util;
+use SiteMaster\Core\ViewableInterface;
+use SiteMaster\Core\PostHandlerInterface;
+
+class EditForm implements ViewableInterface, PostHandlerInterface
+{
+    /**
+     * @var array
+     */
+    public $options = array();
+
+    /**
+     * @var \SiteMaster\Core\Registry\Site
+     */
+    public $site = false;
+
+    /**
+     * @var bool|\SiteMaster\Core\User\User
+     */
+    public $current_user = false;
+
+
+    function __construct($options = array())
+    {
+        $this->options += $options;
+
+        //Require login
+        Session::requireLogin();
+
+        //get the site
+        if (!isset($this->options['site_id'])) {
+            throw new InvalidArgumentException('a site id is required', 400);
+        }
+
+        if (!$this->site = Site::getByID($this->options['site_id'])) {
+            throw new InvalidArgumentException('Could not find that site', 400);
+        }
+
+        $this->current_user = Session::getCurrentUser();
+        
+        if (!$this->canEdit()) {
+            throw new AccessDeniedException('You do not have permission to edit this site.  You must be a verified member.', 403);
+        }
+    }
+
+    /**
+     * Get the url for this page
+     *
+     * @return bool|string
+     */
+    public function getURL()
+    {
+        return $this->site->getURL() . 'edit/';
+
+    }
+
+    /**
+     * Get the title for this page
+     *
+     * @return string
+     */
+    public function getPageTitle()
+    {
+        return 'Add a Site';
+    }
+
+    /**
+     * A user must be verified to edit a site's details
+     * 
+     * @return bool
+     */
+    public function canEdit()
+    {
+        if (!$this->site) {
+            return false;
+        }
+        
+        if (!$this->current_user) {
+            return false;
+        }
+        
+        if ($this->site->userIsVerified($this->current_user)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    public function handlePost($get, $post, $files)
+    {
+        if (!isset($post['action'])) {
+            throw new InvalidArgumentException('An action must be specified', 400);
+        }
+        
+        switch ($post['action']) {
+            case 'edit':
+                $this->edit($get, $post, $files);
+                break;
+            case 'delete':
+                $this->delete($get, $post, $files);
+                break;
+            default:
+                throw new InvalidArgumentException('An invalid action was given', 400);
+        }
+    }
+
+    /**
+     * handle the edit post action
+     * 
+     * @param $get
+     * @param $post
+     * @param $files
+     */
+    protected function edit($get, $post, $files)
+    {
+        if (isset($post['title'])) {
+            $this->site->title = $post['title'];
+        }
+        
+        if (isset($post['support_email'])) {
+            $this->site->support_email = $post['support_email'];
+        }
+        
+        $this->site->save();
+        
+        Controller::redirect(
+            $this->site->getURL(),
+            new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Site updated')
+        );
+    }
+
+    /**
+     * handle the delete post action
+     * 
+     * @param $get
+     * @param $post
+     * @param $files
+     */
+    protected function delete($get, $post, $files)
+    {
+        $this->site->delete();
+        
+        Controller::redirect(
+            Config::get('URL'),
+            new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Site deleted')
+        );
+    }
+
+    public function getEditURL()
+    {
+        return $this->getURL();
+    }
+}
