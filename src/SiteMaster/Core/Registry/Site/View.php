@@ -22,11 +22,11 @@ class View implements ViewableInterface
 
         //get the site
         if (!isset($this->options['site_id'])) {
-            throw new \InvalidArgumentException('a site id is required', 400);
+            throw new InvalidArgumentException('a site id is required', 400);
         }
 
         if (!$this->site = Site::getByID($this->options['site_id'])) {
-            throw new \InvalidArgumentException('Could not find that site', 400);
+            throw new InvalidArgumentException('Could not find that site', 400);
         }
     }
 

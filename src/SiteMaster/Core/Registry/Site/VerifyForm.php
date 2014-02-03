@@ -212,7 +212,7 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
     public function handlePost($get, $post, $files)
     {
         if (!isset($post['type'])) {
-            throw new \InvalidArgumentException('a verification type must be provided', 400);
+            throw new InvalidArgumentException('a verification type must be provided', 400);
         }
         
         switch ($post['type']) {
