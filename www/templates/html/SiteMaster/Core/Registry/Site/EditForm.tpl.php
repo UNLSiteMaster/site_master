@@ -2,7 +2,7 @@
     <ol>
         <li>
             <label for="site_title">Site Title</label>
-            <input id="site_title" name="title" value="<?php echo $context->site->title ?>" autofocus />
+            <input type="text" id="site_title" name="title" value="<?php echo $context->site->title ?>" autofocus />
         </li>
         <li>
             <label for="support_email">Support Email Address</label>
