@@ -1,6 +1,10 @@
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
-    <label for="search">Enter your search term</label>
-    <input id="term" name="term" autofocus required />
+    <ul>
+        <li>
+            <label for="search">Enter your search term</label>
+            <input id="term" name="term" autofocus required />
+        </li>
+    </ul>
 
     <div class="panel">
         <p>

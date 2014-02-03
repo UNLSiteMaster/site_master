@@ -57,6 +57,8 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
 
         //Require login
         Session::requireLogin();
+        
+        $this->setSite();
 
         $this->setCurrentUser();
         
@@ -97,7 +99,8 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
      * 
      * @throws \SiteMaster\Core\InvalidArgumentException
      */
-    protected function setSite() {
+    protected function setSite()
+    {
         if (!isset($this->options['site_id'])) {
             throw new InvalidArgumentException('a site id is required', 400);
         }

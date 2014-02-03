@@ -17,6 +17,7 @@ class Listener extends PluginListener
         $event->addRoute('/^logout\/$/',                                                    'SiteMaster\Core\User\Logout');
         $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',                  'SiteMaster\Core\User\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/$/',                                 'SiteMaster\Core\Registry\Site\View');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/edit\/$/',                           'SiteMaster\Core\Registry\Site\EditForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/join\/?((?P<users_id>(\d*))\/)$/',   'SiteMaster\Core\Registry\Site\JoinSiteForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/$/',                        'SiteMaster\Core\Registry\Site\MembersForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',                   'SiteMaster\Core\Registry\Site\AddMemberForm');
@@ -73,9 +74,15 @@ class Listener extends PluginListener
         
         $event->addNavigationItem($site->getURL(), 'Pages');
         $event->addNavigationItem($site->getURL() . 'members/', 'Members');
+        
+        $user = User\Session::getCurrentUser();
 
-        if ($user = User\Session::getCurrentUser()) {
+        if ($user) {
             $event->addNavigationItem($site->getURL() . 'join/', 'Join');
+        }
+        
+        if ($user && $site->userIsVerified($user)) {
+            $event->addNavigationItem($site->getURL() . 'edit/', 'Edit');
         }
     }
 

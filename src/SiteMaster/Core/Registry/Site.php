@@ -3,6 +3,8 @@ namespace SiteMaster\Core\Registry;
 
 use DB\Record;
 use SiteMaster\Core\Config;
+use SiteMaster\Core\Registry\Site\Member;
+use SiteMaster\Core\User\User;
 
 class Site extends Record
 {
@@ -57,11 +59,21 @@ class Site extends Record
     }
 
     /**
-     * Get the approved members of this site
+     * Get all members of this site
      * 
      * @return Site\Members\Approved
      */
     public function getMembers()
+    {
+        return new Site\Members\All(array('site_id' => $this->id));
+    }
+
+    /**
+     * Get the approved members of this site
+     * 
+     * @return Site\Members\Approved
+     */
+    public function getApprovedMembers()
     {
         return new Site\Members\Approved(array('site_id' => $this->id));
     }
@@ -94,6 +106,27 @@ class Site extends Record
     }
 
     /**
+     * Determine if a given user is verified for this site
+     * 
+     * @param User $user
+     * @return bool
+     */
+    public function userIsVerified(User $user)
+    {
+        $membership = Member::getByUserIDAndSiteID($user->id, $this->id);
+        
+        if (!$membership) {
+            return false;
+        }
+        
+        if ($membership->isVerified()) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
      * Get the title of the site.  The title is the base_url, unless the title field is not null
      * 
      * @return string
@@ -115,5 +148,19 @@ class Site extends Record
     public function getJoinURL()
     {
         return $this->getURL() . 'join/';
+    }
+
+    /**
+     * Delete this site and all related data
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        foreach ($this->getMembers() as $member) {
+            $member->delete();
+        }
+        
+        return parent::delete();
     }
 }

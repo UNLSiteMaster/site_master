@@ -1,6 +1,10 @@
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
-    <label for="base_url">The base URL of the site</label>
-    <input type="url" id="base_url" name="base_url" placeholder="http://www.yoursite.edu/" autofocus required />
+    <ul>
+        <li>
+            <label for="base_url">The base URL of the site</label>
+            <input type="url" id="base_url" name="base_url" placeholder="http://www.yoursite.edu/" autofocus required />
+        </li>
+    </ul>
 
     <div class="panel">
         <p>

@@ -186,4 +186,18 @@ class Member extends Record
             $role->approve();
         }
     }
+
+    /**
+     * Delete this member and all related data
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        foreach ($this->getRoles() as $role) {
+            $role->delete();
+        }
+        
+        return parent::delete();
+    }
 }
