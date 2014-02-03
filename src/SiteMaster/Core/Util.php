@@ -191,7 +191,7 @@ class Util
         //sanitize because things like http://www.test.com/?# are valid with the above
         $port = '';
         if (isset($url_parts['port'])) {
-            $port = ':' . $url_parts['port'];
+            $port = ':' . (int)$url_parts['port'];
         }
         $base_url = $url_parts['scheme'] . '://' . $url_parts['host'] . $port . $url_parts['path'];
         
