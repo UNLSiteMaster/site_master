@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\ViewableInterface;
+use SiteMaster\Core\InvalidArgumentException;
 
 class View implements ViewableInterface
 {
