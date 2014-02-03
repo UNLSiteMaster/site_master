@@ -12,7 +12,6 @@ class Member extends Record
     public $users_id;             //int required fk -> users
     public $sites_id;             //int required fk -> sites
     public $source;               //varchar
-    public $verified;             //enum('YES', 'NO') required default = NO
     public $date_added;           //datetime required
     public $verification_code;    //string required
     
@@ -66,7 +65,6 @@ class Member extends Record
     {
         //Create base object
         $membership = new self();
-        $membership->verified = 'NO';
         
         //Set optional fields
         $membership->synchronizeWithArray($fields);
