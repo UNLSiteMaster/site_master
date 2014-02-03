@@ -39,7 +39,7 @@ class WithRole extends RecordList
         $sql = "SELECT site_members.id
                 FROM site_members
                 JOIN site_member_roles ON (site_members.id = site_member_roles.site_members_id)
-                LEFT JOIN users ON (site_members.users_id = users.id)
+                JOIN users ON (site_members.users_id = users.id)
                 WHERE sites_id = " .  (int)$site_id . "
                 AND site_member_roles.approved = 'YES'
                 AND site_member_roles.roles_id = " . (int)$role_id . "
