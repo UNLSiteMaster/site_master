@@ -207,21 +207,27 @@ class Util
 
     /**
      * @param $url
-     * @param bool $followLocation
+     * @param array $options array of CURL options used in curl_setop_array
      *
      * @return array
      */
-    public static function getHTTPInfo($url, $followLocation = false)
+    public static function getHTTPInfo($url, $options = array())
     {
         $curl = curl_init($url);
+        
+        $default_options = array(
+            CURLOPT_NOBODY => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_MAXREDIRS => 5,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_USERAGENT => 'UNL_SITEMASTER/1.0'
+        );
+        
+        $options = $options + $default_options;
 
-        curl_setopt($curl, CURLOPT_NOBODY, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 5);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, $followLocation);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'UNL_SITEMASTER/1.0');
-
+        curl_setopt_array($curl, $options);
+        
         curl_exec($curl);
 
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
