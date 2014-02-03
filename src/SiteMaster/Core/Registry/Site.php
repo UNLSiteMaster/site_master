@@ -59,11 +59,21 @@ class Site extends Record
     }
 
     /**
-     * Get the approved members of this site
+     * Get all members of this site
      * 
      * @return Site\Members\Approved
      */
     public function getMembers()
+    {
+        return new Site\Members\All(array('site_id' => $this->id));
+    }
+
+    /**
+     * Get the approved members of this site
+     * 
+     * @return Site\Members\Approved
+     */
+    public function getApprovedMembers()
     {
         return new Site\Members\Approved(array('site_id' => $this->id));
     }
