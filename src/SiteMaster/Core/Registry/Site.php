@@ -3,6 +3,8 @@ namespace SiteMaster\Core\Registry;
 
 use DB\Record;
 use SiteMaster\Core\Config;
+use SiteMaster\Core\Registry\Site\Member;
+use SiteMaster\Core\User\User;
 
 class Site extends Record
 {
@@ -91,6 +93,27 @@ class Site extends Record
         }
         
         return $site;
+    }
+
+    /**
+     * Determine if a given user is verified for this site
+     * 
+     * @param User $user
+     * @return bool
+     */
+    public function userIsVerified(User $user)
+    {
+        $membership = Member::getByUserIDAndSiteID($user->id, $this->id);
+        
+        if (!$membership) {
+            return false;
+        }
+        
+        if ($membership->isVerified()) {
+            return true;
+        }
+        
+        return false;
     }
 
     /**
