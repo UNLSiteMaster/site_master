@@ -48,6 +48,10 @@
     text-align: center;
 }
 
+/**
+GPA
+**/
+
 .gpa {
     text-align: center;
 }
@@ -64,7 +68,9 @@
     background-color: #2ad569;
 }
 
-
+/**
+Site Nav
+**/
 .site-nav {
     background-color: #748b80;
     color: white;
@@ -89,4 +95,26 @@
 
 .site-nav .flexnav li a {
     background-color: #bfc9c4;
+}
+
+
+/**
+Forms
+**/
+
+form ul, form ol {
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+form li, form {
+    list-style-type: none;
+}
+
+form .panel ul, form.panel ol {
+    padding-left: 30px;
+}
+
+form .panel li {
+    list-style-type: disc;
 }
