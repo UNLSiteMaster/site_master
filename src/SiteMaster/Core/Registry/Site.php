@@ -149,4 +149,18 @@ class Site extends Record
     {
         return $this->getURL() . 'join/';
     }
+
+    /**
+     * Delete this site and all related data
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        foreach ($this->getMembers() as $member) {
+            $member->delete();
+        }
+        
+        return parent::delete();
+    }
 }
