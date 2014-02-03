@@ -12,11 +12,16 @@ class Listener extends PluginListener
 {
     public function onRoutesCompile(RoutesCompile $event)
     {
-        $event->addRoute('/^$/',                                             'SiteMaster\Core\Home\Home');
-        $event->addRoute('/^registry\/$/',                                   'SiteMaster\Core\Registry\Search');
-        $event->addRoute('/^logout\/$/',                                     'SiteMaster\Core\User\Logout');
-        $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',   'SiteMaster\Core\User\View');
-        $event->addRoute('/^sites\/add\/$/',                                 'SiteMaster\Core\Registry\Site\AddSiteForm');
+        $event->addRoute('/^$/',                                                            'SiteMaster\Core\Home\Home');
+        $event->addRoute('/^registry\/$/',                                                  'SiteMaster\Core\Registry\Search');
+        $event->addRoute('/^logout\/$/',                                                    'SiteMaster\Core\User\Logout');
+        $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',                  'SiteMaster\Core\User\View');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/$/',                                 'SiteMaster\Core\Registry\Site\View');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/join\/?((?P<users_id>(\d*))\/)$/',   'SiteMaster\Core\Registry\Site\JoinSiteForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/$/',                        'SiteMaster\Core\Registry\Site\MembersForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',                   'SiteMaster\Core\Registry\Site\AddMemberForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/verify\/?((?P<users_id>(\d*))\/)$/', 'SiteMaster\Core\Registry\Site\VerifyForm');
+        $event->addRoute('/^sites\/add\/$/',                                                'SiteMaster\Core\Registry\Site\AddSiteForm');
     }
 
     /**
@@ -58,11 +63,30 @@ class Listener extends PluginListener
     }
 
     /**
+     * Compile sub navigation
+     *
+     * @param \SiteMaster\Core\Events\Navigation\SiteCompile|\SiteMaster\Core\Events\Navigation\SubCompile $event
+     */
+    public function onNavigationSiteCompile(Events\Navigation\SiteCompile $event)
+    {
+        $site = $event->getSite();
+        
+        $event->addNavigationItem($site->getURL(), 'Pages');
+        $event->addNavigationItem($site->getURL() . 'members/', 'Members');
+
+        if ($user = User\Session::getCurrentUser()) {
+            $event->addNavigationItem($site->getURL() . 'join/', 'Join');
+        }
+    }
+
+    /**
      * @param RegisterStyleSheets $event
      */
     public function onThemeRegisterStyleSheets(RegisterStyleSheets $event)
     {
         $event->addStyleSheet(Config::get('URL') . 'www/css/core.css');
+        
+        $event->addStyleSheet(Config::get('URL') . 'www/css/vendor/flexnav.css');
     }
 
     /**
@@ -70,6 +94,18 @@ class Listener extends PluginListener
      */
     public function onThemeRegisterScripts(RegisterScripts $event)
     {
+        $event->addScript(Config::get('URL') . 'www/js/vendor/modernizr.js');
+        $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.js');
         $event->addScript(Config::get('URL') . 'www/js/core.js');
+        $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.flexnav.min.js');
+    }
+    
+    public function onUserSearch(Events\User\Search $event)
+    {
+        $search = new User\Search(array('term' => $event->getSearchTerm()));
+        
+        foreach ($search as $result) {
+            $event->addResult($result->provider, $result->uid, $result->email, $result->first_name, $result->last_name);
+        }
     }
 }

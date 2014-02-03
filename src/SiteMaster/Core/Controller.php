@@ -21,20 +21,8 @@ class Controller
         $this->options['current_url'] = Util::getCurrentURL();
 
         $this->route();
-
-        try {
-            if (!empty($_POST)) {
-                $this->handlePost();
-            }
-            $this->run();
-        } catch (\Exception $exception) {
-            if (get_class($exception) != 'ViewableInterface') {
-                $e = new ViewableException($exception->getMessage(), $exception->getCode(), $exception);
-            } else {
-                $e = $exception;
-            }
-            $this->output = $e;
-        }
+        
+        $this->run();
     }
 
     public function getPluginRoutes()
@@ -65,22 +53,46 @@ class Controller
      */
     public function run()
     {
+        try {
+            $this->verifyModel();
+
+            $this->output = new $this->options['model']($this->options);
+            
+            if (!$this->output instanceof ViewableInterface) {
+                throw new RuntimeException("All Output must be an instance of \\SiteMaster\\Core\\ViewableInterface");
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->handlePost($this->output);
+            }
+        } catch (\Exception $exception) {
+            if (get_class($exception) != 'ViewableInterface') {
+                $e = new ViewableException($exception->getMessage(), $exception->getCode(), $exception);
+            } else {
+                $e = $exception;
+            }
+            $this->output = $e;
+        }
+    }
+
+    /**
+     * Verify that a model has been requested
+     * 
+     * @return bool
+     * @throws RuntimeException
+     */
+    public function verifyModel()
+    {
         if (!isset($this->options['model'])
             || false === $this->options['model']) {
             throw new RuntimeException('Un-registered view', 404);
         }
-
-        $this->output = new $this->options['model']($this->options);
-
-        if (!$this->output instanceof ViewableInterface) {
-            throw new RuntimeException("All Output must be an instance of \\SiteMaster\\Core\\ViewableInterface");
-        }
+        
+        return true;
     }
 
-    public function handlePost()
+    public function handlePost($object)
     {
-        $object = new $this->options['model']($this->options);
-
         if (!$object instanceof PostHandlerInterface) {
             throw new RuntimeException("All Post Handlers must be an instance of \\SiteMaster\\Core\\PostHandlerInterface");
         }

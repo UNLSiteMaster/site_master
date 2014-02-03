@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster\Core\User;
 
+use SiteMaster\Core\RequiredLoginException;
+
 class Session
 {
     protected static $session;
@@ -32,10 +34,15 @@ class Session
         return User::getByID($session->get('user.id'));
     }
 
+    /**
+     * Require login
+     * 
+     * @throws \SiteMaster\Core\RequiredLoginException
+     */
     public static function requireLogin()
     {
         if (!self::getCurrentUser()) {
-            throw new RequiredLoginException();
+            throw new RequiredLoginException("You must be logged in to access this", 401);
         }
     }
     

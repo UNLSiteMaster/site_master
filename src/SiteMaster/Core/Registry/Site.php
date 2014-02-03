@@ -2,13 +2,18 @@
 namespace SiteMaster\Core\Registry;
 
 use DB\Record;
+use SiteMaster\Core\Config;
 
 class Site extends Record
 {
-    public $id;               //int required
-    public $base_url;         //varchar required
-    public $title;            //varchar
-    public $support_email;    //varchar
+    public $id;                    //int required
+    public $base_url;              //varchar required
+    public $title;                 //varchar
+    public $support_email;         //varchar
+    public $last_connection_error; //datetime
+    public $http_code;             //int
+    public $curl_code;             //int
+    
 
     public function keys()
     {
@@ -100,5 +105,15 @@ class Site extends Record
         }
         
         return $this->base_url;
+    }
+    
+    public function getURL()
+    {
+        return Config::get('URL') . 'sites/' . $this->id . '/';
+    }
+    
+    public function getJoinURL()
+    {
+        return $this->getURL() . 'join/';
     }
 }

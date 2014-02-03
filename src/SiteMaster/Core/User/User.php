@@ -7,6 +7,7 @@ use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Sites\ApprovedForUser;
+use SiteMaster\Core\Registry\Sites\PendingForUser;
 
 class User extends Record
 {
@@ -46,7 +47,7 @@ class User extends Record
     /**
      * @param $uid
      * @param $provider
-     * @return bool | \SiteMaster\User\User
+     * @return bool | \SiteMaster\Core\User\User
      */
     public static function getByUIDAndProvider($uid, $provider)
     {
@@ -80,9 +81,19 @@ class User extends Record
      * 
      * @return ApprovedForUser
      */
-    public function getSites()
+    public function getApprovedSites()
     {
         return new ApprovedForUser(array('user_id'=>$this->id));
+    }
+
+    /**
+     * Get approved sites for this user
+     *
+     * @return ApprovedForUser
+     */
+    public function getPendingSites()
+    {
+        return new PendingForUser(array('user_id'=>$this->id));
     }
 
 

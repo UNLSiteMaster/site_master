@@ -36,13 +36,15 @@ class WithRole extends RecordList
     public function getSQL($site_id, $role_id)
     {
         //Build the list
-        $sql = "SELECT id
+        $sql = "SELECT site_members.id
                 FROM site_members
-                LEFT JOIN site_member_roles ON (site_members.id = site_member_roles.site_members_id)
+                JOIN site_member_roles ON (site_members.id = site_member_roles.site_members_id)
+                JOIN users ON (site_members.users_id = users.id)
                 WHERE sites_id = " .  (int)$site_id . "
-                AND site_members.status = 'APPROVED'
+                AND site_member_roles.approved = 'YES'
                 AND site_member_roles.roles_id = " . (int)$role_id . "
-                ORDER by id ASC";
+                GROUP BY site_members.id
+                ORDER by users.first_name ASC";
 
         return $sql;
     }

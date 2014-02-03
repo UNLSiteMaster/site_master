@@ -8,16 +8,6 @@ class ViewableException extends \Exception implements ViewableInterface
         parent::__construct($message, $code, $previous);
     }
 
-    public function render()
-    {
-        $array = array();
-
-        $array['message'] = $this->message;
-        $array['code']    = $this->code;
-
-        return $array;
-    }
-
     public function getPageTitle()
     {
         return "Error";

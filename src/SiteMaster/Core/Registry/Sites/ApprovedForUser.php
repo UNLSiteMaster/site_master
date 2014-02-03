@@ -34,9 +34,11 @@ class ApprovedForUser extends RecordList
         //Build the list
         $sql = "SELECT sites.id
                 FROM sites
-                LEFT JOIN site_members ON (site_members.sites_id = sites.id)
+                JOIN site_members ON (site_members.sites_id = sites.id)
+                JOIN site_member_roles on (site_member_roles.site_members_id = site_members.id)
                 WHERE site_members.users_id = " . (int)$user_id ."
-                    AND site_members.status = 'APPROVED'
+                    AND site_member_roles.approved = 'YES'
+                GROUP BY sites.id
                 ORDER BY sites.base_url ASC";
 
         return $sql;

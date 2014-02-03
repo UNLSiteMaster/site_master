@@ -12,10 +12,10 @@ class PluginManagerTest extends \PHPUnit_Framework_TestCase
     {
         $plugin_manager = PluginManager::getManager();
         
-        $this->assertEquals('Example', $plugin_manager->getPluginNamespaceFromName('example'));
-        $this->assertEquals('example', $plugin_manager->getPluginNamespaceFromName('Example'));
+        $this->assertEquals('\\SiteMaster\\Plugins\\Example\\', $plugin_manager->getPluginNamespaceFromName('example'));
+        $this->assertEquals('\\SiteMaster\\Plugins\\Example\\', $plugin_manager->getPluginNamespaceFromName('Example'));
 
-        $this->assertEquals('Core', $plugin_manager->getPluginNamespaceFromName('core'));
-        $this->assertEquals('Core', $plugin_manager->getPluginNamespaceFromName('Core'));
+        $this->assertEquals('\\SiteMaster\\Core\\', $plugin_manager->getPluginNamespaceFromName('core'));
+        $this->assertEquals('\\SiteMaster\\Core\\', $plugin_manager->getPluginNamespaceFromName('Core'));
     }
 }

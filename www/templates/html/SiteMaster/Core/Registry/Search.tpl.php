@@ -17,7 +17,6 @@ foreach ($authPlugins as $plugin) {
     </ul>
 
     <button type="submit">Query</button>
-    </div>
 </form>
 
 <?php

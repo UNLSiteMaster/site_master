@@ -12,7 +12,7 @@ class Member extends Record
     public $users_id;             //int required fk -> users
     public $sites_id;             //int required fk -> sites
     public $source;               //varchar
-    public $status;               //enum('PENDING', 'APPROVED') required default = PENDING
+    public $verified;             //enum('YES', 'NO') required default = NO
     public $date_added;           //datetime required
     public $verification_code;    //string required
     
@@ -34,7 +34,7 @@ class Member extends Record
     /**
      * Get the site for this membership
      * 
-     * @return false|\SiteMaster\Registry\Site
+     * @return false|\SiteMaster\Core\Registry\Site
      */
     public function getSite()
     {
@@ -44,7 +44,7 @@ class Member extends Record
     /**
      * Get the user for this membership
      * 
-     * @return false|\SiteMaster\User\User
+     * @return false|\SiteMaster\Core\User\User
      */
     public function getUser()
     {
@@ -66,7 +66,7 @@ class Member extends Record
     {
         //Create base object
         $membership = new self();
-        $membership->status = 'PENDING';
+        $membership->verified = 'NO';
         
         //Set optional fields
         $membership->synchronizeWithArray($fields);
@@ -111,9 +111,79 @@ class Member extends Record
         
         return true;
     }
-    
+
+    /**
+     * @return Member\Roles\All
+     */
     public function getRoles()
     {
         return new Member\Roles\All(array('member_id' => $this->id));
+    }
+
+    /**
+     * Remove roles for this membership
+     * 
+     * @param array $role_ids
+     */
+    public function removeRoles(array $role_ids)
+    {
+        foreach ($role_ids as $role_id) {
+            if (!$role = Member\Role::getByRoleIDANDMembershipID($role_id, $this->id)) {
+                continue;
+            }
+
+            $role->delete();
+        }
+        
+        //Check if we need to remove the membership because there are no roles left.
+        $roles = $this->getRoles();
+        if ($roles->count() == 0) {
+            $this->delete();
+        }
+    }
+
+    /**
+     * Add roles for this membership
+     *
+     * @param array $role_ids
+     * @param string $approved
+     */
+    public function addRoles(array $role_ids, $approved = 'NO')
+    {
+        foreach ($role_ids as $role_id) {
+            if (!$role = Role::getByID($role_id)) {
+                continue;
+            }
+
+            Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved));
+        }
+    }
+
+    /**
+     * determine if this membership is verified
+     * 
+     * @return bool
+     */
+    public function isVerified()
+    {
+        if ($this->verified == 'YES') {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Verify this membership.
+     * This will also approve all pending roles.
+     */
+    public function verify()
+    {
+        $this->verified = 'YES';
+        $this->save();
+        
+        foreach ($this->getRoles() as $role) {
+            $role->approve();
+        }
     }
 }

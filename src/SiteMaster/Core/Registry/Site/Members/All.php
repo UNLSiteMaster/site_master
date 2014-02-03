@@ -32,10 +32,14 @@ class All extends RecordList
     public function getSQL($site_id)
     {
         //Build the list
-        $sql = "SELECT id
+        $sql = "SELECT site_members.id
                 FROM site_members
+                JOIN site_member_roles ON (site_members.id = site_member_roles.site_members_id)
+                JOIN users ON (site_members.users_id = users.id)
                 WHERE sites_id = " .  (int)$site_id . "
-                ORDER by id ASC";
+                    AND site_member_roles.id IS NOT NULL
+                GROUP BY site_members.id
+                ORDER by users.first_name ASC";
 
         return $sql;
     }

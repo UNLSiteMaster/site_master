@@ -36,12 +36,16 @@ class Plugin extends PluginInterface
         }
         
         //Set up the default roles
-        if (!Role::getByRoleName('manager')) {
-            Role::createRole('manager');
+        if (!Role::getByRoleName('admin')) {
+            Role::createRole('admin', array(
+                'description' => 'administrative member of the site'
+            ));
         }
         
         if (!Role::getByRoleName('developer')) {
-            Role::createRole('developer');
+            Role::createRole('developer', array(
+                'description' => 'responsible for developing the site code'
+            ));
         }
         
         return true;
@@ -139,6 +143,11 @@ class Plugin extends PluginInterface
         );
 
         $listeners[] = array(
+            'event'    => Events\Navigation\SiteCompile::EVENT_NAME,
+            'listener' => array($listener, 'onNavigationSiteCompile')
+        );
+
+        $listeners[] = array(
             'event'    => RegisterStyleSheets::EVENT_NAME,
             'listener' => array($listener, 'onThemeRegisterStyleSheets')
         );
@@ -146,6 +155,11 @@ class Plugin extends PluginInterface
         $listeners[] = array(
             'event'    => RegisterScripts::EVENT_NAME,
             'listener' => array($listener, 'onThemeRegisterScripts')
+        );
+
+        $listeners[] = array(
+            'event'    => Events\User\Search::EVENT_NAME,
+            'listener' => array($listener, 'onUserSearch')
         );
 
         return $listeners;

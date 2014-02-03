@@ -92,12 +92,40 @@
     </section>
 </nav>
 
+<div class="row">
+    <div class="large-12 columns">
+        <?php
+        foreach ($app->getFlashBagMessages() as $message) {
+            echo $savvy->render($message);
+        }
+        ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="large-12 columns">
         <h1><?php echo $context->output->getPageTitle() ?></h1>
     </div>
 </div>
+
+<div class="row">
+    <div class="large-12 columns">
+        <?php
+        if (isset($app->options['site_id'])) {
+            $site = \SiteMaster\Core\Registry\Site::getByID($app->options['site_id']);
+            if ($site) {
+                $siteNav = \SiteMaster\Core\Plugin\PluginManager::getManager()->dispatchEvent(
+                    \SiteMaster\Core\Events\Navigation\SiteCompile::EVENT_NAME,
+                    new \SiteMaster\Core\Events\Navigation\SiteCompile($site)
+                );
+        
+                echo $savvy->render($siteNav);
+            }
+        }
+        ?>
+    </div>
+</div>
+
 <div class="row">
     <div class="large-12 columns">
         <?php

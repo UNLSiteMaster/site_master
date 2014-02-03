@@ -7,6 +7,7 @@ class Role extends Record
 {
     public $id;               //int required
     public $role_name;        //varchar required
+    public $description;      //longtext
 
     public function keys()
     {
@@ -31,13 +32,15 @@ class Role extends Record
 
     /**
      * Create a new role
-     * 
+     *
      * @param $role_name
+     * @param array $options
      * @return bool|Role
      */
-    public static function createRole($role_name)
+    public static function createRole($role_name, $options = array())
     {
         $role = new self();
+        $role->synchronizeWithArray($options);
         $role->role_name = $role_name;
         
         if (!$role->insert()) {

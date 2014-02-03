@@ -1,0 +1,92 @@
+.hide {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+}
+
+.clear-fix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clear-fix {
+    zoom: 1;
+}
+
+.site-list .site {
+    list-style-type: none;
+    border-radius: 5px;
+    max-width: 600px;
+    padding: 5px;
+}
+
+.site-list .site a {
+    color: black;
+}
+
+.site .general-details {
+    float: left;
+    width: 75%;
+}
+
+.site .general-details .url {
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.site .general-details .title {
+    font-size: .8em;
+}
+
+.site .gpa {
+    float: left;
+    width: 25%;
+    text-align: center;
+}
+
+.gpa {
+    text-align: center;
+}
+
+.gpa .value {
+    font-size: 2em;
+}
+
+.gpa .metric {
+    font-size: .8em;
+}
+
+.gpa-4 {
+    background-color: #2ad569;
+}
+
+
+.site-nav {
+    background-color: #748b80;
+    color: white;
+    padding: 5px;
+}
+
+.site-nav nav {
+    background-color: #eaedeb;
+}
+
+.site-nav nav ul {
+    padding-left: 0px;
+}
+
+.site-nav .url {
+    font-size: 1.25em;
+}
+
+.site-nav .title {
+    font-size: .75em;
+}
+
+.site-nav .flexnav li a {
+    background-color: #bfc9c4;
+}
