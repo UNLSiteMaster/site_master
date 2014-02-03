@@ -98,7 +98,7 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
         
         $this->stage = $post['stage'];
 
-        $method = 'handlePostForStage' . ($this->stage);
+        $method = 'handlePostForStage' . (int)$this->stage;
         
         $this->$method($get, $post, $files);
         
