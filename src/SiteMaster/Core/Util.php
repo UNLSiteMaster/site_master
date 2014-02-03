@@ -147,7 +147,10 @@ class Util
     public static function validateBaseURL($url, $verify = false)
     {
         $valid_schemes = array('http', 'https');
-        $url_parts     = parse_url($url);
+        
+        if (!$url_parts = parse_url($url)) {
+            throw new InvalidArgumentException('Invalid URL', 400);
+        }
         
         if (!isset($url_parts['host'])) {
             throw new InvalidArgumentException('Invalid host', 400);
