@@ -76,7 +76,7 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         }
         
         if (!$this->site = Site::getByID($this->options['site_id'])) {
-            throw new \InvalidArgumentException('Could not find that site', 400);
+            throw new InvalidArgumentException('Could not find that site', 400);
         }
 
         //Set the current user
@@ -87,7 +87,7 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         //Set the join_user
         if (isset($this->options['users_id']) && !empty($this->options['users_id'])) {
             if (!$this->join_user = User::getByID($this->options['users_id'])) {
-                throw new \InvalidArgumentException('Could not find that user', 400);
+                throw new InvalidArgumentException('Could not find that user', 400);
             }
             $this->join_user_membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         } else {
