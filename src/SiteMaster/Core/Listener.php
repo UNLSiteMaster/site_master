@@ -72,17 +72,34 @@ class Listener extends PluginListener
     {
         $site = $event->getSite();
         
-        $event->addNavigationItem($site->getURL(), 'Pages');
-        $event->addNavigationItem($site->getURL() . 'members/', 'Members');
+        $event->addNavigationItem($site->getURL(), 'Current Report');
+        
         
         $user = User\Session::getCurrentUser();
-
-        if ($user) {
-            $event->addNavigationItem($site->getURL() . 'join/', 'Join');
-        }
         
-        if ($user && $site->userIsVerified($user)) {
-            $event->addNavigationItem($site->getURL() . 'edit/', 'Edit');
+        if ($user) {
+            $is_verified   = $site->userIsVerified($user);
+            $membership    = $site->getMembershipForUser($user);
+            $join_title    = 'Join';
+            $members_title = 'Members';
+            
+            if ($membership) {
+                $join_title = 'Add/Edit My Roles';
+            }
+
+            $event->addNavigationItem($site->getURL() . 'join/', $join_title);
+            
+            if ($is_verified) {
+                $members_title = 'Add\Edit Members';
+            }
+
+            $event->addNavigationItem($site->getURL() . 'members/', $members_title);
+
+            if ($is_verified) {
+                $event->addNavigationItem($site->getURL() . 'edit/', 'Edit');
+            }
+        } else {
+            $event->addNavigationItem($site->getURL() . 'members/', 'Members');
         }
     }
 
