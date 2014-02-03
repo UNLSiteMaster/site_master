@@ -74,9 +74,15 @@ class Listener extends PluginListener
         
         $event->addNavigationItem($site->getURL(), 'Pages');
         $event->addNavigationItem($site->getURL() . 'members/', 'Members');
+        
+        $user = User\Session::getCurrentUser();
 
-        if ($user = User\Session::getCurrentUser()) {
+        if ($user) {
             $event->addNavigationItem($site->getURL() . 'join/', 'Join');
+        }
+        
+        if ($user && $site->userIsVerified($user)) {
+            $event->addNavigationItem($site->getURL() . 'edit/', 'Edit');
         }
     }
 
