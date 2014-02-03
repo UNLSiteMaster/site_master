@@ -72,7 +72,7 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         
         //get the site
         if (!isset($this->options['site_id'])) {
-            throw new \InvalidArgumentException('a site id is required', 400);
+            throw new InvalidArgumentException('a site id is required', 400);
         }
         
         if (!$this->site = Site::getByID($this->options['site_id'])) {
