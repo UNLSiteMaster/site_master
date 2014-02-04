@@ -66,13 +66,14 @@ if ($can_edit) {
             ?>
             <ul>
                 <?php
-                foreach ($context->pending as $memberRole) {
-                    $role = $memberRole->getRole();
+                foreach ($context->pending as $member_role) {
+                    $role = $member_role->getRole();
+                    $user = $member_role->getUser();
                     ?>
                     <li>
                         <label>
-                            <input type="checkbox" name="approve[]" value="<?php echo $memberRole->id; ?>">
-                            <?php echo $role->role_name ?> - <?php echo $role->description ?>
+                            <input type="checkbox" name="approve[]" value="<?php echo $member_role->id; ?>">
+                            <?php echo $user->getName() . ' - ' . $role->role_name ?>
                         </label>
                     </li>
                     <?php
