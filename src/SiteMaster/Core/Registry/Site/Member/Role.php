@@ -21,9 +21,18 @@ class Role extends Record
     {
         return 'site_member_roles';
     }
-    
+
+    /**
+     * @param $role_id - either the id of the role or it's name
+     * @param $membership_id
+     * @return bool
+     */
     public static function getByRoleIDANDMembershipID($role_id, $membership_id)
     {
+        if (!is_int($role_id) && $role = \SiteMaster\Core\Registry\Site\Role::getByRoleName($role_id)) {
+            $role_id = $role->id;
+        }
+        
         return self::getByAnyField(__CLASS__, 'site_members_id', $membership_id, 'roles_id=' .(int)$role_id);
     }
 
