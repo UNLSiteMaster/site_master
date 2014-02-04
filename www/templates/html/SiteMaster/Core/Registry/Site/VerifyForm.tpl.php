@@ -20,5 +20,6 @@
         </p>
     </div>
     <input type="hidden" name="type" value="manual" />
-    <input type="submit" value="Manually Verify Now" />
+    <input type="submit" value="Verify Now" />
+    <a href="<?php echo $context->site->getURL() ?>members/" class="button wdn-button">Skip</a>
 </form>
