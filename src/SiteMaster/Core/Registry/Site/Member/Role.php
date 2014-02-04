@@ -49,6 +49,12 @@ class Role extends Record
         $membership_role = new self();
         $membership_role->approved = 'NO';
         $membership_role->synchronizeWithArray($fields);
+        
+        if ($member->isVerified()) {
+            //Force approval if the member is verified
+            $membership_role->approved = 'YES';
+        }
+        
         $membership_role->site_members_id = $member->id;
         $membership_role->roles_id = $role->id;
         
