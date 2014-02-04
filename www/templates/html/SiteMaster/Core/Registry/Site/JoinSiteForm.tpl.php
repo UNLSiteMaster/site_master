@@ -44,7 +44,7 @@
             <p>
                 You are not yet verified as a member of the site. Once you add some roles, we will walk you though the verification process.
                 <?php
-                if ($context->user_roles->count()) {
+                if ($context->user_roles && $context->user_roles->count()) {
                     ?>
                     <a href="<?php echo $context->site->getURL(); ?>verify/" class="button wdn-button">Verify Myself Now</a>
                     <?php
