@@ -201,7 +201,10 @@ class Member extends Record
      */
     public function verify()
     {
-        $this->addRoles(array('admin'), 'YES');
+        //check if we need to add the admin role
+        if (!$this->getRole('admin')) {
+            $this->addRoles(array('admin'), 'YES');
+        }
         
         $this->save();
         
