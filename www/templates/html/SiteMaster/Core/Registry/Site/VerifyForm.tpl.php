@@ -22,18 +22,3 @@
     <input type="hidden" name="type" value="manual" />
     <input type="submit" value="Manually Verify Now" />
 </form>
-<?php
-if ($context->canBypassManualVerification()) {
-    ?>
-    <form action="<?php echo $context->getEditURL(); ?>" method="POST">
-        <div class="panel">
-            <p>
-                You can bypass the manual verification because you are already verified for this site.
-            </p>
-        </div>
-        <input type="hidden" name="type" value="bypass" />
-        <input type="submit" value="Skip Manual Verification and Verify Now" />
-    </form>
-    <?php
-}
-?>
