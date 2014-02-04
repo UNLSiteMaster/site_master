@@ -25,7 +25,14 @@ class Member extends Record
     {
         return 'site_members';
     }
-    
+
+    /**
+     * Get the membership for a user and site
+     * 
+     * @param $user_id
+     * @param $site_id
+     * @return bool|\SiteMaster\Core\Registry\Site\Member
+     */
     public static function getByUserIDAndSiteID($user_id, $site_id)
     {
         return self::getByAnyField(__class__, 'users_id', $user_id, 'sites_id = ' . (int)$site_id);
