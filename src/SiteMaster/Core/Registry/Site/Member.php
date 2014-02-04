@@ -168,17 +168,26 @@ class Member extends Record
     }
 
     /**
+     * @param $role_id role id or name
+     * @return bool|Member\Role
+     */
+    public function getRole($role_id)
+    {
+        return Member\Role::getByRoleIDANDMembershipID($role_id, $this->id);
+    }
+
+    /**
      * determine if this membership is verified
      * 
      * @return bool
      */
     public function isVerified()
     {
-        if ($this->verified == 'YES') {
-            return true;
+        if (!$role = $this->getRole('admin')) {
+            return false;
         }
         
-        return false;
+        return $role->isApproved();
     }
 
     /**
