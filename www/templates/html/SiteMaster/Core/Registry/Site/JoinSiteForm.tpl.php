@@ -3,14 +3,19 @@
     <?php
     foreach ($context->all_roles as $role) {
         $checked = '';
+        $pending = '';
         if ($context->userHasRole($role->id)) {
             $checked = 'checked="checked"';
+            $member_role = $context->join_user_membership->getRole($role->id);
+            if (!$member_role->isApproved()) {
+                $pending = '(pending approval or self verification)';
+            }
         }
         ?>
         <li>
             <label>
                 <input type="checkbox" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked ?>>
-                <?php echo $role->role_name ?> - <?php echo $role->description ?>
+                <?php echo $role->role_name ?> - <?php echo $pending . ' ' . $role->description ?>
             </label>
         </li>
         <?php
