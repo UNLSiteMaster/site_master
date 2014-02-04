@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\User\User;
 use SiteMaster\Core\Util;
 
@@ -145,6 +146,7 @@ class Member extends Record
      *
      * @param array $role_ids an array containing role ids or names
      * @param string $approved
+     * @throws \SiteMaster\Core\RuntimeException
      */
     public function addRoles(array $role_ids, $approved = 'NO')
     {
@@ -163,7 +165,9 @@ class Member extends Record
                 continue;
             }
 
-            Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved));
+            if (!Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved))) {
+                throw new RuntimeException('Unable to create role ' . $role->role_name, 500);
+            }
         }
     }
 
