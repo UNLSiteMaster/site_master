@@ -86,32 +86,6 @@ class Member extends Record
     }
 
     /**
-     * Approve a membership
-     * 
-     * This will also add a role of 'manager' if no managers exist
-     * 
-     * @return bool
-     */
-    public function approve()
-    {
-        $this->status = 'APPROVED';
-        
-        if (!$this->save()) {
-            return false;
-        }
-        
-        $manager_role = Role::getByRoleName('manager');
-        
-        $approvedMembers = new Members\WithRole($this->sites_id, $manager_role->id);
-        
-        if (count($approvedMembers) == 0) {
-            Member\Role::createRole($manager_role, $this);
-        }
-        
-        return true;
-    }
-
-    /**
      * @return Member\Roles\All
      */
     public function getRoles()
