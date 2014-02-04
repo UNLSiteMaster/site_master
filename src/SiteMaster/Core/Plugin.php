@@ -38,7 +38,7 @@ class Plugin extends PluginInterface
         //Set up the default roles
         if (!Role::getByRoleName('admin')) {
             Role::createRole('admin', array(
-                'description' => 'administrative member of the site'
+                'description' => 'administrative member of the site.  People with this role can add/edit other user\'s roles'
             ));
         }
         
