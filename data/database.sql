@@ -14,7 +14,8 @@ CREATE  TABLE IF NOT EXISTS `users` (
   `first_name` VARCHAR(45) NULL ,
   `last_name` VARCHAR(45) NULL ,
   `role` ENUM('ADMIN', 'USER') NULL DEFAULT 'USER' COMMENT 'The user\'s role for the system.  Either ADMIN or USER.' ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `users_unique` (`provider` ASC, `uid` ASC) )
 ENGINE = InnoDB;
 
 
