@@ -29,7 +29,7 @@ class Role extends Record
      */
     public static function getByRoleIDANDMembershipID($role_id, $membership_id)
     {
-        if (!is_int($role_id) && $role = \SiteMaster\Core\Registry\Site\Role::getByRoleName($role_id)) {
+        if (!is_numeric($role_id) && $role = \SiteMaster\Core\Registry\Site\Role::getByRoleName($role_id)) {
             $role_id = $role->id;
         }
         

@@ -150,7 +150,7 @@ class Member extends Record
     {
         foreach ($role_ids as $role_id) {
             //Get the role
-            if (is_int($role_id)) {
+            if (is_numeric($role_id)) {
                 //Try to get by the role id
                 $role = Role::getByID($role_id);
             } else {
