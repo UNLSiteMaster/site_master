@@ -29,28 +29,49 @@ class BaseTestDataInstaller implements MockTestDataInstallerInterface
         $site2 = Site::createNewSite('http://www.test.com/test/');
         
         //Create memberships
-        $membership1 = Member::createMembership($user1, $site1, array(
+        $membership_user1_site1 = Member::createMembership($user1, $site1, array(
             'status' => 'APPROVED'
         ));
-        $membership2 = Member::createMembership($user2, $site1, array(
+        $membership_user2_site1= Member::createMembership($user2, $site1, array(
             'status' => 'APPROVED'
         ));
-        $membership3 = Member::createMembership($user1, $site2, array(
+        $membership_user1_site2 = Member::createMembership($user1, $site2, array(
             'status' => 'PENDING'
         ));
-        $membership4 = Member::createMembership($user2, $site2, array(
+        $membership_user2_site2 = Member::createMembership($user2, $site2, array(
             'status' => 'APPROVED'
         ));
         
         //Get roles (should be installed by default)
-        $manager = Role::getByRoleName('manager');
+        $admin = Role::getByRoleName('admin');
         $developer = Role::getByRoleName('developer');
+
+        /**************************************
+         * Site 1 memberships
+         */
+        Member\Role::createRoleForSiteMember($admin, $membership_user1_site1, array(
+            'approved' => 'YES'
+        ));
         
-        //add membership roles
-        Member\Role::createRoleForSiteMember($manager, $membership1);
-        Member\Role::createRoleForSiteMember($developer, $membership1);
-        Member\Role::createRoleForSiteMember($manager, $membership2);
-        Member\Role::createRoleForSiteMember($manager, $membership3);
-        Member\Role::createRoleForSiteMember($manager, $membership4);
+        //Should be auto-approved because they are an approved admin
+        Member\Role::createRoleForSiteMember($developer, $membership_user1_site1);
+        
+        
+        Member\Role::createRoleForSiteMember($developer, $membership_user2_site1, array(
+            'approved' => 'YES'
+        ));
+
+        /**************************************
+         * Site 2 memberships
+         */
+        Member\Role::createRoleForSiteMember($admin, $membership_user1_site2, array(
+            'approved' => 'NO'
+        ));
+        Member\Role::createRoleForSiteMember($developer, $membership_user1_site2, array(
+            'approved' => 'YES'
+        ));
+        Member\Role::createRoleForSiteMember($developer, $membership_user2_site2, array(
+            'approved' => 'YES'
+        ));
     }
 }
