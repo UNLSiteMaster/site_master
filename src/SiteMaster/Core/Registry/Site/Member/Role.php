@@ -85,4 +85,28 @@ class Role extends Record
         $this->approved = 'YES';
         $this->save();
     }
+
+    /**
+     * Ge the membership for this role
+     * 
+     * @return bool|\SiteMaster\Core\Registry\Site\Member
+     */
+    public function getMembership()
+    {
+        return Member::getByID($this->site_members_id);
+    }
+
+    /**
+     * Get the user for this role
+     * 
+     * @return false|\SiteMaster\Core\User\User
+     */
+    public function getUser()
+    {
+        if (!$membership = $this->getMembership()) {
+            return false;
+        }
+        
+        return $membership->getUser();
+    }
 }
