@@ -143,13 +143,23 @@ class Member extends Record
     /**
      * Add roles for this membership
      *
-     * @param array $role_ids
+     * @param array $role_ids an array containing role ids or names
      * @param string $approved
      */
     public function addRoles(array $role_ids, $approved = 'NO')
     {
         foreach ($role_ids as $role_id) {
-            if (!$role = Role::getByID($role_id)) {
+            //Get the role
+            if (is_int($role_id)) {
+                //Try to get by the role id
+                $role = Role::getByID($role_id);
+            } else {
+                //Try to get by the role name
+                $role = Role::getByRoleName($role_id);
+            }
+            
+            if (!$role) {
+                //Couldn't get the role... skip adding it
                 continue;
             }
 
@@ -173,11 +183,13 @@ class Member extends Record
 
     /**
      * Verify this membership.
-     * This will also approve all pending roles.
+     * 
+     * This will add the 'admin role' and also approve all pending roles.
      */
     public function verify()
     {
-        $this->verified = 'YES';
+        $this->addRoles(array('admin'), 'YES');
+        
         $this->save();
         
         foreach ($this->getRoles() as $role) {
