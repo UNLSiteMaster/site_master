@@ -206,8 +206,6 @@ class Member extends Record
             $this->addRoles(array('admin'), 'YES');
         }
         
-        $this->save();
-        
         foreach ($this->getRoles() as $role) {
             $role->approve();
         }
