@@ -2,6 +2,8 @@
 namespace SiteMaster\Core;
 
 use DB\Connection;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class Util
 {
@@ -282,5 +284,17 @@ class Util
         }
 
         return "unknown";
+    }
+    
+    public static function log($level, $message, array $context = array())
+    {
+        static $log;
+        
+        if (!$log) {
+            $log = new Logger('sitemaster');
+            $log->pushHandler(new StreamHandler(self::getRootDir() . '/tmp/sitemaster.log'));
+        }
+
+        $log->log($level, $message, $context);
     }
 }
