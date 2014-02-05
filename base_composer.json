@@ -10,6 +10,10 @@
         {
             "type": "pear",
             "url": "http://phpsavant.com"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/saltybeagle/Spider.git"
         }
     ],
     "require": {
@@ -17,6 +21,7 @@
         "pear-savant/Savvy": "*",
         "symfony/event-dispatcher": "2.2.*",
         "symfony/http-foundation": "2.2.*",
-        "ircmaxell/password-compat": "dev-master"
+        "ircmaxell/password-compat": "dev-master",
+        "saltybeagle/Spider": "dev-master"
     }
 }
