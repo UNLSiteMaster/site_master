@@ -73,7 +73,7 @@ class EditForm implements ViewableInterface, PostHandlerInterface
      */
     public function getPageTitle()
     {
-        return 'Add a Site';
+        return 'Edit Site Information';
     }
 
     /**

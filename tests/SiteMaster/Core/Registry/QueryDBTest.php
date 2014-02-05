@@ -26,7 +26,7 @@ class QueryDBTest extends DBTestCase
             'http://www.test.com/test/',
         );
         
-        $this->assertEquals($expected, $sites, 'This user should have two accepted sites');
+        $this->assertEquals($expected, $sites, 'test?2 should have 2 accepted sites');
 
         $result = $query->query('test?1');
         $sites = array();
@@ -36,10 +36,11 @@ class QueryDBTest extends DBTestCase
         }
 
         $expected = array(
-            'http://www.test.com/'
+            'http://www.test.com/',
+            'http://www.test.com/test/'
         );
 
-        $this->assertEquals($expected, $sites, 'This user should have 1 accepted site (and 1 pending)');
+        $this->assertEquals($expected, $sites, 'test?1 should have 2 accepted sites');
     }
 
     /**

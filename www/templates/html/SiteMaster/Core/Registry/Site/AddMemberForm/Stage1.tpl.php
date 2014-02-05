@@ -2,7 +2,7 @@
     <ul>
         <li>
             <label for="search">Enter your search term</label>
-            <input id="term" name="term" autofocus required />
+            <input type="text" id="term" name="term" autofocus required />
         </li>
     </ul>
 

@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\User\User;
 use SiteMaster\Core\Util;
 
@@ -12,7 +13,6 @@ class Member extends Record
     public $users_id;             //int required fk -> users
     public $sites_id;             //int required fk -> sites
     public $source;               //varchar
-    public $verified;             //enum('YES', 'NO') required default = NO
     public $date_added;           //datetime required
     public $verification_code;    //string required
     
@@ -25,7 +25,14 @@ class Member extends Record
     {
         return 'site_members';
     }
-    
+
+    /**
+     * Get the membership for a user and site
+     * 
+     * @param $user_id
+     * @param $site_id
+     * @return bool|\SiteMaster\Core\Registry\Site\Member
+     */
     public static function getByUserIDAndSiteID($user_id, $site_id)
     {
         return self::getByAnyField(__class__, 'users_id', $user_id, 'sites_id = ' . (int)$site_id);
@@ -66,7 +73,6 @@ class Member extends Record
     {
         //Create base object
         $membership = new self();
-        $membership->verified = 'NO';
         
         //Set optional fields
         $membership->synchronizeWithArray($fields);
@@ -84,32 +90,6 @@ class Member extends Record
         }
         
         return $membership;
-    }
-
-    /**
-     * Approve a membership
-     * 
-     * This will also add a role of 'manager' if no managers exist
-     * 
-     * @return bool
-     */
-    public function approve()
-    {
-        $this->status = 'APPROVED';
-        
-        if (!$this->save()) {
-            return false;
-        }
-        
-        $manager_role = Role::getByRoleName('manager');
-        
-        $approvedMembers = new Members\WithRole($this->sites_id, $manager_role->id);
-        
-        if (count($approvedMembers) == 0) {
-            Member\Role::createRole($manager_role, $this);
-        }
-        
-        return true;
     }
 
     /**
@@ -145,18 +125,40 @@ class Member extends Record
     /**
      * Add roles for this membership
      *
-     * @param array $role_ids
+     * @param array $role_ids an array containing role ids or names
      * @param string $approved
+     * @throws \SiteMaster\Core\RuntimeException
      */
     public function addRoles(array $role_ids, $approved = 'NO')
     {
         foreach ($role_ids as $role_id) {
-            if (!$role = Role::getByID($role_id)) {
+            //Get the role
+            if (is_numeric($role_id)) {
+                //Try to get by the role id
+                $role = Role::getByID($role_id);
+            } else {
+                //Try to get by the role name
+                $role = Role::getByRoleName($role_id);
+            }
+            
+            if (!$role) {
+                //Couldn't get the role... skip adding it
                 continue;
             }
 
-            Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved));
+            if (!Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved))) {
+                throw new RuntimeException('Unable to create role ' . $role->role_name, 500);
+            }
         }
+    }
+
+    /**
+     * @param $role_id role id or name
+     * @return bool|Member\Role
+     */
+    public function getRole($role_id)
+    {
+        return Member\Role::getByRoleIDANDMembershipID($role_id, $this->id);
     }
 
     /**
@@ -166,21 +168,24 @@ class Member extends Record
      */
     public function isVerified()
     {
-        if ($this->verified == 'YES') {
-            return true;
+        if (!$role = $this->getRole('admin')) {
+            return false;
         }
         
-        return false;
+        return $role->isApproved();
     }
 
     /**
      * Verify this membership.
-     * This will also approve all pending roles.
+     * 
+     * This will add the 'admin role' and also approve all pending roles.
      */
     public function verify()
     {
-        $this->verified = 'YES';
-        $this->save();
+        //check if we need to add the admin role
+        if (!$this->getRole('admin')) {
+            $this->addRoles(array('admin'), 'YES');
+        }
         
         foreach ($this->getRoles() as $role) {
             $role->approve();

@@ -22,14 +22,6 @@ if (!$context->members->count()) {
                     <span class="member-name"><?php echo $user->getName() ?></span>
                     <div class="options">
                         <?php
-                        if ($member->isVerified()) {
-                            echo "Verified";
-                        } else if ($can_edit) {
-                            ?>
-                            <a href="<?php echo $context->site->getURL()?>verify/<?php echo $user->id;?>/">Verify</a>
-                            <?php
-                        }
-
                         if ($can_edit) {
                             ?>
                             <a href="<?php echo $context->site->getURL()?>join/<?php echo $user->id;?>/">Edit Roles</a>
@@ -74,13 +66,14 @@ if ($can_edit) {
             ?>
             <ul>
                 <?php
-                foreach ($context->pending as $memberRole) {
-                    $role = $memberRole->getRole();
+                foreach ($context->pending as $member_role) {
+                    $role = $member_role->getRole();
+                    $user = $member_role->getUser();
                     ?>
                     <li>
                         <label>
-                            <input type="checkbox" name="approve[]" value="<?php echo $memberRole->id; ?>">
-                            <?php echo $role->role_name ?> - <?php echo $role->description ?>
+                            <input type="checkbox" name="approve[]" value="<?php echo $member_role->id; ?>">
+                            <?php echo $user->getName() . ' - ' . $role->role_name ?>
                         </label>
                     </li>
                     <?php

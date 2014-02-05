@@ -10,6 +10,7 @@ class Role extends Record
     public $site_members_id;  //int required fk -> site_members
     public $roles_id;         //int required fk -> roles
     public $approved;         //ENUM('YES', 'NO') default = NO
+    public $source;           //varchar(64) default = null
 
     public function keys()
     {
@@ -20,9 +21,18 @@ class Role extends Record
     {
         return 'site_member_roles';
     }
-    
+
+    /**
+     * @param $role_id - either the id of the role or it's name
+     * @param $membership_id
+     * @return bool
+     */
     public static function getByRoleIDANDMembershipID($role_id, $membership_id)
     {
+        if (!is_numeric($role_id) && $role = \SiteMaster\Core\Registry\Site\Role::getByRoleName($role_id)) {
+            $role_id = $role->id;
+        }
+        
         return self::getByAnyField(__CLASS__, 'site_members_id', $membership_id, 'roles_id=' .(int)$role_id);
     }
 
@@ -39,6 +49,12 @@ class Role extends Record
         $membership_role = new self();
         $membership_role->approved = 'NO';
         $membership_role->synchronizeWithArray($fields);
+        
+        if ($member->isVerified()) {
+            //Force approval if the member is verified
+            $membership_role->approved = 'YES';
+        }
+        
         $membership_role->site_members_id = $member->id;
         $membership_role->roles_id = $role->id;
         
@@ -74,5 +90,29 @@ class Role extends Record
     {
         $this->approved = 'YES';
         $this->save();
+    }
+
+    /**
+     * Ge the membership for this role
+     * 
+     * @return bool|\SiteMaster\Core\Registry\Site\Member
+     */
+    public function getMembership()
+    {
+        return Member::getByID($this->site_members_id);
+    }
+
+    /**
+     * Get the user for this role
+     * 
+     * @return false|\SiteMaster\Core\User\User
+     */
+    public function getUser()
+    {
+        if (!$membership = $this->getMembership()) {
+            return false;
+        }
+        
+        return $membership->getUser();
     }
 }

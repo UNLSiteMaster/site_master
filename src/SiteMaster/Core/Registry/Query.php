@@ -109,7 +109,7 @@ class Query extends \IteratorIterator
             return array();
         }
         
-        return $user->getSites();
+        return $user->getApprovedSites();
     }
 
     /**

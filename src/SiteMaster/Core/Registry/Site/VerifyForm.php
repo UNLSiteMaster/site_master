@@ -187,31 +187,6 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
         return false;
     }
 
-    /**
-     * Determine if the current user can bypass the manual verify step
-     * 
-     * @return bool
-     */
-    public function canBypassManualVerification()
-    {
-        if ($this->current_user->isAdmin()) {
-            //admin can join anyone
-            return true;
-        }
-
-        if (!$this->current_user_membership) {
-            //The current user needs a membership if they want to verify someone else.
-            return false;
-        }
-
-        if ($this->current_user_membership->isVerified()) {
-            //The current user needs to be verified to verify someone else
-            return true;
-        }
-        
-        return false;
-    }
-
     public function handlePost($get, $post, $files)
     {
         if (!isset($post['type'])) {
@@ -221,9 +196,6 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
         switch ($post['type']) {
             case 'manual':
                 $this->manuallyVerify();
-                break;
-            case 'bypass':
-                $this->bypassVerify();
                 break;
             default:
                 throw new UnexpectedValueException('That type is not supported', 400);
@@ -240,15 +212,6 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
             throw new RuntimeException('Unable to find the verification file.  Please make sure it is present and try again.', 400);
         }
         
-        $this->verify_user_membership->verify();
-    }
-
-    protected function bypassVerify()
-    {
-        if (!$this->canBypassManualVerification()) {
-            throw new AccessDeniedException('You do not have permission to bypass verification');
-        }
-
         $this->verify_user_membership->verify();
     }
 

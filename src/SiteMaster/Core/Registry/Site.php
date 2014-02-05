@@ -113,7 +113,7 @@ class Site extends Record
      */
     public function userIsVerified(User $user)
     {
-        $membership = Member::getByUserIDAndSiteID($user->id, $this->id);
+        $membership = $this->getMembershipForUser($user);
         
         if (!$membership) {
             return false;
@@ -124,6 +124,17 @@ class Site extends Record
         }
         
         return false;
+    }
+
+    /**
+     * Get the membership for a given user
+     * 
+     * @param User $user
+     * @return bool
+     */
+    public function getMembershipForUser(User $user)
+    {
+         return Member::getByUserIDAndSiteID($user->id, $this->id);
     }
 
     /**

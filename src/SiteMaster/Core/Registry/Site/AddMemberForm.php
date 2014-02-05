@@ -148,8 +148,11 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
                 $fields = $results[$post['user']];
             }
             
-            if (!$user = User::createUser($user_details[1], $user_details[0], $fields)) {
-                throw new RuntimeException('Unable to create that user', 500);
+            //Create the user if we need to
+            if (!$user = User::getByUIDAndProvider($user_details[1], $user_details[0])) {
+                if (!$user = User::createUser($user_details[1], $user_details[0], $fields)) {
+                    throw new RuntimeException('Unable to create that user', 500);
+                }
             }
         }
         
