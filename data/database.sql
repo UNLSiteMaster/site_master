@@ -122,45 +122,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pages`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `pages` (
-  `id` INT NOT NULL ,
-  `sites_id` INT NOT NULL ,
-  `uri` VARCHAR(256) NOT NULL ,
-  `title` VARCHAR(256) NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_pages_sites1` (`sites_id` ASC) ,
-  CONSTRAINT `fk_pages_sites1`
-    FOREIGN KEY (`sites_id` )
-    REFERENCES `sites` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `scanned_page`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `scanned_page` (
-  `id` INT NOT NULL ,
-  `pages_idscans` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `scans_id` INT NOT NULL ,
+  `sites_id` INT NOT NULL ,
+  `uri` VARCHAR(256) NOT NULL ,
   `scanned` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' ,
-  `grade` INT(1) NULL COMMENT 'the grade for the page.  This is gathered by 100 - (marks.point_deduction) with the grading scale applied\nA=4\nB=3\nC=2\nD=1\nF=0' ,
   `start_time` DATETIME NOT NULL ,
   `end_time` DATETIME NULL ,
+  `grade` INT(1) NULL COMMENT 'the grade for the page.  This is gathered by 100 - (marks.point_deduction) with the grading scale applied\nA=4\nB=3\nC=2\nD=1\nF=0' ,
+  `title` VARCHAR(256) NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_scanned_page_pages1` (`pages_idscans` ASC) ,
   INDEX `fk_scanned_page_scans1` (`scans_id` ASC) ,
-  CONSTRAINT `fk_scanned_page_pages1`
-    FOREIGN KEY (`pages_idscans` )
-    REFERENCES `pages` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_scanned_page_sites1` (`sites_id` ASC) ,
+  UNIQUE INDEX `uri_UNIQUE` (`uri` ASC) ,
   CONSTRAINT `fk_scanned_page_scans1`
     FOREIGN KEY (`scans_id` )
     REFERENCES `scans` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_scanned_page_sites1`
+    FOREIGN KEY (`sites_id` )
+    REFERENCES `sites` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -182,7 +167,7 @@ COMMENT = 'These are metrics, such as links checks, html validity, accessibility
 -- Table `marks`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `marks` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `metrics_id` INT NOT NULL ,
   `machine_name` VARCHAR(45) NOT NULL COMMENT 'Machine readable name of the metric.  IE: 404_link\n\nThis must be unique to the metric.\n\nThe machine_name is how modules can easily retrieve marks.\n' ,
   `name` VARCHAR(45) NOT NULL COMMENT 'The name of the mark.  i.e.  \"404 Link\"\n' ,
@@ -204,22 +189,22 @@ ENGINE = InnoDB;
 -- Table `page_marks`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `page_marks` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `marks_id` INT NOT NULL ,
-  `scanned_page_idscans` INT NOT NULL ,
+  `scanned_page_id` INT NOT NULL ,
   `context` TEXT NULL ,
   `line` INT NULL ,
   `col` INT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_page_marks_marks1` (`marks_id` ASC) ,
-  INDEX `fk_page_marks_scanned_page1` (`scanned_page_idscans` ASC) ,
+  INDEX `fk_page_marks_scanned_page1` (`scanned_page_id` ASC) ,
   CONSTRAINT `fk_page_marks_marks1`
     FOREIGN KEY (`marks_id` )
     REFERENCES `marks` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_page_marks_scanned_page1`
-    FOREIGN KEY (`scanned_page_idscans` )
+    FOREIGN KEY (`scanned_page_id` )
     REFERENCES `scanned_page` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
