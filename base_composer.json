@@ -23,6 +23,7 @@
         "symfony/http-foundation": "2.2.*",
         "ircmaxell/password-compat": "dev-master",
         "saltybeagle/Spider": "dev-master",
-        "monolog/monolog": "1.7.*@dev"
+        "monolog/monolog": "1.7.*@dev",
+        "pda/pheanstalk": "2.*@dev"
     }
 }
