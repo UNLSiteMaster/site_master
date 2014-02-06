@@ -10,3 +10,4 @@ data/database.mwb.bak
 /phpmyadmin
 /sitemaster
 /.vagrant
+/beanstalk_console
