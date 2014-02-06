@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   PRIMARY KEY (`id`),
   INDEX `fk_scanned_page_scans1_idx` (`scans_id` ASC),
   INDEX `fk_scanned_page_sites1_idx` (`sites_id` ASC),
-  UNIQUE INDEX `uri_UNIQUE` (`uri` ASC),
+  UNIQUE INDEX `scanned_page_unique` USING BTREE (`scans_id` ASC, `uri` ASC),
   CONSTRAINT `fk_scanned_page_scans1`
     FOREIGN KEY (`scans_id`)
     REFERENCES `scans` (`id`)
