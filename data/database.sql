@@ -30,6 +30,7 @@ CREATE  TABLE IF NOT EXISTS `sites` (
   `last_connection_error` DATETIME NULL ,
   `http_code` INT(10) NULL ,
   `curl_code` INT(10) NULL ,
+  `gpa` DOUBLE NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `baseurl_UNIQUE` (`base_url` ASC) )
 ENGINE = InnoDB;
@@ -96,6 +97,130 @@ CREATE  TABLE IF NOT EXISTS `site_member_roles` (
   CONSTRAINT `fk_site_member_roles_roles1`
     FOREIGN KEY (`roles_id` )
     REFERENCES `roles` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scans`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `scans` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `sites_id` INT NOT NULL ,
+  `grade` DOUBLE NULL COMMENT 'the GPA.  This is computed by averaging the numeric value of the scanned_page.grade' ,
+  `start_time` DATETIME NOT NULL ,
+  `end_time` DATETIME NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_scans_sites1` (`sites_id` ASC) ,
+  CONSTRAINT `fk_scans_sites1`
+    FOREIGN KEY (`sites_id` )
+    REFERENCES `sites` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pages`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `pages` (
+  `id` INT NOT NULL ,
+  `sites_id` INT NOT NULL ,
+  `uri` VARCHAR(256) NOT NULL ,
+  `title` VARCHAR(256) NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_pages_sites1` (`sites_id` ASC) ,
+  CONSTRAINT `fk_pages_sites1`
+    FOREIGN KEY (`sites_id` )
+    REFERENCES `sites` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `scanned_page`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `scanned_page` (
+  `id` INT NOT NULL ,
+  `pages_idscans` INT NOT NULL ,
+  `scans_id` INT NOT NULL ,
+  `scanned` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' ,
+  `grade` INT(1) NULL COMMENT 'the grade for the page.  This is gathered by 100 - (marks.point_deduction) with the grading scale applied\nA=4\nB=3\nC=2\nD=1\nF=0' ,
+  `start_time` DATETIME NOT NULL ,
+  `end_time` DATETIME NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_scanned_page_pages1` (`pages_idscans` ASC) ,
+  INDEX `fk_scanned_page_scans1` (`scans_id` ASC) ,
+  CONSTRAINT `fk_scanned_page_pages1`
+    FOREIGN KEY (`pages_idscans` )
+    REFERENCES `pages` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_scanned_page_scans1`
+    FOREIGN KEY (`scans_id` )
+    REFERENCES `scans` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `metrics`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `metrics` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(128) NOT NULL ,
+  `module` VARCHAR(64) NOT NULL COMMENT 'the name of the module for the metic.  ie:  metric_wdn_version' ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+COMMENT = 'These are metrics, such as links checks, html validity, accessibility, etc';
+
+
+-- -----------------------------------------------------
+-- Table `marks`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `marks` (
+  `id` INT NOT NULL ,
+  `metrics_id` INT NOT NULL ,
+  `machine_name` VARCHAR(45) NOT NULL COMMENT 'Machine readable name of the metric.  IE: 404_link\n\nThis must be unique to the metric.\n\nThe machine_name is how modules can easily retrieve marks.\n' ,
+  `name` VARCHAR(45) NOT NULL COMMENT 'The name of the mark.  i.e.  \"404 Link\"\n' ,
+  `point_deduction` INT(2) NOT NULL DEFAULT 0 ,
+  `description` VARCHAR(45) NULL COMMENT 'A longer description of the mark and why it was marked' ,
+  `help_text` VARCHAR(45) NULL COMMENT 'General \'how to fix\' text' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_marks_metrics1` (`metrics_id` ASC) ,
+  UNIQUE INDEX `marks_unique` (`metrics_id` ASC, `machine_name` ASC) ,
+  CONSTRAINT `fk_marks_metrics1`
+    FOREIGN KEY (`metrics_id` )
+    REFERENCES `metrics` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `page_marks`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `page_marks` (
+  `id` INT NOT NULL ,
+  `marks_id` INT NOT NULL ,
+  `scanned_page_idscans` INT NOT NULL ,
+  `context` TEXT NULL ,
+  `line` INT NULL ,
+  `col` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_page_marks_marks1` (`marks_id` ASC) ,
+  INDEX `fk_page_marks_scanned_page1` (`scanned_page_idscans` ASC) ,
+  CONSTRAINT `fk_page_marks_marks1`
+    FOREIGN KEY (`marks_id` )
+    REFERENCES `marks` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_page_marks_scanned_page1`
+    FOREIGN KEY (`scanned_page_idscans` )
+    REFERENCES `scanned_page` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
