@@ -220,7 +220,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `grade` TINYINT NOT NULL DEFAULT 0,
+  `grade` DECIMAL(2,2) NOT NULL DEFAULT 0,
   `metrics_id` INT NOT NULL,
   `scanned_page_id` INT NOT NULL,
   `changes_since_last_scan` INT NOT NULL DEFAULT 0 COMMENT 'The number of changes since the last scan. \n',
