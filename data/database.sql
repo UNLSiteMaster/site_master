@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `scans_id` INT NOT NULL,
   `sites_id` INT NOT NULL,
-  `uri` VARCHAR(256) NOT NULL,
+  `uri` VARCHAR(256) NOT NULL COMMENT 'The same URI can be found multiple times in a single scan.  A single page can be rescanned instead of the entire site.  Those cans should be able to be compared with each other and should not overwrite history.',
   `scan_finished` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO',
   `grade` DOUBLE(2,2) NOT NULL DEFAULT 0 COMMENT 'the grade for the page.  This is gathered by 100 - (marks.point_deduction) with the grading scale applied\nA=4\nB=3\nC=2\nD=1' /* comment truncated */ /*F=0*/,
   `start_time` DATETIME NOT NULL,
@@ -139,7 +139,6 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   PRIMARY KEY (`id`),
   INDEX `fk_scanned_page_scans1_idx` (`scans_id` ASC),
   INDEX `fk_scanned_page_sites1_idx` (`sites_id` ASC),
-  UNIQUE INDEX `scanned_page_unique` USING BTREE (`scans_id` ASC, `uri` ASC),
   CONSTRAINT `fk_scanned_page_scans1`
     FOREIGN KEY (`scans_id`)
     REFERENCES `scans` (`id`)

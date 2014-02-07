@@ -10,7 +10,7 @@ class Page extends Record
     public $id;                    //int required
     public $scans_id;              //fk for scans.id NOT NULL
     public $sites_id;              //fk for sites_id NOT NULL
-    public $uri;                   //URI VARCHAR(256)
+    public $uri;                   //URI VARCHAR(256) NOT NULL
     public $scan_finished;         //ENUM('YES', 'NO') NOT NULL default='NO'
     public $grade;                 //DOUBLE(2,2) NOT NULL default=0
     public $start_time;            //DATETIME NOT NULL
