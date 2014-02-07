@@ -20,6 +20,7 @@ class Page extends Record
     public $title;                 //VARCHAR(256)
     public $letter_grade;          //VARCHAR(2)
     public $error;                 //VARCHAR(256)
+    public $job_id;                //INT, the job's id in the queue system
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';

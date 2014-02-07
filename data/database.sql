@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   `title` VARCHAR(256) NULL,
   `letter_grade` VARCHAR(2) NULL,
   `error` VARCHAR(256) NULL,
+  `job_id` INT NULL COMMENT 'The job ID for the Queue System',
   PRIMARY KEY (`id`),
   INDEX `fk_scanned_page_scans1_idx` (`scans_id` ASC),
   INDEX `fk_scanned_page_sites1_idx` (`sites_id` ASC),
