@@ -4,6 +4,7 @@ namespace SiteMaster\Core\Registry;
 use DB\Record;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
+use SiteMaster\Core\Scan\Scan;
 use SiteMaster\Core\User\User;
 
 class Site extends Record
@@ -173,5 +174,11 @@ class Site extends Record
         }
         
         return parent::delete();
+    }
+    
+    public function scheduleScan()
+    {
+        $scan = Scan::createNewScan($this->id);
+        $scan->scheduleScan();
     }
 }
