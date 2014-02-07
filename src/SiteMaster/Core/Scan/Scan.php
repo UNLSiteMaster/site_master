@@ -3,6 +3,8 @@ namespace SiteMaster\Core\Scan;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site\Member;
+use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\Scan\Site\Page;
 use SiteMaster\Core\Util;
 
 class Scan extends Record
@@ -63,5 +65,33 @@ class Scan extends Record
         }
 
         return $scan;
+    }
+
+    /**
+     * Get the site for this scan
+     * 
+     * @return bool|\SiteMaster\Core\Registry\Site
+     */
+    public function getSite()
+    {
+        return Site::getByID($this->sites_id);
+    }
+
+    /**
+     * Schedule a scan for this site
+     * (Schedule the base_url) for this scan.
+     * 
+     * @return bool|int - false on fail, the job id on success
+     */
+    public function scheduleScan()
+    {
+        if ($this->status !== self::STATUS_CREATED) {
+            //Looks like this has already been ran, or queued.
+            return false;
+        }
+        
+        $site = $this->getSite();
+        $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url);
+        return $page_scan->scheduleScan();
     }
 }
