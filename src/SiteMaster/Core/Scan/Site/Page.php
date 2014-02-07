@@ -119,7 +119,7 @@ class Page extends Record
         
         $pheanstalk = new \Pheanstalk_Pheanstalk('0.0.0.0');
         
-        if ($pheanstalk->getConnection()->isServiceListening()) {
+        if (!$pheanstalk->getConnection()->isServiceListening()) {
             throw new RuntimeException('Unable to connect to the queue. Scan for scanned_pages.' . $this->id . ' failed');
         }
 
