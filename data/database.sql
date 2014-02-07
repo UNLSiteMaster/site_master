@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_name` VARCHAR(45) NULL,
   `role` ENUM('ADMIN', 'USER') NULL DEFAULT 'USER' COMMENT 'The user\'s role for the system.  Either ADMIN or USER.',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `users_unique` (`provider` ASC, `uid` ASC)  COMMENT  /* comment truncated */ /*there can only be 1 user with a unique uid+provider*/)
+  UNIQUE INDEX `users_unique` (`provider` ASC, `uid` ASC))
 ENGINE = InnoDB;
 
 
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   `uri` VARCHAR(256) NOT NULL COMMENT 'The same URI can be found multiple times in a single scan.  A single page can be rescanned instead of the entire site.  Those cans should be able to be compared with each other and should not overwrite history.',
   `status` ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'CREATED',
   `scan_type` ENUM('USER', 'AUTO') NOT NULL DEFAULT 'AUTO',
-  `grade` DOUBLE(2,2) NOT NULL DEFAULT 0 COMMENT 'the grade for the page.  This is gathered by 100 - (marks.point_deduction) with the grading scale applied\nA=4\nB=3\nC=2\nD=1' /* comment truncated */ /*F=0*/,
+  `grade` DECIMAL(2,2) NOT NULL DEFAULT 0 COMMENT 'the grade for the page.  This is gathered by 100 - (marks.point_deduction) with the grading scale applied\nA=4\nB=3\nC=2\nD=1' /* comment truncated */ /*F=0*/,
   `start_time` DATETIME NOT NULL,
   `end_time` DATETIME NULL,
   `title` VARCHAR(256) NULL,
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `metrics` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
   `machine_name` VARCHAR(64) NOT NULL COMMENT 'the name of the module for the metic.  ie:  metric_wdn_version',
-  `weight` DOUBLE(2,2) NOT NULL DEFAULT 0 COMMENT '0 to 100 % value of all enabled metrics. The total of all metrics can not be > 100',
+  `weight` DECIMAL(2,2) NOT NULL DEFAULT 0 COMMENT '0 to 100 % value of all enabled metrics. The total of all metrics can not be > 100',
   `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Yes/no.  if yes, there can be no marks for the metric to get a passing grade (A)',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
