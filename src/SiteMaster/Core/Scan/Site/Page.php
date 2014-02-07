@@ -82,4 +82,48 @@ class Page extends Record
 
         return $page;
     }
+
+    /**
+     * Schedule a scan of this page.
+     * 
+     * @param bool $crawl - true if we should continue crawling, false if we should only scan this page.
+     * @return bool|int
+     * @throws \SiteMaster\Core\RuntimeException
+     */
+    public function scheduleScan($crawl = true)
+    {
+        if ($this->status != self::STATUS_CREATED) {
+            //The scan already finished.  Don't scan again.
+            return false;
+        }
+        
+        $pheanstalk = new \Pheanstalk_Pheanstalk('0.0.0.0');
+        
+        if ($pheanstalk->getConnection()->isServiceListening()) {
+            throw new RuntimeException('Unable to connect to the queue. Scan for scanned_pages.' . $this->id . ' failed');
+        }
+
+        $data = array(
+            'controller' => 'scan-page',
+            'data' => array(
+                'uri'             => $this->uri,
+                'scanned_page_id' => $this->id,
+                'crawl'           => $crawl
+            )
+        );
+
+        if (!$job_id = $pheanstalk->useTube('site_master')->put(json_encode($data))) {
+            throw new RuntimeException('Unable to schedule a job for scanned_pages.' . $this->id);
+        }
+        
+        $this->job_id = $job_id;
+        $this->status = self::STATUS_QUEUED;
+        
+        return $this->job_id;
+    }
+    
+    public function scan()
+    {
+        
+    }
 }
