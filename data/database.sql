@@ -159,7 +159,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `metrics` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
-  `module` VARCHAR(64) NOT NULL COMMENT 'the name of the module for the metic.  ie:  metric_wdn_version',
+  `machine_name` VARCHAR(64) NOT NULL COMMENT 'the name of the module for the metic.  ie:  metric_wdn_version',
   `weight` DOUBLE(2,2) NOT NULL DEFAULT 0 COMMENT '0 to 100 % value of all enabled metrics. The total of all metrics can not be > 100',
   `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Yes/no.  if yes, there can be no marks for the metric to get a passing grade (A)',
   PRIMARY KEY (`id`))
@@ -173,10 +173,10 @@ COMMENT = 'These are metrics, such as links checks, html validity, acce' /* comm
 CREATE TABLE IF NOT EXISTS `marks` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `metrics_id` INT NOT NULL,
-  `machine_name` VARCHAR(45) NOT NULL COMMENT 'Machine readable name of the metric.  IE: 404_link\n\nThis must be unique to the metric.\n\nThe machine_name is how modules can easily retrieve marks.',
-  `name` VARCHAR(45) NOT NULL COMMENT 'The name of the mark.  i.e.  \"404 Link\"',
+  `machine_name` VARCHAR(64) NOT NULL COMMENT 'Machine readable name of the metric.  IE: 404_link\n\nThis must be unique to the metric.\n\nThe machine_name is how modules can easily retrieve marks.',
+  `name` TEXT NOT NULL COMMENT 'The name of the mark.  i.e.  \"404 Link\"',
   `point_deduction` DECIMAL(2,2) NOT NULL DEFAULT 0,
-  `description` VARCHAR(45) NULL COMMENT 'A longer description of the mark and why it was marked',
+  `description` TEXT NULL COMMENT 'A longer description of the mark and why it was marked',
   `help_text` VARCHAR(45) NULL COMMENT 'General \'how to fix\' text',
   PRIMARY KEY (`id`),
   INDEX `fk_marks_metrics1_idx` (`metrics_id` ASC),
@@ -196,10 +196,10 @@ CREATE TABLE IF NOT EXISTS `page_marks` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `marks_id` INT NOT NULL,
   `scanned_page_id` INT NOT NULL,
+  `points_deducted` DECIMAL(2,2) NOT NULL DEFAULT 0,
   `context` TEXT NULL,
   `line` INT NULL,
   `col` INT NULL,
-  `points_deducted` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_page_marks_marks1_idx` (`marks_id` ASC),
   INDEX `fk_page_marks_scanned_page1_idx` (`scanned_page_id` ASC),
@@ -221,9 +221,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `grade` DECIMAL(2,2) NOT NULL DEFAULT 0,
   `metrics_id` INT NOT NULL,
   `scanned_page_id` INT NOT NULL,
+  `grade` DECIMAL(2,2) NOT NULL DEFAULT 0,
   `changes_since_last_scan` INT NOT NULL DEFAULT 0 COMMENT 'The number of changes since the last scan. \n',
   `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Was the grade a pass/fail?',
   `letter_grade` VARCHAR(2) NULL,
