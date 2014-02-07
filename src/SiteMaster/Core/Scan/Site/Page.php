@@ -3,6 +3,10 @@ namespace SiteMaster\Core\Scan\Site;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site\Member;
+use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\Scan\Downloader\HTMLOnly;
+use SiteMaster\Core\Scan\Logger\Scheduler;
+use SiteMaster\Core\Scan\Scan;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\RuntimeException;
 
@@ -84,6 +88,22 @@ class Page extends Record
     }
 
     /**
+     * @return false|\SiteMaster\Core\Scan\Scan
+     */
+    public function getScan()
+    {
+        return Scan::getByID($this->scans_id);
+    }
+
+    /**
+     * @return false|\Sitemaster\Core\Registry\Site
+     */
+    public function getSite()
+    {
+        return Site::getByID($this->sites_id);
+    }
+
+    /**
      * Schedule a scan of this page.
      * 
      * @param bool $crawl - true if we should continue crawling, false if we should only scan this page.
@@ -124,6 +144,28 @@ class Page extends Record
     
     public function scan()
     {
+        if ($this->status != self::STATUS_QUEUED) {
+            //Looks like it has already been scanned (or has yet to be scheduled).  Don't continue.
+            return false;
+        }
         
+        $scan = $this->getScan();
+        $site = $this->getSite();
+
+        $spider = new \Spider(
+            new HTMLOnly(),
+            new \Spider_Parser()
+        );
+        
+        $spider->addLogger(new Scheduler($spider, $scan, $site));
+
+        try {
+            $spider->processPage($this->uri, 1);
+        } catch (\Exception $e) {
+            //Couldn't get the page, so don't process it.
+            return $this->delete();
+        }
+        
+        return true;
     }
 }
