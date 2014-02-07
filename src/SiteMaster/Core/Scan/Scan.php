@@ -15,7 +15,7 @@ class Scan extends Record
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $start_time;            //DATETIME NOT NULL
-    public $send_time;             //DATETIME
+    public $end_time;             //DATETIME
     public $error;                 //VARCHAR(256)
     
     const STATUS_CREATED  = 'CREATED';
