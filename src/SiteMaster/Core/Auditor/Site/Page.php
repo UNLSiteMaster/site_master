@@ -182,4 +182,45 @@ class Page extends Record
         $this->status = self::STATUS_COMPLETE;
         return $this->save();
     }
+
+    /**
+     * Mark this page as queued
+     */
+    public function markAsQueued()
+    {
+        $this->status = self::STATUS_QUEUED;
+        $this->save();
+    }
+
+    /**
+     * Mark this page as running
+     */
+    public function markAsRunning()
+    {
+        $this->start_time = Util::epochToDateTime();
+        $this->status     = self::STATUS_RUNNING;
+        $this->save();
+    }
+
+    /**
+     * Mark this page as complete
+     */
+    public function markAsComplete()
+    {
+        $this->end_time = Util::epochToDateTime();
+        $this->status   = self::STATUS_COMPLETE;
+        $this->save();
+    }
+
+    /**
+     * Mark this page as an error
+     *
+     * @param string $error
+     */
+    public function markAsError($error = 'unknown')
+    {
+        $this->end_time = Util::epochToDateTime();
+        $this->status   = self::STATUS_ERROR;
+        $this->save();
+    }
 }
