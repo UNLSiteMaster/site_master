@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -70,6 +71,23 @@ class Scan extends Record
     public function getSite()
     {
         return Site::getByID($this->sites_id);
+    }
+
+    /**
+     * Get the next page in the queue for this scan
+     * 
+     * @return bool|\SiteMaster\Core\Auditor\Site\Page
+     */
+    public function getNextQueuedPage()
+    {
+        $queue = new Queued(array('scans_id'=>$this->id));
+
+        if (!$queue->count()) {
+            return false;
+        }
+
+        $queue->rewind();
+        return $queue->current();
     }
 
     /**
