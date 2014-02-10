@@ -131,16 +131,14 @@ class Page extends Record
             $priority_site = self::PRI_USER_SITE_SCAN;
             $priority_page = self::PRI_USER_PAGE_SCAN;
         }
-
+        
         //Set the priority
-        $this->priority = $priority_page;
+        $priority = $priority_page;
         if ($this->uri == $site->base_url) {
-            $this->priority = $priority_site;
+            $priority = $priority_site;
         }
         
-        $this->status = self::STATUS_QUEUED;
-        
-        return $this->save();
+        $this->markAsQueued($priority);
     }
     
     public function scan()
@@ -156,6 +154,8 @@ class Page extends Record
         if (!$scan->status == Scan::STATUS_RUNNING) {
             $scan->markAsRunning();
         }
+        
+        $this->markAsRunning();
         
         $spider = new \Spider(
             new HTMLOnly(),
@@ -173,22 +173,16 @@ class Page extends Record
             return $this->delete();
         }
         
-        //Figure out we the site scan is finished.
-        if (!$scan->getNextQueuedPage()) {
-            //Could not find any more queued pages to scan.  The scan must be finished.
-            $scan->markAsComplete();
-        }
-        
-        $this->status = self::STATUS_COMPLETE;
-        return $this->save();
+        $this->markAsComplete();
     }
 
     /**
      * Mark this page as queued
      */
-    public function markAsQueued()
+    public function markAsQueued($priority)
     {
-        $this->status = self::STATUS_QUEUED;
+        $this->status   = self::STATUS_QUEUED;
+        $this->priority = $priority;
         $this->save();
     }
 
@@ -210,6 +204,14 @@ class Page extends Record
         $this->end_time = Util::epochToDateTime();
         $this->status   = self::STATUS_COMPLETE;
         $this->save();
+        
+        $scan = $this->getScan();
+
+        //Figure out we the site scan is finished.
+        if (!$scan->getNextQueuedPage()) {
+            //Could not find any more queued pages to scan.  The scan must be finished.
+            $scan->markAsComplete();
+        }
     }
 
     /**
