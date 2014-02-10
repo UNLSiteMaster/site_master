@@ -24,6 +24,11 @@ class Mark extends Record
     {
         return 'marks';
     }
+    
+    public static function getByMachineNameAndMetricID($machine_name, $metric_id)
+    {
+        return self::getByAnyField(__CLASS__, 'machine_name', $machine_name, 'metrics_id=' . (int)$metric_id);
+    }
 
     /**
      * Create a new Scan
