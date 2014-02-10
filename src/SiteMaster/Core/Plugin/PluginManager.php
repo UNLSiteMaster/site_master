@@ -13,6 +13,8 @@ class PluginManager
         'internal_plugins' => array(),
         'external_plugins' => array()
     );
+    
+    protected $metrics = array();
 
     protected static $singleton = false;
 
@@ -53,6 +55,8 @@ class PluginManager
         $this->initializeIncludePaths();
 
         $this->initializePlugins($this->getInstalledPlugins());
+        
+        $this->initializeMetrics();
     }
 
     /**
@@ -127,6 +131,21 @@ class PluginManager
         }
 
         return $plugins;
+    }
+    
+    public function initializeMetrics()
+    {
+        foreach ($this->getAllPlugins() as $plugin_name=>$options) {
+            //The metric should be defined as PLUGIN\Metric
+            $class = $this->getPluginNamespaceFromName($plugin_name);
+            $class .= 'Metric';
+            
+            if (class_exists($class)) {
+                //Metric was found.  add it to the list of metrics.
+                $metric = new $class($this->getPluginOptions($plugin_name));
+                $this->metrics[$options] = $metric;
+            }
+        }
     }
 
     public function updateInstalledPlugins($plugins)
@@ -223,6 +242,23 @@ class PluginManager
     }
 
     /**
+     * Get options for a given plugin
+     * 
+     * @param $name - the machine name of the plugin
+     * @return array
+     */
+    public function getPluginOptions($name)
+    {
+        if (isset($this->options['internal_plugins'][$name])) {
+            return $this->options['internal_plugins'][$name];
+        } else if (isset($this->options['external_plugins'][$name])) {
+            return $this->options['external_plugins'][$name];
+        }
+        
+        return array();
+    }
+
+    /**
      * @param $name
      * @param array $options
      * @return \SiteMaster\Core\Plugin\PluginInterface
@@ -233,12 +269,7 @@ class PluginManager
         //make sure that the passed options are an array
         $options = (array)$options;
         
-        //Insert default configured options for the plugin
-        if (isset($this->options['internal_plugins'][$name])) {
-            $options = $options + $this->options['internal_plugins'][$name];
-        } else if (isset($this->options['external_plugins'][$name])) {
-            $options = $options + $this->options['external_plugins'][$name];
-        }
+        $options = $options + $this->getPluginOptions($name);
         
         //Return the plugin class
         return new $class($options);
