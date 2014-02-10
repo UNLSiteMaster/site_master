@@ -49,6 +49,7 @@ class MetricGrade extends Record
     {
         $metric_grade = new self();
         $metric_grade->pass_fail = 'NO';
+        $metric_grade->incomplete = 'NO';
         $metric_grade->grade = 0;
         $metric_grade->changes_since_last_scan = 0;
 
