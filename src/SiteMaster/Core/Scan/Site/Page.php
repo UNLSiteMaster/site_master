@@ -138,6 +138,7 @@ class Page extends Record
         
         $this->job_id = $job_id;
         $this->status = self::STATUS_QUEUED;
+        $this->save();
         
         return $this->job_id;
     }
@@ -166,6 +167,7 @@ class Page extends Record
             return $this->delete();
         }
         
-        return true;
+        $this->status = self::STATUS_COMPLETE;
+        return $this->save();
     }
 }
