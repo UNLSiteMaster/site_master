@@ -7,10 +7,8 @@ use SiteMaster\Core\Registry\Site\Member;
 class Metric extends Record
 {
     public $id;             //int required
-    public $name;           //VARCHAR(128) NOT NULL, human readable name
     public $machine_name;   //VARCHAR(64) NOT NULL, machine readable name
     public $weight;         //DOUBLE(2,2) NOT NULL default=0, % of total page grade
-    public $pass_fail;      //ENUM('YES', 'NO') NOT NULL default='NO'
 
     public function keys()
     {
@@ -30,19 +28,16 @@ class Metric extends Record
     /**
      * Create a new Metric
      *
-     * @param $name
-     * @param $machine_name
+     * @param string $machine_name The machine name that links the db record to a module
      * @param array $fields
-     * @return bool|Scan
+     * @return bool|Metric
      */
-    public static function createNewMetric($name, $machine_name, array $fields = array())
+    public static function createNewMetric($machine_name, array $fields = array())
     {
         $metric = new self();
-        $metric->pass_fail = 'NO';
         $metric->weight = 0;
         $metric->synchronizeWithArray($fields);
         
-        $metric->name = $name;
         $metric->machine_name = $machine_name;
 
         if (!$metric->insert()) {

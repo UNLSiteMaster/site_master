@@ -164,10 +164,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `metrics` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(128) NOT NULL,
   `machine_name` VARCHAR(64) NOT NULL COMMENT 'the name of the module for the metic.  ie:  metric_wdn_version',
   `weight` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT '0 to 100 % value of all enabled metrics. The total of all metrics can not be > 100',
-  `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Yes/no.  if yes, there can be no marks for the metric to get a passing grade (A)',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 COMMENT = 'These are metrics, such as links checks, html validity, acce' /* comment truncated */ /*ssibility, etc*/;
