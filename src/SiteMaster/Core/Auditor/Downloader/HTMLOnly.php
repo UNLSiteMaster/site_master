@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor\Downloader;
 
-use SiteMaster\Core\RuntimeException;
+use SiteMaster\Core\HTTPConnectionException;
 
 class HTMLOnly extends \Spider_Downloader
 {
@@ -75,7 +75,7 @@ class HTMLOnly extends \Spider_Downloader
      * @param $uri
      * @param array $options
      * @return mixed
-     * @throws \SiteMaster\Core\RuntimeException
+     * @throws \SiteMaster\Core\HTTPConnectionException
      */
     public function download($uri, $options = array())
     {
@@ -83,7 +83,7 @@ class HTMLOnly extends \Spider_Downloader
         $result = curl_exec($this->curl);
         
         if (!$result) {
-            throw new RuntimeException('Error downloading ' . $uri. $result);
+            throw new HTTPConnectionException('Error downloading ' . $uri. $result);
         }
         
         return $result;
