@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Downloader\HTMLOnly;
@@ -227,5 +228,17 @@ class Page extends Record
         $this->end_time = Util::epochToDateTime();
         $this->status   = self::STATUS_ERROR;
         $this->save();
+    }
+
+    /**
+     * Create a page mark
+     * 
+     * @param Mark $mark The Mark object
+     * @param array $fields Array of fields such as context, line, col
+     * @return bool|Page\Mark
+     */
+    public function addMark(Mark $mark, array $fields = array())
+    {
+        return Page\Mark::createNewPageMark($mark->id, $this->id, $mark->point_deduction, $fields);
     }
 }
