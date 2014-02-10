@@ -96,7 +96,7 @@ class Page extends Record
     }
 
     /**
-     * @return false|\Sitemaster\Core\Registry\Site
+     * @return false|\SiteMaster\Core\Registry\Site
      */
     public function getSite()
     {
