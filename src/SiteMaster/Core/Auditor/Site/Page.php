@@ -147,15 +147,11 @@ class Page extends Record
             //Looks like it has already been scanned (or has yet to be scheduled).  Don't continue.
             return false;
         }
+
+        $this->markAsRunning();
         
         $scan = $this->getScan();
         $site = $this->getSite();
-
-        if (!$scan->status == Scan::STATUS_RUNNING) {
-            $scan->markAsRunning();
-        }
-        
-        $this->markAsRunning();
         
         $spider = new \Spider(
             new HTMLOnly(),
@@ -191,6 +187,11 @@ class Page extends Record
      */
     public function markAsRunning()
     {
+        $scan = $this->getScan();
+        if ($scan->status != Scan::STATUS_RUNNING) {
+            $scan->markAsRunning();
+        }
+        
         $this->start_time = Util::epochToDateTime();
         $this->status     = self::STATUS_RUNNING;
         $this->save();
