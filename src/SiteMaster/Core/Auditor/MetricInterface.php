@@ -76,7 +76,7 @@ abstract class MetricInterface
         }
 
         //Couldn't find the metric.  Install it.
-        return Metric::createNewMetric($this->getName(), $this->getMachineName());
+        return Metric::createNewMetric($this->getMachineName());
     }
 
     /**
