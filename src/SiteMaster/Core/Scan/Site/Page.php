@@ -73,6 +73,7 @@ class Page extends Record
         $page->status        = self::STATUS_CREATED;
         $page->scan_type     = self::SCAN_TYPE_AUTO;
         $page->grade         = 0;
+        $page->priority      = Scan::PRI_AUTO_SITE_SCAN;
         $page->start_time    = Util::epochToDateTime();
         
         $page->synchronizeWithArray($fields);
