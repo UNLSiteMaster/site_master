@@ -28,6 +28,8 @@ class Scheduler extends \Spider_LoggerAbstract
     function __construct(\Spider $spider, Scan $scan, Site $site)
     {
         $this->spider = $spider;
+        $this->scan = $scan;
+        $this->site = $site;
     }
 
     public function log($uri, $depth, DOMXPath $xpath)
