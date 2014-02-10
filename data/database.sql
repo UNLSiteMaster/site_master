@@ -204,6 +204,7 @@ CREATE TABLE IF NOT EXISTS `page_marks` (
   `context` TEXT NULL,
   `line` INT NULL,
   `col` INT NULL,
+  `value_found` VARCHAR(256) NULL COMMENT 'The incorrect value that was found',
   PRIMARY KEY (`id`),
   INDEX `fk_page_marks_marks1_idx` (`marks_id` ASC),
   INDEX `fk_page_marks_scanned_page1_idx` (`scanned_page_id` ASC),

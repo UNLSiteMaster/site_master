@@ -13,6 +13,7 @@ class Mark extends Record
     public $context;               //TEXT
     public $line;                  //INT
     public $col;                   //INT
+    public $value_found;           //TEXT (The incorrect value that was found)
 
     public function keys()
     {
