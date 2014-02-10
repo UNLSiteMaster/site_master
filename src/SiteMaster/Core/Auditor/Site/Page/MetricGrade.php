@@ -42,21 +42,19 @@ class MetricGrade extends Record
      *
      * @param $metrics_id
      * @param $scanned_page_id
-     * @param $grade
-     * @param $changes_since_last_scan
      * @param array $fields
      * @return bool|MetricGrade
      */
-    public static function CreateNewPageMetricGrade($metrics_id, $scanned_page_id, $grade, $changes_since_last_scan, array $fields = array())
+    public static function CreateNewPageMetricGrade($metrics_id, $scanned_page_id, array $fields = array())
     {
         $metric_grade = new self();
         $metric_grade->pass_fail = 'NO';
+        $metric_grade->grade = 0;
+        $metric_grade->changes_since_last_scan = 0;
 
         $metric_grade->synchronizeWithArray($fields);
-        $metric_grade->metrics_id              = $metrics_id;
-        $metric_grade->scanned_page_id         = $scanned_page_id;
-        $metric_grade->grade                   = $grade;
-        $metric_grade->changes_since_last_scan = $changes_since_last_scan;
+        $metric_grade->metrics_id      = $metrics_id;
+        $metric_grade->scanned_page_id = $scanned_page_id;
 
         if (!$metric_grade->insert()) {
             return false;
