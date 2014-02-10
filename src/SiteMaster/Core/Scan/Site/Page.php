@@ -19,12 +19,12 @@ class Page extends Record
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $grade;                 //DOUBLE(2,2) NOT NULL default=0
+    public $priority;              //INT NOT NULL default=300, the priority for this job.  0 is the most urgent
     public $start_time;            //DATETIME NOT NULL
     public $end_time;              //DATETIME
     public $title;                 //VARCHAR(256)
     public $letter_grade;          //VARCHAR(2)
     public $error;                 //VARCHAR(256)
-    public $job_id;                //INT, the job's id in the queue system
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';
