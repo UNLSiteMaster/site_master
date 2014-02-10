@@ -20,6 +20,7 @@ class Page extends Record
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $grade;                 //DOUBLE(2,2) NOT NULL default=0
     public $priority;              //INT NOT NULL default=300, the priority for this job.  0 is the most urgent
+    public $date_created;          //DATETIME NOT NULL, the date that this record was created
     public $start_time;            //DATETIME NOT NULL
     public $end_time;              //DATETIME
     public $title;                 //VARCHAR(256)
@@ -79,7 +80,7 @@ class Page extends Record
         $page->scan_type     = self::SCAN_TYPE_AUTO;
         $page->grade         = 0;
         $page->priority      = self::PRI_AUTO_SITE_SCAN;
-        $page->start_time    = Util::epochToDateTime();
+        $page->date_created  = Util::epochToDateTime();
         
         $page->synchronizeWithArray($fields);
         $page->scans_id = $scans_id;

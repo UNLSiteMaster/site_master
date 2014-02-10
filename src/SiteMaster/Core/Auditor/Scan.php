@@ -15,6 +15,7 @@ class Scan extends Record
     public $gpa;                   //double(2,2) NOT NULL default=0
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
+    public $date_created;          //DATETIME NOT NULL, the date that this record was created
     public $start_time;            //DATETIME NOT NULL
     public $end_time;             //DATETIME
     public $error;                 //VARCHAR(256)
@@ -51,7 +52,7 @@ class Scan extends Record
         $scan->gpa        = 0;
         $scan->status     = self::STATUS_CREATED;
         $scan->scan_type  = self::SCAN_TYPE_AUTO;
-        $scan->start_time = Util::epochToDateTime();
+        $scan->date_created = Util::epochToDateTime();
         
         $scan->synchronizeWithArray($details);
         $scan->sites_id = $sites_id;
