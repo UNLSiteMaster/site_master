@@ -35,6 +35,11 @@ class Page extends Record
     const SCAN_TYPE_USER = 'USER';
     const SCAN_TYPE_AUTO = 'AUTO';
 
+    const PRI_AUTO_SITE_SCAN = 400;
+    const PRI_AUTO_PAGE_SCAN = 300;
+    const PRI_USER_SITE_SCAN = 200;
+    const PRI_USER_PAGE_SCAN = 100;
+
     public function keys()
     {
         return array('id');
@@ -73,7 +78,7 @@ class Page extends Record
         $page->status        = self::STATUS_CREATED;
         $page->scan_type     = self::SCAN_TYPE_AUTO;
         $page->grade         = 0;
-        $page->priority      = Scan::PRI_AUTO_SITE_SCAN;
+        $page->priority      = self::PRI_AUTO_SITE_SCAN;
         $page->start_time    = Util::epochToDateTime();
         
         $page->synchronizeWithArray($fields);
@@ -119,12 +124,12 @@ class Page extends Record
         
         $site = $this->getSite();
         
-        $priority_site = Scan::PRI_AUTO_SITE_SCAN;
-        $priority_page = Scan::PRI_AUTO_PAGE_SCAN;
+        $priority_site = self::PRI_AUTO_SITE_SCAN;
+        $priority_page = self::PRI_AUTO_PAGE_SCAN;
         
         if (!$auto_scan) {
-            $priority_site = Scan::PRI_USER_SITE_SCAN;
-            $priority_page = Scan::PRI_USER_PAGE_SCAN;
+            $priority_site = self::PRI_USER_SITE_SCAN;
+            $priority_page = self::PRI_USER_PAGE_SCAN;
         }
 
         //Set the priority

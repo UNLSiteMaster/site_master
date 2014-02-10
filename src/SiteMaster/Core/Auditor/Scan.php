@@ -26,11 +26,6 @@ class Scan extends Record
     
     const SCAN_TYPE_USER = 'USER';
     const SCAN_TYPE_AUTO = 'AUTO';
-    
-    const PRI_AUTO_SITE_SCAN = 400;
-    const PRI_AUTO_PAGE_SCAN = 300;
-    const PRI_USER_SITE_SCAN = 200;
-    const PRI_USER_PAGE_SCAN = 100;
 
     public function keys()
     {
