@@ -70,7 +70,7 @@ abstract class MetricInterface
      */
     public function getMetricRecord()
     {
-        if ($metric = $this->getMetricRecord()) {
+        if ($metric = Metric::getByMachineName($this->getMachineName())) {
             //Found the metric, just return it.
             return $metric;
         }
