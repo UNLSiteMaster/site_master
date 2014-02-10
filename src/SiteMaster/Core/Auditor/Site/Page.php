@@ -10,6 +10,7 @@ use SiteMaster\Core\Auditor\Logger\Scheduler;
 use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Util;
+use SiteMaster\Core\HTTPConnectionException;
 use SiteMaster\Core\RuntimeException;
 
 class Page extends Record
@@ -166,8 +167,7 @@ class Page extends Record
 
         try {
             $spider->processPage($this->uri, 1);
-        } catch (\Exception $e) {
-            //TODO: only delete if there was a connection error
+        } catch (HTTPConnectionException $e) {
             //Couldn't get the page, so don't process it.
             return $this->delete();
         }
