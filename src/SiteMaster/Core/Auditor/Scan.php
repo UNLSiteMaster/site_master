@@ -109,12 +109,18 @@ class Scan extends Record
         return $page_scan->scheduleScan();
     }
 
+    /**
+     * Mark this scan as queued
+     */
     public function markAsQueued()
     {
         $this->status = self::STATUS_QUEUED;
         $this->save();
     }
-    
+
+    /**
+     * Mark this scan as running
+     */
     public function markAsRunning()
     {
         $this->start_time = Util::epochToDateTime();
@@ -131,7 +137,12 @@ class Scan extends Record
         $this->status   = self::STATUS_COMPLETE;
         $this->save();
     }
-    
+
+    /**
+     * Mark this scan as an error
+     * 
+     * @param string $error
+     */
     public function markAsError($error = 'unknown')
     {
         $this->end_time = Util::epochToDateTime();
