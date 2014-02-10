@@ -135,7 +135,7 @@ class PluginManager
     
     public function initializeMetrics()
     {
-        foreach ($this->getAllPlugins() as $plugin_name=>$options) {
+        foreach ($this->getAllPlugins() as $plugin_name) {
             //The metric should be defined as PLUGIN\Metric
             $class = $this->getPluginNamespaceFromName($plugin_name);
             $class .= 'Metric';
@@ -143,7 +143,7 @@ class PluginManager
             if (class_exists($class)) {
                 //Metric was found.  add it to the list of metrics.
                 $metric = new $class($plugin_name, $this->getPluginOptions($plugin_name));
-                $this->metrics[$options] = $metric;
+                $this->metrics[$metric->getMachineName()] = $metric;
             }
         }
     }
