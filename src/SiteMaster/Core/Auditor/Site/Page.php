@@ -6,6 +6,7 @@ use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Downloader\HTMLOnly;
 use SiteMaster\Core\Auditor\Logger\Scheduler;
+use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\RuntimeException;
@@ -160,6 +161,7 @@ class Page extends Record
         
         $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
         $spider->addLogger(new Scheduler($spider, $scan, $site));
+        $spider->addLogger(new Metrics($spider, $scan, $site, $this));
 
         try {
             $spider->processPage($this->uri, 1);

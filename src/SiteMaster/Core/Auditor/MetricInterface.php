@@ -3,6 +3,9 @@ namespace SiteMaster\Core\Auditor;
 
 use SiteMaster\Core\Util;
 use SiteMaster\Core\Plugin\PluginManager;
+use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\Auditor\Scan;
+use SiteMaster\Core\Auditor\Site\Page;
 
 abstract class MetricInterface
 {
@@ -44,12 +47,19 @@ abstract class MetricInterface
 
     /**
      * Scan a given URI and apply all marks to it.
-     * 
-     * All that this 
-     * 
+     *
+     * All that this
+     *
+     * @param string $uri - the uri to scan
+     * @param \DOMXPath $xpath - the xpath of the uri
+     * @param \Spider $spider - the spider object
+     * @param Scan $scan - the current scan record
+     * @param Site $site - the current site record
+     * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
+     * @param int $depth - the current depth of the scan
      * @return bool True if there was a successful scan, false if not.  If false, the metric will be graded as incomplete
      */
-    abstract public function scan();
+    abstract public function scan($uri, \DOMXPath $xpath, \Spider $spider, Scan $scan, Site $site, Page $page, $depth);
 
     /**
      * Get the metric record for this metric
@@ -76,17 +86,28 @@ abstract class MetricInterface
     {
         return PluginManager::getManager()->getPluginInfo($this->plugin_name);
     }
-    
-    public function preformScan()
+
+    /**
+     * Preform a scan on a uri
+     *
+     * @param string $uri - the uri to scan
+     * @param \DOMXPath $xpath - the xpath of the uri
+     * @param \Spider $spider - the spider object
+     * @param Scan $scan - the current scan record
+     * @param Site $site - the current site record
+     * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
+     * @param int $depth - the current depth of the scan
+     */
+    public function preformScan($uri, \DOMXPath $xpath, \Spider $spider, Scan $scan, Site $site, Page $page, $depth)
     {
         //scan
-        $this->scan();
+        $this->scan($uri, $xpath, $spider, $scan, $site, $page, $depth);
         //grade the metric
         $this->grade();
     }
     
     public function grade()
     {
-        $this->grade();
+        
     }
 }
