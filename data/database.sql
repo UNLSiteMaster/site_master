@@ -230,6 +230,7 @@ CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   `grade` DECIMAL(5,2) NOT NULL DEFAULT 0,
   `changes_since_last_scan` INT NOT NULL DEFAULT 0 COMMENT 'The number of changes since the last scan. \n',
   `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Was the grade a pass/fail?',
+  `incomplete` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'YES if the metric was unable to complete for any reason.  For Example: the html check was unable to get a response from the validator service.',
   `letter_grade` VARCHAR(2) NULL,
   INDEX `fk_page_metric_grades_metrics1_idx` (`metrics_id` ASC),
   INDEX `fk_page_metric_grades_scanned_page1_idx` (`scanned_page_id` ASC),

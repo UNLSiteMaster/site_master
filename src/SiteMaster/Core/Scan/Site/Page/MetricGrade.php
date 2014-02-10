@@ -12,6 +12,7 @@ class MetricGrade extends Record
     public $grade;                   //DECIMAL(2,2) NOT NULL DEFAULT=0
     public $changes_since_last_scan; //INT NOT NULL DEFAULT=0
     public $pass_fail;               //ENUM('YES', 'NO') NOT NULL default='NO'
+    public $incomplete;              //ENUM('YES', 'NO') NOT NULL DEFAULT='NO'.  'YES' if the metric was unable to complete
     public $letter_grade;            //VARCHAR(2) for historic tracking of the letter grade in case the scale changes
 
     public function keys()
