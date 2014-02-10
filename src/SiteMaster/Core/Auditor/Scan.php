@@ -107,4 +107,34 @@ class Scan extends Record
         $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url);
         return $page_scan->scheduleScan();
     }
+
+    public function markAsQueued()
+    {
+        $this->status = self::STATUS_QUEUED;
+        $this->save();
+    }
+    
+    public function markAsRunning()
+    {
+        $this->start_time = Util::epochToDateTime();
+        $this->status     = self::STATUS_RUNNING;
+        $this->save();
+    }
+
+    /**
+     * Mark this scan as complete
+     */
+    public function markAsComplete()
+    {
+        $this->end_time = Util::epochToDateTime();
+        $this->status   = self::STATUS_COMPLETE;
+        $this->save();
+    }
+    
+    public function markAsError($error = 'unknown')
+    {
+        $this->end_time = Util::epochToDateTime();
+        $this->status   = self::STATUS_ERROR;
+        $this->save();
+    }
 }
