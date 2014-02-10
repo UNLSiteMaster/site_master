@@ -6,7 +6,7 @@ require_once(__DIR__ . "/../init.php");
 
 while (true) {
     //Get the queue
-    $queue = new SiteMaster\Core\Scan\Site\Pages\Queued();
+    $queue = new SiteMaster\Core\Auditor\Site\Pages\Queued();
     
     if (!$queue->count()) {
         //Sleep for 10 seconds
@@ -17,7 +17,7 @@ while (true) {
     }
 
     /**
-     * @var $page \SiteMaster\Core\Scan\Site\Page
+     * @var $page \SiteMaster\Core\Auditor\Site\Page
      */
     $queue->rewind();
     $page = $queue->current();
