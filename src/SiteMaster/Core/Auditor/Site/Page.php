@@ -153,6 +153,7 @@ class Page extends Record
             new \Spider_Parser()
         );
         
+        $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
         $spider->addLogger(new Scheduler($spider, $scan, $site));
 
         try {

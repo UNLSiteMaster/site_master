@@ -36,6 +36,10 @@ class Scheduler extends \Spider_LoggerAbstract
     {
         $pages = $this->spider->getCrawlableUris($this->site->base_url, \Spider::getURIBase($uri), $uri, $xpath);
 
+        foreach ($this->spider->getFilters() as $filter_class) {
+            $pages = new $filter_class($pages);
+        }
+
         foreach ($pages as $uri) {
             if ($page_scan = Page::getByScanIDAndURI($this->scan->id, $uri)) {
                 //Looks like it already exists... skip
