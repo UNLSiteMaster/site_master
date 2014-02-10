@@ -152,6 +152,10 @@ class Page extends Record
         $scan = $this->getScan();
         $site = $this->getSite();
 
+        if (!$scan->status == Scan::STATUS_RUNNING) {
+            $scan->markAsRunning();
+        }
+        
         $spider = new \Spider(
             new HTMLOnly(),
             new \Spider_Parser()
@@ -163,8 +167,15 @@ class Page extends Record
         try {
             $spider->processPage($this->uri, 1);
         } catch (\Exception $e) {
+            //TODO: only delete if there was a connection error
             //Couldn't get the page, so don't process it.
             return $this->delete();
+        }
+        
+        //Figure out we the site scan is finished.
+        if (!$scan->getNextQueuedPage()) {
+            //Could not find any more queued pages to scan.  The scan must be finished.
+            $scan->markAsComplete();
         }
         
         $this->status = self::STATUS_COMPLETE;
