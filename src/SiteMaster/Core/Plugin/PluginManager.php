@@ -142,10 +142,15 @@ class PluginManager
             
             if (class_exists($class)) {
                 //Metric was found.  add it to the list of metrics.
-                $metric = new $class($this->getPluginOptions($plugin_name));
+                $metric = new $class($plugin_name, $this->getPluginOptions($plugin_name));
                 $this->metrics[$options] = $metric;
             }
         }
+    }
+    
+    public function getMetrics()
+    {
+        return $this->metrics;
     }
 
     public function updateInstalledPlugins($plugins)

@@ -2,9 +2,23 @@
 namespace SiteMaster\Core\Auditor;
 
 use SiteMaster\Core\Util;
+use SiteMaster\Core\Plugin\PluginManager;
 
 abstract class MetricInterface
 {
+    public $options;
+    public $plugin_name;
+
+    /**
+     * @param string $plugin_name (The plugin machine name for this metric)
+     * @param array $options an array of options (usually the same options that were passed to the plugin)
+     */
+    public function __construct($plugin_name, array $options = array())
+    {
+        $this->plugin_name = $plugin_name;
+        $this->options     = $options;
+    }
+    
     /**
      * Get the human readable name of this metric
      * 
@@ -36,13 +50,13 @@ abstract class MetricInterface
     abstract public function scan();
 
     /**
-     * Install this metric in the database
+     * Get the metric record for this metric
      * 
-     * @return bool|Metric Returns the installed metric record on success
+     * @return bool|Metric
      */
-    public function install()
+    public function getMetricRecord()
     {
-        if ($metric = Metric::getByMachineName($this->getMachineName())) {
+        if ($metric = $this->getMetricRecord()) {
             //Found the metric, just return it.
             return $metric;
         }
@@ -50,5 +64,14 @@ abstract class MetricInterface
         //Couldn't find the metric.  Install it.
         return Metric::createNewMetric($this->getName(), $this->getMachineName());
     }
-    
+
+    /**
+     * Get the plugin class for this metric
+     * 
+     * @return \SiteMaster\Core\Plugin\PluginInterface
+     */
+    public function getPlugin()
+    {
+        return PluginManager::getManager()->getPluginInfo($this->plugin_name);
+    }
 }
