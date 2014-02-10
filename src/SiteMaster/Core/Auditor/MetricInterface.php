@@ -45,7 +45,9 @@ abstract class MetricInterface
     /**
      * Scan a given URI and apply all marks to it.
      * 
-     * @return mixed
+     * All that this 
+     * 
+     * @return bool True if there was a successful scan, false if not.  If false, the metric will be graded as incomplete
      */
     abstract public function scan();
 
@@ -73,5 +75,18 @@ abstract class MetricInterface
     public function getPlugin()
     {
         return PluginManager::getManager()->getPluginInfo($this->plugin_name);
+    }
+    
+    public function preformScan()
+    {
+        //scan
+        $this->scan();
+        //grade the metric
+        $this->grade();
+    }
+    
+    public function grade()
+    {
+        $this->grade();
     }
 }
