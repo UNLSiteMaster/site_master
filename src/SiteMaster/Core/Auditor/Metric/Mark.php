@@ -24,7 +24,14 @@ class Mark extends Record
     {
         return 'marks';
     }
-    
+
+    /**
+     * Get a mark by a machine name and metric id
+     * 
+     * @param $machine_name
+     * @param $metric_id
+     * @return bool|Mark
+     */
     public static function getByMachineNameAndMetricID($machine_name, $metric_id)
     {
         return self::getByAnyField(__CLASS__, 'machine_name', $machine_name, 'metrics_id=' . (int)$metric_id);
