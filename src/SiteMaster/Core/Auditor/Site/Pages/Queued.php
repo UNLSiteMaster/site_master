@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Scan\Site\Pages;
+namespace SiteMaster\Core\Auditor\Site\Pages;
 
 use DB\RecordList;
 
@@ -18,7 +18,7 @@ class Queued extends RecordList
     public function getDefaultOptions()
     {
         $options = array();
-        $options['itemClass'] = '\SiteMaster\Core\Scan\Site\Page';
+        $options['itemClass'] = '\SiteMaster\Core\Auditor\Site\Page';
         $options['listClass'] = __CLASS__;
 
         return $options;

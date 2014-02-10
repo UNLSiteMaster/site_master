@@ -1,10 +1,10 @@
 <?php
-namespace SiteMaster\Core\Scan;
+namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
-use SiteMaster\Core\Scan\Site\Page;
+use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Util;
 
 class Scan extends Record

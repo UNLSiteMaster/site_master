@@ -1,11 +1,11 @@
 <?php
-namespace SiteMaster\Core\Scan\Logger;
+namespace SiteMaster\Core\Auditor\Logger;
 
 use DOMXPath;
 use Monolog\Logger;
 use SiteMaster\Core\Registry\Site;
-use SiteMaster\Core\Scan\Scan;
-use SiteMaster\Core\Scan\Site\Page;
+use SiteMaster\Core\Auditor\Scan;
+use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Util;
 
 class Scheduler extends \Spider_LoggerAbstract

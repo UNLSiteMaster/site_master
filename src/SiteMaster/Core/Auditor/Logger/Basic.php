@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Scan\Logger;
+namespace SiteMaster\Core\Auditor\Logger;
 
 use DOMXPath;
 use Monolog\Logger;

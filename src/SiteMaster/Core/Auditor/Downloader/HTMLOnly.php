@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Scan\Downloader;
+namespace SiteMaster\Core\Auditor\Downloader;
 
 use SiteMaster\Core\RuntimeException;
 

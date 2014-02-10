@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Scan\Metric;
+namespace SiteMaster\Core\Auditor\Metric;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site\Member;

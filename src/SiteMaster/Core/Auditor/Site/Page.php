@@ -1,12 +1,12 @@
 <?php
-namespace SiteMaster\Core\Scan\Site;
+namespace SiteMaster\Core\Auditor\Site;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
-use SiteMaster\Core\Scan\Downloader\HTMLOnly;
-use SiteMaster\Core\Scan\Logger\Scheduler;
-use SiteMaster\Core\Scan\Scan;
+use SiteMaster\Core\Auditor\Downloader\HTMLOnly;
+use SiteMaster\Core\Auditor\Logger\Scheduler;
+use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\RuntimeException;
 
