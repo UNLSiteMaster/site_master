@@ -11,6 +11,7 @@ abstract class MetricInterface
 {
     public $options;
     public $plugin_name;
+    public $metric_record;
 
     /**
      * @param string $plugin_name (The plugin machine name for this metric)
@@ -20,6 +21,7 @@ abstract class MetricInterface
     {
         $this->plugin_name = $plugin_name;
         $this->options     = $options;
+        $this->metric_record = $this->getMetricRecord();
     }
     
     /**
@@ -109,5 +111,46 @@ abstract class MetricInterface
     public function grade()
     {
         
+    }
+
+    /**
+     * Get a mark record for a machine name.  This method will create the record if it isn't found.
+     * It will also update the record if it needs to
+     * 
+     * @param string $machine_name
+     * @param string $name
+     * @param int $point_deduction
+     * @param string $description
+     * @param string $help_text
+     * @return bool|Metric\Mark
+     */
+    public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '')
+    {
+        if (!$mark = Metric\Mark::getByMachineNameAndMetricID($machine_name, $this->metric_record->id)) {
+            return Metric\Mark::createNewMark($this->metric_record->id, $machine_name, $name, array(
+                'point_deduction' => $point_deduction,
+                'description' => $description,
+                'help_text' => $help_text
+            ));
+        }
+        
+        //check if we need to update the name and description
+        $update = false;
+        
+        if ($mark->name != $name) {
+            $mark->name = $name;
+            $update = true;
+        }
+        
+        if ($mark->description != $description) {
+            $mark->description = $description;
+            $update = true;
+        }
+        
+        if ($update) {
+            $mark->update();
+        }
+        
+        return $mark;
     }
 }
