@@ -77,12 +77,11 @@ class Page extends Record
         $db = Util::getDB();
         
         $sql = "SELECT *
-                FROM scanned_pages
+                FROM scanned_page
                 WHERE uri = '" . $db->escape_string($this->uri) . "'
                     AND id != " . ($this->id) . "
                 ORDER BY id DESC
                 LIMIT 1";
-
 
         if (!$result = $db->query($sql)) {
             return false;
