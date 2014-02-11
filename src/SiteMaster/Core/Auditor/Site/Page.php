@@ -68,6 +68,33 @@ class Page extends Record
     }
 
     /**
+     * Get the previous page scan for the current uri
+     * 
+     * @return bool|Page
+     */
+    public function getPreviousScan()
+    {
+        $db = Util::getDB();
+        
+        $sql = "SELECT *
+                FROM scanned_pages
+                WHERE uri = '" . $db->escape_string($this->uri) . "'
+                    AND id != " . ($this->id) . "
+                ORDER BY id DESC
+                LIMIT 1";
+
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        $data = $result->fetch_assoc();
+        $object = new self();
+        $object->synchronizeWithArray($data);
+        return $object;
+    }
+
+    /**
      * Create a new page
      *
      * @param $scans_id
