@@ -103,14 +103,70 @@ abstract class MetricInterface
     public function preformScan($uri, \DOMXPath $xpath, \Spider $spider, Scan $scan, Site $site, Page $page, $depth)
     {
         //scan
-        $this->scan($uri, $xpath, $spider, $scan, $site, $page, $depth);
+        $completed = $this->scan($uri, $xpath, $spider, $scan, $site, $page, $depth);
         //grade the metric
-        $this->grade();
+        $this->grade($page, $completed);
     }
     
-    public function grade()
+    public function grade(Page $page, $completed)
     {
+        $grade = $this->getMetricGrade($page);
+
+        $grade->pass_fail = 'NO';
+        if ($this->isPassFail()) {
+            $grade->pass_fail = 'YES';
+        }
         
+        if (!$completed) {
+            $grade->incomplete = 'YES';
+        }
+
+        $marks = $page->getMarks($this->metric_record->id);
+        
+        //Compute the changes since the last scan
+        $last_page_scan = $page->getPreviousScan();
+        $grade->changes_since_last_scan = $marks->count();
+        
+        if ($last_page_scan) {
+            $previous_marks = $last_page_scan->getMarks($this->metric_record->id);
+            $grade->changes_since_last_scan = $previous_marks->count() - $marks->count();
+        }
+        
+        //Compute the grade
+        $points = 100;
+        foreach ($marks as $mark) {
+            $points -= $mark->points_deducted;
+        }
+        
+        //Make sure it bottoms out at zero
+        if ($points < 0) {
+            $points = 0;
+        }
+        
+        $grade->grade = $points;
+        
+        //TODO: compute the letter grade
+
+        if (!$grade->save()) {
+            return false;
+        }
+        
+        return $grade;
+    }
+
+    /**
+     * Get the metric grade for this page, create it if it does not exist.
+     * 
+     * @param $page
+     * @return bool|Page\MetricGrade
+     */
+    public function getMetricGrade($page)
+    {
+        if ($grade = Page\MetricGrade::getByMetricIDAndScannedPageID($this->metric_record->id, $page->id)) {
+            return $grade;
+        }
+        
+        return Page\MetricGrade::CreateNewPageMetricGrade($this->metric_record->id, $page->id);
     }
 
     /**
