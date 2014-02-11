@@ -95,6 +95,20 @@ class Page extends Record
     }
 
     /**
+     * Get the marks for a given metric
+     * 
+     * @param int $metrics_id the metric id to get marks for
+     * @return Page\Marks\AllForPageMetric
+     */
+    public function getMarks($metrics_id)
+    {
+        return new Page\Marks\AllForPageMetric(array(
+            'scanned_page_id' => $this->id,
+            'metrics_id' => $metrics_id
+        ));
+    }
+
+    /**
      * Create a new page
      *
      * @param $scans_id
