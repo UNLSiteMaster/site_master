@@ -124,13 +124,7 @@ abstract class MetricInterface
         $marks = $page->getMarks($this->metric_record->id);
         
         //Compute the changes since the last scan
-        $last_page_scan = $page->getPreviousScan();
-        $grade->changes_since_last_scan = $marks->count();
-        
-        if ($last_page_scan) {
-            $previous_marks = $last_page_scan->getMarks($this->metric_record->id);
-            $grade->changes_since_last_scan = $previous_marks->count() - $marks->count();
-        }
+        $grade->changes_since_last_scan = $this->getChangesSinceLastScan($page, $marks);
         
         //Compute the grade
         $points = 100;
@@ -152,6 +146,23 @@ abstract class MetricInterface
         }
         
         return $grade;
+    }
+
+    /**
+     * Get the number of changes since the last scan
+     * 
+     * @param Page $page The current page
+     * @param Page\Marks\AllForPageMetric $marks A list of marks for the current page
+     * @return int The number of changes
+     */
+    public function getChangesSinceLastScan(Page $page, Page\Marks\AllForPageMetric $marks)
+    {
+        if (!$last_page_scan = $page->getPreviousScan()) {
+            return $marks->count();
+        }
+        
+        $previous_marks = $last_page_scan->getMarks($this->metric_record->id);
+        return $previous_marks->count() - $marks->count();
     }
 
     /**
