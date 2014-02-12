@@ -34,7 +34,7 @@ class MetricGrade extends Record
      */
     public static function getByMetricIDAndScannedPageID($metric_id, $scanned_page_id)
     {
-        return self::getByAnyField(__CLASS__, 'metric_id', $metric_id, 'scanned_page_id=' . (int)$scanned_page_id);
+        return self::getByAnyField(__CLASS__, 'metrics_id', $metric_id, 'scanned_page_id=' . (int)$scanned_page_id);
     }
 
     /**
