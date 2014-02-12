@@ -8,7 +8,6 @@ class Metric extends Record
 {
     public $id;             //int required
     public $machine_name;   //VARCHAR(64) NOT NULL, machine readable name
-    public $weight;         //DOUBLE(2,2) NOT NULL default=0, % of total page grade
 
     public function keys()
     {
@@ -35,7 +34,6 @@ class Metric extends Record
     public static function createNewMetric($machine_name, array $fields = array())
     {
         $metric = new self();
-        $metric->weight = 0;
         $metric->synchronizeWithArray($fields);
         
         $metric->machine_name = $machine_name;

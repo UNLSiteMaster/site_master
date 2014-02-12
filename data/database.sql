@@ -165,7 +165,6 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `metrics` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `machine_name` VARCHAR(64) NOT NULL COMMENT 'the name of the module for the metic.  ie:  metric_wdn_version',
-  `weight` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT '0 to 100 % value of all enabled metrics. The total of all metrics can not be > 100',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 COMMENT = 'These are metrics, such as links checks, html validity, acce' /* comment truncated */ /*ssibility, etc*/;
@@ -232,6 +231,7 @@ CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   `changes_since_last_scan` INT NOT NULL DEFAULT 0 COMMENT 'The number of changes since the last scan. \n',
   `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Was the grade a pass/fail?',
   `incomplete` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'YES if the metric was unable to complete for any reason.  For Example: the html check was unable to get a response from the validator service.',
+  `weight` DECIMAL(5,2) NOT NULL DEFAULT 0,
   `letter_grade` VARCHAR(2) NULL,
   INDEX `fk_page_metric_grades_metrics1_idx` (`metrics_id` ASC),
   INDEX `fk_page_metric_grades_scanned_page1_idx` (`scanned_page_id` ASC),

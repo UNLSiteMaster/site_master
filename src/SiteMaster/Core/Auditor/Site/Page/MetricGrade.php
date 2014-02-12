@@ -14,6 +14,7 @@ class MetricGrade extends Record
     public $pass_fail;               //ENUM('YES', 'NO') NOT NULL default='NO'
     public $incomplete;              //ENUM('YES', 'NO') NOT NULL DEFAULT='NO'.  'YES' if the metric was unable to complete
     public $letter_grade;            //VARCHAR(2) for historic tracking of the letter grade in case the scale changes
+    public $weight;                  //DOUBLE(2,2) NOT NULL default=0, % of total page grade
 
     public function keys()
     {
@@ -51,6 +52,7 @@ class MetricGrade extends Record
         $metric_grade->pass_fail = 'NO';
         $metric_grade->incomplete = 'NO';
         $metric_grade->grade = 0;
+        $metric_grade->weight = 0;
         $metric_grade->changes_since_last_scan = 0;
 
         $metric_grade->synchronizeWithArray($fields);
