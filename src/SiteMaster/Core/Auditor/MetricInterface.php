@@ -119,9 +119,18 @@ abstract class MetricInterface
         }
 
         $marks = $page->getMarks($this->metric_record->id);
+
+        $last_page_scan = $page->getPreviousScan();
+
+        $count_before = 0;
+        if ($last_page_scan) {
+            $previous_marks = $last_page_scan->getMarks($this->metric_record->id);
+            $count_before = $previous_marks->count();
+        }
+            
         
         //Compute the changes since the last scan
-        $grade->changes_since_last_scan = $this->getChangesSinceLastScan($page, $marks);
+        $grade->changes_since_last_scan = $this->getChangesSinceLastScan($count_before, $marks->count());
         
         //Compute the grade
         $points = 100;
@@ -147,19 +156,30 @@ abstract class MetricInterface
 
     /**
      * Get the number of changes since the last scan
-     * 
-     * @param Page $page The current page
-     * @param Page\Marks\AllForPageMetric $marks A list of marks for the current page
+     * A positive result means there were that many more marks in the new scan
+     * A negative result means there were that many less marks
+     * A zero result means there were no changes
+     *
+     * @param int $count_before the total number of marks from the last page scan
+     * @param int $new_count the total number of marks from the new page scan
      * @return int The number of changes
      */
-    public function getChangesSinceLastScan(Page $page, Page\Marks\AllForPageMetric $marks)
+    public function getChangesSinceLastScan($count_before, $new_count)
     {
-        if (!$last_page_scan = $page->getPreviousScan()) {
-            return $marks->count();
+        //If there were no marks last time, return the new count
+        if ($count_before == 0) {
+            return $new_count;
         }
         
-        $previous_marks = $last_page_scan->getMarks($this->metric_record->id);
-        return $previous_marks->count() - $marks->count();
+        //Calculate the changes.  Ensure a positive number
+        $changes = abs($count_before - $new_count);
+        
+        if ($count_before > $new_count) {
+            //Change to negative if there are now less changes
+            $changes = -1 * $changes;
+        }
+        
+        return $changes;
     }
 
     /**
