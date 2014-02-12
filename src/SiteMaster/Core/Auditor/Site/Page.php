@@ -87,7 +87,10 @@ class Page extends Record
             return false;
         }
 
-        $data = $result->fetch_assoc();
+        if (!$data = $result->fetch_assoc()) {
+            return false;
+        }
+
         $object = new self();
         $object->synchronizeWithArray($data);
         return $object;
