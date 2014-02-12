@@ -23,7 +23,7 @@ class QueryDBTest extends DBTestCase
         
         $expected = array(
             'http://www.test.com/',
-            'http://www.test.com/test/',
+            'http://www.test.com/test/'
         );
         
         $this->assertEquals($expected, $sites, 'test?2 should have 2 accepted sites');
@@ -36,8 +36,9 @@ class QueryDBTest extends DBTestCase
         }
 
         $expected = array(
+            'http://unlsitemaster.github.io/test_site/',
             'http://www.test.com/',
-            'http://www.test.com/test/'
+            'http://www.test.com/test/',
         );
 
         $this->assertEquals($expected, $sites, 'test?1 should have 2 accepted sites');
@@ -82,6 +83,7 @@ class QueryDBTest extends DBTestCase
         }
 
         $expected = array(
+            'http://unlsitemaster.github.io/test_site/',
             'http://www.test.com/',
             'http://www.test.com/test/',
         );
