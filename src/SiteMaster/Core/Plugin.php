@@ -68,6 +68,7 @@ class Plugin extends PluginInterface
                 drop table if exists metrics;
                 drop table if exists page_marks;
                 drop table if exists scanned_page;
+                drop table if exists page_metric_grades;
                 drop table if exists scans;
                 SET FOREIGN_KEY_CHECKS = 1;";
 
