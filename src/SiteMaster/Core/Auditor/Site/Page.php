@@ -68,6 +68,17 @@ class Page extends Record
     }
 
     /**
+     * Get a metric grade for this page
+     * 
+     * @param int $metric_id the id of the metric
+     * @return bool|Page\MetricGrade
+     */
+    public function getMetricGrade($metric_id)
+    {
+        return Page\MetricGrade::getByMetricIDAndScannedPageID($metric_id, $this->id);
+    }
+
+    /**
      * Get the previous page scan for the current uri
      * 
      * @return bool|Page
