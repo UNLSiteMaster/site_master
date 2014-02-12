@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
+use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -89,6 +90,16 @@ class Scan extends Record
 
         $queue->rewind();
         return $queue->current();
+    }
+
+    /**
+     * Get all pages in this scan
+     * 
+     * @return AllForSite
+     */
+    public function getPages()
+    {
+        return new AllForScan(array('scans_id'=>$this->id));
     }
 
     /**
