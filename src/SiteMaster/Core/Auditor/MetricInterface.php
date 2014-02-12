@@ -61,6 +61,23 @@ abstract class MetricInterface
     abstract public function scan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger);
 
     /**
+     * Get the weight of this metric as defined in the configuration.
+     * If it was not defined, return 0.
+     * 
+     * @return int The weight
+     */
+    public function getWeight()
+    {
+        $weight = 0;
+        
+        if (isset($this->options['weight'])) {
+            $weight = $this->options['weight'];
+        }
+        
+        return $weight;
+    }
+
+    /**
      * Get the metric record for this metric
      * 
      * @return bool|Metric
@@ -202,7 +219,9 @@ abstract class MetricInterface
             return $grade;
         }
         
-        return Page\MetricGrade::CreateNewPageMetricGrade($this->getMetricRecord()->id, $page->id);
+        return Page\MetricGrade::CreateNewPageMetricGrade($this->getMetricRecord()->id, $page->id, array(
+            'weight' => $this->getWeight()
+        ));
     }
 
     /**

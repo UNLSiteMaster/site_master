@@ -51,6 +51,9 @@ class ScanDBTest extends DBTestCase
              */
             $grade = $page->getMetricGrade($example_metric->id);
             $this->assertEquals(84.5, $grade->grade, 'the grade should be 84.5');
+            $this->assertEquals(33.3, $grade->weight, 'the weight should be set to 33.3, as per the config');
+            
+            //TODO: test page grade
         }
         
         //TODO: test the overall grade
