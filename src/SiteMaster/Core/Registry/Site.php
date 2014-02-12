@@ -6,6 +6,7 @@ use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\User\User;
+use SiteMaster\Core\Util;
 
 class Site extends Record
 {
@@ -180,5 +181,30 @@ class Site extends Record
     {
         $scan = Scan::createNewScan($this->id);
         $scan->scheduleScan();
+    }
+
+    /**
+     * Get the latest scan for this site
+     * 
+     * @return bool|Scan
+     */
+    public function getLatestScan()
+    {
+        $db = Util::getDB();
+
+        $sql = "SELECT *
+                FROM scans
+                WHERE sites_id = " . (int)$this->id . "
+                ORDER BY id DESC
+                LIMIT 1";
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        $data = $result->fetch_assoc();
+        $object = new Scan();
+        $object->synchronizeWithArray($data);
+        return $object;
     }
 }
