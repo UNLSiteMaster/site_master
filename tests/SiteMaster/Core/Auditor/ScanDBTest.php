@@ -27,7 +27,7 @@ class ScanDBTest extends DBTestCase
      * @test
      * @group integration
      */
-    public function scan1()
+    public function scan()
     {
         $this->setUpDB();
         
@@ -41,7 +41,19 @@ class ScanDBTest extends DBTestCase
         //get the scan
         $scan = $site->getLatestScan();
         
-        $this->assertEquals(Scan::STATUS_COMPLETE, $scan->status);
+        $example_metric = Metric::getByMachineName('example');
+        
+        $this->assertEquals(Scan::STATUS_COMPLETE, $scan->status, 'the scan should be completed');
+        
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             */
+            $grade = $page->getMetricGrade($example_metric->id);
+            $this->assertEquals(84.5, $grade->grade, 'the grade should be 84.5');
+        }
+        
+        //TODO: test the overall grade
     }
     
     protected function runScan(Site $site)
