@@ -12,7 +12,6 @@ abstract class MetricInterface
 {
     public $options;
     public $plugin_name;
-    public $metric_record;
 
     /**
      * @param string $plugin_name (The plugin machine name for this metric)
@@ -22,7 +21,6 @@ abstract class MetricInterface
     {
         $this->plugin_name = $plugin_name;
         $this->options     = $options;
-        $this->metric_record = $this->getMetricRecord();
     }
     
     /**
@@ -69,13 +67,23 @@ abstract class MetricInterface
      */
     public function getMetricRecord()
     {
+        //Store the metric, so that we don't have to hit the db every time we want it.
+        static $metric;
+        
+        if ($metric) {
+            //return early if it is already set
+            return $metric;
+        }
+        
         if ($metric = Metric::getByMachineName($this->getMachineName())) {
             //Found the metric, just return it.
             return $metric;
         }
 
         //Couldn't find the metric.  Install it.
-        return Metric::createNewMetric($this->getMachineName());
+        $metric = Metric::createNewMetric($this->getMachineName());
+        
+        return $metric;
     }
 
     /**
@@ -118,13 +126,13 @@ abstract class MetricInterface
             $grade->incomplete = 'YES';
         }
 
-        $marks = $page->getMarks($this->metric_record->id);
+        $marks = $page->getMarks($this->getMetricRecord()->id);
 
         $last_page_scan = $page->getPreviousScan();
 
         $count_before = 0;
         if ($last_page_scan) {
-            $previous_marks = $last_page_scan->getMarks($this->metric_record->id);
+            $previous_marks = $last_page_scan->getMarks($this->getMetricRecord()->id);
             $count_before = $previous_marks->count();
         }
             
@@ -190,11 +198,11 @@ abstract class MetricInterface
      */
     public function getMetricGrade($page)
     {
-        if ($grade = Page\MetricGrade::getByMetricIDAndScannedPageID($this->metric_record->id, $page->id)) {
+        if ($grade = Page\MetricGrade::getByMetricIDAndScannedPageID($this->getMetricRecord()->id, $page->id)) {
             return $grade;
         }
         
-        return Page\MetricGrade::CreateNewPageMetricGrade($this->metric_record->id, $page->id);
+        return Page\MetricGrade::CreateNewPageMetricGrade($this->getMetricRecord()->id, $page->id);
     }
 
     /**
@@ -210,8 +218,8 @@ abstract class MetricInterface
      */
     public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '')
     {
-        if (!$mark = Metric\Mark::getByMachineNameAndMetricID($machine_name, $this->metric_record->id)) {
-            return Metric\Mark::createNewMark($this->metric_record->id, $machine_name, $name, array(
+        if (!$mark = Metric\Mark::getByMachineNameAndMetricID($machine_name, $this->getMetricRecord()->id)) {
+            return Metric\Mark::createNewMark($this->getMetricRecord()->id, $machine_name, $name, array(
                 'point_deduction' => $point_deduction,
                 'description' => $description,
                 'help_text' => $help_text
