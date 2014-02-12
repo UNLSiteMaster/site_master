@@ -6,6 +6,7 @@ use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
+use Spider;
 
 abstract class MetricInterface
 {
@@ -54,14 +55,12 @@ abstract class MetricInterface
      *
      * @param string $uri - the uri to scan
      * @param \DOMXPath $xpath - the xpath of the uri
-     * @param \Spider $spider - the spider object
-     * @param Scan $scan - the current scan record
-     * @param Site $site - the current site record
-     * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
      * @param int $depth - the current depth of the scan
+     * @param \SiteMaster\Core\Auditor\Site\Page|\SiteMaster\Core\Registry\Site\Page $page - the current page to scan
+     * @param Logger\Metrics $logger The logger class which calls this method, you can access the spider, page, and scan from this
      * @return bool True if there was a successful scan, false if not.  If false, the metric will be graded as incomplete
      */
-    abstract public function scan($uri, \DOMXPath $xpath, \Spider $spider, Scan $scan, Site $site, Page $page, $depth);
+    abstract public function scan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger);
 
     /**
      * Get the metric record for this metric
@@ -94,16 +93,14 @@ abstract class MetricInterface
      *
      * @param string $uri - the uri to scan
      * @param \DOMXPath $xpath - the xpath of the uri
-     * @param \Spider $spider - the spider object
-     * @param Scan $scan - the current scan record
-     * @param Site $site - the current site record
-     * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
      * @param int $depth - the current depth of the scan
+     * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
+     * @param Logger\Metrics $logger
      */
-    public function preformScan($uri, \DOMXPath $xpath, \Spider $spider, Scan $scan, Site $site, Page $page, $depth)
+    public function preformScan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger)
     {
         //scan
-        $completed = $this->scan($uri, $xpath, $spider, $scan, $site, $page, $depth);
+        $completed = $this->scan($uri, $xpath, $depth, $page, $logger);
         //grade the metric
         $this->grade($page, $completed);
     }

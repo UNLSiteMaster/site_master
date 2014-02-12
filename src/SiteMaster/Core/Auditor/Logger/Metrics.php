@@ -41,7 +41,39 @@ class Metrics extends \Spider_LoggerAbstract
         $metrics = new \SiteMaster\Core\Auditor\Metrics();
         
         foreach ($metrics as $metric) {
-            $metric->preformScan($uri, $xpath, $this->spider, $this->scan, $this->site, $this->page, $depth);
+            $metric->preformScan($uri, $xpath, $depth, $this->page, $this);
         }
+    }
+
+    /**
+     * @return bool|\Spider
+     */
+    public function getSpider()
+    {
+        return $this->spider;
+    }
+
+    /**
+     * @return bool|Scan
+     */
+    public function getScan()
+    {
+        return $this->scan;
+    }
+
+    /**
+     * @return bool|Site
+     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    /**
+     * @return bool|Page
+     */
+    public function getPage()
+    {
+        return $this->page;
     }
 }
