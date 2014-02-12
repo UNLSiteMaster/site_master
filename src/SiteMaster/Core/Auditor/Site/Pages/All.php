@@ -28,13 +28,7 @@ class All extends RecordList
 
     public function getWhere()
     {
-        $sql = "WHERE status = 'QUEUED'";
-
-        if (isset($this->options['scans_id'])) {
-            $sql .= " AND scans_id = " . (int)$this->options['scans_id'];
-        }
-
-        return $sql;
+        return '';
     }
 
     public function getLimit()

@@ -13,4 +13,9 @@ class AllForScan extends All
         
         parent::__construct($options);
     }
+    
+    public function getWhere()
+    {
+        return "WHERE scans_id = " . (int)$this->options['scans_id'];
+    }
 }
