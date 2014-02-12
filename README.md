@@ -9,5 +9,5 @@ php scripts/update.php
 
 To run tests:
 ```
-php vendor/bin/phpunit --bootstrap init.php tests
+php vendor/bin/phpunit --bootstrap tests/init.php tests
 ```
