@@ -39,6 +39,11 @@ class Metric extends MetricInterface
      */
     public function isPassFail()
     {
+        if (isset($this->options['pass_fail']) && $this->options['pass_fail'] == true) {
+            //Simulate a pass/fail metric grade
+            return true;
+        }
+        
         return false;
     }
 
@@ -56,6 +61,11 @@ class Metric extends MetricInterface
      */
     public function scan($uri, \DOMXPath $xpath, $depth, Page $page, Metrics $context)
     {
+        if (isset($this->options['simulate_incomplete']) && $this->options['simulate_incomplete']) {
+            //Simulate an incomplete scan
+            return false;
+        }
+        
         $mark = $this->getMark('test', 'Just a test', 10.5);
 
         $page->addMark($mark);
