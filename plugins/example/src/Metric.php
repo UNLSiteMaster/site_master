@@ -76,4 +76,16 @@ class Metric extends MetricInterface
 
         return true;
     }
+
+    /**
+     * Set the options array for this metric.
+     * 
+     * This is for testing purposes
+     * 
+     * @param array $options
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+    }
 }
