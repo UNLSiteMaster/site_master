@@ -146,7 +146,19 @@ class Scan extends Record
     {
         $this->end_time = Util::epochToDateTime();
         $this->status   = self::STATUS_COMPLETE;
+        $this->gpa      = $this->computeGPA();
         $this->save();
+    }
+    
+    public function computeGPA()
+    {
+        $letter_grades = array();
+        foreach ($this->getPages() as $page) {
+            $letter_grades[] = $page->letter_grade;
+        }
+        
+        $grading_helper = new GradingHelper();
+        return $grading_helper->calculateGPA($letter_grades);
     }
 
     /**

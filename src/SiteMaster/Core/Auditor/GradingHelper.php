@@ -92,4 +92,51 @@ class GradingHelper
         
         return 'grade-unknown';
     }
+
+    /**
+     * Determine if a given letter grade counts toward the GPA
+     * 
+     * @param $letter_grade
+     * @return bool
+     */
+    public function countsTowardGPA($letter_grade)
+    {
+        $does_not_count = array(
+            self::GRADE_INCOMPLETE,
+            self::GRADE_NOT_REPORTING,
+            self::GRADE_PASS,
+            self::GRADE_NO_PASS
+        );
+        
+        if (in_array($letter_grade, $does_not_count)) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Calculate the gpa from a set of letter grades
+     * 
+     * @param array $letter_grades an array of letter grades
+     * @return float
+     */
+    public function calculateGPA(array $letter_grades)
+    {
+        if (empty($letter_grades)) {
+            return 0;
+        }
+        
+        $grade_points = array();
+        
+        foreach ($letter_grades as $letter_grade) {
+            if (!$this->countsTowardGPA($letter_grade)) {
+                continue;
+            }
+            
+            $grade_points[] = $this->getGradePoints($letter_grade);
+        }
+        
+        return round(array_sum($grade_points) / count($grade_points), 2);
+    }
 }

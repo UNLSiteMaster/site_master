@@ -27,7 +27,7 @@ class ScanDBTest extends DBTestCase
      * @test
      * @group integration
      */
-    public function scan()
+    public function scanGraded()
     {
         $this->setUpDB();
         

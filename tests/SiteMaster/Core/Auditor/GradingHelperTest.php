@@ -43,4 +43,36 @@ class GradingHelperTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('grade-a-plus', $helper->convertLetterGradeToCSSClass(GradingHelper::GRADE_A_PLUS));
     }
+
+    /**
+     * @test
+     */
+    public function countsTowardGPA()
+    {
+        $helper = new GradingHelper();
+
+        $this->assertEquals(false, $helper->countsTowardGPA(GradingHelper::GRADE_INCOMPLETE));
+        $this->assertEquals(false, $helper->countsTowardGPA(GradingHelper::GRADE_NOT_REPORTING));
+        $this->assertEquals(false, $helper->countsTowardGPA(GradingHelper::GRADE_PASS));
+        $this->assertEquals(true, $helper->countsTowardGPA(GradingHelper::GRADE_A));
+    }
+
+    /**
+     * @test
+     */
+    public function calculateGPA()
+    {
+        $helper = new GradingHelper();
+        
+        $letter_grades = array();
+        $this->assertEquals(0, $helper->calculateGPA($letter_grades));
+        
+        $letter_grades = array(
+            GradingHelper::GRADE_A,
+            GradingHelper::GRADE_B,
+            GradingHelper::GRADE_INCOMPLETE,
+            GradingHelper::GRADE_PASS
+        );
+        $this->assertEquals(3.5, $helper->calculateGPA($letter_grades));
+    }
 }
