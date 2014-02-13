@@ -19,16 +19,26 @@ class PageTitle extends \Spider_LoggerAbstract
 
     public function log($uri, $depth, DOMXPath $xpath)
     {
+        $this->page->title = $this->getPageTitle($xpath);
+        $this->page->save();
+    }
+
+    /**
+     * Get the Page Title
+     * 
+     * @param DOMXPath $xpath the xpath of the page
+     * @return bool|string the page title
+     */
+    public function getPageTitle(DOMXPath $xpath) {
         if (!$result = $xpath->query('//xhtml:title')) {
             echo 'return' . PHP_EOL;
-            return;
+            return false;
         }
-        
+
         if (!$result->length) {
-            return;
+            return false;
         }
-        
-        $this->page->title = $result->item(0)->textContent;
-        $this->page->save();
+
+        return $result->item(0)->textContent;
     }
 }
