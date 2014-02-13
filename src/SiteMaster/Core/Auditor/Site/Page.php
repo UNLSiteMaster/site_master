@@ -21,7 +21,9 @@ class Page extends Record
     public $uri;                   //URI VARCHAR(256) NOT NULL
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
-    public $grade;                 //DOUBLE(2,2) NOT NULL default=0
+    public $percent_grade;         //DOUBLE(5,2) NOT NULL default=0
+    public $points_available;      //DOUBLE(5,2) NOT NULL default=0
+    public $point_grade;           //DOUBLE(5,2) NOT NULL default=0 
     public $priority;              //INT NOT NULL default=300, the priority for this job.  0 is the most urgent
     public $date_created;          //DATETIME NOT NULL, the date that this record was created
     public $start_time;            //DATETIME NOT NULL
@@ -122,6 +124,18 @@ class Page extends Record
     }
 
     /**
+     * Get all of the metric grades for this page
+     * 
+     * @return Page\MetricGrades\AllForPage
+     */
+    public function getMetricGrades()
+    {
+        return new Page\MetricGrades\AllForPage(array(
+            'scanned_page_id' => $this->id,
+        ));
+    }
+
+    /**
      * Create a new page
      *
      * @param $scans_id
@@ -133,11 +147,13 @@ class Page extends Record
     public static function createNewPage($scans_id, $sites_id, $uri, array $fields = array())
     {
         $page = new self();
-        $page->status        = self::STATUS_CREATED;
-        $page->scan_type     = self::SCAN_TYPE_AUTO;
-        $page->grade         = 0;
-        $page->priority      = self::PRI_AUTO_SITE_SCAN;
-        $page->date_created  = Util::epochToDateTime();
+        $page->status           = self::STATUS_CREATED;
+        $page->scan_type        = self::SCAN_TYPE_AUTO;
+        $page->percent_grade    = 0;
+        $page->point_grade      = 0;
+        $page->points_available = 0;
+        $page->priority         = self::PRI_AUTO_SITE_SCAN;
+        $page->date_created     = Util::epochToDateTime();
         
         $page->synchronizeWithArray($fields);
         $page->scans_id = $scans_id;
@@ -226,7 +242,15 @@ class Page extends Record
             return $this->delete();
         }
         
+        //TODO: grade
+        $this->grade = $this->grade();
+        
         $this->markAsComplete();
+    }
+    
+    public function grade()
+    {
+        
     }
 
     /**
