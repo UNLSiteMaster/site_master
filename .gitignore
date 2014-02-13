@@ -9,5 +9,6 @@ data/database.mwb.bak
 /xhprof
 /phpmyadmin
 /sitemaster
+/tests/report
 /.vagrant
 /beanstalk_console
