@@ -63,6 +63,97 @@ class ScanDBTest extends DBTestCase
         
         //TODO: test the GPA
     }
+
+    /**
+     * Simulate a scan for a site that has pass/fail metrics.  Verify all results
+     * This is an integration test rather than a unit test
+     *
+     * @test
+     * @group integration
+     */
+    public function scanPassFail()
+    {
+        $this->setUpDB();
+
+        $metrics = new Metrics();
+        foreach ($metrics as $metric) {
+            if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
+                $metric->setOptions(array(
+                    'pass_fail' => true,
+                    'weight' => 100
+                ));
+            }
+        }
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan($site);
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        $example_metric = Metric::getByMachineName('example');
+
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             */
+            $grade = $page->getMetricGrade($example_metric->id);
+            $this->assertEquals(0, $grade->point_grade, 'the grade should be 0');
+            $this->assertEquals(GradingHelper::GRADE_NO_PASS, $grade->letter_grade);
+
+            //The page should have an F grade because the only metric failed
+            $this->assertEquals(GradingHelper::GRADE_F, $page->letter_grade);
+        }
+    }
+
+    /**
+     * Simulate a scan for a site that has incomplete metrics.  Verify all results
+     * This is an integration test rather than a unit test
+     *
+     * @test
+     * @group integration
+     */
+    public function scanIncomplete()
+    {
+        $this->setUpDB();
+
+        $metrics = new Metrics();
+        foreach ($metrics as $metric) {
+            if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
+                $metric->setOptions(array(
+                    'simulate_incomplete' => true,
+                    'weight' => 100
+                ));
+            }
+        }
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan($site);
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        $example_metric = Metric::getByMachineName('example');
+
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             */
+            $grade = $page->getMetricGrade($example_metric->id);
+            $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $grade->letter_grade);
+
+            //The page should have an F grade because the only metric failed
+            $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $page->letter_grade);
+        }
+    }
     
     protected function runScan(Site $site)
     {
