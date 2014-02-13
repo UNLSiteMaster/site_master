@@ -157,18 +157,9 @@ abstract class MetricInterface
         //Compute the changes since the last scan
         $grade->changes_since_last_scan = $this->getChangesSinceLastScan($count_before, $marks->count());
         
-        //Compute the grade
-        $points = 100;
-        foreach ($marks as $mark) {
-            $points -= $mark->points_deducted;
-        }
+        $grade->point_grade = $this->computePointGrade($marks);
+        $grade->weighted_grade = $this->computeWeightedGrade($grade->point_grade, $grade->weight);
         
-        //Make sure it bottoms out at zero
-        if ($points < 0) {
-            $points = 0;
-        }
-        
-        $grade->grade = $points;
         
         //TODO: compute the letter grade
 
@@ -177,6 +168,34 @@ abstract class MetricInterface
         }
         
         return $grade;
+    }
+
+    /**
+     * Compute the weighted grade for this metric
+     * 
+     * @param double $point_grade the total points earned
+     * @param double $weight the the weight of the grade
+     * @return double the computed weighted grade
+     */
+    public function computeWeightedGrade($point_grade, $weight)
+    {
+        return round($weight * ($point_grade / 100), 2);
+    }
+    
+    public function computePointGrade(Page\Marks\AllForPageMetric $marks)
+    {
+        //Compute the grade
+        $points = 100;
+        foreach ($marks as $mark) {
+            $points -= $mark->points_deducted;
+        }
+
+        //Make sure it bottoms out at zero
+        if ($points < 0) {
+            $points = 0;
+        }
+        
+        return $points;
     }
 
     /**
