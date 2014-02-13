@@ -17,6 +17,7 @@ class Config
 
         //OTHER SETTINGS
         'THEME'            => false,
+        'GRADE_SCALE'      => false
     );
 
     private function __construct()
@@ -28,6 +29,24 @@ class Config
     {
         if (!isset(self::$data[$key])) {
             return false;
+        }
+
+        //Special default case: CACHE_DIR
+        if ($key == 'GRADE_SCALE' && self::$data[$key] == false) {
+            return array(
+                '97' => Auditor\GradingHelper::GRADE_A_PLUS,
+                '93' => Auditor\GradingHelper::GRADE_A,
+                '90' => Auditor\GradingHelper::GRADE_A_MINUS,
+                '87' => Auditor\GradingHelper::GRADE_B_PLUS,
+                '83' => Auditor\GradingHelper::GRADE_B,
+                '80' => Auditor\GradingHelper::GRADE_B_MINUS,
+                '77' => Auditor\GradingHelper::GRADE_C_PLUS,
+                '73' => Auditor\GradingHelper::GRADE_C,
+                '70' => Auditor\GradingHelper::GRADE_C_MINUS,
+                '67' => Auditor\GradingHelper::GRADE_D_PLUS,
+                '63' => Auditor\GradingHelper::GRADE_D,
+                '60' => Auditor\GradingHelper::GRADE_D_MINUS,
+            );
         }
 
         //Special default case: CACHE_DIR
