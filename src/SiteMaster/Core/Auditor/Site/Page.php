@@ -242,15 +242,81 @@ class Page extends Record
             return $this->delete();
         }
         
-        //TODO: grade
-        $this->grade = $this->grade();
+        $this->grade();
         
         $this->markAsComplete();
     }
-    
+
+    /**
+     * Grade this page based on the page metric grades
+     * 
+     * @return bool
+     */
     public function grade()
     {
+        $metric_grades = $this->getMetricGrades();
+        $this->points_available = $this->computeAvailablePoints($metric_grades);
+        $this->point_grade = $this->computePointGrade($metric_grades);
+        $this->percent_grade = $this->computePercentGrade($this->point_grade, $this->points_available);
         
+        return $this->save();
+    }
+
+    /**
+     * Compute the total available points for this page
+     * 
+     * @param Page\MetricGrades\AllForPage $metric_grades
+     * @return int
+     */
+    public function computeAvailablePoints(Page\MetricGrades\AllForPage $metric_grades)
+    {
+        $total_available = 0;
+        foreach ($metric_grades as $grade) {
+            $total_available += $grade->weight;
+        }
+        
+        return $total_available;
+    }
+
+    /**
+     * Compute the point grade for this page
+     * 
+     * @param Page\MetricGrades\AllForPage $metric_grades
+     * @return int
+     */
+    public function computePointGrade(Page\MetricGrades\AllForPage $metric_grades)
+    {
+        $total = 0;
+        foreach ($metric_grades as $grade) {
+            $total += $grade->weighted_grade;
+        }
+
+        return $total;
+    }
+
+    /**
+     * @param double $total_earned the total earned points
+     * @param double $total_available the total available points
+     * @return double the percent grade
+     */
+    public function computePercentGrade($total_earned, $total_available)
+    {
+        return round($total_earned/$total_available, 2);
+    }
+
+    /**
+     * Compute the letter grade for this page.
+     * 
+     * This will also check metric grades to see if any were incomplete, and change the letter grade accordingly
+     * 
+     * @param Page\MetricGrades\AllForPage $metric_grades the list of metric grades for this page
+     * @param $percent_grade the percent grade for this page
+     * @return string the letter grade
+     */
+    public function computeLetterGrade(Page\MetricGrades\AllForPage $metric_grades, $percent_grade)
+    {
+        //TODO: implement
+        return 'U';
     }
 
     /**
