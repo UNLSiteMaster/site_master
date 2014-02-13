@@ -72,4 +72,24 @@ class GradingHelper
         
         return 0;
     }
+
+    /**
+     * get the css class name for a letter grade
+     * 
+     * @param string $letter_grade
+     * @return string the associated css class
+     */
+    public function convertLetterGradeToCSSClass($letter_grade)
+    {
+        $class = new \ReflectionClass(__CLASS__);
+        $constants = $class->getConstants();
+        
+        foreach ($constants as $name=>$value) {
+            if ($value == $letter_grade) {
+                return strtolower(str_replace('_', '-', $name));
+            }
+        }
+        
+        return 'grade-unknown';
+    }
 }

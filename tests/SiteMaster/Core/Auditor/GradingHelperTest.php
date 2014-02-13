@@ -33,4 +33,14 @@ class GradingHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4.0, $helper->getGradePoints(GradingHelper::GRADE_A));
         $this->assertEquals(3.0, $helper->getGradePoints(GradingHelper::GRADE_B));
     }
+
+    /**
+     * @test
+     */
+    public function convertLetterGradeToCSSClass()
+    {
+        $helper = new GradingHelper();
+
+        $this->assertEquals('grade-a-plus', $helper->convertLetterGradeToCSSClass(GradingHelper::GRADE_A_PLUS));
+    }
 }
