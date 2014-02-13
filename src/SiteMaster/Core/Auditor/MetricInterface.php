@@ -228,7 +228,7 @@ abstract class MetricInterface
             return GradingHelper::GRADE_PASS;
         }
         
-        $grade->letter_grade = $grade_helper->convertPercentToLetterGrade($grade->point_grade);
+        return $grade_helper->convertPercentToLetterGrade($grade->point_grade);
     }
 
     /**
