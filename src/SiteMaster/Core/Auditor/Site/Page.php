@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -310,13 +311,20 @@ class Page extends Record
      * This will also check metric grades to see if any were incomplete, and change the letter grade accordingly
      * 
      * @param Page\MetricGrades\AllForPage $metric_grades the list of metric grades for this page
-     * @param $percent_grade the percent grade for this page
+     * @param $percent_grade double percent grade for this page
      * @return string the letter grade
      */
     public function computeLetterGrade(Page\MetricGrades\AllForPage $metric_grades, $percent_grade)
     {
-        //TODO: implement
-        return 'U';
+        foreach ($metric_grades as $grade) {
+            if ($grade->isIncomplete()) {
+                return GradingHelper::GRADE_INCOMPLETE;
+            }
+        }
+        
+        $grade_helper = new GradingHelper();
+        
+        return $grade_helper->convertPercentToLetterGrade($percent_grade);
     }
 
     /**

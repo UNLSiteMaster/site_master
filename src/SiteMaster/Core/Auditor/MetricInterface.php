@@ -152,16 +152,16 @@ abstract class MetricInterface
             $previous_marks = $last_page_scan->getMarks($this->getMetricRecord()->id);
             $count_before = $previous_marks->count();
         }
-            
         
         //Compute the changes since the last scan
         $grade->changes_since_last_scan = $this->getChangesSinceLastScan($count_before, $marks->count());
         
+        //Compute percent and weighted grade
         $grade->point_grade = $this->computePointGrade($marks);
         $grade->weighted_grade = $this->computeWeightedGrade($grade->point_grade, $grade->weight);
         
-        
-        //TODO: compute the letter grade
+        //Compute the letter grade
+        $grade->letter_grade = $this->computeLetterGrade($grade);
 
         if (!$grade->save()) {
             return false;
@@ -184,6 +184,8 @@ abstract class MetricInterface
     
     public function computePointGrade(Page\Marks\AllForPageMetric $marks)
     {
+        //TODO: handle pass/fail
+        
         //Compute the grade
         $points = 100;
         foreach ($marks as $mark) {
@@ -196,6 +198,31 @@ abstract class MetricInterface
         }
         
         return $points;
+    }
+
+    /**
+     * Determine the letter grade for a metric grade
+     * 
+     * @param Page\MetricGrade $grade
+     * @return string the letter grade
+     */
+    public function computeLetterGrade(Page\MetricGrade $grade)
+    {
+        $grade_helper = new GradingHelper();
+        
+        if ($grade->isIncomplete()) {
+            return GradingHelper::GRADE_INCOMPLETE;
+        }
+        
+        if ($grade->isPassFail()) {
+            if ($grade->point_grade != 100) {
+                return GradingHelper::GRADE_NO_PASS;
+            }
+
+            return GradingHelper::GRADE_PASS;
+        }
+        
+        $grade->letter_grade = $grade_helper->convertPercentToLetterGrade($grade->point_grade);
     }
 
     /**
