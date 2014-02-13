@@ -209,6 +209,7 @@ CREATE TABLE IF NOT EXISTS `page_marks` (
   PRIMARY KEY (`id`),
   INDEX `fk_page_marks_marks1_idx` (`marks_id` ASC),
   INDEX `fk_page_marks_scanned_page1_idx` (`scanned_page_id` ASC),
+  INDEX `index4` (`value_found` ASC),
   CONSTRAINT `fk_page_marks_marks1`
     FOREIGN KEY (`marks_id`)
     REFERENCES `marks` (`id`)
