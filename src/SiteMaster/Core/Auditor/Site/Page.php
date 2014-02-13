@@ -259,6 +259,7 @@ class Page extends Record
         $this->points_available = $this->computeAvailablePoints($metric_grades);
         $this->point_grade = $this->computePointGrade($metric_grades);
         $this->percent_grade = $this->computePercentGrade($this->point_grade, $this->points_available);
+        $this->letter_grade = $this->computeLetterGrade($metric_grades, $this->percent_grade);
         
         return $this->save();
     }
