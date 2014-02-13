@@ -17,12 +17,18 @@ class GradingHelper
     const GRADE_D_PLUS        = 'D+';
     const GRADE_D             = 'D';
     const GRADE_D_MINUS       = 'D-';
-    const GRADE_F             = 'A+';
+    const GRADE_F             = 'F';
     const GRADE_INCOMPLETE    = 'I';
     const GRADE_PASS          = 'P';
     const GRADE_NO_PASS       = 'NP';
     const GRADE_NOT_REPORTING = 'NR';
-    
+
+    /**
+     * Convert a percent grade to a letter grade
+     * 
+     * @param double $percent the percent to convert
+     * @return string the letter grade for that percent
+     */
     public function convertPercentToLetterGrade($percent)
     {
         $scale = Config::get('GRADE_SCALE');
@@ -34,5 +40,36 @@ class GradingHelper
         }
         
         return self::GRADE_F;
+    }
+
+    /**
+     * Get the grade points for a given letter grade
+     * 
+     * @param string $letter_grade the letter grade
+     * @return double the grade points
+     */
+    public function getGradePoints($letter_grade)
+    {
+        $points = array(
+            self::GRADE_A_PLUS  => 4.0,
+            self::GRADE_A       => 4.0,
+            self::GRADE_A_MINUS => 3.67,
+            self::GRADE_B_PLUS  => 3.33,
+            self::GRADE_B       => 3.0,
+            self::GRADE_B_MINUS => 2.67,
+            self::GRADE_C_PLUS  => 2.33,
+            self::GRADE_C       => 2.0,
+            self::GRADE_C_MINUS => 1.67,
+            self::GRADE_D_PLUS  => 1.33,
+            self::GRADE_D       => 1.0,
+            self::GRADE_D_MINUS => 0.67,
+            self::GRADE_F       => 0,
+        );
+        
+        if (isset($points[$letter_grade])) {
+            return $points[$letter_grade];
+        }
+        
+        return 0;
     }
 }

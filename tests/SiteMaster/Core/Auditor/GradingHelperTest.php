@@ -21,4 +21,16 @@ class GradingHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(GradingHelper::GRADE_C, $helper->convertPercentToLetterGrade('74', 'Should be a C'));
         $this->assertEquals(GradingHelper::GRADE_F, $helper->convertPercentToLetterGrade('59.99', 'Should be an F'));
     }
+
+    /**
+     * @test
+     */
+    public function getGradePoints()
+    {
+        $helper = new GradingHelper();
+
+        $this->assertEquals(4.0, $helper->getGradePoints(GradingHelper::GRADE_A_PLUS));
+        $this->assertEquals(4.0, $helper->getGradePoints(GradingHelper::GRADE_A));
+        $this->assertEquals(3.0, $helper->getGradePoints(GradingHelper::GRADE_B));
+    }
 }
