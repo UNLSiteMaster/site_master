@@ -157,7 +157,7 @@ abstract class MetricInterface
         $grade->changes_since_last_scan = $this->getChangesSinceLastScan($count_before, $marks->count());
         
         //Compute percent and weighted grade
-        $grade->point_grade = $this->computePointGrade($marks);
+        $grade->point_grade = $this->computePointGrade($grade, $marks);
         $grade->weighted_grade = $this->computeWeightedGrade($grade->point_grade, $grade->weight);
         
         //Compute the letter grade
@@ -182,10 +182,8 @@ abstract class MetricInterface
         return round($weight * ($point_grade / 100), 2);
     }
     
-    public function computePointGrade(Page\Marks\AllForPageMetric $marks)
+    public function computePointGrade(Page\MetricGrade $grade, Page\Marks\AllForPageMetric $marks)
     {
-        //TODO: handle pass/fail
-        
         //Compute the grade
         $points = 100;
         foreach ($marks as $mark) {
@@ -195,6 +193,14 @@ abstract class MetricInterface
         //Make sure it bottoms out at zero
         if ($points < 0) {
             $points = 0;
+        }
+        
+        //Handle pass/fail
+        if ($grade->isPassFail()) {
+            if ($points != 100) {
+                //Return 0 if they did not get 100%
+                return 0;
+            }
         }
         
         return $points;
