@@ -18,7 +18,7 @@ Config::set('DB_NAME'     , '');
 
 //Only test with the default plugins
 Config::set('PLUGINS', array(
-    'example' => array('weight'=>33.3),
+    'example' => array('weight'=>33.33),
     'theme_foundation' => array('setting'=>'value'),
 ));
 
