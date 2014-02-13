@@ -67,4 +67,32 @@ class MetricGrade extends Record
 
         return $metric_grade;
     }
+
+    /**
+     * Determine if this grade is an incomplete
+     * 
+     * @return bool
+     */
+    public function isIncomplete()
+    {
+        if ($this->incomplete == 'YES') {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Determine if this grade is pass/fail
+     * 
+     * @return bool
+     */
+    public function isPassFail()
+    {
+        if ($this->pass_fail == 'YES') {
+            return true;
+        }
+        
+        return false;
+    }
 }
