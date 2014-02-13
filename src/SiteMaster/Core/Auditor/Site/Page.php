@@ -8,6 +8,7 @@ use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Downloader\HTMLOnly;
 use SiteMaster\Core\Auditor\Logger\Scheduler;
+use SiteMaster\Core\Auditor\Logger\PageTitle;
 use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Util;
@@ -243,6 +244,7 @@ class Page extends Record
         
         $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
         $spider->addLogger(new Scheduler($spider, $scan, $site));
+        $spider->addLogger(new PageTitle($this));
         $spider->addLogger(new Metrics($spider, $scan, $site, $this));
 
         try {
@@ -252,8 +254,13 @@ class Page extends Record
             return $this->delete();
         }
         
+        //Ensure that this record is up to date.
+        $this->reload();
+        
+        //Grade
         $this->grade();
         
+        //Complete
         $this->markAsComplete();
         
         return true;
