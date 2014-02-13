@@ -137,6 +137,10 @@ class GradingHelper
             $grade_points[] = $this->getGradePoints($letter_grade);
         }
         
+        if (empty($grade_points)) {
+            return 0;
+        }
+        
         return round(array_sum($grade_points) / count($grade_points), 2);
     }
 }
