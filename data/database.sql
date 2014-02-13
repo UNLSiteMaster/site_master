@@ -229,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `metrics_id` INT NOT NULL,
   `scanned_page_id` INT NOT NULL,
-  `percent_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'The precent grade of this metric.',
+  `weighted_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'total earned points when the weight is accounted for',
   `point_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'The point grade for this metric.  Overall points gained for page.',
   `changes_since_last_scan` INT NOT NULL DEFAULT 0 COMMENT 'The number of changes since the last scan. \n',
   `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Was the grade a pass/fail?',

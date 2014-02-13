@@ -9,7 +9,7 @@ class MetricGrade extends Record
     public $id;                      //int required
     public $metrics_id;              //fk for metrics.id NOT NULL
     public $scanned_page_id;         //fk for scanned_page.id NOT NULL
-    public $percent_grade;           //DECIMAL(5,2) NOT NULL DEFAULT=0
+    public $weighted_grade;          //DECIMAL(5,2) NOT NULL DEFAULT=0
     public $point_grade;             //DECIMAL(5,2) NOT NULL DEFAULT=0
     public $changes_since_last_scan; //INT NOT NULL DEFAULT=0
     public $pass_fail;               //ENUM('YES', 'NO') NOT NULL default='NO'
@@ -52,7 +52,7 @@ class MetricGrade extends Record
         $metric_grade = new self();
         $metric_grade->pass_fail = 'NO';
         $metric_grade->incomplete = 'NO';
-        $metric_grade->percent_grade = 0;
+        $metric_grade->weighted_grade = 0;
         $metric_grade->point_grade = 0;
         $metric_grade->weight = 0;
         $metric_grade->changes_since_last_scan = 0;
