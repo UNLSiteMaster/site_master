@@ -303,6 +303,10 @@ class Page extends Record
      */
     public function computePercentGrade($total_earned, $total_available)
     {
+        if ($total_available == 0) {
+            return 0;
+        }
+        
         return round(($total_earned/$total_available)*100, 2);
     }
 
