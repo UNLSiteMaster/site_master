@@ -84,14 +84,6 @@ abstract class MetricInterface
      */
     public function getMetricRecord()
     {
-        //Store the metric, so that we don't have to hit the db every time we want it.
-        static $metric;
-        
-        if ($metric) {
-            //return early if it is already set
-            return $metric;
-        }
-        
         if ($metric = Metric::getByMachineName($this->getMachineName())) {
             //Found the metric, just return it.
             return $metric;
@@ -142,14 +134,16 @@ abstract class MetricInterface
         if (!$completed) {
             $grade->incomplete = 'YES';
         }
+        
+        $metric_record = $this->getMetricRecord();
 
-        $marks = $page->getMarks($this->getMetricRecord()->id);
+        $marks = $page->getMarks($metric_record->id);
 
         $last_page_scan = $page->getPreviousScan();
 
         $count_before = 0;
         if ($last_page_scan) {
-            $previous_marks = $last_page_scan->getMarks($this->getMetricRecord()->id);
+            $previous_marks = $last_page_scan->getMarks($metric_record->id);
             $count_before = $previous_marks->count();
         }
         
@@ -267,11 +261,12 @@ abstract class MetricInterface
      */
     public function getMetricGrade($page)
     {
-        if ($grade = Page\MetricGrade::getByMetricIDAndScannedPageID($this->getMetricRecord()->id, $page->id)) {
+        $metric_record = $this->getMetricRecord();
+        if ($grade = Page\MetricGrade::getByMetricIDAndScannedPageID($metric_record->id, $page->id)) {
             return $grade;
         }
         
-        return Page\MetricGrade::CreateNewPageMetricGrade($this->getMetricRecord()->id, $page->id, array(
+        return Page\MetricGrade::CreateNewPageMetricGrade($metric_record->id, $page->id, array(
             'weight' => $this->getWeight()
         ));
     }
