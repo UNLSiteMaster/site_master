@@ -96,7 +96,7 @@ class GradingHelper
     /**
      * Determine if a given letter grade counts toward the GPA
      * 
-     * @param $letter_grade
+     * @param string $letter_grade the letter grade to check
      * @return bool
      */
     public function countsTowardGPA($letter_grade)

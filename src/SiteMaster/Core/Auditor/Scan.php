@@ -43,11 +43,11 @@ class Scan extends Record
     /**
      * Create a new Scan
      *
-     * @param $sites_id
-     * @param array $details
+     * @param int $sites_id the site id
+     * @param array $fields an associative array of field names and values to insert
      * @return bool|Scan
      */
-    public static function createNewScan($sites_id, array $details = array())
+    public static function createNewScan($sites_id, array $fields = array())
     {
         $scan = new self();
         $scan->gpa        = 0;
@@ -55,7 +55,7 @@ class Scan extends Record
         $scan->scan_type  = self::SCAN_TYPE_AUTO;
         $scan->date_created = Util::epochToDateTime();
         
-        $scan->synchronizeWithArray($details);
+        $scan->synchronizeWithArray($fields);
         $scan->sites_id = $sites_id;
 
         if (!$scan->insert()) {
@@ -95,7 +95,7 @@ class Scan extends Record
     /**
      * Get all pages in this scan
      * 
-     * @return AllForSite
+     * @return AllForScan
      */
     public function getPages()
     {
@@ -131,6 +131,8 @@ class Scan extends Record
 
     /**
      * Mark this scan as running
+     * 
+     * @return null
      */
     public function markAsRunning()
     {
@@ -141,6 +143,8 @@ class Scan extends Record
 
     /**
      * Mark this scan as complete
+     * 
+     * @return null
      */
     public function markAsComplete()
     {
@@ -149,7 +153,12 @@ class Scan extends Record
         $this->gpa      = $this->computeGPA();
         $this->save();
     }
-    
+
+    /**
+     * Compute the gpa of this scan
+     * 
+     * @return float
+     */
     public function computeGPA()
     {
         $letter_grades = array();
@@ -164,12 +173,13 @@ class Scan extends Record
     /**
      * Mark this scan as an error
      * 
-     * @param string $error
+     * @param string $error the error message to save
      */
     public function markAsError($error = 'unknown')
     {
         $this->end_time = Util::epochToDateTime();
         $this->status   = self::STATUS_ERROR;
+        $this->error    = $error;
         $this->save();
     }
 }

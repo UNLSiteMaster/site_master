@@ -28,10 +28,10 @@ class Mark extends Record
     /**
      * Create a new page mark
      *
-     * @param $marks_id
-     * @param $scanned_page_id
-     * @param $points_deducted
-     * @param array $fields
+     * @param int $marks_id the mark id that this page mark is an instance of
+     * @param int $scanned_page_id the scanned page that this mark belongs to
+     * @param double $points_deducted the total number of points deducted for this mark
+     * @param array $fields an associative array of fields names and values to insert
      * @return bool|Mark
      */
     public static function createNewPageMark($marks_id, $scanned_page_id, $points_deducted, array $fields = array())

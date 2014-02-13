@@ -30,8 +30,8 @@ class MetricGrade extends Record
     /**
      * Get a Page Metric grade by the page ID and metric ID
      *
-     * @param $metric_id
-     * @param $scanned_page_id
+     * @param int $metric_id the id of the metric
+     * @param int $scanned_page_id the id of the page
      * @return bool|MetricGrade
      */
     public static function getByMetricIDAndScannedPageID($metric_id, $scanned_page_id)
@@ -42,9 +42,9 @@ class MetricGrade extends Record
     /**
      * Create a new Page Metric Grade
      *
-     * @param $metrics_id
-     * @param $scanned_page_id
-     * @param array $fields
+     * @param int $metrics_id the id of a metric that this grade belongs to
+     * @param int $scanned_page_id the id of the page that this metric belongs to
+     * @param array $fields an associative array of fields names and values to insert
      * @return bool|MetricGrade
      */
     public static function CreateNewPageMetricGrade($metrics_id, $scanned_page_id, array $fields = array())

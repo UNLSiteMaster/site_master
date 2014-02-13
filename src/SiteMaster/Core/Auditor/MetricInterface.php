@@ -1,12 +1,9 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
-use SiteMaster\Core\Util;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Site;
-use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
-use Spider;
 
 abstract class MetricInterface
 {
@@ -54,7 +51,7 @@ abstract class MetricInterface
      * @param string $uri - the uri to scan
      * @param \DOMXPath $xpath - the xpath of the uri
      * @param int $depth - the current depth of the scan
-     * @param \SiteMaster\Core\Auditor\Site\Page|\SiteMaster\Core\Registry\Site\Page $page - the current page to scan
+     * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page to scan
      * @param Logger\Metrics $logger The logger class which calls this method, you can access the spider, page, and scan from this
      * @return bool True if there was a successful scan, false if not.  If false, the metric will be graded as incomplete
      */
@@ -121,7 +118,14 @@ abstract class MetricInterface
         //grade the metric
         $this->grade($page, $completed);
     }
-    
+
+    /**
+     * Grade this metric
+     * 
+     * @param Page $page the page record
+     * @param bool $completed flag for if the scan was able to finish successfully
+     * @return bool|Page\MetricGrade
+     */
     public function grade(Page $page, $completed)
     {
         $grade = $this->getMetricGrade($page);
@@ -175,7 +179,14 @@ abstract class MetricInterface
     {
         return round($weight * ($point_grade / 100), 2);
     }
-    
+
+    /**
+     * Compute the point grade of the page scan
+     * 
+     * @param Page\MetricGrade $grade the metric grade record
+     * @param Page\Marks\AllForPageMetric $marks the list of marks for the record
+     * @return int the point grade
+     */
     public function computePointGrade(Page\MetricGrade $grade, Page\Marks\AllForPageMetric $marks)
     {
         //Compute the grade
@@ -256,10 +267,10 @@ abstract class MetricInterface
     /**
      * Get the metric grade for this page, create it if it does not exist.
      * 
-     * @param $page
+     * @param Page $page the apge record
      * @return bool|Page\MetricGrade
      */
-    public function getMetricGrade($page)
+    public function getMetricGrade(Page $page)
     {
         $metric_record = $this->getMetricRecord();
         if ($grade = Page\MetricGrade::getByMetricIDAndScannedPageID($metric_record->id, $page->id)) {
@@ -275,12 +286,12 @@ abstract class MetricInterface
      * Get a mark record for a machine name.  This method will create the record if it isn't found.
      * It will also update the record if it needs to
      * 
-     * @param string $machine_name
-     * @param string $name
-     * @param int $point_deduction
-     * @param string $description
-     * @param string $help_text
-     * @return bool|Metric\Mark
+     * @param string $machine_name the machine name of the mark
+     * @param string $name the human readable name of the mark
+     * @param double $point_deduction the point deduction
+     * @param string $description the description of the mark
+     * @param string $help_text the help text for the mark
+     * @return bool|Metric\Mark the mark
      */
     public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '')
     {

@@ -12,7 +12,6 @@ use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\HTTPConnectionException;
-use SiteMaster\Core\RuntimeException;
 
 class Page extends Record
 {
@@ -60,9 +59,8 @@ class Page extends Record
     /**
      * Get a page by its scan id and uri
      *
-     * @param $scans_id
-     * @param $uri
-     * @internal param $base_url
+     * @param int $scans_id the id of the scan
+     * @param string $uri the uri of the page
      * @return bool|Page
      */
     public static function getByScanIDAndURI($scans_id, $uri)
@@ -139,10 +137,10 @@ class Page extends Record
     /**
      * Create a new page
      *
-     * @param $scans_id
-     * @param $sites_id
-     * @param $uri
-     * @param array $fields
+     * @param int $scans_id the scan id that this page belongs to
+     * @param int $sites_id the site id that this page belongs to
+     * @param string $uri the uri of the page
+     * @param array $fields an associative array of field names and values to insert
      * @return bool|Page
      */
     public static function createNewPage($scans_id, $sites_id, $uri, array $fields = array())
@@ -169,6 +167,8 @@ class Page extends Record
     }
 
     /**
+     * Get the scan record for this page
+     * 
      * @return false|Scan
      */
     public function getScan()
@@ -177,6 +177,8 @@ class Page extends Record
     }
 
     /**
+     * Get the site record for this page
+     * 
      * @return false|\SiteMaster\Core\Registry\Site
      */
     public function getSite()
@@ -187,7 +189,7 @@ class Page extends Record
     /**
      * Schedule a scan of this page.
      *
-     * @return bool Tru on success
+     * @return bool True on success, false if it can not be scanned (was already scanned)
      */
     public function scheduleScan()
     {
@@ -213,8 +215,15 @@ class Page extends Record
         }
         
         $this->markAsQueued($priority);
+        
+        return true;
     }
-    
+
+    /**
+     * Scan this page
+     * 
+     * @return bool false if the scan is not queued or ready to be scanned
+     */
     public function scan()
     {
         if ($this->status != self::STATUS_QUEUED) {
@@ -246,12 +255,14 @@ class Page extends Record
         $this->grade();
         
         $this->markAsComplete();
+        
+        return true;
     }
 
     /**
      * Grade this page based on the page metric grades
      * 
-     * @return bool
+     * @return bool true on success
      */
     public function grade()
     {
@@ -268,7 +279,7 @@ class Page extends Record
      * Compute the total available points for this page
      * 
      * @param Page\MetricGrades\AllForPage $metric_grades
-     * @return int
+     * @return int the available points
      */
     public function computeAvailablePoints(Page\MetricGrades\AllForPage $metric_grades)
     {
@@ -284,7 +295,7 @@ class Page extends Record
      * Compute the point grade for this page
      * 
      * @param Page\MetricGrades\AllForPage $metric_grades
-     * @return int
+     * @return int the point grade of the page
      */
     public function computePointGrade(Page\MetricGrades\AllForPage $metric_grades)
     {
@@ -334,6 +345,9 @@ class Page extends Record
 
     /**
      * Mark this page as queued
+     *
+     * @param int $priority the priority of the scan for the queue
+     * @return null
      */
     public function markAsQueued($priority)
     {
@@ -344,6 +358,8 @@ class Page extends Record
 
     /**
      * Mark this page as running
+     * 
+     * @return null
      */
     public function markAsRunning()
     {
@@ -359,6 +375,9 @@ class Page extends Record
 
     /**
      * Mark this page as complete
+     * If this was the last page in the scan, this will also mark the scan as 'complete'
+     * 
+     * @return null
      */
     public function markAsComplete()
     {
@@ -378,12 +397,14 @@ class Page extends Record
     /**
      * Mark this page as an error
      *
-     * @param string $error
+     * @param string $error the error text to save
+     * @return null
      */
     public function markAsError($error = 'unknown')
     {
         $this->end_time = Util::epochToDateTime();
         $this->status   = self::STATUS_ERROR;
+        $this->error    = $error;
         $this->save();
     }
 

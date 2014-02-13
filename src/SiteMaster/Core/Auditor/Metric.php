@@ -19,6 +19,12 @@ class Metric extends Record
         return 'metrics';
     }
 
+    /**
+     * Get by the metric's machine name
+     * 
+     * @param string $machine_name the machine name
+     * @return bool
+     */
     public static function getByMachineName($machine_name)
     {
         return self::getByAnyField(__CLASS__, 'machine_name', $machine_name);
@@ -28,7 +34,7 @@ class Metric extends Record
      * Create a new Metric
      *
      * @param string $machine_name The machine name that links the db record to a module
-     * @param array $fields
+     * @param array $fields an associative array of field names and values to insert
      * @return bool|Metric
      */
     public static function createNewMetric($machine_name, array $fields = array())
