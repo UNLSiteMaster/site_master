@@ -47,7 +47,7 @@ class MetricGrade extends Record
      * @param array $fields an associative array of fields names and values to insert
      * @return bool|MetricGrade
      */
-    public static function CreateNewPageMetricGrade($metrics_id, $scanned_page_id, array $fields = array())
+    public static function createNewPageMetricGrade($metrics_id, $scanned_page_id, array $fields = array())
     {
         $metric_grade = new self();
         $metric_grade->pass_fail = 'NO';

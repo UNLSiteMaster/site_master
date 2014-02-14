@@ -277,7 +277,7 @@ abstract class MetricInterface
             return $grade;
         }
         
-        return Page\MetricGrade::CreateNewPageMetricGrade($metric_record->id, $page->id, array(
+        return Page\MetricGrade::createNewPageMetricGrade($metric_record->id, $page->id, array(
             'weight' => $this->getWeight()
         ));
     }
