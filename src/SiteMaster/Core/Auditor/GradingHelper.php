@@ -50,21 +50,7 @@ class GradingHelper
      */
     public function getGradePoints($letter_grade)
     {
-        $points = array(
-            self::GRADE_A_PLUS  => 4.0,
-            self::GRADE_A       => 4.0,
-            self::GRADE_A_MINUS => 3.67,
-            self::GRADE_B_PLUS  => 3.33,
-            self::GRADE_B       => 3.0,
-            self::GRADE_B_MINUS => 2.67,
-            self::GRADE_C_PLUS  => 2.33,
-            self::GRADE_C       => 2.0,
-            self::GRADE_C_MINUS => 1.67,
-            self::GRADE_D_PLUS  => 1.33,
-            self::GRADE_D       => 1.0,
-            self::GRADE_D_MINUS => 0.67,
-            self::GRADE_F       => 0,
-        );
+        $points = Config::get('GRADE_POINTS');
         
         if (isset($points[$letter_grade])) {
             return $points[$letter_grade];
