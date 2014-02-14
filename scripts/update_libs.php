@@ -66,4 +66,4 @@ echo 'This may take some time...' . PHP_EOL;
 updateComposerJSON($pluginManager);
 
 //Update composer
-echo shell_exec('php ' . \SiteMaster\Core\Util::getRootDir() . '/composer.phar update');
+passthru('php ' . \SiteMaster\Core\Util::getRootDir() . '/composer.phar update');
