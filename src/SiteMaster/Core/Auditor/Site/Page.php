@@ -92,7 +92,7 @@ class Page extends Record
         $sql = "SELECT *
                 FROM scanned_page
                 WHERE uri = '" . $db->escape_string($this->uri) . "'
-                    AND id != " . ($this->id) . "
+                    AND id != " . (int)$this->id . "
                 ORDER BY id DESC
                 LIMIT 1";
 
