@@ -29,7 +29,8 @@ class PageTitle extends \Spider_LoggerAbstract
      * @param DOMXPath $xpath the xpath of the page
      * @return bool|string the page title
      */
-    public function getPageTitle(DOMXPath $xpath) {
+    public function getPageTitle(DOMXPath $xpath)
+    {
         if (!$result = $xpath->query('//xhtml:title')) {
             echo 'return' . PHP_EOL;
             return false;
