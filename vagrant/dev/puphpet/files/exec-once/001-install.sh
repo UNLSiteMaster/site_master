@@ -3,7 +3,7 @@ SITEMASTER_INSTALL="scripts/install.php"
 
 echo "installing sitemaster"
 
-#Go to the basedir to preform commands.
+#Go to the basedir to perform commands.
 cd $SITEMASTER_BASEDIR
 
 git submodule init

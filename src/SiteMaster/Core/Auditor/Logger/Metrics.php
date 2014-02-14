@@ -41,7 +41,7 @@ class Metrics extends \Spider_LoggerAbstract
         $metrics = new \SiteMaster\Core\Auditor\Metrics();
         
         foreach ($metrics as $metric) {
-            $metric->preformScan($uri, $xpath, $depth, $this->page, $this);
+            $metric->performScan($uri, $xpath, $depth, $this->page, $this);
         }
     }
 

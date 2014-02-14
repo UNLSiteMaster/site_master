@@ -111,7 +111,7 @@ abstract class MetricInterface
      * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
      * @param Logger\Metrics $logger
      */
-    public function preformScan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger)
+    public function performScan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger)
     {
         //scan
         $completed = $this->scan($uri, $xpath, $depth, $page, $logger);

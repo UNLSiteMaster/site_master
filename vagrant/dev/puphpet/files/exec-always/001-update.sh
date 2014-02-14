@@ -3,7 +3,7 @@ SITEMASTER_UPDATE="scripts/update.php"
 
 echo "updating sitemaster"
 
-#Go to the basedir to preform commands.
+#Go to the basedir to perform commands.
 cd $SITEMASTER_BASEDIR
 
 php $SITEMASTER_UPDATE
