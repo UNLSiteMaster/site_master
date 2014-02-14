@@ -172,7 +172,7 @@ abstract class MetricInterface
      * Compute the weighted grade for this metric
      * 
      * @param double $point_grade the total points earned
-     * @param double $weight the the weight of the grade
+     * @param double $weight the weight of the grade
      * @return double the computed weighted grade
      */
     public function computeWeightedGrade($point_grade, $weight)
