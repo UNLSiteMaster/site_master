@@ -237,7 +237,7 @@ abstract class MetricInterface
 
             return GradingHelper::GRADE_PASS;
         }
-        echo 'percent grade: ' . $grade->getPercentGrade() . PHP_EOL;
+
         return $grade_helper->convertPercentToLetterGrade($grade->getPercentGrade());
     }
 
