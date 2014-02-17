@@ -111,6 +111,52 @@ class ScanDBTest extends DBTestCase
     }
 
     /**
+     * Simulate a scan for a site that has metrics with custom points_available values.  Verify all results
+     * This is an integration test rather than a unit test
+     *
+     * @test
+     * @group integration
+     */
+    public function scanPointsAvailable()
+    {
+        $this->setUpDB();
+
+        $metrics = new Metrics();
+        foreach ($metrics as $metric) {
+            if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
+                $metric->setOptions(array(
+                    'available_points' => 50,
+                    'weight' => 33.33
+                ));
+            }
+        }
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan($site);
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        $example_metric = Metric::getByMachineName('example');
+
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             */
+            $grade = $page->getMetricGrade($example_metric->id);
+            $this->assertEquals(34.5, $grade->point_grade);
+            $this->assertEquals(GradingHelper::GRADE_D_PLUS, $grade->letter_grade);
+
+            //The page should have an F grade because the only metric failed
+            $this->assertEquals(GradingHelper::GRADE_D_PLUS, $page->letter_grade);
+        }
+    }
+
+    /**
      * Simulate a scan for a site that has incomplete metrics.  Verify all results
      * This is an integration test rather than a unit test
      *
