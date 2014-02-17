@@ -9,6 +9,7 @@ class MetricGrade extends Record
     public $id;                      //int required
     public $metrics_id;              //fk for metrics.id NOT NULL
     public $scanned_page_id;         //fk for scanned_page.id NOT NULL
+    public $points_available;        //DECIMAL(5,2) NOT NULL DEFAULT=100 The total number of points available for the metric
     public $weighted_grade;          //DECIMAL(5,2) NOT NULL DEFAULT=0
     public $point_grade;             //DECIMAL(5,2) NOT NULL DEFAULT=0
     public $changes_since_last_scan; //INT NOT NULL DEFAULT=0
@@ -52,6 +53,7 @@ class MetricGrade extends Record
         $metric_grade = new self();
         $metric_grade->pass_fail = 'NO';
         $metric_grade->incomplete = 'NO';
+        $metric_grade->points_available = 100;
         $metric_grade->weighted_grade = 0;
         $metric_grade->point_grade = 0;
         $metric_grade->weight = 0;
