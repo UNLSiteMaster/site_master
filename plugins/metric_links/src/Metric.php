@@ -4,11 +4,14 @@ namespace SiteMaster\Plugins\Metric_links;
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\HTTP\Exception\MultiTransferException;
 use SiteMaster\Core\Auditor\Logger\Metrics;
+use SiteMaster\Core\Auditor\Metric\Mark;
+use SiteMaster\Core\Auditor\Metric\Marks\UniqueValueFound;
 use SiteMaster\Core\Auditor\MetricInterface;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
 use Guzzle\Http\Client;
+use SiteMaster\Core\Util;
 
 class Metric extends MetricInterface
 {
@@ -133,6 +136,44 @@ class Metric extends MetricInterface
         return $links_array;
     }
 
+    public function getPointDeduction($http_code)
+    {
+        switch ($this->options['grading_method'])
+        {
+            case self::GRADE_METHOD_DEFAULT:
+                if ($http_code >= 400) {
+                    //error
+                    return 20;
+                }
+
+                if ($http_code == 301) {
+                    //Redirect
+                    return 5;
+                }
+
+                //Connection problems
+                return 15;
+                break;
+            case self::GRADE_METHOD_NUMBER_OF_LINKS:
+                if ($http_code >= 400) {
+                    //error
+                    return 2;
+                }
+
+                if ($http_code == 301) {
+                    //Redirect
+                    return 1;
+                }
+
+                //Connection problems
+                return 2;
+                break;
+            case self::GRADE_METHOD_PASS_FAIL:
+                return 1;
+                break;
+        }
+    }
+
     /**
      * Strip fragments for UIRIs
      *
@@ -152,18 +193,42 @@ class Metric extends MetricInterface
         return $uri;
     }
     
-    public function checkLinks($links)
+    public function checkLinks($links, Page $page, $metrics_id, $scans_id)
     {
         $bad_links = array();
-        //TODO: check for pre-existing marks for each link before sending a curl request
         
-        //TODO: check to see if we already scanned it this run
+        //get pre-existing marks for URLs
+        //Check results
+        $previously_found_in_scan = new UniqueValueFound(array(
+            'metrics_id' => $metrics_id,
+            'scans_id' => $scans_id
+        ));
         
-        //TODO: send batches of curl requests, limit them to 10 at a time, then wait 1 second
+        foreach ($links as $key=>$link) {
+            if ($mark_id = $previously_found_in_scan->offsetGet($link)) {
+                $mark = Mark::getByID($mark_id);
+                $page->addMark($mark, array(
+                    'value_found' => $link
+                ));
+                
+                unset($links[$key]);
+            }
+        }
         
+        //divide the links into groups to 10 to check
+        $chunks = array_chunk($links, 10);
         
+        foreach ($chunks as $chunk) {
+            $bad_links = $this->getHTTPStatus($chunk);
+            foreach ($bad_links as $link) {
+                $mark = $this->getMark($link->getMachineName(), $link->getHumanName(), $this->getPointDeduction($link->getHTTPCode()));
+                $page->addMark($mark);
+            }
+            
+            sleep(1);
+        }
         
-        return $bad_links;
+        return true;
     }
     
     public function getHTTPStatus($links)
@@ -209,5 +274,7 @@ class Metric extends MetricInterface
                 }
             }
         }
+        
+        return $bad_links;
     }
 }
