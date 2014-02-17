@@ -8,7 +8,7 @@ $json = file_get_contents($root . '/base_composer.json');
 file_put_contents($root . '/composer.json', $json);
 
 //Update composer
-echo shell_exec('php ' . $root. '/composer.phar update');
+passthru('php ' . $root. '/composer.phar update');
 
 require_once($root. '/scripts/update_libs.php');
 
