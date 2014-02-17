@@ -42,7 +42,7 @@ class UniqueValueFound extends \ArrayIterator
                     LEFT JOIN marks ON (page_marks.marks_id = marks.id)
                     LEFT JOIN scanned_page ON (page_marks.scanned_page_id = scanned_page.id)
                 " . $this->getWhere() . "
-                GROUP BY marks.id
+                GROUP BY value_found
                 ORDER BY id DESC";
 
         if (!$result = $db->query($sql)) {
