@@ -44,4 +44,13 @@ class BadLink
         
         return $machine_name;
     }
+    
+    public function getHumanName()
+    {
+        if ($this->connection_error) {
+            return 'Connection Error: ' . $this->curl_message;
+        }
+        
+        return 'HTTP error: ' . $this->http_code;
+    }
 }
