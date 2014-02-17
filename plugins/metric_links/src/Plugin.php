@@ -2,6 +2,7 @@
 namespace SiteMaster\Plugins\Metric_links;
 
 use SiteMaster\Core\Plugin\PluginInterface;
+use SiteMaster\Core\Util;
 
 class Plugin extends PluginInterface
 {
@@ -10,6 +11,12 @@ class Plugin extends PluginInterface
      */
     public function onInstall()
     {
+        $sql = file_get_contents($this->getRootDirectory() . "/data/database.sql");
+
+        if (!Util::execMultiQuery($sql, true)) {
+            return false;
+        }
+        
         return true;
     }
 
@@ -18,6 +25,13 @@ class Plugin extends PluginInterface
      */
     public function onUninstall()
     {
+        $sql = "SET FOREIGN_KEY_CHECKS = 0;
+                drop table if exists metric_links_status;";
+
+        if (!Util::execMultiQuery($sql, true)) {
+            return false;
+        }
+
         return true;
     }
 
