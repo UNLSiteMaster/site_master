@@ -46,7 +46,7 @@ class UniqueValueFound extends \ArrayIterator
                 ORDER BY id DESC";
 
         if (!$result = $db->query($sql)) {
-            return false;
+            return array();
         }
 
         $marks = array();
