@@ -17,6 +17,8 @@ class Config
 
         //OTHER SETTINGS
         'THEME'            => false,
+        'GRADE_SCALE'      => false,
+        'GRADE_POINTS'     => false
     );
 
     private function __construct()
@@ -28,6 +30,43 @@ class Config
     {
         if (!isset(self::$data[$key])) {
             return false;
+        }
+
+        //Special default case: GRADE_SCALE
+        if ($key == 'GRADE_SCALE' && self::$data[$key] == false) {
+            return array(
+                '97' => Auditor\GradingHelper::GRADE_A_PLUS,
+                '93' => Auditor\GradingHelper::GRADE_A,
+                '90' => Auditor\GradingHelper::GRADE_A_MINUS,
+                '87' => Auditor\GradingHelper::GRADE_B_PLUS,
+                '83' => Auditor\GradingHelper::GRADE_B,
+                '80' => Auditor\GradingHelper::GRADE_B_MINUS,
+                '77' => Auditor\GradingHelper::GRADE_C_PLUS,
+                '73' => Auditor\GradingHelper::GRADE_C,
+                '70' => Auditor\GradingHelper::GRADE_C_MINUS,
+                '67' => Auditor\GradingHelper::GRADE_D_PLUS,
+                '63' => Auditor\GradingHelper::GRADE_D,
+                '60' => Auditor\GradingHelper::GRADE_D_MINUS,
+            );
+        }
+
+        //Special default case: GRADE_SCALE
+        if ($key == 'GRADE_POINTS' && self::$data[$key] == false) {
+            return array(
+                Auditor\GradingHelper::GRADE_A_PLUS  => 4.0,
+                Auditor\GradingHelper::GRADE_A       => 4.0,
+                Auditor\GradingHelper::GRADE_A_MINUS => 3.67,
+                Auditor\GradingHelper::GRADE_B_PLUS  => 3.33,
+                Auditor\GradingHelper::GRADE_B       => 3.0,
+                Auditor\GradingHelper::GRADE_B_MINUS => 2.67,
+                Auditor\GradingHelper::GRADE_C_PLUS  => 2.33,
+                Auditor\GradingHelper::GRADE_C       => 2.0,
+                Auditor\GradingHelper::GRADE_C_MINUS => 1.67,
+                Auditor\GradingHelper::GRADE_D_PLUS  => 1.33,
+                Auditor\GradingHelper::GRADE_D       => 1.0,
+                Auditor\GradingHelper::GRADE_D_MINUS => 0.67,
+                Auditor\GradingHelper::GRADE_F       => 0,
+            );
         }
 
         //Special default case: CACHE_DIR

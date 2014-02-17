@@ -27,20 +27,14 @@ class BaseTestDataInstaller implements MockTestDataInstallerInterface
         //create sites
         $site1 = Site::createNewSite('http://www.test.com/');
         $site2 = Site::createNewSite('http://www.test.com/test/');
+        $site3 = Site::createNewSite('http://unlsitemaster.github.io/test_site/'); //Integration testing site
         
         //Create memberships
-        $membership_user1_site1 = Member::createMembership($user1, $site1, array(
-            'status' => 'APPROVED'
-        ));
-        $membership_user2_site1= Member::createMembership($user2, $site1, array(
-            'status' => 'APPROVED'
-        ));
-        $membership_user1_site2 = Member::createMembership($user1, $site2, array(
-            'status' => 'PENDING'
-        ));
-        $membership_user2_site2 = Member::createMembership($user2, $site2, array(
-            'status' => 'APPROVED'
-        ));
+        $membership_user1_site1 = Member::createMembership($user1, $site1);
+        $membership_user2_site1 = Member::createMembership($user2, $site1);
+        $membership_user1_site2 = Member::createMembership($user1, $site2);
+        $membership_user2_site2 = Member::createMembership($user2, $site2);
+        $membership_user1_site3 = Member::createMembership($user1, $site3);
         
         //Get roles (should be installed by default)
         $admin = Role::getByRoleName('admin');
@@ -71,6 +65,13 @@ class BaseTestDataInstaller implements MockTestDataInstallerInterface
             'approved' => 'YES'
         ));
         Member\Role::createRoleForSiteMember($developer, $membership_user2_site2, array(
+            'approved' => 'YES'
+        ));
+
+        /**************************************
+         * Site 3 memberships
+         */
+        Member\Role::createRoleForSiteMember($admin, $membership_user1_site3, array(
             'approved' => 'YES'
         ));
     }
