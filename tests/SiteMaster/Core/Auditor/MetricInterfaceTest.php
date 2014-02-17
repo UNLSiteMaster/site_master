@@ -38,6 +38,7 @@ class MetricInterfaceTest extends \PHPUnit_Framework_TestCase
         $metric = new \SiteMaster\Plugins\Example\Metric('example');
         $grade = new Site\Page\MetricGrade();
         $grade->point_grade = 80;
+        $grade->points_available = 100;
         $this->assertEquals(GradingHelper::GRADE_B_MINUS, $metric->computeLetterGrade($grade));
         
         //simulate an incomplete
