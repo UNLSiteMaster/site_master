@@ -71,6 +71,20 @@ class MetricGrade extends Record
     }
 
     /**
+     * Get the percent grade for this metric grade
+     * 
+     * @return float|int
+     */
+    public function getPercentGrade()
+    {
+        if ($this->points_available == 0) {
+            return 0;
+        }
+        
+        return round($this->point_grade / $this->points_available, 2) * 100;
+    }
+
+    /**
      * Determine if this grade is an incomplete
      * 
      * @return bool
