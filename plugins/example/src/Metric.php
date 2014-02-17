@@ -66,10 +66,10 @@ class Metric extends MetricInterface
             return false;
         }
 
-        if (isset($this->options['available_points']) && $this->options['available_points']) {
+        if (isset($this->options['points_available']) && $this->options['points_available']) {
             //The available points defaults to 100.  However, it can be customized line this:
             $grade = $this->getMetricGrade($page);
-            $grade->points_available = $this->options['available_points'];
+            $grade->points_available = $this->options['points_available'];
             $grade->save();
         }
           

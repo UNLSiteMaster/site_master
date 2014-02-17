@@ -125,7 +125,7 @@ class ScanDBTest extends DBTestCase
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
-                    'available_points' => 50,
+                    'points_available' => 50,
                     'weight' => 33.33
                 ));
             }

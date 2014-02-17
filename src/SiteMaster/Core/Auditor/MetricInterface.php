@@ -172,17 +172,17 @@ abstract class MetricInterface
      * Compute the weighted grade for this metric
      *
      * @param double $point_grade the total points earned
-     * @param double $available_points the total available points that could be earned
+     * @param double $points_available the total available points that could be earned
      * @param double $weight the weight of the grade
      * @return double the computed weighted grade
      */
-    public function computeWeightedGrade($point_grade, $available_points, $weight)
+    public function computeWeightedGrade($point_grade, $points_available, $weight)
     {
-        if ($available_points == 0) {
+        if ($points_available == 0) {
             return 0;
         }
         
-        return round($weight * ($point_grade / $available_points), 2);
+        return round($weight * ($point_grade / $points_available), 2);
     }
 
     /**
