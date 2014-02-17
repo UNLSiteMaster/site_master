@@ -156,7 +156,7 @@ abstract class MetricInterface
         
         //Compute percent and weighted grade
         $grade->point_grade = $this->computePointGrade($grade, $marks);
-        $grade->weighted_grade = $this->computeWeightedGrade($grade->point_grade, $grade->weight);
+        $grade->weighted_grade = $this->computeWeightedGrade($grade->point_grade, $grade->points_available, $grade->weight);
         
         //Compute the letter grade
         $grade->letter_grade = $this->computeLetterGrade($grade);
@@ -170,14 +170,19 @@ abstract class MetricInterface
 
     /**
      * Compute the weighted grade for this metric
-     * 
+     *
      * @param double $point_grade the total points earned
+     * @param double $available_points the total available points that could be earned
      * @param double $weight the weight of the grade
      * @return double the computed weighted grade
      */
-    public function computeWeightedGrade($point_grade, $weight)
+    public function computeWeightedGrade($point_grade, $available_points, $weight)
     {
-        return round($weight * ($point_grade / 100), 2);
+        if ($available_points == 0) {
+            return 0;
+        }
+        
+        return round($weight * ($point_grade / $available_points), 2);
     }
 
     /**
@@ -190,7 +195,7 @@ abstract class MetricInterface
     public function computePointGrade(Page\MetricGrade $grade, Page\Marks\AllForPageMetric $marks)
     {
         //Compute the grade
-        $points = 100;
+        $points = $grade->points_available;
         foreach ($marks as $mark) {
             $points -= $mark->points_deducted;
         }
@@ -202,7 +207,7 @@ abstract class MetricInterface
         
         //Handle pass/fail
         if ($grade->isPassFail()) {
-            if ($points != 100) {
+            if ($points != $grade->points_available) {
                 //Return 0 if they did not get 100%
                 return 0;
             }
@@ -226,14 +231,14 @@ abstract class MetricInterface
         }
         
         if ($grade->isPassFail()) {
-            if ($grade->point_grade != 100) {
+            if ($grade->point_grade != $grade->points_available) {
                 return GradingHelper::GRADE_NO_PASS;
             }
 
             return GradingHelper::GRADE_PASS;
         }
-        
-        return $grade_helper->convertPercentToLetterGrade($grade->point_grade);
+        echo 'percent grade: ' . $grade->getPercentGrade() . PHP_EOL;
+        return $grade_helper->convertPercentToLetterGrade($grade->getPercentGrade());
     }
 
     /**
