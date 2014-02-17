@@ -81,7 +81,7 @@ class MetricGrade extends Record
             return 0;
         }
         
-        return round($this->point_grade / $this->points_available, 2) * 100;
+        return round(($this->point_grade / $this->points_available) * 100, 2);
     }
 
     /**
