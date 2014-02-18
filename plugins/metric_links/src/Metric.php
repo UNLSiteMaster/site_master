@@ -50,6 +50,12 @@ class Metric extends MetricInterface
                 '\\SiteMaster\\Plugins\\Metric_links\\Filters\\Scheme',
                 '\\SiteMaster\\Plugins\\Metric_links\\Filters\\InvalidURI',
             ),
+            'request_options' => array( //Guzzel request options
+                'timeout' => 5,
+                'connect_timeout' => 5,
+                'allow_redirects' => false
+            ),
+            'chunks' => 10, //The number of URLs to request at once
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array(
                 301,
@@ -327,7 +333,7 @@ class Metric extends MetricInterface
         }
         
         //divide the links into groups to 10 to check
-        $chunks = array_chunk($links, 10);
+        $chunks = array_chunk($links, $this->options['chunks']);
         
         foreach ($chunks as $chunk) {
             $statuses = array_merge($this->getHTTPStatus($chunk), $statuses);
@@ -351,11 +357,7 @@ class Metric extends MetricInterface
         
         try {
             foreach ($links as $link) {
-                $requests[] = $client->head($link, array(), array(
-                    'timeout' => 5,
-                    'connect_timeout' => 5,
-                    'allow_redirects' => false
-                ));
+                $requests[] = $client->head($link, array(), $this->options['request_options']);
             }
 
             $responses = $client->send($requests);
