@@ -138,7 +138,13 @@ class Metric extends MetricInterface
         
         return true;
     }
-    
+
+    /**
+     * This method will find broken links and mark a page appropriately
+     * 
+     * @param Page $page the page to mark
+     * @param array $links an array of the links found on the page
+     */
     public function markPage(Page $page, $links)
     {
         $statuses = $this->getStatuses(array_unique($links));
