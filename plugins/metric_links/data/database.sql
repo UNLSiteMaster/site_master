@@ -8,12 +8,12 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `metric_links_status` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `url` VARCHAR(255) NOT NULL,
-  `date_created` DATETIME NOT NULL,
-  `http_code` INT(4) NULL,
-  `curl_code` INT(4) NULL,
+  `url_hash` VARCHAR(255) NOT NULL COMMENT 'the md5 of the URL',
+  `date_created` DATETIME NOT NULL COMMENT 'The date of the last check',
+  `http_code` INT(4) NULL COMMENT 'The http code',
+  `curl_code` INT(4) NULL COMMENT 'the curl code',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `url_UNIQUE` (`url` ASC))
+  UNIQUE INDEX `url_UNIQUE` (`url_hash` ASC))
 ENGINE = InnoDB;
 
 
