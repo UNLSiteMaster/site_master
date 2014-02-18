@@ -52,6 +52,7 @@ class Metric extends MetricInterface
             ),
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array(
+                301,
                 400, 402, 403, 404,
                 500, 501, 502, 503
             ),
@@ -59,6 +60,7 @@ class Metric extends MetricInterface
                 'link_connection_error_3' => 'The URL is malformed',
                 'link_connection_error_6' => 'Could not resolve host',
                 'link_connection_error_7' => 'Failed to connect to host or proxy',
+                'link_http_code_301' => 'Moved Permanently',
                 'link_http_code_400' => 'Bad Request',
                 'link_http_code_402' => 'Payment Required',
                 'link_http_code_403' => 'Forbidden',
