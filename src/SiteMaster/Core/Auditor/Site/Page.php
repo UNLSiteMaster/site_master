@@ -19,7 +19,8 @@ class Page extends Record
     public $id;                    //int required
     public $scans_id;              //fk for scans.id NOT NULL
     public $sites_id;              //fk for sites_id NOT NULL
-    public $uri;                   //URI VARCHAR(256) NOT NULL
+    public $uri;                   //TEXT NOT NULL
+    public $uri_hash;              //VARCHAR(255) the MD5 hash of the URI, for indexing purposes
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $percent_grade;         //DOUBLE(5,2) NOT NULL default=0
@@ -66,7 +67,7 @@ class Page extends Record
      */
     public static function getByScanIDAndURI($scans_id, $uri)
     {
-        return self::getByAnyField(__CLASS__, 'uri', $uri, 'scans_id=' . (int)$scans_id);
+        return self::getByAnyField(__CLASS__, 'uri_hash', md5($uri), 'scans_id=' . (int)$scans_id);
     }
 
     /**
@@ -91,7 +92,7 @@ class Page extends Record
         
         $sql = "SELECT *
                 FROM scanned_page
-                WHERE uri = '" . $db->escape_string($this->uri) . "'
+                WHERE uri_hash = '" . $db->escape_string($this->uri_hash) . "'
                     AND id != " . (int)$this->id . "
                 ORDER BY id DESC
                 LIMIT 1";
@@ -159,6 +160,7 @@ class Page extends Record
         $page->scans_id = $scans_id;
         $page->sites_id = $sites_id;
         $page->uri      = $uri;
+        $page->uri_hash = md5($uri);
 
         if (!$page->insert()) {
             return false;

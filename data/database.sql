@@ -132,7 +132,8 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `scans_id` INT NOT NULL,
   `sites_id` INT NOT NULL,
-  `uri` VARCHAR(256) NOT NULL COMMENT 'The same URI can be found multiple times in a single scan.  A single page can be rescanned instead of the entire site.  Those cans should be able to be compared with each other and should not overwrite history.',
+  `uri` TEXT NOT NULL COMMENT 'The same URI can be found multiple times in a single scan.  A single page can be rescanned instead of the entire site.  Those scans should be able to be compared with each other and should not overwrite history.',
+  `uri_hash` VARCHAR(255) NOT NULL COMMENT 'the md5 of the uri',
   `status` ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'CREATED',
   `scan_type` ENUM('USER', 'AUTO') NOT NULL DEFAULT 'AUTO',
   `percent_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'This is the percent grade of the page',
@@ -148,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   PRIMARY KEY (`id`),
   INDEX `fk_scanned_page_scans1_idx` (`scans_id` ASC),
   INDEX `fk_scanned_page_sites1_idx` (`sites_id` ASC),
+  INDEX `index4` (`uri_hash` ASC),
   CONSTRAINT `fk_scanned_page_scans1`
     FOREIGN KEY (`scans_id`)
     REFERENCES `scans` (`id`)
@@ -205,11 +207,11 @@ CREATE TABLE IF NOT EXISTS `page_marks` (
   `context` TEXT NULL,
   `line` INT NULL,
   `col` INT NULL,
-  `value_found` VARCHAR(256) NULL COMMENT 'The incorrect value that was found',
+  `value_found` TEXT NULL COMMENT 'The incorrect value that was found',
   PRIMARY KEY (`id`),
   INDEX `fk_page_marks_marks1_idx` (`marks_id` ASC),
   INDEX `fk_page_marks_scanned_page1_idx` (`scanned_page_id` ASC),
-  INDEX `index4` (`value_found` ASC),
+  INDEX `index4` (`value_found`(255) ASC),
   CONSTRAINT `fk_page_marks_marks1`
     FOREIGN KEY (`marks_id`)
     REFERENCES `marks` (`id`)
@@ -230,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `metrics_id` INT NOT NULL,
   `scanned_page_id` INT NOT NULL,
-  `points_available` DECIMAL(5,2) NOT NULL DEFAULT 100,
+  `points_available` DECIMAL(5,2) NOT NULL DEFAULT 100 COMMENT 'The total points available for this metric',
   `weighted_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'total earned points when the weight is accounted for',
   `point_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'The point grade for this metric.  Overall points gained for page.',
   `changes_since_last_scan` INT NOT NULL DEFAULT 0 COMMENT 'The number of changes since the last scan. \n',
