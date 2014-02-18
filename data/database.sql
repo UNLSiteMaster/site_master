@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   `scans_id` INT NOT NULL,
   `sites_id` INT NOT NULL,
   `uri` TEXT NOT NULL COMMENT 'The same URI can be found multiple times in a single scan.  A single page can be rescanned instead of the entire site.  Those scans should be able to be compared with each other and should not overwrite history.',
-  `uri_hash` VARCHAR(255) NOT NULL COMMENT 'the md5 of the uri',
+  `uri_hash` VARCHAR(255) NOT NULL,
   `status` ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'CREATED',
   `scan_type` ENUM('USER', 'AUTO') NOT NULL DEFAULT 'AUTO',
   `percent_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'This is the percent grade of the page',
