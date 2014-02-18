@@ -65,7 +65,14 @@ class Metric extends MetricInterface
             //Simulate an incomplete scan
             return false;
         }
-        
+
+        if (isset($this->options['points_available']) && $this->options['points_available']) {
+            //The available points defaults to 100.  However, it can be customized line this:
+            $grade = $this->getMetricGrade($page);
+            $grade->points_available = $this->options['points_available'];
+            $grade->save();
+        }
+          
         $mark = $this->getMark('test', 'Just a test', 10.5);
 
         $page->addMark($mark);

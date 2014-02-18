@@ -23,10 +23,10 @@ class MetricInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $metric = new \SiteMaster\Plugins\Example\Metric('example');
 
-        $this->assertEquals(17, $metric->computeWeightedGrade(85, 20));
-        $this->assertEquals(85, $metric->computeWeightedGrade(85, 100));
-        $this->assertEquals(100, $metric->computeWeightedGrade(100, 100));
-        $this->assertEquals(17.11, $metric->computeWeightedGrade(85.54, 20));
+        $this->assertEquals(17, $metric->computeWeightedGrade(85, 100, 20));
+        $this->assertEquals(85, $metric->computeWeightedGrade(85, 100, 100));
+        $this->assertEquals(100, $metric->computeWeightedGrade(100, 100, 100));
+        $this->assertEquals(17.11, $metric->computeWeightedGrade(85.54, 100, 20));
     }
 
     /**
@@ -38,6 +38,7 @@ class MetricInterfaceTest extends \PHPUnit_Framework_TestCase
         $metric = new \SiteMaster\Plugins\Example\Metric('example');
         $grade = new Site\Page\MetricGrade();
         $grade->point_grade = 80;
+        $grade->points_available = 100;
         $this->assertEquals(GradingHelper::GRADE_B_MINUS, $metric->computeLetterGrade($grade));
         
         //simulate an incomplete
@@ -57,6 +58,7 @@ class MetricInterfaceTest extends \PHPUnit_Framework_TestCase
         $grade->point_grade = 80;
         $this->assertEquals(GradingHelper::GRADE_NO_PASS, $metric->computeLetterGrade($grade));
         $grade->point_grade = 100;
+        $grade->points_available = 100;
         $this->assertEquals(GradingHelper::GRADE_PASS, $metric->computeLetterGrade($grade));
     }
 }
