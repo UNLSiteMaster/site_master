@@ -125,20 +125,28 @@ class Metric extends MetricInterface
     public function scan($uri, \DOMXPath $xpath, $depth, Page $page, Metrics $context)
     {
         $links = $this->getLinks($uri, $xpath);
+        
+        $this->markPage($page, $links);
+        
+        return true;
+    }
+    
+    public function markPage(Page $page, $links)
+    {
         $statuses = $this->getStatuses(array_unique($links));
         $counts = array_count_values($links);
-        
+
         foreach ($statuses as $url=>$status) {
             if (!$this->isError($status)) {
                 //don't mark it...
                 continue;
             }
-            
+
             $machine_name = $this->getMachineNameForStatus($status);
             $message = $this->getStatusMessage($machine_name);
             $help_text = $this->getStatusHelpText($machine_name);
             $points = $this->getPointDeduction($status->http_code);
-            
+
             $mark = $this->getMark($machine_name, $message, $points, null, $help_text);
 
             for ($i = 1; $i <= $counts[$url]; $i++) {
@@ -148,8 +156,6 @@ class Metric extends MetricInterface
                 ));
             }
         }
-        
-        return true;
     }
 
     /**
