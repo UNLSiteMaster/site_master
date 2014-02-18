@@ -3,6 +3,7 @@ namespace SiteMaster\Plugins\Metric_links;
 
 use DB\Record;
 use SiteMaster\Core\Registry\Site\Member;
+use Sitemaster\Core\Util;
 
 class LinkStatus extends Record
 {
@@ -34,6 +35,7 @@ class LinkStatus extends Record
     public static function createLinkStatus($url, $http_code, $curl_code, array $fields = array())
     {
         $link = new self();
+        $link->date_created = Util::epochToDateTime();
         $link->synchronizeWithArray($fields);
 
         $link->url_hash = md5($url);
