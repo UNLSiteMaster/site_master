@@ -70,6 +70,10 @@ class Page extends Record
     {
         $object = self::getByAnyField(__CLASS__, 'uri_hash', md5($uri), 'scans_id=' . (int)$scans_id);
         
+        if (!$object) {
+            return false;
+        }
+        
         if ($object->uri == $uri) {
             //There is a chance of collisions with md5, so ensure that we got the right URI
             return $object;
