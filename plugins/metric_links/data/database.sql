@@ -8,7 +8,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `metric_links_status` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `url_hash` VARCHAR(255) NOT NULL COMMENT 'the md5 of the URL',
+  `url_hash` VARCHAR(32) NOT NULL COMMENT 'the md5 of the URL',
   `date_created` DATETIME NOT NULL COMMENT 'The date of the last check',
   `http_code` INT(4) NULL COMMENT 'The http code',
   `curl_code` INT(4) NULL COMMENT 'the curl code',
