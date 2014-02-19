@@ -58,10 +58,10 @@ class Metric extends MetricInterface
             'chunks' => 10, //The number of URLs to request at once
             'seconds_between_chunks' => 1,
             'grading_method' => self::GRADE_METHOD_DEFAULT,
-            'http_error_codes' => array(
+            'http_error_codes' => array( 
                 301,
                 400, 402, 403, 404,
-                500, 501, 502, 503
+                500, 501, 502, 503 //500 level errors are included because they impose a bad user experience, and appear 'broken' to end users 
             ),
             'message_text' => array(
                 'link_connection_error_3' => 'The URL is malformed',
