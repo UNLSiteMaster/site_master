@@ -2,7 +2,7 @@
 namespace SiteMaster\Plugins\Metric_links;
 
 use Guzzle\Http\Exception\CurlException;
-use Guzzle\HTTP\Exception\MultiTransferException;
+use Guzzle\Http\Exception\MultiTransferException;
 use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Metric\Marks\UniqueValueFound;
