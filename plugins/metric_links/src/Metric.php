@@ -157,9 +157,9 @@ class Metric extends MetricInterface
             }
 
             $machine_name = $this->getMachineNameForStatus($status);
-            $message = $this->getStatusMessage($machine_name);
-            $help_text = $this->getStatusHelpText($machine_name);
-            $points = $this->getPointDeduction($status->http_code);
+            $message      = $this->getStatusMessage($machine_name);
+            $help_text    = $this->getStatusHelpText($machine_name);
+            $points       = $this->getPointDeduction($status->http_code);
 
             $mark = $this->getMark($machine_name, $message, $points, null, $help_text);
 
