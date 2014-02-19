@@ -100,33 +100,18 @@ class Page extends Record
      */
     public function getPreviousScan()
     {
-        $db = Util::getDB();
+        $pages = new Pages\URIForScan(array(
+            'scans_id' => $this->scans_id,
+            'uri' => $this->uri,
+            'not_id' => $this->id
+        ));
+
+        foreach ($pages as $page) {
+            if ($page->uri == $this->uri) {
+                return $page;
+            }
+        }
         
-        $sql = "SELECT *
-                FROM scanned_page
-                WHERE uri_hash = '" . $db->escape_string($this->uri_hash) . "'
-                    AND id != " . (int)$this->id . "
-                ORDER BY id DESC
-                LIMIT 1";
-
-        if (!$result = $db->query($sql)) {
-            return false;
-        }
-
-        if (!$data = $result->fetch_assoc()) {
-            return false;
-        }
-
-        $object = new self();
-        $object->synchronizeWithArray($data);
-
-        if ($object->uri == $this->uri) {
-            //There is a chance of collisions with md5, so ensure that we got the right URI
-            return $object;
-        }
-
-        //Didn't get the correct URI, return false.
-        Util::log(Logger::WARNING, 'wrong URI returned for hashed uri: ' . $this->uri);
         return false;
     }
 

@@ -20,8 +20,14 @@ class URIForScan extends All
 
     public function getWhere()
     {
-        return "WHERE scans_id = " . (int)$this->options['scans_id'] . "
+        $where = "WHERE scans_id = " . (int)$this->options['scans_id'] . "
             AND uri_hash = '" . self::escapeString(md5($this->options['uri'])) . "'";
+        
+        if (isset($this->options['not_id'])) {
+            $where .= " AND scanned_page.id != " . (int)$this->options['not_id'];
+        }
+        
+        return $where;
     }
 
     public function getOrderBy()
