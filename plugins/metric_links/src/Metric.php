@@ -281,7 +281,6 @@ class Metric extends MetricInterface
 
                 //Connection problems
                 return 15;
-                break;
             case self::GRADE_METHOD_NUMBER_OF_LINKS:
                 if ($http_code >= 400) {
                     //error
@@ -295,10 +294,8 @@ class Metric extends MetricInterface
 
                 //Connection problems
                 return 2;
-                break;
             case self::GRADE_METHOD_PASS_FAIL:
                 return 1;
-                break;
         }
     }
 
