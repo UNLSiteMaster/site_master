@@ -56,6 +56,7 @@ class Metric extends MetricInterface
                 'allow_redirects' => false
             ),
             'chunks' => 10, //The number of URLs to request at once
+            'seconds_between_chunks' => 1,
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array(
                 301,
@@ -341,7 +342,7 @@ class Metric extends MetricInterface
         
         foreach ($chunks as $chunk) {
             $statuses = array_merge($this->getHTTPStatus($chunk), $statuses);
-            sleep(1);
+            sleep($this->options['seconds_between_chunks']);
         }
         
         return $statuses;
