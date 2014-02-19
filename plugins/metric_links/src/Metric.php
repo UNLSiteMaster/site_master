@@ -300,7 +300,7 @@ class Metric extends MetricInterface
     }
 
     /**
-     * Strip fragments for UIRIs
+     * Strip fragments for URIs
      *
      * This is used when getting the status code for a URI.
      * Some environments return 404 for every URI with a #fragment
