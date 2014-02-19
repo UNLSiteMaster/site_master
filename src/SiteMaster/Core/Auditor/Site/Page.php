@@ -21,7 +21,7 @@ class Page extends Record
     public $scans_id;              //fk for scans.id NOT NULL
     public $sites_id;              //fk for sites_id NOT NULL
     public $uri;                   //TEXT NOT NULL
-    public $uri_hash;              //VARCHAR(255) the MD5 hash of the URI, for indexing purposes
+    public $uri_hash;              //BINARY(16) the raw (binary) MD5 hash of the URI, for indexing purposes
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $percent_grade;         //DOUBLE(5,2) NOT NULL default=0
@@ -165,7 +165,7 @@ class Page extends Record
         $page->scans_id = $scans_id;
         $page->sites_id = $sites_id;
         $page->uri      = $uri;
-        $page->uri_hash = md5($uri);
+        $page->uri_hash = md5($uri, true);
 
         if (!$page->insert()) {
             return false;
