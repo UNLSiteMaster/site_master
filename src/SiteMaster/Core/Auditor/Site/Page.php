@@ -68,19 +68,17 @@ class Page extends Record
      */
     public static function getByScanIDAndURI($scans_id, $uri)
     {
-        $object = self::getByAnyField(__CLASS__, 'uri_hash', md5($uri), 'scans_id=' . (int)$scans_id);
+        $pages = new Pages\URIForScan(array(
+            'scans_id' => $scans_id,
+            'uri' => $uri
+        ));
         
-        if (!$object) {
-            return false;
+        foreach ($pages as $page) {
+            if ($page->uri == $uri) {
+                return $page;
+            }
         }
         
-        if ($object->uri == $uri) {
-            //There is a chance of collisions with md5, so ensure that we got the right URI
-            return $object;
-        }
-        
-        //Didn't get the correct URI, return false.
-        Util::log(Logger::WARNING, 'wrong URI returned for hashed uri: ' . $uri);
         return false;
     }
 
