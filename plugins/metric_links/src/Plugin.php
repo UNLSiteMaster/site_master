@@ -64,9 +64,9 @@ class Plugin extends PluginInterface
 
     /**
      * Returns the version of this plugin
-     * Follow a mmddyyyyxx syntax.
+     * Follow a YYYYMMDDxx syntax.
      *
-     * for example 1118201301
+     * for example 2013111801
      * would be 11/18/2013 - increment 1
      *
      * @return mixed
