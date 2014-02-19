@@ -308,7 +308,8 @@ class Metric extends MetricInterface
      * @param string $uri
      * @return string the new URI
      */
-    function stripURIFragment($uri) {
+    function stripURIFragment($uri)
+    {
         $parts = explode('#', $uri, 2);
 
         if (isset($parts[0])) {
