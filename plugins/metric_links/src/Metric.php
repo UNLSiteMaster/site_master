@@ -50,7 +50,7 @@ class Metric extends MetricInterface
                 '\\SiteMaster\\Plugins\\Metric_links\\Filters\\Scheme',
                 '\\SiteMaster\\Plugins\\Metric_links\\Filters\\InvalidURI',
             ),
-            'request_options' => array( //Guzzel request options
+            'request_options' => array( //Guzzle request options
                 'timeout' => 5,
                 'connect_timeout' => 5,
                 'allow_redirects' => false
