@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site;
 
 use DB\Record;
+use Monolog\Logger;
 use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Registry\Site\Member;
@@ -67,7 +68,16 @@ class Page extends Record
      */
     public static function getByScanIDAndURI($scans_id, $uri)
     {
-        return self::getByAnyField(__CLASS__, 'uri_hash', md5($uri), 'scans_id=' . (int)$scans_id);
+        $object = self::getByAnyField(__CLASS__, 'uri_hash', md5($uri), 'scans_id=' . (int)$scans_id);
+        
+        if ($object->uri == $uri) {
+            //There is a chance of collisions with md5, so ensure that we got the right URI
+            return $object;
+        }
+        
+        //Didn't get the correct URI, return false.
+        Util::log(Logger::WARNING, 'wrong URI returned for hashed uri: ' . $uri);
+        return false;
     }
 
     /**
@@ -107,7 +117,15 @@ class Page extends Record
 
         $object = new self();
         $object->synchronizeWithArray($data);
-        return $object;
+
+        if ($object->uri == $this->uri) {
+            //There is a chance of collisions with md5, so ensure that we got the right URI
+            return $object;
+        }
+
+        //Didn't get the correct URI, return false.
+        Util::log(Logger::WARNING, 'wrong URI returned for hashed uri: ' . $this->uri);
+        return false;
     }
 
     /**
