@@ -26,6 +26,16 @@ class Mark extends Record
     }
 
     /**
+     * Get the Mark record that this page mark is an instance of
+     * 
+     * @return false|\SiteMaster\Core\Auditor\Metric\Mark
+     */
+    public function getMark()
+    {
+        return \SiteMaster\Core\Auditor\Metric\Mark::getByID($this->marks_id);
+    }
+
+    /**
      * Create a new page mark
      *
      * @param int $marks_id the mark id that this page mark is an instance of

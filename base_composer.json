@@ -24,6 +24,7 @@
         "ircmaxell/password-compat": "dev-master",
         "saltybeagle/Spider": "dev-master",
         "monolog/monolog": "1.7.*@dev",
-        "pda/pheanstalk": "2.*@dev"
+        "pda/pheanstalk": "2.*@dev",
+        "guzzle/guzzle": "~3.7"
     }
 }
