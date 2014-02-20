@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site;
 
 use DB\Record;
+use Monolog\Logger;
 use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Registry\Site\Member;
@@ -19,7 +20,7 @@ class Page extends Record
     public $id;                    //int required
     public $scans_id;              //fk for scans.id NOT NULL
     public $sites_id;              //fk for sites_id NOT NULL
-    public $uri;                   //URI VARCHAR(256) NOT NULL
+    public $uri;                   //VARCHAR(2100) NOT NULL
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $percent_grade;         //DOUBLE(5,2) NOT NULL default=0
@@ -58,7 +59,7 @@ class Page extends Record
     }
 
     /**
-     * Get a page by its scan id and uri
+     * Get the newest page by its scan id and uri
      *
      * @param int $scans_id the id of the scan
      * @param string $uri the uri of the page
@@ -66,7 +67,19 @@ class Page extends Record
      */
     public static function getByScanIDAndURI($scans_id, $uri)
     {
-        return self::getByAnyField(__CLASS__, 'uri', $uri, 'scans_id=' . (int)$scans_id);
+        $pages = new Pages\URIForScan(array(
+            'scans_id' => $scans_id,
+            'uri' => $uri,
+            'limit' => 1
+        ));
+        
+        if ($pages->count() == 0) {
+            return false;
+        }
+        
+        //Return the newest page for the scan
+        $pages->rewind();
+        return $pages->current();
     }
 
     /**
@@ -87,26 +100,20 @@ class Page extends Record
      */
     public function getPreviousScan()
     {
-        $db = Util::getDB();
-        
-        $sql = "SELECT *
-                FROM scanned_page
-                WHERE uri = '" . $db->escape_string($this->uri) . "'
-                    AND id != " . (int)$this->id . "
-                ORDER BY id DESC
-                LIMIT 1";
+        $pages = new Pages\URIForScan(array(
+            'scans_id' => $this->scans_id,
+            'uri' => $this->uri,
+            'not_id' => $this->id,
+            'limit' => 1
+        ));
 
-        if (!$result = $db->query($sql)) {
+        if ($pages->count() == 0) {
             return false;
         }
 
-        if (!$data = $result->fetch_assoc()) {
-            return false;
-        }
-
-        $object = new self();
-        $object->synchronizeWithArray($data);
-        return $object;
+        //Return the newest page for the scan
+        $pages->rewind();
+        return $pages->current();
     }
 
     /**
