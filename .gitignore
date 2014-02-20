@@ -2,10 +2,8 @@
 /config.inc.php
 /.buildpath
 data/database.mwb.bak
-/composer.lock
 /.idea/
 /plugins.json
-/composer.json
 /xhprof
 /phpmyadmin
 /sitemaster
