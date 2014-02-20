@@ -53,6 +53,8 @@ class PluginManager
     public function load()
     {
         $this->initializeIncludePaths();
+        
+        $this->initializeComposerAutoLoads();
 
         $this->initializePlugins($this->getInstalledPlugins());
         
@@ -92,6 +94,20 @@ class PluginManager
                 implode(PATH_SEPARATOR, array(get_include_path())) . PATH_SEPARATOR
                 .dirname(dirname(dirname(dirname(__DIR__)))).'/plugins/' . $name . '/vendor'
             );
+        }
+    }
+
+    /**
+     * Set up include paths for plugins and libraries
+     */
+    protected function initializeComposerAutoLoads()
+    {
+        //Include plugin vendor directories
+        foreach ($this->getInstalledPlugins() as $name=>$plugin) {
+            $file =  $plugin->getRootDirectory() . '/vendor/autoload.php';
+            if (file_exists($file)) {
+                include_once $file;
+            }
         }
     }
 

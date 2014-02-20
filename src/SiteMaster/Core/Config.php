@@ -71,7 +71,7 @@ class Config
 
         //Special default case: CACHE_DIR
         if ($key == 'CACHE_DIR' && self::$data[$key] == false) {
-            return  dirname(dirname(dirname(__FILE__))) . "/tmp/";
+            return  dirname(dirname(dirname(dirname(__FILE__)))) . "/tmp/";
         }
 
         return self::$data[$key];
