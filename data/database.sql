@@ -132,8 +132,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `scans_id` INT NOT NULL,
   `sites_id` INT NOT NULL,
-  `uri` TEXT NOT NULL COMMENT 'The same URI can be found multiple times in a single scan.  A single page can be rescanned instead of the entire site.  Those scans should be able to be compared with each other and should not overwrite history.',
-  `uri_hash` BINARY(16) NOT NULL,
+  `uri` VARCHAR(2100) NOT NULL COMMENT 'The same URI can be found multiple times in a single scan.  A single page can be rescanned instead of the entire site.  Those scans should be able to be compared with each other and should not overwrite history.',
   `status` ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'CREATED',
   `scan_type` ENUM('USER', 'AUTO') NOT NULL DEFAULT 'AUTO',
   `percent_grade` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'This is the percent grade of the page',
@@ -149,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   PRIMARY KEY (`id`),
   INDEX `fk_scanned_page_scans1_idx` (`scans_id` ASC),
   INDEX `fk_scanned_page_sites1_idx` (`sites_id` ASC),
-  INDEX `index4` (`uri_hash` ASC),
+  INDEX `scanned_page_scans_uri` (`uri`(255) ASC, `scans_id` ASC),
   CONSTRAINT `fk_scanned_page_scans1`
     FOREIGN KEY (`scans_id`)
     REFERENCES `scans` (`id`)

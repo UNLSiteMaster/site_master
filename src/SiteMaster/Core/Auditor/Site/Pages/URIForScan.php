@@ -21,13 +21,22 @@ class URIForScan extends All
     public function getWhere()
     {
         $where = "WHERE scans_id = " . (int)$this->options['scans_id'] . "
-            AND uri_hash = '" . self::escapeString(md5($this->options['uri'], true)) . "'";
+            AND uri = '" . self::escapeString($this->options['uri']) . "'";
         
         if (isset($this->options['not_id'])) {
             $where .= " AND scanned_page.id != " . (int)$this->options['not_id'];
         }
         
         return $where;
+    }
+    
+    public function getLimit()
+    {
+        if (isset($this->options['limit'])) {
+            return 'LIMIT ' . (int)$this->options['limit'];
+        }
+        
+        return '';
     }
 
     public function getOrderBy()

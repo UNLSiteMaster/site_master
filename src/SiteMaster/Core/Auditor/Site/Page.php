@@ -20,8 +20,7 @@ class Page extends Record
     public $id;                    //int required
     public $scans_id;              //fk for scans.id NOT NULL
     public $sites_id;              //fk for sites_id NOT NULL
-    public $uri;                   //TEXT NOT NULL
-    public $uri_hash;              //BINARY(16) the raw (binary) MD5 hash of the URI, for indexing purposes
+    public $uri;                   //VARCHAR(2100) NOT NULL
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $percent_grade;         //DOUBLE(5,2) NOT NULL default=0
@@ -60,7 +59,7 @@ class Page extends Record
     }
 
     /**
-     * Get a page by its scan id and uri
+     * Get the newest page by its scan id and uri
      *
      * @param int $scans_id the id of the scan
      * @param string $uri the uri of the page
@@ -70,16 +69,17 @@ class Page extends Record
     {
         $pages = new Pages\URIForScan(array(
             'scans_id' => $scans_id,
-            'uri' => $uri
+            'uri' => $uri,
+            'limit' => 1
         ));
         
-        foreach ($pages as $page) {
-            if ($page->uri == $uri) {
-                return $page;
-            }
+        if ($pages->count() == 0) {
+            return false;
         }
         
-        return false;
+        //Return the newest page for the scan
+        $pages->rewind();
+        return $pages->current();
     }
 
     /**
@@ -103,16 +103,17 @@ class Page extends Record
         $pages = new Pages\URIForScan(array(
             'scans_id' => $this->scans_id,
             'uri' => $this->uri,
-            'not_id' => $this->id
+            'not_id' => $this->id,
+            'limit' => 1
         ));
 
-        foreach ($pages as $page) {
-            if ($page->uri == $this->uri) {
-                return $page;
-            }
+        if ($pages->count() == 0) {
+            return false;
         }
-        
-        return false;
+
+        //Return the newest page for the scan
+        $pages->rewind();
+        return $pages->current();
     }
 
     /**
@@ -165,7 +166,6 @@ class Page extends Record
         $page->scans_id = $scans_id;
         $page->sites_id = $sites_id;
         $page->uri      = $uri;
-        $page->uri_hash = md5($uri, true);
 
         if (!$page->insert()) {
             return false;
