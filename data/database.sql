@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   INDEX `fk_scanned_page_scans1_idx` (`scans_id` ASC),
   INDEX `fk_scanned_page_sites1_idx` (`sites_id` ASC),
   INDEX `scanned_page_scans_uri` (`scans_id` ASC, `uri_hash` ASC),
-  INDEX `scanned_page_uri` (`uri` ASC),
+  INDEX `scanned_page_uri` (`uri_hash` ASC),
   CONSTRAINT `fk_scanned_page_scans1`
     FOREIGN KEY (`scans_id`)
     REFERENCES `scans` (`id`)
