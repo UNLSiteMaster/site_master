@@ -38,6 +38,6 @@ Config::set('PLUGINS', array(
  * unit test settings
  */
 Config::set('TEST_DB_HOST'     , 'localhost');
-Config::set('TEST_DB_USER'     , 'user');
+Config::set('TEST_DB_USER'     , 'sitemaster_test');
 Config::set('TEST_DB_PASSWORD' , 'password');
-Config::set('TEST_DB_NAME'     , 'database');
+Config::set('TEST_DB_NAME'     , 'sitemaster_test');
