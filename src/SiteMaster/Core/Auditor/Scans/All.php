@@ -56,7 +56,8 @@ class All extends RecordList
     /**
      * @return \SiteMaster\Core\Auditor\Scan
      */
-    function current() {
+    public function current()
+    {
         return parent::current();
     }
 }
