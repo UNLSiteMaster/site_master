@@ -100,8 +100,7 @@ class Page extends Record
      */
     public function getPreviousScan()
     {
-        $pages = new Pages\URIForScan(array(
-            'scans_id' => $this->scans_id,
+        $pages = new Pages\WithURI(array(
             'uri' => $this->uri,
             'not_id' => $this->id,
             'limit' => 1
