@@ -53,12 +53,12 @@ CREATE TABLE IF NOT EXISTS `site_members` (
   CONSTRAINT `fk_site_members_users`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_site_members_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -92,12 +92,12 @@ CREATE TABLE IF NOT EXISTS `site_member_roles` (
   CONSTRAINT `fk_site_member_roles_site_members1`
     FOREIGN KEY (`site_members_id`)
     REFERENCES `site_members` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_site_member_roles_roles1`
     FOREIGN KEY (`roles_id`)
     REFERENCES `roles` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `scans` (
   CONSTRAINT `fk_scans_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -152,12 +152,12 @@ CREATE TABLE IF NOT EXISTS `scanned_page` (
   CONSTRAINT `fk_scanned_page_scans1`
     FOREIGN KEY (`scans_id`)
     REFERENCES `scans` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_scanned_page_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -214,12 +214,12 @@ CREATE TABLE IF NOT EXISTS `page_marks` (
   CONSTRAINT `fk_page_marks_marks1`
     FOREIGN KEY (`marks_id`)
     REFERENCES `marks` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_page_marks_scanned_page1`
     FOREIGN KEY (`scanned_page_id`)
     REFERENCES `scanned_page` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -245,12 +245,12 @@ CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   CONSTRAINT `fk_page_metric_grades_metrics1`
     FOREIGN KEY (`metrics_id`)
     REFERENCES `metrics` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_page_metric_grades_scanned_page1`
     FOREIGN KEY (`scanned_page_id`)
     REFERENCES `scanned_page` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

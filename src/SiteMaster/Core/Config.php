@@ -18,7 +18,8 @@ class Config
         //OTHER SETTINGS
         'THEME'            => false,
         'GRADE_SCALE'      => false,
-        'GRADE_POINTS'     => false
+        'GRADE_POINTS'     => false,
+        'MAX_HISTORY'      => 0      //Max number of scans to keep per-site.  This is 2+max_history, because we need at LEAST 2
     );
 
     private function __construct()

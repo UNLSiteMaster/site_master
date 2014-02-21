@@ -2,6 +2,9 @@
 namespace SiteMaster\Core\Registry;
 
 use DB\Record;
+use SiteMaster\Core\RuntimeException;
+use SiteMaster\Core\Auditor\Scans\AllForSite;
+use SiteMaster\Core\Auditor\Scans\FinishedForSite;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Auditor\Scan;
@@ -209,5 +212,52 @@ class Site extends Record
         $object = new Scan();
         $object->synchronizeWithArray($data);
         return $object;
+    }
+
+    /**
+     * Get all scans for this site
+     * 
+     * @return AllForSite
+     */
+    public function getScans()
+    {
+        return new AllForSite(array('sites_id'=>$this->id));
+    }
+
+    /**
+     * Get all finished scans for this site
+     *
+     * @return AllForSite
+     */
+    public function getFinishedScans()
+    {
+        return new FinishedForSite(array('sites_id'=>$this->id));
+    }
+
+    /**
+     * Reduce the total number of scans for this site to the max_history limit
+     * 
+     * @throws \SiteMaster\Core\RuntimeException
+     */
+    public function cleanScans()
+    {
+        $scans = $this->getFinishedScans();
+        
+        $i = 0;
+        $max_scans = Config::get('MAX_HISTORY') + 2;
+        
+        if ($max_scans < 2) {
+            throw new RuntimeException('max scans must be >= 2');
+        }
+        
+        foreach ($scans as $scan) {
+            $i++;
+            if ($i <= $max_scans) {
+                //Don't delete this one.
+                continue;
+            }
+
+            $scan->delete();
+        }
     }
 }

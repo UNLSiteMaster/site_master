@@ -151,7 +151,11 @@ class Scan extends Record
         $this->end_time = Util::epochToDateTime();
         $this->status   = self::STATUS_COMPLETE;
         $this->gpa      = $this->computeGPA();
-        $this->save();
+        if ($this->save()) {
+            //remove any extra scans
+            $site = $this->getSite();
+            $site->cleanScans();
+        }
     }
 
     /**
@@ -180,6 +184,10 @@ class Scan extends Record
         $this->end_time = Util::epochToDateTime();
         $this->status   = self::STATUS_ERROR;
         $this->error    = $error;
-        $this->save();
+        if ($this->save()) {
+            //remove any extra scans
+            $site = $this->getSite();
+            $site->cleanScans();
+        }
     }
 }
