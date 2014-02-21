@@ -16,7 +16,7 @@ class WithURI extends All
 
     public function getWhere()
     {
-        $where = "WHERE  uri = '" . self::escapeString($this->options['uri']) . "'";
+        $where = "WHERE  uri_hash = '" . self::escapeString(md5($this->options['uri'], true)) . "'";
 
         if (isset($this->options['not_id'])) {
             $where .= " AND scanned_page.id != " . (int)$this->options['not_id'];
