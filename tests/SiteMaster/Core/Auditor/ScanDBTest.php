@@ -35,7 +35,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
         
-        $this->runScan($site);
+        $this->runScan();
         
         //get the scan
         $scan = $site->getLatestScan();
@@ -57,7 +57,7 @@ class ScanDBTest extends DBTestCase
         //Now, Schedule a new scan, so that we can compare changes_since_last_scan
         $site->scheduleScan();
 
-        $this->runScan($site);
+        $this->runScan();
 
         //get the scan
         $scan = $site->getLatestScan();
@@ -112,7 +112,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
 
-        $this->runScan($site);
+        $this->runScan();
 
         //get the scan
         $scan = $site->getLatestScan();
@@ -158,7 +158,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
 
-        $this->runScan($site);
+        $this->runScan();
 
         //get the scan
         $scan = $site->getLatestScan();
@@ -204,7 +204,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
 
-        $this->runScan($site);
+        $this->runScan();
 
         //get the scan
         $scan = $site->getLatestScan();
@@ -223,7 +223,7 @@ class ScanDBTest extends DBTestCase
         }
     }
     
-    protected function runScan(Site $site)
+    protected function runScan()
     {
         //Create a mock worker to scan it
         $keep_scanning = true;
