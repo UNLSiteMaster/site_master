@@ -1,7 +1,6 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
-use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\DBTests\BaseTestDataInstaller;
 use SiteMaster\Core\DBTests\DBTestCase;
@@ -36,7 +35,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
         
-        $this->runScan($site);
+        $this->runScan();
         
         //get the scan
         $scan = $site->getLatestScan();
@@ -45,11 +44,34 @@ class ScanDBTest extends DBTestCase
         
         $this->assertEquals(Scan::STATUS_COMPLETE, $scan->status, 'the scan should be completed');
         
+        //Loop over each page, and add some extra marks (so that we can verify `changes_since_last_scan` is being set correctly) 
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             */
+            $mark = Metric\Mark::getByMachineNameAndMetricID('test', $example_metric->id);
+            $page->addMark($mark);
+        }
+
+
+        //Now, Schedule a new scan, so that we can compare changes_since_last_scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        $example_metric = Metric::getByMachineName('example');
+
+        $this->assertEquals(Scan::STATUS_COMPLETE, $scan->status, 'the scan should be completed');
+
         foreach ($scan->getPages() as $page) {
             /**
              * @var $page \SiteMaster\Core\Auditor\Site\Page
              */
             $grade = $page->getMetricGrade($example_metric->id);
+            $this->assertEquals(-1, $grade->changes_since_last_scan, 'there should be one less mark');
             $this->assertEquals(84.5, $grade->point_grade, 'the grade should be 84.5');
             $this->assertEquals(33.33, $grade->weight, 'the weight should be set to 33.33, as per the config');
             $this->assertEquals(28.16, $grade->weighted_grade);
@@ -90,7 +112,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
 
-        $this->runScan($site);
+        $this->runScan();
 
         //get the scan
         $scan = $site->getLatestScan();
@@ -136,7 +158,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
 
-        $this->runScan($site);
+        $this->runScan();
 
         //get the scan
         $scan = $site->getLatestScan();
@@ -182,7 +204,7 @@ class ScanDBTest extends DBTestCase
         //Schedule a scan
         $site->scheduleScan();
 
-        $this->runScan($site);
+        $this->runScan();
 
         //get the scan
         $scan = $site->getLatestScan();
@@ -201,7 +223,7 @@ class ScanDBTest extends DBTestCase
         }
     }
     
-    protected function runScan(Site $site)
+    protected function runScan()
     {
         //Create a mock worker to scan it
         $keep_scanning = true;

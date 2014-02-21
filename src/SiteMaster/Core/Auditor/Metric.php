@@ -23,7 +23,7 @@ class Metric extends Record
      * Get by the metric's machine name
      * 
      * @param string $machine_name the machine name
-     * @return bool
+     * @return false|Metric
      */
     public static function getByMachineName($machine_name)
     {
