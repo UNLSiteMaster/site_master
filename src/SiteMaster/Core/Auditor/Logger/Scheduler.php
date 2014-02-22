@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor\Logger;
 
 use DOMXPath;
 use Monolog\Logger;
+use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -43,6 +44,15 @@ class Scheduler extends \Spider_LoggerAbstract
         foreach ($pages as $uri) {
             if ($page_scan = Page::getByScanIDAndURI($this->scan->id, $uri)) {
                 //Looks like it already exists... skip
+                continue;
+            }
+            
+            //Verify that it isn't a child site
+            $registry = new Registry();
+            $closest_site = $registry->getClosestSite($uri);
+            
+            if ($closest_site->base_url != $this->site->base_url) {
+                //This uri must be a member of a different site, perhaps a sub-site
                 continue;
             }
             
