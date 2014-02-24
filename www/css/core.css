@@ -168,8 +168,8 @@ Dashboard
 .dashboard-metrics {text-transform:uppercase;font-weight:bold;letter-spacing:-0.05em}
 .dashboard-metrics [class*=dashboard-]{display:block;text-align:center}
 .dashboard-metrics .visual-island{margin-bottom:1em;min-height:9.2em}
-.dashboard-metrics .visual-island.error{background-color:rgba(183,3,2,0.4);border:3px solid rgba(183,3,2,0.2);color:#200100;text-shadow:-1px 0 1px #febaba}
-.dashboard-metrics .visual-island.success{background-color:rgba(111,191,77,0.5);border:3px solid rgba(96,166,66,0.2);border-radius:3px;color:#2f551e;text-shadow:-1px 0 1px #fff;}
+.dashboard-metrics .visual-island.invalid{background-color:rgba(183,3,2,0.4);border:3px solid rgba(183,3,2,0.2);color:#200100;text-shadow:-1px 0 1px #febaba}
+.dashboard-metrics .visual-island.valid{background-color:rgba(111,191,77,0.5);border:3px solid rgba(96,166,66,0.2);border-radius:3px;color:#2f551e;text-shadow:-1px 0 1px #fff;}
 .dashboard-metrics .dashboard-metric{font-size:.9em}
 .dashboard-metrics .sub{font-size:.75em;display:block}
 .dashboard-value{font-size:3em;line-height:1}
