@@ -8,11 +8,13 @@ class Search implements ViewableInterface
 {
     public $sites = array();
     public $result;
+    public $query = '';
     
     function __construct($options = array())
     {
         if (isset($options['query'])) {
-            $this->result = $this->handleQuery($options['query']);
+            $this->query = $options['query'];
+            $this->result = $this->handleQuery($this->query);
         }
     }
 
