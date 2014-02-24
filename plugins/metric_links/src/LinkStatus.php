@@ -59,7 +59,7 @@ class LinkStatus extends Record
      */
     public static function getByURL($url)
     {
-        if (!$object = self::getByAnyField(__CLASS__, 'url', md5($url))) {
+        if (!$object = self::getByAnyField(__CLASS__, 'url_hash', md5($url))) {
             return false;
         }
 
