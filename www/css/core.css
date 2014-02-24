@@ -107,6 +107,20 @@ Site Nav
     background-color: #bfc9c4;
 }
 
+.results .site-header {
+    border-bottom: 1px solid black;
+}
+
+.results .site-header .site-title {
+    font-size: 1.25em;
+    display: block;
+}
+
+.results .site-header .site-url {
+    font-size: .75em;
+    display: block;
+}
+
 /**
 Forms
 **/
