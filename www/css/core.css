@@ -135,6 +135,12 @@ form .panel li {
     text-align: center;
     display: block;
 }
+
+.dashboard .section-help {
+    font-size: .7em;
+    text-align: center;
+    display: block;
+}
 .dashboard-metrics {text-transform:uppercase;font-weight:bold;letter-spacing:-0.05em}
 .dashboard-metrics [class*=dashboard-]{display:block;text-align:center}
 .dashboard-metrics .visual-island{margin-bottom:1em;min-height:9.2em}
