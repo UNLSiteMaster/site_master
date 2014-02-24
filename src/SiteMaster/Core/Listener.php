@@ -58,7 +58,7 @@ class Listener extends PluginListener
         
         switch ($event->getFor()) {
             case Config::get('URL') . 'registry/':
-                $event->addNavigationItem(Config::get('URL') . 'registry/all', 'All Sites');
+                $event->addNavigationItem(Config::get('URL') . 'registry/?query=*', 'All Sites');
                 break;
         }
     }
