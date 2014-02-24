@@ -24,13 +24,13 @@
     right: 5%;
     max-width: 200px; }
   .flexnav li {
-    font-size: 100%;
+    font-size: 85%;
     position: relative;
     overflow: hidden; }
   .flexnav li a {
     position: relative;
     display: block;
-    padding: .5em;
+    padding: .25em;
     z-index: 2;
     overflow: hidden;
     color: #222222;
