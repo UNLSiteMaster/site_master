@@ -90,7 +90,7 @@ class Listener extends PluginListener
             $event->addNavigationItem($site->getURL() . 'join/', $join_title);
             
             if ($is_verified) {
-                $members_title = 'Add\Edit Members';
+                $members_title = 'Add/Edit Members';
             }
 
             $event->addNavigationItem($site->getURL() . 'members/', $members_title);
