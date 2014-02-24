@@ -129,6 +129,14 @@
 <div class="row">
     <div class="large-12 columns">
         <?php
+        $prepend = \SiteMaster\Core\Plugin\PluginManager::getManager()->dispatchEvent(
+            \SiteMaster\Core\Events\Theme\PrependOutput::EVENT_NAME,
+            new \SiteMaster\Core\Events\Theme\PrependOutput($context->output->getRawObject(), $app->options['format'])
+        );
+
+        foreach ($prepend->getPrepend() as $item) {
+            echo $savvy->render($item);
+        }
         echo $savvy->render($context->output);
         ?>
     </div>
