@@ -11,7 +11,7 @@
     </ol>
 
     <input type="hidden" name="action" value="edit" />
-    <button type="submit">Edit</button>
+    <button type="submit">Save</button>
 </form>
 
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
