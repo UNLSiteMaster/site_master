@@ -87,17 +87,16 @@ Site Nav
 }
 
 .site-nav .url {
-    font-size: 1.25em;
+    font-size: .75em;
 }
 
 .site-nav .title {
-    font-size: .75em;
+    font-size: 1.25em;
 }
 
 .site-nav .flexnav li a {
     background-color: #bfc9c4;
 }
-
 
 /**
 Forms
@@ -119,6 +118,10 @@ form .panel ul, form.panel ol {
 form .panel li {
     list-style-type: disc;
 }
+
+/**
+Dashboard
+**/
 
 .visual-island {
     background-color:rgba(222, 222, 222, 0.7);
