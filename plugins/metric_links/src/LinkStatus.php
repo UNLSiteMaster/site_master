@@ -34,6 +34,11 @@ class LinkStatus extends Record
      */
     public static function createLinkStatus($url, $http_code, $curl_code, array $fields = array())
     {
+        //First, check to see if it already exists.
+        if ($object = self::getByURL($url)) {
+            return $object;
+        }
+        
         $link = new self();
         $link->date_created = Util::epochToDateTime();
         $link->synchronizeWithArray($fields);
