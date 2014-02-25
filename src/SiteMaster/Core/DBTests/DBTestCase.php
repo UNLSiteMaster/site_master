@@ -15,7 +15,7 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
         try {
             Util::connectTestDB();
         } catch (\Exception $e) {
-            $this->markTestSkipped('Test database is not available, database tests were skipped');
+            $this->markTestSkipped('Test database is not available, database tests were skipped: ' . $e->getMessage());
         }
     }
     
