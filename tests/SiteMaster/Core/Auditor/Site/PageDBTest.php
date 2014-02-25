@@ -45,8 +45,10 @@ class PageDBTest extends DBTestCase
         $page->markAsRunning();
         
         $new_page = $page->rescheduleScan();
+        $marks = $new_page->getMarks($metric->id);
         
         $this->assertEquals($page->id, $new_page->id, 'ids should match');
+        $this->assertEquals(0, $marks->count(), 'all marks should be deleted');
         $this->assertEquals(Page::STATUS_QUEUED, $new_page->status, 'status should be reset');
     }
 
