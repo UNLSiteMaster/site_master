@@ -222,6 +222,51 @@ class ScanDBTest extends DBTestCase
             $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $page->letter_grade);
         }
     }
+
+    /**
+     * Simulate a scan for a site that has incomplete metrics via exceptions.
+     * This is an integration test rather than a unit test
+     *
+     * @test
+     * @group integration
+     */
+    public function scanException()
+    {
+        $this->setUpDB();
+
+        $metrics = new Metrics();
+        foreach ($metrics as $metric) {
+            if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
+                $metric->setOptions(array(
+                    'simulate_exception' => true,
+                    'weight' => 100
+                ));
+            }
+        }
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        $example_metric = Metric::getByMachineName('example');
+
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             */
+            $grade = $page->getMetricGrade($example_metric->id);
+            $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $grade->letter_grade);
+
+            //The page should have an F grade because the only metric failed
+            $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $page->letter_grade);
+        }
+    }
     
     protected function runScan()
     {
