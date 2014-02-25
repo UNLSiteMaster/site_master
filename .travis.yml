@@ -5,4 +5,4 @@ php:
 before_script:
   - mysql -e 'create database sitemaster_test;'
   - php scripts/install.php
-script: phpunit --bootstrap tests/init.php tests
+script: phpunit --verbose --bootstrap tests/init.php tests
