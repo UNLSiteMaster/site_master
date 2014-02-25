@@ -4,6 +4,7 @@ namespace SiteMaster\Core\Auditor;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\Util;
 
 abstract class MetricInterface
 {
@@ -119,6 +120,13 @@ abstract class MetricInterface
         } catch (\Exception $exception) {
             //Some sort of error occurred.  Mark this metric as incomplete
             $completed = false;
+            Util::log(
+                \Monolog\Logger::ERROR,
+                'Metric exception thrown for ' . $this->getMachineName(),
+                array(
+                    'exception' => (string)$exception,
+                )
+            );
         }
         
         //grade the metric
