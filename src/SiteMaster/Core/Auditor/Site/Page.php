@@ -434,4 +434,27 @@ class Page extends Record
     {
         return Page\Mark::createNewPageMark($mark->id, $this->id, $mark->point_deduction, $fields);
     }
+
+    /**
+     * Reschedule a scan for this page.
+     * This will remove this scan, and create a duplicate
+     * @return bool|Page the new page
+     */
+    public function rescheduleScan()
+    {
+        //copy it for use later
+        $cloned_page = clone $this;
+
+        //Delete original page (this should remove all data associated with it)
+        $this->delete();
+
+        //Re-save the page as queued
+        $cloned_page->status = self::STATUS_QUEUED;
+        
+        if (!$cloned_page->insert()) {
+            return false;
+        }
+        
+        return $cloned_page;
+    }
 }
