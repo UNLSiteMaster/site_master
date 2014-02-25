@@ -54,7 +54,7 @@ if (getenv('TRAVIS')) {
     
     //Set  the config to match the production config for travis CI
     Config::set('TEST_DB_HOST'     , Config::get('DB_HOST'));
-    Config::set('TEST_DB_USER'     , Config::get('TEST_DB_USER'));
-    Config::set('TEST_DB_PASSWORD' , Config::get('TEST_DB_PASSWORD'));
-    Config::set('TEST_DB_NAME'     , Config::get('TEST_DB_NAME'));
+    Config::set('TEST_DB_USER'     , Config::get('DB_USER'));
+    Config::set('TEST_DB_PASSWORD' , Config::get('DB_PASSWORD'));
+    Config::set('TEST_DB_NAME'     , Config::get('DB_NAME'));
 }
