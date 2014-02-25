@@ -41,3 +41,20 @@ Config::set('TEST_DB_HOST'     , 'localhost');
 Config::set('TEST_DB_USER'     , 'sitemaster_test');
 Config::set('TEST_DB_PASSWORD' , 'password');
 Config::set('TEST_DB_NAME'     , 'sitemaster_test');
+
+/**********************************************************************************************************************
+ * TRAVIS settings
+ */
+if (getenv('TRAVIS')) {
+    //
+    Config::set('DB_HOST'     , '127.0.0.1');
+    Config::set('DB_USER'     , 'travis');
+    Config::set('DB_PASSWORD' , '');
+    Config::set('DB_NAME'     , 'sitemaster_test');
+    
+    //Set  the config to match the production config for travis CI
+    Config::set('TEST_DB_HOST'     , Config::get('DB_HOST'));
+    Config::set('TEST_DB_USER'     , Config::get('TEST_DB_USER'));
+    Config::set('TEST_DB_PASSWORD' , Config::get('TEST_DB_PASSWORD'));
+    Config::set('TEST_DB_NAME'     , Config::get('TEST_DB_NAME'));
+}
