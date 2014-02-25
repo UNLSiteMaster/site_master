@@ -57,6 +57,7 @@ class Metric extends MetricInterface
      * @param int $depth The current depth of the scan
      * @param \SiteMaster\Core\Auditor\Site\Page $page The current page to scan
      * @param \SiteMaster\Core\Auditor\Logger\Metrics $context The logger class which calls this method, you can access the spider, page, and scan from this
+     * @throws \Exception
      * @return bool True if there was a successful scan, false if not.  If false, the metric will be graded as incomplete
      */
     public function scan($uri, \DOMXPath $xpath, $depth, Page $page, Metrics $context)
@@ -64,6 +65,10 @@ class Metric extends MetricInterface
         if (isset($this->options['simulate_incomplete']) && $this->options['simulate_incomplete']) {
             //Simulate an incomplete scan
             return false;
+        }
+
+        if (isset($this->options['simulate_exception']) && $this->options['simulate_exception']) {
+            throw new \Exception('Just testing here.  This should cause an incomplete');
         }
 
         if (isset($this->options['points_available']) && $this->options['points_available']) {
