@@ -20,13 +20,13 @@ $pages = $context->getPages();
         </div>
         <div class="bp1-wdn-col-one-third">
             <div class="visual-island">
-                <span class="dashboard-value date"><?php echo $context->getABSNumberOfChanges() ?></span>
+                <span class="dashboard-value"><?php echo $context->getABSNumberOfChanges() ?></span>
                 <span class="dashboard-metric">Changes</span>
             </div>
         </div>
         <div class="bp1-wdn-col-one-third">
             <div class="visual-island">
-                <span class="dashboard-value date"><?php echo $pages->count() ?></span>
+                <span class="dashboard-value"><?php echo $pages->count() ?></span>
                 <span class="dashboard-metric">Pages</span>
             </div>
         </div>
@@ -73,6 +73,41 @@ $pages = $context->getPages();
             </table>
         </div>
         <div class="wdn-grid-set">
+            <div class="bp1-wdn-col-one-third">
+                <div class="pages">
+                    <h3>Hot Spots</h3>
+                    <?php
+                    foreach ($plugin_manager->getMetrics() as $metric) {
+                        $metric_record = $metric->getMetricRecord();
+                        $grades = $context->getHotSpots($metric_record->id);
+                        ?>
+                        <h4><?php echo $metric->getName()?></h4>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Page</th>
+                                <th>Grade</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($grades as $grade) {
+                                $page = $grade->getPage();
+                                ?>
+                                <tr>
+                                    <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
+                                    <td><?php echo $grade->letter_grade ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
             <div class="bp1-wdn-col-two-thirds">
                 <div class="pages">
                     <h3>Pages</h3>
@@ -96,41 +131,6 @@ $pages = $context->getPages();
                             ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="bp1-wdn-col-one-third">
-                <div class="pages">
-                    <h3>Hot Spots</h3>
-                    <?php
-                    foreach ($plugin_manager->getMetrics() as $metric) {
-                        $metric_record = $metric->getMetricRecord();
-                        $grades = $context->getHotSpots($metric_record->id);
-                        ?>
-                        <h4><?php echo $metric->getName()?></h4>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Page</th>
-                                    <th>Grade</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($grades as $grade) {
-                                    $page = $grade->getPage();
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
-                                        <td><?php echo $grade->letter_grade ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                        <?php
-                    }
-                    ?>
                 </div>
             </div>
         </div>
