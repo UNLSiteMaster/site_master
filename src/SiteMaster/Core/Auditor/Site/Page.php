@@ -5,6 +5,7 @@ use DB\Record;
 use Monolog\Logger;
 use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\Metric\Mark;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Downloader\HTMLOnly;
@@ -456,5 +457,15 @@ class Page extends Record
         }
         
         return $cloned_page;
+    }
+
+    /**
+     * Get the URL for a page
+     * 
+     * @return string the url for this page
+     */
+    public function getURL()
+    {
+        return Config::get('BASE_URL') . 'sites/' . $this->sites_id . '/pages/' . $this->id . '/';
     }
 }

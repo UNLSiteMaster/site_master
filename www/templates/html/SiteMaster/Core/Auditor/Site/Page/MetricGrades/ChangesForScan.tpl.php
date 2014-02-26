@@ -22,7 +22,7 @@ $site = $scan->getSite();
             ?>
             <tr>
                 <td>
-                    <?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?>
+                    <a href="<?php echo $page->getURL()?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
                 </td>
                 <td>
                     <?php

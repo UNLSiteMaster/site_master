@@ -16,7 +16,9 @@ $site = $scan->getSite();
         $page = $grade->getPage();
         ?>
         <tr>
-            <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
+            <td>
+                <a href="<?php echo $page->getURL()?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
+            </td>
             <td><?php echo $grade->letter_grade ?></td>
         </tr>
     <?php

@@ -17,7 +17,9 @@ $site = $scan->getSite();
         foreach ($context as $page) {
             ?>
             <tr>
-                <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
+                <td>
+                    <a href="<?php echo $page->getURL()?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
+                </td>
                 <td><?php echo $page->letter_grade ?></td>
             </tr>
         <?php
