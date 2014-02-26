@@ -210,4 +210,28 @@ class Scan extends Record
             $site->cleanScans();
         }
     }
+
+    /**
+     * @return bool|int
+     */
+    public function getABSNumberOfChanges()
+    {
+        $db = Util::getDB();
+
+        $sql = "SELECT sum(ABS(page_metric_grades.changes_since_last_scan)) as total
+                FROM page_metric_grades
+                   JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
+                WHERE scanned_page.scans_id = " . (int)$this->id . "
+                LIMIT 1";
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        if (!$data = $result->fetch_assoc()) {
+            return false;
+        }
+        
+        return (int)$data['total'];
+    }
 }
