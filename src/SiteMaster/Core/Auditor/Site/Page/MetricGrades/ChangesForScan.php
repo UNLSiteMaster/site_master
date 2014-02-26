@@ -33,7 +33,8 @@ class ChangesForScan extends RecordList
 
     public function getWhere()
     {
-        return 'WHERE scanned_page.scans_id = ' .(int)$this->options['scans_id'];
+        return 'WHERE scanned_page.scans_id = ' .(int)$this->options['scans_id']
+            . ' AND page_metric_grades.changes_since_last_scan != 0';
     }
 
     public function getSQL()
