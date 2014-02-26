@@ -189,3 +189,10 @@ Scan Summary
 .scan header h2 {
    margin-bottom: 5px;
 }
+
+/**
+Tables
+**/
+table {
+    width: 100%;
+}
