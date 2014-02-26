@@ -1,5 +1,6 @@
 <?php
 $previous_scan = $context->getPreviousScan();
+$site = $context->getSite();
 $pages = $context->getPages();
 ?>
 
@@ -47,7 +48,7 @@ $pages = $context->getPages();
                     ?>
                     <tr>
                         <td>
-                            <?php echo $page->uri ?>
+                            <?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?>
                         </td>
                         <td>
                             <?php
@@ -80,7 +81,7 @@ $pages = $context->getPages();
                         foreach ($pages as $page) {
                             ?>
                             <tr>
-                                <td><?php echo $page->uri ?></td>
+                                <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
                                 <td><?php echo $page->letter_grade ?></td>
                             </tr>
                             <?php
