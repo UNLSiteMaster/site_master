@@ -13,9 +13,12 @@ $app = new \SiteMaster\Core\Controller($_GET);
 $savvy = new \SiteMaster\Core\OutputController($app->options);
 $savvy->setTheme(\SiteMaster\Core\Config::get('THEME'));
 $savvy->initialize();
-$savvy->addGlobal('app', $app);
 
-//TODO: implement users
-//$savvy->addGlobal('user', \SiteMaster\User\Service::getCurrentUser());
+$savvy->addGlobal('app', $app);
+$savvy->addGlobal('plugin_manager', \SiteMaster\Core\Plugin\PluginManager::getManager());
+$savvy->addGlobal('user', \SiteMaster\Core\User\Session::getCurrentUser());
+$savvy->addGlobal('grading_helper', new \SiteMaster\Core\Auditor\GradingHelper());
+$savvy->addGlobal('base_url', \SiteMaster\Core\Config::get('BASE_URL'));
+$savvy->addGlobal('template_helper', new \SiteMaster\Core\ThemeHelper());
 
 echo $savvy->render($app);
