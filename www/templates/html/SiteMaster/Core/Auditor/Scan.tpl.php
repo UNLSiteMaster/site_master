@@ -32,49 +32,11 @@ $pages = $context->getPages();
         </div>
     </section>
     <section>
-        <div class="changes">
-            <h3>Changes since the last scan</h3>
-            <table data-sortlist="[[0,0],[2,0]]">
-                <thead>
-                    <tr>
-                        <th>Page</th>
-                        <th>Metric</th>
-                        <th>Number of Changes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($context->getChangedMetricGrades() as $metric_grade) {
-                        $page = $metric_grade->getPage();
-                        $metric = $metric_grade->getMetric();
-                        $metric_object = $metric->getMetricObject();
-                        ?>
-                        <tr>
-                            <td>
-                                <?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?>
-                            </td>
-                            <td>
-                                <?php
-                                $name = 'unknown';
-                                if ($metric_object) {
-                                    $name = $metric_object->getName();
-                                }
-                                echo $name;
-                                ?>
-                            </td>
-                            <td>
-                                <?php echo $metric_grade->changes_since_last_scan ?>
-                            </td>
-                        </tr>
-                        <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+        <?php echo $savvy->render($context->getChangedMetricGrades()); ?>
+        
         <div class="wdn-grid-set">
             <div class="bp1-wdn-col-one-third">
-                <div class="pages">
+                <div class="hot-spots">
                     <h3>Hot Spots</h3>
                     <?php
                     foreach ($plugin_manager->getMetrics() as $metric) {
@@ -82,56 +44,17 @@ $pages = $context->getPages();
                         $grades = $context->getHotSpots($metric_record->id);
                         ?>
                         <h4><?php echo $metric->getName()?></h4>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Page</th>
-                                <th>Grade</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach ($grades as $grade) {
-                                $page = $grade->getPage();
-                                ?>
-                                <tr>
-                                    <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
-                                    <td><?php echo $grade->letter_grade ?></td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                            </tbody>
-                        </table>
+                        <?php echo $savvy->render($grades); ?>
                     <?php
                     }
                     ?>
                 </div>
             </div>
             <div class="bp1-wdn-col-two-thirds">
-                <div class="pages">
-                    <h3>Pages</h3>
-                    <table data-sortlist="[[0,0],[2,0]]">
-                        <thead>
-                            <tr>
-                                <th>Path</th>
-                                <th>Grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            foreach ($pages as $page) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
-                                    <td><?php echo $page->letter_grade ?></td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+                <?php
+                echo $savvy->render($pages);
+                ?>
+                
             </div>
         </div>
     </section>
