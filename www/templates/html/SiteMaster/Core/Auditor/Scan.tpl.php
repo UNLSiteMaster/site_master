@@ -11,20 +11,20 @@ $pages = $context->getPages();
             Status: <?php echo $context->status;?>
         </div>
     </header>
-    <section class="wdn-grid-set dashboard-metrics">
-        <div class="bp1-wdn-col-one-third">
-                <div class="visual-island gpa">
-                    <span class="dashboard-value"><?php echo $context->gpa ?></span>
-                    <span class="dashboard-metric">GPA</span>
-                </div>
+    <section class="row dashboard-metrics">
+        <div class="large-4 columns">
+            <div class="visual-island gpa">
+                <span class="dashboard-value"><?php echo $context->gpa ?></span>
+                <span class="dashboard-metric">GPA</span>
+            </div>
         </div>
-        <div class="bp1-wdn-col-one-third">
+        <div class="large-4 columns">
             <div class="visual-island">
                 <span class="dashboard-value"><?php echo $context->getABSNumberOfChanges() ?></span>
                 <span class="dashboard-metric">Changes</span>
             </div>
         </div>
-        <div class="bp1-wdn-col-one-third">
+        <div class="large-4 columns">
             <div class="visual-island">
                 <span class="dashboard-value"><?php echo $pages->count() ?></span>
                 <span class="dashboard-metric">Pages</span>
@@ -34,8 +34,8 @@ $pages = $context->getPages();
     <section>
         <?php echo $savvy->render($context->getChangedMetricGrades()); ?>
         
-        <div class="wdn-grid-set">
-            <div class="bp1-wdn-col-one-third">
+        <div class="row">
+            <div class="large-4 columns">
                 <div class="hot-spots">
                     <h3>Hot Spots</h3>
                     <?php
@@ -50,7 +50,7 @@ $pages = $context->getPages();
                     ?>
                 </div>
             </div>
-            <div class="bp1-wdn-col-two-thirds">
+            <div class="large-8 columns">
                 <?php
                 echo $savvy->render($pages);
                 ?>
