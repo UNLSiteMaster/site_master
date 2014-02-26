@@ -93,6 +93,32 @@ $pages = $context->getPages();
             <div class="bp1-wdn-col-one-third">
                 <div class="pages">
                     <h3>Hot Spots</h3>
+                    <?php
+                    foreach ($plugin_manager->getMetrics() as $metric) {
+                        $metric_record = $metric->getMetricRecord();
+                        $grades = $context->getHotSpots($metric_record->id);
+                        ?>
+                        <h4><?php echo $metric->getName()?></h4>
+                        <table>
+                            <tr>
+                                <th>Page</th>
+                                <th>Grade</th>
+                            </tr>
+                            <?php
+                            foreach ($grades as $grade) {
+                                $page = $grade->getPage();
+                                ?>
+                                <tr>
+                                    <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
+                                    <td><?php echo $grade->letter_grade ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </table>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

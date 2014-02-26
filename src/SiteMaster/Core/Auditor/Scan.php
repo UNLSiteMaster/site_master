@@ -244,4 +244,19 @@ class Scan extends Record
     {
         return new Page\MetricGrades\ChangesForScan(array('scans_id'=>$this->id));
     }
+
+    /**
+     * Get hot spots for a given metric
+     * 
+     * @param int $metrics_id the metrics_id
+     * @return Page\MetricGrades\ForScanAndMetric
+     */
+    public function getHotSpots($metrics_id)
+    {
+        return new Page\MetricGrades\ForScanAndMetric(
+            array(
+                'metrics_id' => $metrics_id,
+                'scans_id' => $this->id,)
+        );
+    }
 }
