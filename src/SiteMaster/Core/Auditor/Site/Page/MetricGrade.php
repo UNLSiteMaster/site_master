@@ -2,6 +2,8 @@
 namespace SiteMaster\Core\Auditor\Site\Page;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Metric;
+use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Registry\Site\Member;
 
 class MetricGrade extends Record
@@ -110,5 +112,25 @@ class MetricGrade extends Record
         }
         
         return false;
+    }
+
+    /**
+     * Get the page record
+     * 
+     * @return mixed
+     */
+    public function getPage()
+    {
+        return Page::getByID($this->scanned_page_id);
+    }
+
+    /**
+     * Get the metric record
+     *
+     * @return mixed
+     */
+    public function getMetric()
+    {
+        return Metric::getByID($this->metrics_id);
     }
 }
