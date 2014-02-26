@@ -234,4 +234,14 @@ class Scan extends Record
         
         return (int)$data['total'];
     }
+
+    /**
+     * Get a list of changes metric grades for a scan
+     * 
+     * @return Page\MetricGrades\ChangesForScan
+     */
+    public function getChangedMetricGrades()
+    {
+        return new Page\MetricGrades\ChangesForScan(array('scans_id'=>$this->id));
+    }
 }
