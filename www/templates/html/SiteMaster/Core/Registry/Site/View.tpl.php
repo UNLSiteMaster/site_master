@@ -1,3 +1,11 @@
-<p>
-    List of the most recent scan here
-</p>
+
+<?php
+if ($scan = $context->site->getLatestScan()) {
+    echo $savvy->render($scan);
+} else {
+    ?>
+    <p>
+        No scans found
+    </p>
+    <?php
+}
