@@ -120,9 +120,9 @@ class Listener extends PluginListener
     {
         $event->addScript(Config::get('URL') . 'www/js/vendor/modernizr.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.js');
-        $event->addScript(Config::get('URL') . 'www/js/core.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.flexnav.min.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.tablesorter.min.js');
+        $event->addScript(Config::get('URL') . 'www/js/core.js');
     }
     
     public function onUserSearch(Events\User\Search $event)
