@@ -35,10 +35,26 @@ $pages = $context->getPages();
             <h3>Changes</h3>
             
         </div>
-        <div class="wdn-grid-set dashboard-metrics">
+        <div class="wdn-grid-set">
             <div class="bp1-wdn-col-two-thirds">
                 <div class="pages">
                     <h3>Pages</h3>
+                    <table>
+                        <tr>
+                            <th>Path</th>
+                            <th>Grade</th>
+                        </tr>
+                        <?php 
+                        foreach ($pages as $page) {
+                            ?>
+                            <tr>
+                                <td><?php echo $page->uri ?></td>
+                                <td><?php echo $page->letter_grade ?></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </table>
                 </div>
             </div>
             <div class="bp1-wdn-col-one-third">
