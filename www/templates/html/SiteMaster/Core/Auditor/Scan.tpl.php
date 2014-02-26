@@ -32,8 +32,40 @@ $pages = $context->getPages();
     </section>
     <section>
         <div class="changes">
-            <h3>Changes</h3>
-            
+            <h3>Changes since the last scan</h3>
+            <table>
+                <tr>
+                    <th>Page</th>
+                    <th>Metric</th>
+                    <th>Number of Changes</th>
+                </tr>
+                <?php
+                foreach ($context->getChangedMetricGrades() as $metric_grade) {
+                    $page = $metric_grade->getPage();
+                    $metric = $metric_grade->getMetric();
+                    $metric_object = $metric->getMetricObject();
+                    ?>
+                    <tr>
+                        <td>
+                            <?php echo $page->uri ?>
+                        </td>
+                        <td>
+                            <?php
+                            $name = 'unknown';
+                            if ($metric_object) {
+                                $name = $metric_object->getName();
+                            }
+                            echo $name;
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo $metric_grade->changes_since_last_scan ?>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </table>
         </div>
         <div class="wdn-grid-set">
             <div class="bp1-wdn-col-two-thirds">
