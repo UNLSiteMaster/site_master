@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
+use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Site\Member;
 
 class Metric extends Record
@@ -49,5 +50,21 @@ class Metric extends Record
         }
 
         return $metric;
+    }
+
+    /**
+     * Get the Metric object for this record
+     * 
+     * @return bool
+     */
+    public function getMetricObject()
+    {
+        $metrics = PluginManager::getManager()->getMetrics();
+        
+        if (!isset($metrics[$this->machine_name])) {
+            return false;
+        }
+        
+        return $metrics[$this->machine_name];
     }
 }
