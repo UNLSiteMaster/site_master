@@ -3,14 +3,14 @@ $previous_scan = $context->getPreviousScan();
 $pages = $context->getPages();
 ?>
 
-<section class="scan">
+<div class="scan">
     <header>
         <h2>Scan: <?php echo date("n-j-y g:i a", strtotime($context->start_time)); ?></h2>
         <div class="sub-info">
             Status: <?php echo $context->status;?>
         </div>
     </header>
-    <div class="wdn-grid-set dashboard-metrics">
+    <section class="wdn-grid-set dashboard-metrics">
         <div class="bp1-wdn-col-one-third">
                 <div class="visual-island gpa">
                     <span class="dashboard-value"><?php echo $context->gpa ?></span>
@@ -29,5 +29,23 @@ $pages = $context->getPages();
                 <span class="dashboard-metric">Pages</span>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <section>
+        <div class="changes">
+            <h3>Changes</h3>
+            
+        </div>
+        <div class="wdn-grid-set dashboard-metrics">
+            <div class="bp1-wdn-col-two-thirds">
+                <div class="pages">
+                    <h3>Pages</h3>
+                </div>
+            </div>
+            <div class="bp1-wdn-col-one-third">
+                <div class="pages">
+                    <h3>Hot Spots</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
