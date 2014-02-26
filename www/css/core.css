@@ -167,12 +167,13 @@ Dashboard
 }
 .dashboard-metrics {text-transform:uppercase;font-weight:bold;letter-spacing:-0.05em}
 .dashboard-metrics [class*=dashboard-]{display:block;text-align:center}
-.dashboard-metrics .visual-island{margin-bottom:1em;min-height:9.2em}
+.dashboard-metrics .visual-island{margin-bottom:1em;min-height:7.2em}
 .dashboard-metrics .visual-island.invalid{background-color:rgba(183,3,2,0.4);border:3px solid rgba(183,3,2,0.2);color:#200100;text-shadow:-1px 0 1px #febaba}
 .dashboard-metrics .visual-island.valid{background-color:rgba(111,191,77,0.5);border:3px solid rgba(96,166,66,0.2);border-radius:3px;color:#2f551e;text-shadow:-1px 0 1px #fff;}
 .dashboard-metrics .dashboard-metric{font-size:.9em}
 .dashboard-metrics .sub{font-size:.75em;display:block}
 .dashboard-value{font-size:3em;line-height:1}
+.dashboard-value.date{font-size:1.8em;line-height:1.8}
 .dashboard-value.secondary{font-size:2em;color:#939393}
 .more-info{background:rgba(0,0,0,0.3);border-radius:50%;color:rgba(255,255,255,0.8);float:right;text-shadow:-1px 0 1px rgba(0,0,0,0.3);width:1.5em;height:1.5em;line-height:1;text-align:center;cursor:help;position:absolute;top:8px;right:8px;padding-top:.3em}
 .more-info:hover:before{content:attr(data-helper-text);background:rgba(0,0,0,0.7);width:125px;display:block;position:absolute;bottom:100%;right:-100%;z-index:11;padding:.5em;border-radius:3px;text-transform:none}
