@@ -34,59 +34,67 @@ $pages = $context->getPages();
     <section>
         <div class="changes">
             <h3>Changes since the last scan</h3>
-            <table>
-                <tr>
-                    <th>Page</th>
-                    <th>Metric</th>
-                    <th>Number of Changes</th>
-                </tr>
-                <?php
-                foreach ($context->getChangedMetricGrades() as $metric_grade) {
-                    $page = $metric_grade->getPage();
-                    $metric = $metric_grade->getMetric();
-                    $metric_object = $metric->getMetricObject();
-                    ?>
+            <table data-sortlist="[[0,0],[2,0]]">
+                <thead>
                     <tr>
-                        <td>
-                            <?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?>
-                        </td>
-                        <td>
-                            <?php
-                            $name = 'unknown';
-                            if ($metric_object) {
-                                $name = $metric_object->getName();
-                            }
-                            echo $name;
-                            ?>
-                        </td>
-                        <td>
-                            <?php echo $metric_grade->changes_since_last_scan ?>
-                        </td>
+                        <th>Page</th>
+                        <th>Metric</th>
+                        <th>Number of Changes</th>
                     </tr>
+                </thead>
+                <tbody>
                     <?php
-                }
-                ?>
+                    foreach ($context->getChangedMetricGrades() as $metric_grade) {
+                        $page = $metric_grade->getPage();
+                        $metric = $metric_grade->getMetric();
+                        $metric_object = $metric->getMetricObject();
+                        ?>
+                        <tr>
+                            <td>
+                                <?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?>
+                            </td>
+                            <td>
+                                <?php
+                                $name = 'unknown';
+                                if ($metric_object) {
+                                    $name = $metric_object->getName();
+                                }
+                                echo $name;
+                                ?>
+                            </td>
+                            <td>
+                                <?php echo $metric_grade->changes_since_last_scan ?>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </tbody>
             </table>
         </div>
         <div class="wdn-grid-set">
             <div class="bp1-wdn-col-two-thirds">
                 <div class="pages">
                     <h3>Pages</h3>
-                    <table>
-                        <tr>
-                            <th>Path</th>
-                            <th>Grade</th>
-                        </tr>
-                        <?php 
-                        foreach ($pages as $page) {
-                            ?>
+                    <table data-sortlist="[[0,0],[2,0]]">
+                        <thead>
                             <tr>
-                                <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
-                                <td><?php echo $page->letter_grade ?></td>
+                                <th>Path</th>
+                                <th>Grade</th>
                             </tr>
-                            <?php
-                        }
-                        ?>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            foreach ($pages as $page) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
+                                    <td><?php echo $page->letter_grade ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -100,21 +108,25 @@ $pages = $context->getPages();
                         ?>
                         <h4><?php echo $metric->getName()?></h4>
                         <table>
-                            <tr>
-                                <th>Page</th>
-                                <th>Grade</th>
-                            </tr>
-                            <?php
-                            foreach ($grades as $grade) {
-                                $page = $grade->getPage();
-                                ?>
+                            <thead>
                                 <tr>
-                                    <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
-                                    <td><?php echo $grade->letter_grade ?></td>
+                                    <th>Page</th>
+                                    <th>Grade</th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 <?php
-                            }
-                            ?>
+                                foreach ($grades as $grade) {
+                                    $page = $grade->getPage();
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></td>
+                                        <td><?php echo $grade->letter_grade ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </tbody>
                         </table>
                         <?php
                     }

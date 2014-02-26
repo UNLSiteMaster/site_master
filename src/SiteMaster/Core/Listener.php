@@ -109,8 +109,8 @@ class Listener extends PluginListener
     public function onThemeRegisterStyleSheets(RegisterStyleSheets $event)
     {
         $event->addStyleSheet(Config::get('URL') . 'www/css/core.css');
-        
         $event->addStyleSheet(Config::get('URL') . 'www/css/vendor/flexnav.css');
+        $event->addStyleSheet(Config::get('URL') . 'www/css/vendor/tablesorter.default.css');
     }
 
     /**
@@ -122,6 +122,7 @@ class Listener extends PluginListener
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.js');
         $event->addScript(Config::get('URL') . 'www/js/core.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.flexnav.min.js');
+        $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.tablesorter.min.js');
     }
     
     public function onUserSearch(Events\User\Search $event)
