@@ -76,6 +76,26 @@ class Scan extends Record
     }
 
     /**
+     * Get the previous scan
+     * 
+     * @return bool
+     */
+    public function getPreviousScan()
+    {
+        $pages = new Scans\AllForSite(array(
+            'sites_id' => $this->sites_id,
+            'not_id' => $this->id,
+            'limit' => 1
+        ));
+        
+        if ($pages->count() == 0) {
+            return false;
+        }
+        
+        $pages->rewind();
+        return $pages->current();
+    }
+    /**
      * Get the next page in the queue for this scan
      * 
      * @return bool|\SiteMaster\Core\Auditor\Site\Page
