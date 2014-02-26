@@ -466,6 +466,6 @@ class Page extends Record
      */
     public function getURL()
     {
-        return Config::get('BASE_URL') . 'sites/' . $this->sites_id . '/pages/' . $this->id . '/';
+        return Config::get('URL') . 'sites/' . $this->sites_id . '/pages/' . $this->id . '/';
     }
 }
