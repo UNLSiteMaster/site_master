@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Page\MetricGrades;
 
 use DB\RecordList;
+use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\InvalidArgumentException;
 
 class ChangesForScan extends RecordList
@@ -47,5 +48,15 @@ class ChangesForScan extends RecordList
                 ORDER BY page_metric_grades.weight ASC";
 
         return $sql;
+    }
+
+    /**
+     * Get the scan
+     *
+     * @return false|Scan
+     */
+    public function getScan()
+    {
+        return Scan::getByID($this->options['scans_id']);
     }
 }

@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Page\MetricGrades;
 
 use DB\RecordList;
+use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\InvalidArgumentException;
 
 class ForScanAndMetric extends RecordList
@@ -64,5 +65,15 @@ class ForScanAndMetric extends RecordList
                 " . $this->getLimit();
 
         return $sql;
+    }
+
+    /**
+     * Get the scan
+     * 
+     * @return false|Scan
+     */
+    public function getScan()
+    {
+        return Scan::getByID($this->options['scans_id']);
     }
 }
