@@ -196,3 +196,54 @@ Tables
 table {
     width: 100%;
 }
+
+/**
+Scanned Page
+**/
+
+/**
+Metric Grades
+**/
+.metric-grade-details {
+    margin-bottom: 2em;
+    background-color: #fff;
+}
+
+.metric-grade-details header {
+    width: 100%;
+    display: table;
+    padding: 1em;
+    height: 7em;
+}
+.details {
+    width:70%;
+    display: table-cell;
+    vertical-align: middle;
+}
+.details .title {
+    display: block;
+}
+.details .changes {
+    font-size: .75em;
+}
+.letter-grade-container, .score {
+    display: table-cell;
+    vertical-align: middle;
+}
+.letter-grade-container {
+    min-width: 100px;
+    text-align: center;
+    font-size: 4em;
+}
+.score .earned {
+    font-size: 1.5em;
+    display: block;
+}
+.score .earned .points_available {
+    font-size: .5em;
+}
+.score .weight {
+    font-size: .75em;
+}
+
+
