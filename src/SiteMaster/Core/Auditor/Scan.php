@@ -259,4 +259,12 @@ class Scan extends Record
                 'scans_id' => $this->id,)
         );
     }
+
+    /**
+     * Get the URL for this scan
+     */
+    public function getURL()
+    {
+        return \SiteMaster\Core\Config::get('URL') . 'sites/' . $this->sites_id . '/scans/' . $this->id;
+    }
 }
