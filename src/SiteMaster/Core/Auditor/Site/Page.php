@@ -468,4 +468,16 @@ class Page extends Record
     {
         return Config::get('URL') . 'sites/' . $this->sites_id . '/pages/' . $this->id . '/';
     }
+
+    /**
+     * Get the title for this page, if we don't have one, return the url
+     * 
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        if (!empty($this->title)) {
+            return $this->title;
+        }
+    }
 }
