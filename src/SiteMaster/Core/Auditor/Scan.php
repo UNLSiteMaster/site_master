@@ -4,6 +4,7 @@ namespace SiteMaster\Core\Auditor;
 use DB\Record;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -265,6 +266,6 @@ class Scan extends Record
      */
     public function getURL()
     {
-        return \SiteMaster\Core\Config::get('URL') . 'sites/' . $this->sites_id . '/scans/' . $this->id;
+        return Config::get('URL') . 'sites/' . $this->sites_id . '/scans/' . $this->id . '/';
     }
 }
