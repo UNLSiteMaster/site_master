@@ -1,6 +1,7 @@
 <?php
 $metric = $context->getMetric();
 $metric_plugin = $metric->getMetricObject();
+$page_marks = $context->getMarks();
 ?>
 <div class="metric-grade-details">
     <header class="header">
@@ -35,5 +36,57 @@ $metric_plugin = $metric->getMetricObject();
             <span class="weight"><?php echo $context->weight?> points of total score</span>
         </div>
     </header>
+    <div class="contents">
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        Reason
+                    </td>
+                    <td>
+                        Points Deducted
+                    </td>
+                    <td>
+                        Location
+                    </td>
+                    <td>
+                        Options
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                foreach ($page_marks as $page_mark) {
+                    $mark = $page_mark->getMark();
+                    ?>
+                    <tr>
+                        <td>
+                            <?php echo $mark->name; ?>
+                        </td>
+                        <td>
+                            <?php echo $page_mark->points_deducted; ?>
+                        </td>
+                        <td>
+                            <?php
+                            $location = 'Page';
+                            if (!empty($page_mark->line) && !empty($page_mark->line)) {
+                                $location = 'Line ' . $page_mark->line . ', Column ' . $page_mark->col;
+                            }
+                            if (!empty($page_mark->context)) {
+                                $location .= ' Context: ' . $page_mark->context;
+                            }
+                            ?>
+                            <?php echo $location; ?>
+                        </td>
+                        <td>
+                            Fix
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
