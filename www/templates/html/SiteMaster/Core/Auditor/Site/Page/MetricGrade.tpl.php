@@ -61,7 +61,7 @@ $page_marks = $context->getMarks();
                     ?>
                     <tr>
                         <td>
-                            <?php echo $mark->name; ?>
+                            <span class="<?php echo $mark->machine_name ?>"><?php echo $mark->name; ?></span>
                         </td>
                         <td>
                             <?php echo $page_mark->points_deducted; ?>
@@ -79,7 +79,55 @@ $page_marks = $context->getMarks();
                             <?php echo $location; ?>
                         </td>
                         <td>
-                            Fix
+                            <a href="#fix-mark-<?php echo $page_mark->id ?>" class="call-modal" title="Clicking this link shows the modal">Fix</a>
+                            <section class="semantic-content" id="fix-mark-<?php echo $page_mark->id ?>"
+                                     tabindex="-1" role="dialog" aria-labelledby="fix-mark-<?php echo $page_mark->id ?>"
+                                     aria-hidden="true">
+
+                                <div class="modal-inner">
+                                    <header>
+                                        <h2>How to fix: <?php echo $mark->name ?></h2>
+                                    </header>
+                                    <dl>
+                                        <?php
+                                        if (!empty($mark->description)) {
+                                            ?>
+                                            <dt>Description</dt>
+                                            <dd><?php echo $mark->description ?></dd>
+                                        <?php
+                                        }
+
+                                        if (!empty($mark->help_text)) {
+                                            ?>
+                                            <dt>Suggested Fix</dt>
+                                            <dd><?php echo $mark->help_text ?></dd>
+                                        <?php
+                                        }
+                                            
+                                        if (!empty($page_mark->value_found)) {
+                                            ?>
+                                            <dt>Value Found</dt>
+                                            <dd><?php echo $page_mark->value_found ?></dd>
+                                        <?php
+                                        }
+                                        ?>
+                                        <dt>Location</dt>
+                                        <dd><?php echo $location ?></dd>
+                                    </dl>
+
+                                    <footer>
+                                        <p>
+                                            <a href="#!" class="close-action button wdn-button"
+                                               title="Close this modal"
+                                               data-dismiss="modal">Close</a>
+                                        </p>
+                                    </footer>
+                                </div>
+
+                                <!-- Use Hash-Bang to maintain scroll position when closing modal -->
+                                <a href="#!" class="modal-close" title="Close this modal"
+                                   data-dismiss="modal" data-close="Close">&times;</a>
+                            </section>
                         </td>
                     </tr>
                     <?php
