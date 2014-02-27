@@ -5,7 +5,7 @@ $(document).ready(function() {
         return confirm('Are you sure you want to delete this site?');
     });
     
-    $(".scan table").tablesorter();
+    $(".scan table, .metric-grade-details table").tablesorter();
 });
 
 
