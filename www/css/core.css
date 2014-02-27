@@ -230,6 +230,11 @@ Scanned Page
     font-size: 1.25em;
 }
 
+.page-scan-scoring tfoot .total {
+    font-size: 2em;
+    text-align: center;
+}
+
 /**
 Metric Grades
 **/

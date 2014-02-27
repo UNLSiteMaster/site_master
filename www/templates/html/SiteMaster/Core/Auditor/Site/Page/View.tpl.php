@@ -1,5 +1,6 @@
 <?php
 $scan = $context->page->getScan();
+$metric_grades = $context->page->getMetricGrades();
 ?>
 <header class="page-scan-header">
     <div class="letter-grade-container">
@@ -17,6 +18,41 @@ $scan = $context->page->getScan();
 </header>
 <div class="page-scan-content">
     <?php
-    echo $savvy->render($context->page->getMetricGrades());
+    echo $savvy->render($metric_grades);
     ?>
+</div>
+<div class="page-scan-scoring">
+    Scoring
+    <table>
+        <thead>
+        <tr>
+            <th>Metric</th>
+            <th>Weighted Score</th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($metric_grades as $metric_grade) {
+                $metric_record = $metric_grade->getMetric();
+                $metric_object = $metric_record->getMetricObject();
+                ?>
+                <tr>
+                    <td><?php echo $metric_object->getName() ?></td>
+                    <td><?php echo $metric_grade->weighted_grade ?></td>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    Total:
+                </td>
+                <td class="total">
+                    <?php echo $context->page->point_grade ?>/<?php echo $context->page->points_available ?> = <?php echo $context->page->letter_grade ?>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
