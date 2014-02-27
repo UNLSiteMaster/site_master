@@ -42,7 +42,7 @@ class AllForPage extends RecordList
         $sql = "SELECT page_metric_grades.id
                 FROM page_metric_grades
                 " . $this->getWhere() . "
-                ORDER BY page_metric_grades.weight ASC";
+                ORDER BY page_metric_grades.weight DESC";
 
         return $sql;
     }
