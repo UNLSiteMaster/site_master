@@ -200,6 +200,35 @@ table {
 /**
 Scanned Page
 **/
+.metric-grade-details {
+    margin-bottom: 2em;
+    background-color: #fff;
+    padding: 1em;
+}
+
+.page-scan-header {
+    width: 100%;
+    display: table;
+    height: 7em;
+    margin-bottom: 2em;
+    border-bottom: 1px solid black;
+}
+.page-scan-header .details {
+    width:100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.page-scan-header .letter-grade-container {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 4em;
+}
+
+.page-scan-header .details .title {
+    font-size: 1.25em;
+}
 
 /**
 Metric Grades
