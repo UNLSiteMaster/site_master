@@ -207,12 +207,12 @@ Metric Grades
 .metric-grade-details {
     margin-bottom: 2em;
     background-color: #fff;
+    padding: 1em;
 }
 
 .metric-grade-details header {
     width: 100%;
     display: table;
-    padding: 1em;
     height: 7em;
 }
 .details {
