@@ -36,6 +36,22 @@ $page_marks = $context->getMarks();
             <span class="weight"><?php echo $context->weight?> points of total score</span>
         </div>
     </header>
+    <?php 
+    try {
+        $description = $savvy->render($metric_plugin);
+    } catch (\Savvy_TemplateException $e) {
+        $description = false;
+    }
+    
+    if ($description) {
+        ?>
+        <div class="metric-description">
+            <?php echo $description ?>
+        </div>
+        <?php
+    }
+    ?>
+    
     <div class="contents">
     <?php
     if ($page_marks->count()) {
