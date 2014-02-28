@@ -4,6 +4,7 @@ namespace SiteMaster\Core\Auditor;
 use DB\Record;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -75,6 +76,26 @@ class Scan extends Record
         return Site::getByID($this->sites_id);
     }
 
+    /**
+     * Get the previous scan
+     * 
+     * @return bool
+     */
+    public function getPreviousScan()
+    {
+        $pages = new Scans\AllForSite(array(
+            'sites_id' => $this->sites_id,
+            'not_id' => $this->id,
+            'limit' => 1
+        ));
+        
+        if ($pages->count() == 0) {
+            return false;
+        }
+        
+        $pages->rewind();
+        return $pages->current();
+    }
     /**
      * Get the next page in the queue for this scan
      * 
@@ -189,5 +210,64 @@ class Scan extends Record
             $site = $this->getSite();
             $site->cleanScans();
         }
+    }
+
+    /**
+     * @return bool|int
+     */
+    public function getABSNumberOfChanges()
+    {
+        $db = Util::getDB();
+
+        $sql = "SELECT sum(ABS(page_metric_grades.changes_since_last_scan)) as total
+                FROM page_metric_grades
+                   JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
+                WHERE scanned_page.scans_id = " . (int)$this->id . "
+                LIMIT 1";
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        if (!$data = $result->fetch_assoc()) {
+            return false;
+        }
+        
+        return (int)$data['total'];
+    }
+
+    /**
+     * Get a list of changes metric grades for a scan
+     * 
+     * @return Page\MetricGrades\ChangesForScan
+     */
+    public function getChangedMetricGrades()
+    {
+        return new Page\MetricGrades\ChangesForScan(array('scans_id'=>$this->id));
+    }
+
+    /**
+     * Get hot spots for a given metric
+     * 
+     * @param int $metrics_id the metrics_id
+     * @return Page\MetricGrades\ForScanAndMetric
+     */
+    public function getHotSpots($metrics_id)
+    {
+        return new Page\MetricGrades\ForScanAndMetric(
+            array(
+                'metrics_id' => $metrics_id,
+                'scans_id' => $this->id,)
+        );
+    }
+
+    /**
+     * Get the URL for this scan
+     * 
+     * @return string - the url
+     */
+    public function getURL()
+    {
+        return Config::get('URL') . 'sites/' . $this->sites_id . '/scans/' . $this->id . '/';
     }
 }

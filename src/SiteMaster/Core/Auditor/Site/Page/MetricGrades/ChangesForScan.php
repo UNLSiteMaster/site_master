@@ -2,16 +2,17 @@
 namespace SiteMaster\Core\Auditor\Site\Page\MetricGrades;
 
 use DB\RecordList;
+use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\InvalidArgumentException;
 
-class AllForPage extends RecordList
+class ChangesForScan extends RecordList
 {
     public function __construct(array $options = array())
     {
         $this->options = $options + $this->options;
 
-        if (!isset($options['scanned_page_id'])) {
-            throw new InvalidArgumentException('A scanned_page_id must be set', 500);
+        if (!isset($options['scans_id'])) {
+            throw new InvalidArgumentException('A scans_id must be set', 500);
         }
 
         $options['array'] = self::getBySQL(array(
@@ -33,7 +34,8 @@ class AllForPage extends RecordList
 
     public function getWhere()
     {
-        return 'WHERE scanned_page_id = ' .(int)$this->options['scanned_page_id'];
+        return 'WHERE scanned_page.scans_id = ' .(int)$this->options['scans_id']
+            . ' AND page_metric_grades.changes_since_last_scan != 0';
     }
 
     public function getSQL()
@@ -41,9 +43,20 @@ class AllForPage extends RecordList
         //Build the list
         $sql = "SELECT page_metric_grades.id
                 FROM page_metric_grades
+                  JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
                 " . $this->getWhere() . "
-                ORDER BY page_metric_grades.weight DESC";
+                ORDER BY page_metric_grades.weight ASC";
 
         return $sql;
+    }
+
+    /**
+     * Get the scan
+     *
+     * @return false|Scan
+     */
+    public function getScan()
+    {
+        return Scan::getByID($this->options['scans_id']);
     }
 }

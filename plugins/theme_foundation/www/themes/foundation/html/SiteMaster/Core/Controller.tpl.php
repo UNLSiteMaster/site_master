@@ -142,8 +142,6 @@
     </div>
 </div>
 
-
-<script src="<?php echo \SiteMaster\Core\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/jquery.js"></script>
 <script src="<?php echo \SiteMaster\Core\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/foundation.min.js"></script>
 <script>
     $(document).foundation();

@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor\Site\Pages;
 
+use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\InvalidArgumentException;
 
 class AllForScan extends All
@@ -17,5 +18,15 @@ class AllForScan extends All
     public function getWhere()
     {
         return "WHERE scans_id = " . (int)$this->options['scans_id'];
+    }
+
+    /**
+     * Get the scan
+     *
+     * @return false|Scan
+     */
+    public function getScan()
+    {
+        return Scan::getByID($this->options['scans_id']);
     }
 }
