@@ -283,3 +283,6 @@ Metric Grades
 .fix-mark {
     display: none;
 }
+.metric-description {
+    border-bottom: 1px solid #d3d3d3;
+}
