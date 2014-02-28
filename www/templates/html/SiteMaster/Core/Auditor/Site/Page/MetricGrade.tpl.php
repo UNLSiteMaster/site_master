@@ -161,7 +161,7 @@ $page_marks = $context->getMarks();
                             </div>
 
                             <!-- Use Hash-Bang to maintain scroll position when closing modal -->
-                            <a href="#!" class="modal-close" title="Close this modal"
+                            <a class="modal-close" title="Close this modal"
                                data-dismiss="modal" data-close="Close">&times;</a>
                         </section>
                     </td>
