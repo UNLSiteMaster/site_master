@@ -79,9 +79,6 @@ $page_marks = $context->getMarks();
                     
                 </td>
                 <td>
-                    Location
-                </td>
-                <td>
                     Options
                 </td>
             </tr>
@@ -107,18 +104,6 @@ $page_marks = $context->getMarks();
                         }
                         echo $points_deducted;
                         ?>
-                    </td>
-                    <td>
-                        <?php
-                        $location = 'Page';
-                        if (!empty($page_mark->line) && !empty($page_mark->line)) {
-                            $location = 'Line ' . $page_mark->line . ', Column ' . $page_mark->col;
-                        }
-                        if (!empty($page_mark->context)) {
-                            $location .= ' Context: ' . $page_mark->context;
-                        }
-                        ?>
-                        <?php echo $location; ?>
                     </td>
                     <td>
                         <a href="#fix-mark-<?php echo $page_mark->id ?>" class="call-modal" title="Clicking this link shows the modal">Fix</a>
@@ -154,6 +139,15 @@ $page_marks = $context->getMarks();
                                     }
                                     ?>
                                     <dt>Location</dt>
+                                    <?php
+                                    $location = 'Page';
+                                    if (!empty($page_mark->line) && !empty($page_mark->line)) {
+                                        $location = 'Line ' . $page_mark->line . ', Column ' . $page_mark->col;
+                                    }
+                                    if (!empty($page_mark->context)) {
+                                        $location .= ' Context: ' . $page_mark->context;
+                                    }
+                                    ?>
                                     <dd><?php echo $location ?></dd>
                                 </dl>
 
