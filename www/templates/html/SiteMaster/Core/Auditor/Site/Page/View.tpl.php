@@ -8,7 +8,10 @@ $metric_grades = $context->page->getMetricGrades();
     </div>
     <div class="details">
         <span class="title">Page: <?php echo $context->page->getTitle(); ?></span>
-        <span class="page-url"><?php echo $context->page->uri ?></span>
+        <span class="page-url">
+            <?php echo $context->page->uri ?>
+            <a href="<?php echo $context->page->uri;?>" class="external" title="open the external page"><img src="<?php echo \SiteMaster\Core\Config::get('URL') ?>www/images/external.png" alt="link to external site"/></a>
+        </span>
         <div class="scan-info">
             <span class="scanned-date">Scanned on: <?php echo $context->page->start_time ?></span>
             <a href="<?php echo $scan->getURL() ?>">Go back to the site scan</a>
