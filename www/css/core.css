@@ -257,6 +257,7 @@ Metric Grades
 }
 .details .title {
     display: block;
+    font-size: 2em;
 }
 .details .changes {
     font-size: .75em;
