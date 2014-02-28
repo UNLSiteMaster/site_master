@@ -47,17 +47,17 @@ class MetricTest extends \PHPUnit_Framework_TestCase
         $metric->options['grading_method'] = Metric::GRADE_METHOD_DEFAULT;
         $this->assertEquals(20, $metric->getPointDeduction(404));
         $this->assertEquals(15, $metric->getPointDeduction(''));
-        $this->assertEquals(5, $metric->getPointDeduction(301));
+        $this->assertEquals(0, $metric->getPointDeduction(301));
         
         $metric->options['grading_method'] = Metric::GRADE_METHOD_NUMBER_OF_LINKS;
         $this->assertEquals(2, $metric->getPointDeduction(404));
         $this->assertEquals(2, $metric->getPointDeduction(''));
-        $this->assertEquals(1, $metric->getPointDeduction(301));
+        $this->assertEquals(0, $metric->getPointDeduction(301));
         
         $metric->options['grading_method'] = Metric::GRADE_METHOD_PASS_FAIL;
         $this->assertEquals(1, $metric->getPointDeduction(404));
         $this->assertEquals(1, $metric->getPointDeduction(''));
-        $this->assertEquals(1, $metric->getPointDeduction(301));
+        $this->assertEquals(0, $metric->getPointDeduction(301));
     }
     
     public function getTestXPath()

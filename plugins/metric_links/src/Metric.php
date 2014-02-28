@@ -20,7 +20,7 @@ class Metric extends MetricInterface
      * Start with 100 points.
      * Subtract 20 for every 4**, or 5** (exuding 401 errors)
      * Subtract 15 for every connection error
-     * Subtract 5 for every 301
+     * Subtract 0 for every 301
      */
     const GRADE_METHOD_DEFAULT = 1;
 
@@ -29,7 +29,7 @@ class Metric extends MetricInterface
      * points available = 2*total number of links on the page
      * grading method:
      * Subtract 2 points for every 4**, 5** or connection error
-     * Subtract 1 point for every 301
+     * Subtract 0 point for every 301
      */
     const GRADE_METHOD_NUMBER_OF_LINKS = 2;
 
@@ -277,7 +277,7 @@ class Metric extends MetricInterface
 
                 if ($http_code == 301) {
                     //Redirect
-                    return 5;
+                    return 0;
                 }
 
                 //Connection problems
@@ -290,12 +290,17 @@ class Metric extends MetricInterface
 
                 if ($http_code == 301) {
                     //Redirect
-                    return 1;
+                    return 0;
                 }
 
                 //Connection problems
                 return 2;
             case self::GRADE_METHOD_PASS_FAIL:
+                if ($http_code == 301) {
+                    //Redirect
+                    return 0;
+                }
+                
                 return 1;
         }
     }
