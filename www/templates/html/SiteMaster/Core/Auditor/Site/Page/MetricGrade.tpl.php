@@ -29,7 +29,13 @@ $page_marks = $context->getMarks();
             <span class="changes <?php echo $class?>"><?php echo $changes ?> changes since the last scan.  <?php echo $message ?></span>
         </div>
         <div class="score">
-            <span class="earned"><?php echo $context->point_grade?><span class="points_available">/<?php echo $context->points_available?></span></span>
+            <?php
+            if (!$context->isPassFail()) {
+                ?>
+                <span class="earned"><?php echo $context->point_grade?><span class="points_available">/<?php echo $context->points_available?></span></span>
+                <?php
+            }
+            ?>
             <span class="weight"><?php echo $context->weight?> points of total score</span>
         </div>
         <div class="letter-grade-container">
@@ -63,7 +69,14 @@ $page_marks = $context->getMarks();
                     Reason
                 </td>
                 <td>
-                    Points Deducted
+                    <?php
+                    $title = 'Points Deducted';
+                    if ($context->isPassFail()) {
+                        $title = 'Pass/Fail';
+                    }
+                    echo $title;
+                    ?>
+                    
                 </td>
                 <td>
                     Location
@@ -83,7 +96,17 @@ $page_marks = $context->getMarks();
                         <span class="<?php echo $mark->machine_name ?>"><?php echo $mark->name; ?></span>
                     </td>
                     <td>
-                        <?php echo $page_mark->points_deducted; ?>
+                        <?php
+                        $points_deducted = $page_mark->points_deducted;
+                        if ($context->isPassFail()) {
+                            if ($points_deducted) {
+                                $points_deducted = 'Fail';
+                            } else {
+                                $points_deducted = 'Pass';
+                            }
+                        }
+                        echo $points_deducted;
+                        ?>
                     </td>
                     <td>
                         <?php
