@@ -11,7 +11,7 @@ $metric_grades = $context->page->getMetricGrades();
         <span class="page-url"><?php echo $context->page->uri ?></span>
         <div class="scan-info">
             <span class="scanned-date">Scanned on: <?php echo $context->page->start_time ?></span>
-            <a href="<?php echo $scan->getURL() ?>">Go back to the scan</a>
+            <a href="<?php echo $scan->getURL() ?>">Go back to the site scan</a>
         </div>
         
     </div>
