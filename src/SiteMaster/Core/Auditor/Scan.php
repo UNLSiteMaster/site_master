@@ -263,6 +263,8 @@ class Scan extends Record
 
     /**
      * Get the URL for this scan
+     * 
+     * @return string - the url
      */
     public function getURL()
     {
