@@ -214,7 +214,7 @@ Scanned Page
     border-bottom: 1px solid black;
 }
 .page-scan-header .details {
-    width:100%;
+    width:90%;
     display: table-cell;
     vertical-align: middle;
 }
@@ -227,7 +227,8 @@ Scanned Page
 }
 
 .page-scan-header .details .title {
-    font-size: 1.25em;
+    font-size: 1.75em;
+    font-weight: bold;
 }
 
 .page-scan-scoring tfoot .total {
