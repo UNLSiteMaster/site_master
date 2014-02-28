@@ -30,7 +30,7 @@ vagrantfile-local:
                 id: vagrant-root
                 source: ./../../
                 target: /var/www/html
-                nfs: 'false'
+                nfs: 'true'
         usable_port_range: 2200..2250
     ssh:
         host: null
@@ -75,6 +75,7 @@ apache:
                 - 'APP_ENV dev'
             override:
                 - All
+            custom_fragment: 'EnableSendFile Off'
     user: www-data
     group: www-data
     default_vhost: true
