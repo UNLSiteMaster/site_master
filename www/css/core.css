@@ -248,6 +248,7 @@ Metric Grades
     width: 100%;
     display: table;
     height: 7em;
+    border-bottom: 1px solid #d3d3d3;
 }
 .details {
     width:70%;
@@ -264,10 +265,10 @@ Metric Grades
     display: table-cell;
     vertical-align: middle;
 }
-.letter-grade-container {
+.metric-grade-details .letter-grade-container {
     min-width: 100px;
     text-align: center;
-    font-size: 4em;
+    font-size: 2em;
 }
 .score .earned {
     font-size: 1.5em;

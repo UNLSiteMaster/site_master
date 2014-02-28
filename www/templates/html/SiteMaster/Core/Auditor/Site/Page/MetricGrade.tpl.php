@@ -5,9 +5,6 @@ $page_marks = $context->getMarks();
 ?>
 <div class="metric-grade-details">
     <header class="header">
-        <span class="letter-grade-container">
-            <span class="letter-grade unknown"><?php echo $context->letter_grade?></span>
-        </span>
         <div class="details">
             <span class="title"><?php echo $metric_plugin->getName(); ?></span>
             <?php
@@ -34,6 +31,9 @@ $page_marks = $context->getMarks();
         <div class="score">
             <span class="earned"><?php echo $context->point_grade?><span class="points_available">/<?php echo $context->points_available?></span></span>
             <span class="weight"><?php echo $context->weight?> points of total score</span>
+        </div>
+        <div class="letter-grade-container">
+            <span class="letter-grade unknown"><?php echo $context->letter_grade?></span>
         </div>
     </header>
     <?php 
