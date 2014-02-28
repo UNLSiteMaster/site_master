@@ -252,8 +252,16 @@ class Page extends Record
         );
         
         $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
+        
+        $page_title_class = Config::get('PAGE_TITLE_LOGGER');
+        if (class_exists($page_title_class)) {
+            $page_title_logger = new $page_title_class($this);
+        } else {
+            $page_title_logger = new PageTitle($this);
+        }
+        
         $spider->addLogger(new Scheduler($spider, $scan, $site));
-        $spider->addLogger(new PageTitle($this));
+        $spider->addLogger($page_title_logger);
         $spider->addLogger(new Metrics($spider, $scan, $site, $this));
 
         try {

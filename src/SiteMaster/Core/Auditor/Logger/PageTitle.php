@@ -5,24 +5,8 @@ use DOMXPath;
 
 use SiteMaster\Core\Auditor\Site\Page;
 
-class PageTitle extends \Spider_LoggerAbstract
+class PageTitle extends PageTitleInterface
 {
-    /**
-     * @var bool|Page
-     */
-    protected $page = false;
-
-    function __construct(Page $page)
-    {
-        $this->page = $page;
-    }
-
-    public function log($uri, $depth, DOMXPath $xpath)
-    {
-        $this->page->title = $this->getPageTitle($xpath);
-        $this->page->save();
-    }
-
     /**
      * Get the Page Title
      * 
@@ -32,7 +16,6 @@ class PageTitle extends \Spider_LoggerAbstract
     public function getPageTitle(DOMXPath $xpath)
     {
         if (!$result = $xpath->query('//xhtml:title')) {
-            echo 'return' . PHP_EOL;
             return false;
         }
 
