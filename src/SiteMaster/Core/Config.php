@@ -19,7 +19,10 @@ class Config
         'THEME'            => false,
         'GRADE_SCALE'      => false,
         'GRADE_POINTS'     => false,
-        'MAX_HISTORY'      => 0      //Max number of scans to keep per-site.  This is 2+max_history, because we need at LEAST 2
+        'MAX_HISTORY'      => 0,      //Max number of scans to keep per-site.  This is 2+max_history, because we need at LEAST 2
+    
+        //Loggers
+        'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',
     );
 
     private function __construct()
