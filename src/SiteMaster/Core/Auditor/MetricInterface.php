@@ -335,6 +335,11 @@ abstract class MetricInterface
             $update = true;
         }
         
+        if ($mark->point_deduction != $point_deduction) {
+            $mark->point_deduction = $point_deduction;
+            $update = true;
+        }
+        
         if ($update) {
             $mark->update();
         }
