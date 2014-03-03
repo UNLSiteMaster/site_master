@@ -137,6 +137,13 @@ class Scan extends Record
         }
         
         $site = $this->getSite();
+        
+        if (in_array($site->base_url, Config::get('RESTRICTED_URIS'))) {
+            //This site should not be scanned.  Mark this scan as complete.
+            $this->markAsComplete();
+            return true;
+        }
+        
         $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url);
         return $page_scan->scheduleScan();
     }
