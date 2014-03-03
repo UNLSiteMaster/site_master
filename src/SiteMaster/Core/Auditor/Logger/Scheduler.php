@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor\Logger;
 
 use DOMXPath;
 use Monolog\Logger;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
@@ -36,6 +37,8 @@ class Scheduler extends \Spider_LoggerAbstract
     public function log($uri, $depth, DOMXPath $xpath)
     {
         $pages = $this->spider->getCrawlableUris($this->site->base_url, \Spider::getURIBase($uri), $uri, $xpath);
+        
+        $total_pages = $this->scan->getDistinctPageCount();
 
         foreach ($this->spider->getFilters() as $filter_class) {
             $pages = new $filter_class($pages);
@@ -56,9 +59,16 @@ class Scheduler extends \Spider_LoggerAbstract
                 continue;
             }
             
+            if ($total_pages > Config::get('SCAN_PAGE_LIMIT')) {
+                //The page limit for the site was met.  Skip...
+                continue;
+            }
+            
             $page_scan = Page::createNewPage($this->scan->id, $this->scan->sites_id, $uri);
             
             $page_scan->scheduleScan();
+            
+            $total_pages++;
         }
     }
 }

@@ -236,6 +236,35 @@ class Scan extends Record
         return (int)$data['total'];
     }
 
+
+    /**
+     * Get the total number of distinct pages found in this scan
+     * 
+     * @return bool|int
+     */
+    public function getDistinctPageCount()
+    {
+        $db = Util::getDB();
+
+        $sql = "SELECT count(*) as total
+                FROM (
+                    SELECT id
+                    FROM scanned_page
+                    WHERE scanned_page.scans_id = " . (int)$this->id . "
+                    GROUP BY uri_hash
+                ) sq ";
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        if (!$data = $result->fetch_assoc()) {
+            return false;
+        }
+
+        return (int)$data['total'];
+    }
+
     /**
      * Get a list of changes metric grades for a scan
      * 

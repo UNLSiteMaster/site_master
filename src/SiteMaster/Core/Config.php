@@ -20,6 +20,7 @@ class Config
         'GRADE_SCALE'      => false,
         'GRADE_POINTS'     => false,
         'MAX_HISTORY'      => 0,      //Max number of scans to keep per-site.  This is 2+max_history, because we need at LEAST 2
+        'SCAN_PAGE_LIMIT'  => 2500,   //Max number of distinct pages to scan per site scan
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',
