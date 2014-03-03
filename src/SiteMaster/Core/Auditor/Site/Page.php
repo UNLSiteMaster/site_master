@@ -35,6 +35,7 @@ class Page extends Record
     public $title;                 //VARCHAR(256)
     public $letter_grade;          //VARCHAR(2)
     public $error;                 //VARCHAR(256)
+    public $tries;                 //INT(10), the number of times that the scan has tried to run
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';
@@ -430,6 +431,14 @@ class Page extends Record
         $this->status   = self::STATUS_ERROR;
         $this->error    = $error;
         $this->save();
+
+        $scan = $this->getScan();
+        
+        //Figure out we the site scan is finished.
+        if (!$scan->getNextQueuedPage()) {
+            //Could not find any more queued pages to scan.  The scan must be finished.
+            $scan->markAsComplete();
+        }
     }
 
     /**
@@ -459,6 +468,8 @@ class Page extends Record
 
         //Re-save the page as queued
         $cloned_page->status = self::STATUS_QUEUED;
+        
+        $cloned_page->tries++;
         
         if (!$cloned_page->insert()) {
             return false;

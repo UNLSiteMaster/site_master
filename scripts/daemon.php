@@ -14,6 +14,12 @@ foreach ($running as $page) {
     //Log it
     SiteMaster\Core\Util::log(Monolog\Logger::ALERT, 'Re-scheduling running job: pages.id=' . $page->id);
     
+    if ($page->tries >= 3) {
+        //Give up, and mark it as an error
+        $page->markAsError();
+        continue;
+    }
+    
     $page->rescheduleScan();
 }
 
