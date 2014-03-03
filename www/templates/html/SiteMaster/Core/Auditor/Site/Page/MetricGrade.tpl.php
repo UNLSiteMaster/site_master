@@ -153,7 +153,7 @@ $page_marks = $context->getMarks();
 
                                 <footer>
                                     <p>
-                                        <a href="#!" class="close-action button wdn-button"
+                                        <a href="#" class="close-action button wdn-button"
                                            title="Close this modal"
                                            data-dismiss="modal">Close</a>
                                     </p>
@@ -161,7 +161,7 @@ $page_marks = $context->getMarks();
                             </div>
 
                             <!-- Use Hash-Bang to maintain scroll position when closing modal -->
-                            <a class="modal-close" title="Close this modal"
+                            <a href="#" class="modal-close close-action" title="Close this modal"
                                data-dismiss="modal" data-close="Close">&times;</a>
                         </section>
                     </td>

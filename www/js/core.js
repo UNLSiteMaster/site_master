@@ -6,6 +6,11 @@ $(document).ready(function() {
     });
     
     $(".scan table, .metric-grade-details table").tablesorter();
+    
+    $(".close-action").click(function() {     
+        window.location.hash = '!';
+        return false;
+    });
 });
 
 
