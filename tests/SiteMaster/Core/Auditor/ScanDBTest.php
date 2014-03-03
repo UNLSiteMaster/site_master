@@ -20,6 +20,30 @@ class ScanDBTest extends DBTestCase
     }
 
     /**
+     * @test
+     */
+    public function getPreviousScan()
+    {
+        $this->setUpDB();
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+        
+        $site->scheduleScan();
+        
+        $scan = $site->getLatestScan();
+        
+        $this->assertEquals(false, $scan->getPreviousScan(), 'There should not be a previous scan at this point');
+        
+        $scan->markAsComplete();
+
+        $site->scheduleScan();
+        
+        $scan = $site->getLatestScan();
+        
+        $this->assertNotEquals(false, $scan->getPreviousScan(), 'Now, there should be a previous scan');
+    }
+
+    /**
      * Simulate a scan for a site.  Verify all results
      * This is an integration test rather than a unit test
      * 

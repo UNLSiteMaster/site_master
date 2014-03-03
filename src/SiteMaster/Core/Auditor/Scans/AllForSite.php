@@ -18,6 +18,10 @@ class AllForSite extends All
     {
         $where = "WHERE sites_id = " . (int)$this->options['sites_id'];
         
+        if (isset($this->options['not_id'])) {
+            $where .= " AND id != " . (int)$this->options['not_id'];
+        }
+        
         return $where;
     }
 }
