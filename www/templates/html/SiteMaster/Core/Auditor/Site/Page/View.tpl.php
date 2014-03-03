@@ -36,11 +36,14 @@ $metric_grades = $context->page->getMetricGrades();
         <tbody>
             <?php
             foreach ($metric_grades as $metric_grade) {
+                $name = 'unknown';
                 $metric_record = $metric_grade->getMetric();
-                $metric_object = $metric_record->getMetricObject();
+                if ($metric_record && $metric_object = $metric_record->getMetricObject()) {
+                    $name = $metric_object->getName();
+                }
                 ?>
                 <tr>
-                    <td><?php echo $metric_object->getName() ?></td>
+                    <td><?php echo $name ?></td>
                     <td><?php echo $metric_grade->weighted_grade ?></td>
                 </tr>
                 <?php
