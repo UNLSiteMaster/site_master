@@ -32,7 +32,19 @@ $pages = $context->getPages();
         </div>
     </section>
     <section>
-        <?php echo $savvy->render($context->getChangedMetricGrades()); ?>
+        
+        <?php 
+        if ($previous_scan) {
+            echo $savvy->render($context->getChangedMetricGrades());
+        } else {
+            //This is the first scan, don't the change list would probably be huge
+            ?>
+            <p class="change-list-first">
+                Normally, a list of changes would be here.  However, this is the first time that we scanned your site.  In the future, you can see changes here.
+            </p>
+            <?php
+        }
+        ?>
         
         <div class="row">
             <div class="large-4 columns">
