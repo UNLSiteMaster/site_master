@@ -1,9 +1,13 @@
 <?php
 $scan = $context->getScan();
 $site = $scan->getSite();
+
 ?>
 <div class="changes">
     <h3>Changes since the last scan</h3>
+<?php
+if ($context->count()) {
+    ?>
     <table data-sortlist="[[0,0],[2,0]]">
         <thead>
         <tr>
@@ -42,4 +46,13 @@ $site = $scan->getSite();
         ?>
         </tbody>
     </table>
+    <?php
+} else {
+    ?>
+    <p>
+        No changes since the last scan
+    </p>
+    <?php
+}
+?>
 </div>
