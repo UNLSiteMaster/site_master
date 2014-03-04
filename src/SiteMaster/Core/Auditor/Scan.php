@@ -273,6 +273,36 @@ class Scan extends Record
     }
 
     /**
+     * Get the total number of finished distinct pages found in this scan
+     * 
+     * @return bool|int
+     */
+    public function getDistinctFinishedCount()
+    {
+        $db = Util::getDB();
+
+        $sql = "SELECT count(*) as total
+                FROM (
+                    SELECT max(id)
+                    FROM scanned_page
+                    WHERE scanned_page.scans_id = " . (int)$this->id . "
+                      AND scanned_page.status IN ('" . Page::STATUS_COMPLETE . "', '" . Page::STATUS_ERROR . "')
+                    GROUP BY uri_hash
+                    ORDER BY scanned_page.date_created DESC
+                ) sq ";
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        if (!$data = $result->fetch_assoc()) {
+            return false;
+        }
+
+        return (int)$data['total'];
+    }
+
+    /**
      * Get a list of changes metric grades for a scan
      * 
      * @return Page\MetricGrades\ChangesForScan
