@@ -57,11 +57,12 @@ class ForScanAndMetric extends RecordList
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT page_metric_grades.id
+        $sql = "SELECT page_metric_grades.id, max(scanned_page.id)
                 FROM page_metric_grades
                   JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
                 " . $this->getWhere() . "
-                ORDER BY page_metric_grades.point_grade ASC
+                GROUP BY scanned_page.uri_hash
+                ORDER BY page_metric_grades.point_grade ASC 
                 " . $this->getLimit();
 
         return $sql;

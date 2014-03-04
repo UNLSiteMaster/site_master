@@ -14,6 +14,18 @@ class AllForScan extends All
         
         parent::__construct($options);
     }
+
+    public function getSQL()
+    {
+        //Build the list
+        $sql = "SELECT max(id) as id
+                    FROM scanned_page
+                    WHERE scanned_page.scans_id = " . (int)$this->options['scans_id'] . "
+                    GROUP BY uri_hash
+                    ORDER BY scanned_page.date_created DESC";
+
+        return $sql;
+    }
     
     public function getWhere()
     {
