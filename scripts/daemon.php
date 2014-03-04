@@ -48,6 +48,7 @@ while (true) {
     $queue->rewind();
     $page = $queue->current();
 
+    echo date("Y-m-d H:i:s"). " - scanning page.id=" . $page->id . PHP_EOL;
     $page->scan();
     
     sleep(1);
