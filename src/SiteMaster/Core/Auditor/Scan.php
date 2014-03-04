@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Scan\Progress;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
 use SiteMaster\Core\Config;
@@ -325,6 +326,11 @@ class Scan extends Record
                 'metrics_id' => $metrics_id,
                 'scans_id' => $this->id,)
         );
+    }
+    
+    public function getProgress()
+    {
+        return new Progress(array('scans_id'=> $this->id));
     }
 
     /**
