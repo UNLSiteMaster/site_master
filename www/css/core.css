@@ -290,3 +290,26 @@ Metric Grades
 .metric-description {
     border-bottom: 1px solid #d3d3d3;
 }
+
+
+/**
+Info headers
+**/
+.head-container {
+    width: 100%;
+    display: table;
+}
+.head-container .left {
+    display: table-cell;
+    vertical-align: middle;
+}
+.head-container .right {
+    display: table-cell;
+    vertical-align: middle;
+}
+.site-nav .head-container .left {
+    width: 70%;
+}
+.site-nav .head-container .right {
+    text-align: right;
+}
