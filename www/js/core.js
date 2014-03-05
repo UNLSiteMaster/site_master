@@ -8,6 +8,10 @@ $(document).ready(function() {
     $(".scan-site").click(function(e) {
         return confirm('Scanning a site may take a long time, do you wish to continue?');
     });
+
+    $(".scan-page").click(function(e) {
+        return confirm('Scanning a page may take a long time, do you wish to continue?');
+    });
     
     $(".scan table, .metric-grade-details table").tablesorter();
     
