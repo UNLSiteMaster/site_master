@@ -15,6 +15,8 @@
             scan_progress_<?php echo $context->scan->id?>.go(data.percent_complete);
             if (data.percent_complete < 100) {
                 window.setTimeout(update_scan_progress_<?php echo $context->scan->id?>, 5000);
+            } else {
+                location.reload();
             }
         });
     }

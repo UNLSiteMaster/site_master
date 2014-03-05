@@ -10,10 +10,23 @@ $pages = $context->getPages();
         <div class="sub-info">
             Status: <?php echo $context->status;?>
             <?php
-            echo $savvy->render($context->getProgress());
+            if (!$context->isComplete()) {
+                echo $savvy->render($context->getProgress());
+            }
             ?>
         </div>
     </header>
+
+    <?php
+    if (!$context->isComplete()) {
+        ?>
+        <div class="panel notice">
+            This scan has not finished yet.  This page will automatically refresh when the scan has completed.
+        </div>
+    <?php
+    }
+    ?>
+    
     <section class="row dashboard-metrics">
         <div class="large-4 columns">
             <div class="visual-island gpa">
@@ -34,15 +47,7 @@ $pages = $context->getPages();
             </div>
         </div>
     </section>
-    <?php
-    if (!$context->isComplete()) {
-        ?>
-        <div class="panel notice">
-            The scan has not finished for this site yet.  Refresh the page to get the most recent progress.
-        </div>
-        <?php
-    }
-    ?>
+
     <section>
         
         <?php 
