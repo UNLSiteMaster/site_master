@@ -348,4 +348,18 @@ class Scan extends Record
     {
         return Config::get('URL') . 'sites/' . $this->sites_id . '/scans/' . $this->id . '/';
     }
+
+    /**
+     * Determine if this scan has completed
+     * 
+     * @return bool
+     */
+    public function isComplete()
+    {
+        if (in_array($this->status, array(self::STATUS_COMPLETE, self::STATUS_ERROR))) {
+            return true;
+        }
+        
+        return false;
+    }
 }

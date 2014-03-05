@@ -119,12 +119,17 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
      */
     protected function scan($get, $post, $files)
     {
-        $this->site->scheduleScan();
-
-        Controller::redirect(
-            $this->site->getURL(),
-            new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A scan has been scheduled')
-        );
+        if ($this->site->scheduleScan()) {
+            Controller::redirect(
+                $this->site->getURL(),
+                new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A scan has been scheduled')
+            );
+        } else {
+            Controller::redirect(
+                $this->site->getURL(),
+                new FlashBagMessage(FlashBagMessage::TYPE_ERROR, 'Can\'t schedule a scan because there is already one scheduled')
+            );
+        }
     }
 
     public function getEditURL()

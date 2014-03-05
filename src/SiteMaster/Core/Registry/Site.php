@@ -180,11 +180,25 @@ class Site extends Record
         
         return parent::delete();
     }
-    
+
+    /**
+     * Schedule a scan for this site
+     * 
+     * @return bool - true on success, false if there is already a scan in the queue
+     */
     public function scheduleScan()
     {
+        $latest_scan = $this->getLatestScan();
+        
+        if ($latest_scan && !$latest_scan->isComplete()) {
+            return false;
+        }
+        
         $scan = Scan::createNewScan($this->id);
+        
         $scan->scheduleScan();
+        
+        return true;
     }
 
     /**
