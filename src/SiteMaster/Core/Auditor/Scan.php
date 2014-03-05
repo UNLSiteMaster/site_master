@@ -5,6 +5,7 @@ use DB\Record;
 use SiteMaster\Core\Auditor\Scan\Progress;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
+use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -327,7 +328,12 @@ class Scan extends Record
                 'scans_id' => $this->id,)
         );
     }
-    
+
+    /**
+     * Get the progress object for this scan
+     * 
+     * @return Progress
+     */
     public function getProgress()
     {
         return new Progress(array('scans_id'=> $this->id));
