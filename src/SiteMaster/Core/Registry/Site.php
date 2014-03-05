@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Registry;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\Auditor\Scans\AllForSite;
 use SiteMaster\Core\Auditor\Scans\FinishedForSite;
@@ -259,5 +260,13 @@ class Site extends Record
 
             $scan->delete();
         }
+    }
+
+    /**
+     * @return ScanForm
+     */
+    public function getScanForm()
+    {
+        return new ScanForm(array('site_id'=>$this->id));
     }
 }
