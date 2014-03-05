@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site;
 
 use SiteMaster\Core\AccessDeniedException;
+use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\FlashBagMessage;
@@ -119,7 +120,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
      */
     protected function scan($get, $post, $files)
     {
-        if ($this->site->scheduleScan()) {
+        if ($this->site->scheduleScan(Scan::SCAN_TYPE_USER)) {
             Controller::redirect(
                 $this->site->getURL(),
                 new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A scan has been scheduled')

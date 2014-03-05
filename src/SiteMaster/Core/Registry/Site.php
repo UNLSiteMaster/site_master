@@ -183,10 +183,11 @@ class Site extends Record
 
     /**
      * Schedule a scan for this site
-     * 
+     *
+     * @param string $scan_type the scan type, USER or AUTO, default: AUTO
      * @return bool - true on success, false if there is already a scan in the queue
      */
-    public function scheduleScan()
+    public function scheduleScan($scan_type = Scan::SCAN_TYPE_AUTO)
     {
         $latest_scan = $this->getLatestScan();
         
@@ -194,7 +195,9 @@ class Site extends Record
             return false;
         }
         
-        $scan = Scan::createNewScan($this->id);
+        $scan = Scan::createNewScan($this->id, array(
+            'scan_type' => $scan_type,
+        ));
         
         $scan->scheduleScan();
         

@@ -128,7 +128,8 @@ class Scan extends Record
     /**
      * Schedule a scan for this site
      * (Schedule the base_url) for this scan.
-     * 
+     *
+     * @param string $scan_type the scan type (USER OR AUTO)  default: AUTO
      * @return bool|int - false on fail, the job id on success
      */
     public function scheduleScan()
@@ -146,7 +147,10 @@ class Scan extends Record
             return true;
         }
         
-        $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url);
+        $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url, array(
+            'scan_type' => $this->scan_type,
+        ));
+        
         return $page_scan->scheduleScan();
     }
 
