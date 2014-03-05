@@ -313,3 +313,10 @@ Info headers
 .site-nav .head-container .right {
     text-align: right;
 }
+
+/**
+Notices
+**/
+.notice {
+    background:#e3f7fc
+}

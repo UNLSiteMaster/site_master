@@ -13,12 +13,21 @@ $metric_grades = $context->page->getMetricGrades();
             <a href="<?php echo $context->page->uri;?>" class="external" title="open the external page"><img src="<?php echo \SiteMaster\Core\Config::get('URL') ?>www/images/external.png" alt="link to external site"/></a>
         </span>
         <div class="scan-info">
-            <span class="scanned-date">Scanned on: <?php echo $context->page->start_time ?></span>
+            <span class="scan-status">Status: <?php echo $context->page->status ?></span> - 
+            <span class="scanned-date">Scanned on: <?php echo $context->page->start_time ?></span> - 
             <a href="<?php echo $scan->getURL() ?>">Go back to the site scan</a>
         </div>
-        
     </div>
 </header>
+<?php
+    if (!$context->page->isComplete()) {
+        ?>
+        <div class="panel notice">
+            The scan has not finished for this page yet.  Refresh the page to get the most recent progress.
+        </div>
+        <?php
+    }
+?>
 <div class="page-scan-content">
     <?php
     echo $savvy->render($metric_grades);

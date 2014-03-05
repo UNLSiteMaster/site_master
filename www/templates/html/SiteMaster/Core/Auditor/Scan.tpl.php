@@ -34,6 +34,15 @@ $pages = $context->getPages();
             </div>
         </div>
     </section>
+    <?php
+    if (!$context->isComplete()) {
+        ?>
+        <div class="panel notice">
+            The scan has not finished for this site yet.  Refresh the page to get the most recent progress.
+        </div>
+        <?php
+    }
+    ?>
     <section>
         
         <?php 
