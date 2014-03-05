@@ -499,4 +499,12 @@ class Page extends Record
             return $this->title;
         }
     }
+
+    /**
+     * @return ScanForm
+     */
+    public function getScanForm()
+    {
+        return new Page\ScanForm(array('uri'=>urlencode($this->uri)));
+    }
 }

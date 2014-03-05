@@ -62,3 +62,8 @@ $metric_grades = $context->page->getMetricGrades();
         </tfoot>
     </table>
 </div>
+<div class="panel clear-fix">
+    <div class="pull-right wdn-pull-right">
+        <?php echo $savvy->render($context->page->getScanForm()) ?>
+    </div>
+</div>
