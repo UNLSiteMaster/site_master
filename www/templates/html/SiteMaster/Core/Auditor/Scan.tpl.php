@@ -21,7 +21,7 @@ $pages = $context->getPages();
     if (!$context->isComplete()) {
         ?>
         <div class="panel notice">
-            This scan has not finished yet.  This page will automatically refresh when the scan has completed.
+            This scan has not finished yet.  This page will automatically refresh when the scan is complete.
         </div>
     <?php
     }
