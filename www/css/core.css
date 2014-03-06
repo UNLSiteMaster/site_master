@@ -236,6 +236,10 @@ Scanned Page
     text-align: center;
 }
 
+.metric-grade-details .contents table td:first-child  {
+    width: 70%;
+}
+
 /**
 Metric Grades
 **/
@@ -328,4 +332,12 @@ Notices
 
 .info-section header h3 {
     margin-top: .1em;
+}
+
+.info-section table td:first-child  {
+    width: 75%;
+}
+
+.changes.info-section table td:first-child  {
+    width: 50%;
 }
