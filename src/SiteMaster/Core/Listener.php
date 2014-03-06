@@ -17,8 +17,11 @@ class Listener extends PluginListener
         $event->addRoute('/^logout\/$/',                                                    'SiteMaster\Core\User\Logout');
         $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',                  'SiteMaster\Core\User\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/$/',                                 'SiteMaster\Core\Registry\Site\View');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/$/',                           'SiteMaster\Core\Auditor\Site\ScanForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',                           'SiteMaster\Core\Auditor\Site\Page\ScanForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/pages\/(?P<pages_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Site\Page\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Scan\View');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/progress\/$/',     'SiteMaster\Core\Auditor\Scan\Progress');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/edit\/$/',                           'SiteMaster\Core\Registry\Site\EditForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/join\/?((?P<users_id>(\d*))\/)$/',   'SiteMaster\Core\Registry\Site\JoinSiteForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/$/',                        'SiteMaster\Core\Registry\Site\MembersForm');
@@ -126,6 +129,7 @@ class Listener extends PluginListener
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.flexnav.min.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.tablesorter.min.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/modal.js');
+        $event->addScript(Config::get('URL') . 'www/js/vendor/nanobar.min.js');
         $event->addScript(Config::get('URL') . 'www/js/core.js');
     }
     

@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Registry;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\Auditor\Scans\AllForSite;
 use SiteMaster\Core\Auditor\Scans\FinishedForSite;
@@ -179,11 +180,28 @@ class Site extends Record
         
         return parent::delete();
     }
-    
-    public function scheduleScan()
+
+    /**
+     * Schedule a scan for this site
+     *
+     * @param string $scan_type the scan type, USER or AUTO, default: AUTO
+     * @return bool - true on success, false if there is already a scan in the queue
+     */
+    public function scheduleScan($scan_type = Scan::SCAN_TYPE_AUTO)
     {
-        $scan = Scan::createNewScan($this->id);
+        $latest_scan = $this->getLatestScan();
+        
+        if ($latest_scan && !$latest_scan->isComplete()) {
+            return false;
+        }
+        
+        $scan = Scan::createNewScan($this->id, array(
+            'scan_type' => $scan_type,
+        ));
+        
         $scan->scheduleScan();
+        
+        return true;
     }
 
     /**
@@ -259,5 +277,13 @@ class Site extends Record
 
             $scan->delete();
         }
+    }
+
+    /**
+     * @return ScanForm
+     */
+    public function getScanForm()
+    {
+        return new ScanForm(array('site_id'=>$this->id));
     }
 }

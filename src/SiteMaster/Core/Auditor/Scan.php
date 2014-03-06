@@ -2,8 +2,10 @@
 namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Scan\Progress;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
+use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -126,7 +128,8 @@ class Scan extends Record
     /**
      * Schedule a scan for this site
      * (Schedule the base_url) for this scan.
-     * 
+     *
+     * @param string $scan_type the scan type (USER OR AUTO)  default: AUTO
      * @return bool|int - false on fail, the job id on success
      */
     public function scheduleScan()
@@ -144,7 +147,10 @@ class Scan extends Record
             return true;
         }
         
-        $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url);
+        $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url, array(
+            'scan_type' => $this->scan_type,
+        ));
+        
         return $page_scan->scheduleScan();
     }
 
@@ -273,6 +279,36 @@ class Scan extends Record
     }
 
     /**
+     * Get the total number of finished distinct pages found in this scan
+     * 
+     * @return bool|int
+     */
+    public function getDistinctFinishedCount()
+    {
+        $db = Util::getDB();
+
+        $sql = "SELECT count(*) as total
+                FROM (
+                    SELECT max(id)
+                    FROM scanned_page
+                    WHERE scanned_page.scans_id = " . (int)$this->id . "
+                      AND scanned_page.status IN ('" . Page::STATUS_COMPLETE . "', '" . Page::STATUS_ERROR . "')
+                    GROUP BY uri_hash
+                    ORDER BY scanned_page.date_created DESC
+                ) sq ";
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        if (!$data = $result->fetch_assoc()) {
+            return false;
+        }
+
+        return (int)$data['total'];
+    }
+
+    /**
      * Get a list of changes metric grades for a scan
      * 
      * @return Page\MetricGrades\ChangesForScan
@@ -298,6 +334,16 @@ class Scan extends Record
     }
 
     /**
+     * Get the progress object for this scan
+     * 
+     * @return Progress
+     */
+    public function getProgress()
+    {
+        return new Progress(array('scans_id'=> $this->id));
+    }
+
+    /**
      * Get the URL for this scan
      * 
      * @return string - the url
@@ -305,5 +351,19 @@ class Scan extends Record
     public function getURL()
     {
         return Config::get('URL') . 'sites/' . $this->sites_id . '/scans/' . $this->id . '/';
+    }
+
+    /**
+     * Determine if this scan has completed
+     * 
+     * @return bool
+     */
+    public function isComplete()
+    {
+        if (in_array($this->status, array(self::STATUS_COMPLETE, self::STATUS_ERROR))) {
+            return true;
+        }
+        
+        return false;
     }
 }

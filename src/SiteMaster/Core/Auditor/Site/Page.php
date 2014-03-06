@@ -499,4 +499,26 @@ class Page extends Record
             return $this->title;
         }
     }
+
+    /**
+     * @return ScanForm
+     */
+    public function getScanForm()
+    {
+        return new Page\ScanForm(array('uri'=>urlencode($this->uri)));
+    }
+
+    /**
+     * Determine if this scan has completed
+     *
+     * @return bool
+     */
+    public function isComplete()
+    {
+        if (in_array($this->status, array(self::STATUS_COMPLETE, self::STATUS_ERROR))) {
+            return true;
+        }
+
+        return false;
+    }
 }

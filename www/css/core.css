@@ -81,8 +81,8 @@ GPA
 Site Nav
 **/
 .site-nav {
-    background-color: #748b80;
-    color: white;
+    background-color: #c4c7ce;
+    color: black;
     padding: 5px;
     margin-bottom: 10px;
 }
@@ -104,7 +104,8 @@ Site Nav
 }
 
 .site-nav .flexnav li a {
-    background-color: #bfc9c4;
+    background-color: #73767b;
+    color: #fff;
 }
 
 .results .site-header {
@@ -288,4 +289,34 @@ Metric Grades
 }
 .metric-description {
     border-bottom: 1px solid #d3d3d3;
+}
+
+
+/**
+Info headers
+**/
+.head-container {
+    width: 100%;
+    display: table;
+}
+.head-container .left {
+    display: table-cell;
+    vertical-align: middle;
+}
+.head-container .right {
+    display: table-cell;
+    vertical-align: middle;
+}
+.site-nav .head-container .left {
+    width: 70%;
+}
+.site-nav .head-container .right {
+    text-align: right;
+}
+
+/**
+Notices
+**/
+.notice {
+    background:#e3f7fc
 }

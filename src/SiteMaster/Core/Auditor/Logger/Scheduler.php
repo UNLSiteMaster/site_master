@@ -64,7 +64,9 @@ class Scheduler extends \Spider_LoggerAbstract
                 continue;
             }
             
-            $page_scan = Page::createNewPage($this->scan->id, $this->scan->sites_id, $uri);
+            $page_scan = Page::createNewPage($this->scan->id, $this->scan->sites_id, $uri, array(
+                'scan_type' => $this->scan->scan_type,
+            ));
             
             $page_scan->scheduleScan();
             
