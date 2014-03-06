@@ -47,6 +47,24 @@ class Plugin extends PluginInterface
                 'description' => 'responsible for developing the site code'
             ));
         }
+
+        if (!Role::getByRoleName('operator')) {
+            Role::createRole('operator', array(
+                'description' => 'responsible for general support'
+            ));
+        }
+
+        if (!Role::getByRoleName('content')) {
+            Role::createRole('content', array(
+                'description' => 'responsible for content development on the site'
+            ));
+        }
+
+        if (!Role::getByRoleName('sysadmin')) {
+            Role::createRole('sysadmin', array(
+                'description' => 'responsible for system hosting the site'
+            ));
+        }
         
         return true;
     }
