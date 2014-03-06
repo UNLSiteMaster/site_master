@@ -1,12 +1,12 @@
 <div>
-    <h2>Approved Sites</h2>
+    <h2>Sites that I have approved roles for</h2>
     <?php
     echo $savvy->render($context->user->getApprovedSites());
     ?>
 </div>
 
 <div>
-    <h2>Pending Sites</h2>
+    <h2>Sites where my membership is pending approval</h2>
     <?php
     echo $savvy->render($context->user->getPendingSites());
     ?>
