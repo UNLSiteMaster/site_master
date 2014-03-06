@@ -321,7 +321,8 @@ Info headers
 Notices
 **/
 .notice {
-    background:#e3f7fc
+    background: #e3f7fc;
+    padding: 1em;
 }
 
 .info-section {
