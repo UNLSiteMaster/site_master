@@ -3,8 +3,14 @@ $scan = $context->getScan();
 $site = $scan->getSite();
 
 ?>
-<div class="changes">
-    <h3>Changes since the last scan</h3>
+<section class="changes info-section">
+    <header>
+        <h3>Changes since the last scan</h3>
+        <div class="subhead">
+            These are metrics that have changed on your site.  The number of changes is the total number of marks for that metric compared to the last scan.  A negative value means that there was an improvement.
+        </div>
+    </header>
+
 <?php
 if ($context->count()) {
     ?>
@@ -55,4 +61,4 @@ if ($context->count()) {
     <?php
 }
 ?>
-</div>
+</section>

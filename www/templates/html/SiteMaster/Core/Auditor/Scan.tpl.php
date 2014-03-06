@@ -65,8 +65,13 @@ $pages = $context->getPages();
         
         <div class="row">
             <div class="large-4 columns">
-                <div class="hot-spots">
-                    <h3>Hot Spots</h3>
+                <section class="hot-spots info-section">
+                    <header>
+                        <h3>Hot Spots</h3>
+                        <div class="subhead">
+                            These are areas on your site that need some love
+                        </div>
+                    </header>
                     <?php
                     foreach ($plugin_manager->getMetrics() as $metric) {
                         $metric_record = $metric->getMetricRecord();
@@ -77,7 +82,7 @@ $pages = $context->getPages();
                     <?php
                     }
                     ?>
-                </div>
+                </section>
             </div>
             <div class="large-8 columns">
                 <?php

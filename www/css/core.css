@@ -20,7 +20,6 @@
 .site-list .site {
     list-style-type: none;
     border-radius: 5px;
-    max-width: 600px;
     padding: 5px;
 }
 
@@ -319,4 +318,14 @@ Notices
 **/
 .notice {
     background:#e3f7fc
+}
+
+.info-section {
+    background-color: #fff;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.info-section header h3 {
+    margin-top: .1em;
 }
