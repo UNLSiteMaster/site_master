@@ -21,6 +21,16 @@ class RegisterScripts extends Event
     }
 
     /**
+     * Remove a script
+     * 
+     * @param string $url the url to the script
+     */
+    public function removeScript($url)
+    {
+        unset($this->scripts[$url]);
+    }
+
+    /**
      * Get the registered scripts
      * 
      * @return array
