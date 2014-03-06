@@ -42,7 +42,7 @@ class Role extends Record
      * @param \SiteMaster\Core\Registry\Site\Role $role
      * @param Member $member
      * @param array $fields
-     * @return bool
+     * @return false|Role
      */
     public static function createRoleForSiteMember(\SiteMaster\Core\Registry\Site\Role $role, Member $member, $fields = array())
     {
@@ -58,7 +58,11 @@ class Role extends Record
         $membership_role->site_members_id = $member->id;
         $membership_role->roles_id = $role->id;
         
-        return $membership_role->insert();
+        if (!$membership_role->insert()) {
+            return false;
+        }
+        
+        return $membership_role;
     }
 
     /**
