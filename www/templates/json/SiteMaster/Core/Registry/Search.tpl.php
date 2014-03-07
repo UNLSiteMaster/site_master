@@ -1,2 +1,2 @@
 <?php
-echo $savvy->renderWithTheme($context->result);
+echo $savvy->render($context->result);
