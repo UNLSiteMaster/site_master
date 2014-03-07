@@ -335,10 +335,19 @@ Notices
     margin-top: .1em;
 }
 
-.info-section table td:first-child  {
-    width: 75%;
+.info-section table {
+    table-layout: fixed;
 }
 
-.changes.info-section table td:first-child  {
+.info-section table td:first-child  {
+    word-wrap: break-word;
+}
+
+.info-section table th:first-child  {
+    width: 75%;
+    
+}
+
+.changes.info-section table th:first-child  {
     width: 50%;
 }
