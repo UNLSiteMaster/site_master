@@ -281,7 +281,7 @@ class Metric extends MetricInterface
                 }
 
                 //Connection problems
-                return 15;
+                return 5;
             case self::GRADE_METHOD_NUMBER_OF_LINKS:
                 if ($http_code >= 400) {
                     //error
@@ -294,7 +294,7 @@ class Metric extends MetricInterface
                 }
 
                 //Connection problems
-                return 2;
+                return 1;
             case self::GRADE_METHOD_PASS_FAIL:
                 if ($http_code == 301) {
                     //Redirect
