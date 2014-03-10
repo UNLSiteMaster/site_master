@@ -1,9 +1,12 @@
+<?php
+$site_title = \SiteMaster\Core\Config::get('SITE_TITLE');
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
+    <title><?php echo $site_title ?></title>
     <link rel="stylesheet" href="<?php echo \SiteMaster\Core\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/css/foundation.css" />
     <script src="<?php echo \SiteMaster\Core\Config::get('URL') ?>plugins/theme_foundation/www/themes/foundation/html/js/modernizr.js"></script>
     
