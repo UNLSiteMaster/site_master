@@ -100,7 +100,7 @@ class Registry
      */
     public function getClosestSiteSQL($possible_uris)
     {
-        $sql = "SELECT * FROM " . Site::getTable() . PHP_EOL;
+        $sql = "SELECT id FROM " . Site::getTable() . PHP_EOL;
         $sql .= "WHERE" . PHP_EOL;
         
         foreach ($possible_uris as $uri) {
@@ -138,23 +138,22 @@ class Registry
 
         call_user_func_array(array($stmt, 'bind_param'), $values);
 
+        $stmt->bind_result($id);
+
         if (!$stmt->execute()) {
             throw new RuntimeException('Error executing mysqli statement ' . $stmt->error);
         }
         
-        if (!$result = $stmt->get_result()) {
+        if (!$stmt->fetch()) {
+            return false;
+        }
+        
+        if (is_null($id)) {
             return false;
         }
 
         $stmt->close();
         
-        if (!$result->num_rows) {
-            return false;
-        }
-
-        $site = new Site();
-        $site->synchronizeWithArray($result->fetch_array());
-        
-        return $site;
+        return Site::getByID($id);
     }
 }

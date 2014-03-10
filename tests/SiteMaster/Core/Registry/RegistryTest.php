@@ -69,7 +69,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     {
         $registry = new Registry();
         
-        $this->assertEquals('SELECT * FROM sites
+        $this->assertEquals('SELECT id FROM sites
 WHERE
  base_url LIKE ? OR 
  base_url LIKE ? OR 
