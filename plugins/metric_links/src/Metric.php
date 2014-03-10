@@ -67,6 +67,7 @@ class Metric extends MetricInterface
                 'link_connection_error_3' => 'The URL is malformed',
                 'link_connection_error_6' => 'Could not resolve host',
                 'link_connection_error_7' => 'Failed to connect to host or proxy',
+                'link_connection_error_28' => 'Connecting to this link timed out',
                 'link_http_code_301' => 'Moved Permanently',
                 'link_http_code_400' => 'Bad Request',
                 'link_http_code_402' => 'Payment Required',
@@ -77,7 +78,21 @@ class Metric extends MetricInterface
                 'link_http_code_502' => 'Bad Gateway',
                 'link_http_code_503' => 'Service Unavailable',
             ),
-            'help_text' => array(),
+            'help_text' => array(
+                'link_connection_error_3' => 'Ensure that the URL is correct',
+                'link_connection_error_6' => 'The link my contain typos.',
+                'link_connection_error_7' => 'Failed to connect to host or proxy',
+                'link_connection_error_28' => 'Please make sure that the link still works.  You may need to contact the server administrator to fix the problem.',
+                'link_http_code_301' => 'The content that this link points to has moved.  It is a best practice to update your links to the new URL, as the old one might stop working.  You can find the new URL by clicking the link (your browser should redirect you to the new URL)',
+                'link_http_code_400' => 'The remote server did not understand the link.  Either fix the link or remove it.',
+                'link_http_code_402' => 'Payment Required',
+                'link_http_code_403' => 'The content that this link points to requires authorization to access.  Please remove this link.',
+                'link_http_code_404' => 'The content that this link points to no longer exists.  Please remove this link.',
+                'link_http_code_500' => 'The server is returning an error for this link.  This may be resolved in time without any action on your part, but it might be worth while to contact the server\'s administrator or remove/update this link.',
+                'link_http_code_501' => 'Not Implemented',
+                'link_http_code_502' => 'Bad Gateway',
+                'link_http_code_503' => 'This will usually get resolved without any need for action on your part.  If not, you will have to contact the server administrator or remove this link.',
+            ),
         ));
         
         parent::__construct($plugin_name, $options);
@@ -281,7 +296,7 @@ class Metric extends MetricInterface
                 }
 
                 //Connection problems
-                return 15;
+                return 5;
             case self::GRADE_METHOD_NUMBER_OF_LINKS:
                 if ($http_code >= 400) {
                     //error
@@ -294,7 +309,7 @@ class Metric extends MetricInterface
                 }
 
                 //Connection problems
-                return 2;
+                return 1;
             case self::GRADE_METHOD_PASS_FAIL:
                 if ($http_code == 301) {
                     //Redirect

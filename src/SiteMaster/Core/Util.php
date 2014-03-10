@@ -297,4 +297,19 @@ class Util
 
         $log->log($level, $message, $context);
     }
+    
+    public static function getAbsoluteBaseURL()
+    {
+        $base = Config::get('URL');
+        if (filter_var($base, FILTER_VALIDATE_URL) !== false) {
+            return $base;
+        }
+
+        $port = '';
+        if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] !== '80') {
+            $port = ':' . $_SERVER['SERVER_PORT'];
+        }
+        
+        return 'http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['SERVER_NAME'].$port.$base;
+    }
 }

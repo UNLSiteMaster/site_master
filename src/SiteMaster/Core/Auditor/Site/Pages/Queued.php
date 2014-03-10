@@ -5,7 +5,13 @@ class Queued extends All
 {
     public function getWhere()
     {
-        return "WHERE status = 'QUEUED'";
+        $where = "WHERE status = 'QUEUED'";
+        
+        if (isset($this->options['scans_id'])) {
+            $where .= " AND scans_id = " . (int)$this->options['scans_id'];
+        }
+        
+        return $where;
     }
     
     public function getLimit()

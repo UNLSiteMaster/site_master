@@ -1,11 +1,14 @@
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
     <div class="panel">
         <p>
-            You will need to verify your membership before your roles are active.  You have a few options:
+            As a verified administrator, you will be able to add/remove and approve memberships, and edit site details for this site.
+        </p>
+        <p>
+            You will need to verify your membership as an administrator before your roles are active.  You have a few options:
             <ul>
                 <li>Upload a unique file to prove that you have physical access to the site</li>
                 <li>Have verified member of this site manually verify your membership</li>
-                <li>Have verified member of this site manually verify your individual roles</li>
+                <li>Have verified member of this site manually approve your individual roles</li>
             </ul>
         </p>
         

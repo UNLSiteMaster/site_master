@@ -20,7 +20,6 @@
 .site-list .site {
     list-style-type: none;
     border-radius: 5px;
-    max-width: 600px;
     padding: 5px;
 }
 
@@ -237,6 +236,10 @@ Scanned Page
     text-align: center;
 }
 
+.metric-grade-details .contents table td:first-child  {
+    width: 70%;
+}
+
 /**
 Metric Grades
 **/
@@ -318,5 +321,33 @@ Info headers
 Notices
 **/
 .notice {
-    background:#e3f7fc
+    background: #e3f7fc;
+    padding: 1em;
+}
+
+.info-section {
+    background-color: #fff;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.info-section header h3 {
+    margin-top: .1em;
+}
+
+.info-section table {
+    table-layout: fixed;
+}
+
+.info-section table td:first-child  {
+    word-wrap: break-word;
+}
+
+.info-section table th:first-child  {
+    width: 75%;
+    
+}
+
+.changes.info-section table th:first-child  {
+    width: 50%;
 }
