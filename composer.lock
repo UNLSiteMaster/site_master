@@ -3,37 +3,8 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6cab4eb497e6b44c9792759ac2130909",
+    "hash": "e974cc3d3468db2ce915f4cb18a43bbb",
     "packages": [
-        {
-            "name": "SimpleCAS/SimpleCAS",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/saltybeagle/SimpleCAS.git",
-                "reference": "b08fe456c6a2450bf347acb4ea6e2ffedf5b5514"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/saltybeagle/SimpleCAS/zipball/b08fe456c6a2450bf347acb4ea6e2ffedf5b5514",
-                "reference": "b08fe456c6a2450bf347acb4ea6e2ffedf5b5514",
-                "shasum": ""
-            },
-            "require": {
-                "pear-pear/http_request2": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "": "src/"
-                }
-            },
-            "support": {
-                "source": "https://github.com/saltybeagle/SimpleCAS/tree/master",
-                "issues": "https://github.com/saltybeagle/SimpleCAS/issues"
-            },
-            "time": "2014-01-07 16:48:23"
-        },
         {
             "name": "guzzle/guzzle",
             "version": "v3.8.1",
@@ -174,12 +145,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "08f09c20805695212ebe713b6706b8efb24f96e7"
+                "reference": "dc75a998d83ebb285b94b1a6fd96644b457ed33c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/08f09c20805695212ebe713b6706b8efb24f96e7",
-                "reference": "08f09c20805695212ebe713b6706b8efb24f96e7",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/dc75a998d83ebb285b94b1a6fd96644b457ed33c",
+                "reference": "dc75a998d83ebb285b94b1a6fd96644b457ed33c",
                 "shasum": ""
             },
             "require": {
@@ -187,9 +158,9 @@
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "aws/aws-sdk-php": "~2.4.8",
-                "doctrine/couchdb": "dev-master",
-                "mlehner/gelf-php": "1.0.*",
+                "aws/aws-sdk-php": "~2.4, >2.4.8",
+                "doctrine/couchdb": "~1.0@dev",
+                "graylog2/gelf-php": "~1.0",
                 "phpunit/phpunit": "~3.7.0",
                 "raven/raven": "~0.5",
                 "ruflin/elastica": "0.90.*"
@@ -199,8 +170,9 @@
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
-                "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "raven/raven": "Allow sending log messages to a Sentry server",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
             "type": "library",
@@ -233,113 +205,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-02-20 10:38:44"
-        },
-        {
-            "name": "opauth/google",
-            "version": "dev-wip/1.0",
-            "target-dir": "Opauth/Strategy/Google",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/opauth/google.git",
-                "reference": "b273fcb5619bfc126fa0894e18afff405e692346"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/opauth/google/zipball/b273fcb5619bfc126fa0894e18afff405e692346",
-                "reference": "b273fcb5619bfc126fa0894e18afff405e692346",
-                "shasum": ""
-            },
-            "require": {
-                "opauth/opauth": "dev-wip/1.0",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Opauth\\Strategy\\Google": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "U-Zyn Chua",
-                    "email": "chua@uzyn.com",
-                    "homepage": "http://uzyn.com"
-                },
-                {
-                    "name": "Ceeram",
-                    "email": "c33ram@gmail.com"
-                }
-            ],
-            "description": "Google strategy for Opauth",
-            "homepage": "http://opauth.org",
-            "keywords": [
-                "Authentication",
-                "auth",
-                "google"
-            ],
-            "time": "2013-06-10 15:11:24"
-        },
-        {
-            "name": "opauth/opauth",
-            "version": "dev-wip/1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/opauth/opauth.git",
-                "reference": "1e0b722a6864da5f2cbba9ffe04f23bf1909228f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/opauth/opauth/zipball/1e0b722a6864da5f2cbba9ffe04f23bf1909228f",
-                "reference": "1e0b722a6864da5f2cbba9ffe04f23bf1909228f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "suggest": {
-                "opauth/facebook": "Allows Facebook authentication",
-                "opauth/google": "Allows Google authentication",
-                "opauth/twitter": "Allows Twitter authentication"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Opauth": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "U-Zyn Chua",
-                    "email": "chua@uzyn.com",
-                    "homepage": "http://uzyn.com"
-                },
-                {
-                    "name": "Ceeram",
-                    "email": "c33ram@gmail.com"
-                }
-            ],
-            "description": "Multi-provider authentication framework for PHP",
-            "homepage": "http://opauth.org",
-            "keywords": [
-                "Authentication",
-                "OpenId",
-                "auth",
-                "facebook",
-                "google",
-                "oauth",
-                "omniauth",
-                "twitter"
-            ],
-            "time": "2013-09-15 18:25:44"
+            "time": "2014-03-09 20:51:48"
         },
         {
             "name": "pda/pheanstalk",
@@ -389,201 +255,6 @@
             "time": "2014-01-20 02:42:16"
         },
         {
-            "name": "pear-pear.php.net/Archive_Tar",
-            "version": "1.3.11",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Archive_Tar-1.3.11.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=4.3.0.0"
-            },
-            "replace": {
-                "pear-pear/archive_tar": "== 1.3.11.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded."
-        },
-        {
-            "name": "pear-pear.php.net/Console_Getopt",
-            "version": "1.3.1",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Console_Getopt-1.3.1.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=4.3.0.0"
-            },
-            "replace": {
-                "pear-pear/console_getopt": "== 1.3.1.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "This is a PHP implementation of &quot;getopt&quot; supporting both\nshort and long options."
-        },
-        {
-            "name": "pear-pear.php.net/HTTP_Request2",
-            "version": "2.2.1",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/HTTP_Request2-2.2.1.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "pear-pear.php.net/net_url2": ">=2.0.0.0",
-                "pear-pear.php.net/pear": ">=1.9.2.0",
-                "php": ">=5.2.0.0"
-            },
-            "replace": {
-                "pear-pear/http_request2": "== 2.2.1.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "PHP5 rewrite of HTTP_Request package (with parts of HTTP_Client). Provides\ncleaner API and pluggable Adapters:\n  * Socket adapter, based on old HTTP_Request code,\n  * Curl adapter, wraps around PHP's cURL extension,\n  * Mock adapter, to use for testing packages dependent on HTTP_Request2.\nSupports POST requests with data and file uploads, basic and digest\nauthentication, cookies, managing cookies across requests, proxies, gzip and\ndeflate encodings, redirects, monitoring the request progress with Observers..."
-        },
-        {
-            "name": "pear-pear.php.net/Net_URL2",
-            "version": "2.0.5",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Net_URL2-2.0.5.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=5.1.4.0"
-            },
-            "replace": {
-                "pear-pear/net_url2": "== 2.0.5.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of\n    relative URLs."
-        },
-        {
-            "name": "pear-pear.php.net/PEAR",
-            "version": "1.9.4",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/PEAR-1.9.4.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-pcre": "*",
-                "ext-xml": "*",
-                "pear-pear.php.net/archive_tar": ">=1.3.7.0",
-                "pear-pear.php.net/console_getopt": ">=1.2.0.0",
-                "pear-pear.php.net/structures_graph": ">=1.0.2.0",
-                "pear-pear.php.net/xml_util": ">=1.2.0.0",
-                "php": ">=4.4.0.0,!=5.0.0.0,!=5.1.0.0,!=5.1.1.0,!=5.1.2.0,!=5.1.3.0,!=5.1.4.0,!=5.1.5.0"
-            },
-            "conflict": {
-                "pear-pear.php.net/pear_frontend_gtk": "<0.4.0.0",
-                "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
-            },
-            "replace": {
-                "pear-pear/pear": "== 1.9.4.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "The PEAR package contains:\n * the PEAR installer, for creating, distributing\n   and installing packages\n * the PEAR_Exception PHP5 error handling mechanism\n * the PEAR_ErrorStack advanced error handling mechanism\n * the PEAR_Error error handling mechanism\n * the OS_Guess class for retrieving info about the OS\n   where PHP is running on\n * the System class for quick handling of common operations\n   with files and directories\n * the PEAR base class\n  Features in a nutshell:\n  * full support for channels\n  * pre-download dependency validation\n  * new package.xml 2.0 format allows tremendous flexibility while maintaining BC\n  * support for optional dependency groups and limited support for sub-packaging\n  * robust dependency support\n  * full dependency validation on uninstall\n  * remote install for hosts with only ftp access - no more problems with\n    restricted host installation\n  * full support for mirroring\n  * support for bundling several packages into a single tarball\n  * support for static dependencies on a url-based package\n  * support for custom file roles and installation tasks"
-        },
-        {
-            "name": "pear-pear.php.net/Structures_Graph",
-            "version": "1.0.4",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Structures_Graph-1.0.4.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=4.2.0.0"
-            },
-            "replace": {
-                "pear-pear/structures_graph": "== 1.0.4.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "Structures_Graph is a package for creating and manipulating graph datastructures. It allows building of directed\nand undirected graphs, with data and metadata stored in nodes. The library provides functions for graph traversing\nas well as for characteristic extraction from the graph topology."
-        },
-        {
-            "name": "pear-pear.php.net/XML_Util",
-            "version": "1.2.1",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/XML_Util-1.2.1.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-pcre": "*",
-                "php": ">=4.3.0.0"
-            },
-            "replace": {
-                "pear-pear/xml_util": "== 1.2.1.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "Selection of methods that are often needed when working with XML documents.  Functionality includes creating of attribute lists from arrays, creation of tags, validation of XML names and more."
-        },
-        {
             "name": "pear-phpsavant.com/Savvy",
             "version": "0.7.3",
             "dist": {
@@ -611,16 +282,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "1.2.15",
+            "version": "1.2.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "6ba4ed2895d538a039d5d5866edc4ec0424c7852"
+                "reference": "69e55e68481cf708a6db43aff0b504e31402fe27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6ba4ed2895d538a039d5d5866edc4ec0424c7852",
-                "reference": "6ba4ed2895d538a039d5d5866edc4ec0424c7852",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/69e55e68481cf708a6db43aff0b504e31402fe27",
+                "reference": "69e55e68481cf708a6db43aff0b504e31402fe27",
                 "shasum": ""
             },
             "require": {
@@ -668,7 +339,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-02-03 07:44:47"
+            "time": "2014-02-25 03:34:05"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -805,16 +476,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e"
+                "reference": "ad4e1e23ae01b483c16f600ff1bebec184588e32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
-                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/ad4e1e23ae01b483c16f600ff1bebec184588e32",
+                "reference": "ad4e1e23ae01b483c16f600ff1bebec184588e32",
                 "shasum": ""
             },
             "require": {
@@ -851,20 +522,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2013-09-13 04:58:23"
+            "time": "2014-03-03 05:10:30"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.31",
+            "version": "3.7.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d24e9877331039582497052cc3c4d9f465b88210"
+                "reference": "2752cbb9ea5bd84c2811b34b6953f76965ec7a2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d24e9877331039582497052cc3c4d9f465b88210",
-                "reference": "d24e9877331039582497052cc3c4d9f465b88210",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2752cbb9ea5bd84c2811b34b6953f76965ec7a2f",
+                "reference": "2752cbb9ea5bd84c2811b34b6953f76965ec7a2f",
                 "shasum": ""
             },
             "require": {
@@ -881,7 +552,7 @@
                 "symfony/yaml": "~2.0"
             },
             "require-dev": {
-                "pear-pear/pear": "1.9.4"
+                "pear-pear.php.net/pear": "1.9.4"
             },
             "suggest": {
                 "ext-json": "*",
@@ -925,7 +596,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-02-03 07:46:27"
+            "time": "2014-02-25 03:47:29"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1020,12 +691,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/saltybeagle/Spider.git",
-                "reference": "aaf8d0aac5973e78cdbe7b93441d62af448d3edf"
+                "reference": "92713544f7e32e9dd5be4de19f549e8d93563672"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/aaf8d0aac5973e78cdbe7b93441d62af448d3edf",
-                "reference": "aaf8d0aac5973e78cdbe7b93441d62af448d3edf",
+                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/92713544f7e32e9dd5be4de19f549e8d93563672",
+                "reference": "92713544f7e32e9dd5be4de19f549e8d93563672",
                 "shasum": ""
             },
             "type": "library",
@@ -1038,7 +709,7 @@
                 "source": "https://github.com/saltybeagle/Spider/tree/master",
                 "issues": "https://github.com/saltybeagle/Spider/issues"
             },
-            "time": "2014-02-10 16:17:50"
+            "time": "2014-03-04 16:48:55"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1202,9 +873,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "opauth/opauth": 20,
-        "opauth/google": 20,
-        "simplecas/simplecas": 20,
         "ircmaxell/password-compat": 20,
         "saltybeagle/spider": 20,
         "monolog/monolog": 20,
