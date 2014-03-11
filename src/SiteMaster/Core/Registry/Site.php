@@ -136,7 +136,7 @@ class Site extends Record
      * Get the membership for a given user
      * 
      * @param User $user
-     * @return bool
+     * @return bool|Member
      */
     public function getMembershipForUser(User $user)
     {

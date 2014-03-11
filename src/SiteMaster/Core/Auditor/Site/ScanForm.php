@@ -88,6 +88,18 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
         if ($this->site->userIsVerified($this->current_user)) {
             return true;
         }
+        
+        if (!$membership = $this->site->getMembershipForUser($this->current_user)) {
+            return false;
+        }
+        
+        $roles = $membership->getRoles();
+        
+        foreach ($roles as $role) {
+            if ($role->isApproved()) {
+                return true;
+            }
+        }
 
         return false;
     }
