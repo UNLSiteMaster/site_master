@@ -102,6 +102,9 @@ $page_marks = $context->getMarks();
                                 $points_deducted = 'Pass';
                             }
                         }
+                        if ($points_deducted === '0.00') {
+                            $points_deducted = '0 (notice)';
+                        }
                         echo $points_deducted;
                         ?>
                     </td>
