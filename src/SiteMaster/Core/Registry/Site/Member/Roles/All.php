@@ -38,6 +38,10 @@ class All extends RecordList
         if (isset($this->options['approved'])) {
             $where .= 'approved = "' . self::escapeString($this->options['approved']) . '" ';
         }
+
+        if (isset($this->options['site_id'])) {
+            $where .= 'sites_members.sites_id = "' . (int) $this->options['site_id'] . '" ';
+        }
         
         if ($where == '') {
             $where = 'true';
@@ -58,6 +62,7 @@ class All extends RecordList
         $sql = "SELECT site_member_roles.id
                 FROM site_member_roles
                 LEFT JOIN roles ON (site_member_roles.roles_id = roles.id)
+                LEFT JOIN site_members on (site_member_roles.site_members_id = site_members.id)
                 " . $this->getWhere() . " 
                 " . $this->getOrderBy();
 
