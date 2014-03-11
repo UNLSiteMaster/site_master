@@ -17,7 +17,6 @@ if (!$context->members->count()) {
             $user = $member->getUser();
             $roles = $member->getRoles();
             ?>
-            <ul>
                 <li>
                     <span class="member-name"><?php echo $user->getName() ?></span>
                     <div class="options">
@@ -43,9 +42,8 @@ if (!$context->members->count()) {
                         <?php
                         }
                         ?>
-                        </ul>
+                    </ul>
                 </li>
-            </ul>
         <?php
         }
         ?>
