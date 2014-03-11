@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e974cc3d3468db2ce915f4cb18a43bbb",
+    "hash": "b3a49b31ed9fbce58858bbfb5e89b1c1",
     "packages": [
         {
             "name": "guzzle/guzzle",
@@ -103,12 +103,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ircmaxell/password_compat.git",
-                "reference": "8b328db8c1c1532c51d85f43adcf97a64c8b63ad"
+                "reference": "7642ced1454ea218e73735efe5d1b03cdba9c4b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/8b328db8c1c1532c51d85f43adcf97a64c8b63ad",
-                "reference": "8b328db8c1c1532c51d85f43adcf97a64c8b63ad",
+                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/7642ced1454ea218e73735efe5d1b03cdba9c4b9",
+                "reference": "7642ced1454ea218e73735efe5d1b03cdba9c4b9",
                 "shasum": ""
             },
             "require-dev": {
@@ -137,7 +137,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2014-01-27 22:25:05"
+            "time": "2014-03-10 19:40:14"
         },
         {
             "name": "monolog/monolog",
@@ -253,32 +253,6 @@
                 "beanstalkd"
             ],
             "time": "2014-01-20 02:42:16"
-        },
-        {
-            "name": "pear-phpsavant.com/Savvy",
-            "version": "0.7.3",
-            "dist": {
-                "type": "file",
-                "url": "http://phpsavant.com/get/Savvy-0.7.3.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=5.2.0.0"
-            },
-            "replace": {
-                "pear-savant/savvy": "== 0.7.3.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "description": "\nUnlike other template systems, Savvy by default does not compile your\ntemplates into PHP; instead, it uses PHP itself as its template language so you\ndon't need to learn a new markup system."
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -712,6 +686,33 @@
             "time": "2014-03-04 16:48:55"
         },
         {
+            "name": "saltybeagle/savvy",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saltybeagle/Savvy.git",
+                "reference": "d8b58c71b5184dfb6615048748c118147706dab4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saltybeagle/Savvy/zipball/d8b58c71b5184dfb6615048748c118147706dab4",
+                "reference": "d8b58c71b5184dfb6615048748c118147706dab4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Savvy": "src/"
+                }
+            },
+            "description": "Savvy is a powerful but lightweight object-oriented template system for PHP.",
+            "support": {
+                "source": "https://github.com/saltybeagle/Savvy/tree/master",
+                "issues": "https://github.com/saltybeagle/Savvy/issues"
+            },
+            "time": "2014-03-11 16:58:11"
+        },
+        {
             "name": "symfony/event-dispatcher",
             "version": "v2.2.11",
             "target-dir": "Symfony/Component/EventDispatcher",
@@ -873,6 +874,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "saltybeagle/savvy": 20,
         "ircmaxell/password-compat": 20,
         "saltybeagle/spider": 20,
         "monolog/monolog": 20,
