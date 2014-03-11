@@ -1,1 +1,1 @@
-This is the Home Template
+Welcome!  Please log in to manage your sites or schedule scans.  You can use the registry as a WHOIS service.
