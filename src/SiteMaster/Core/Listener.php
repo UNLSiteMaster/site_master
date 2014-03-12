@@ -60,12 +60,6 @@ class Listener extends PluginListener
                 $event->addNavigationItem(Config::get('URL') . 'sites/add/', 'Add a site');
             }
         }
-        
-        switch ($event->getFor()) {
-            case Config::get('URL') . 'registry/':
-                $event->addNavigationItem(Config::get('URL') . 'registry/?query=*', 'All Sites');
-                break;
-        }
     }
 
     /**
