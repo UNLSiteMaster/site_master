@@ -7,6 +7,8 @@ class AutoQueue extends RecordList
 {
     public function __construct(array $options = array())
     {
+        $this->options = $options + $this->options;
+        
         $options['array'] = self::getBySQL(array(
             'sql'         => $this->getSQL(),
             'returnArray' => true
@@ -32,6 +34,15 @@ class AutoQueue extends RecordList
         
         return 'LIMIT 5';
     }
+    
+    public function getWhere()
+    {
+        if (isset($this->options['only_not_scanned'])) {
+            return "WHERE scans.id IS NULL";
+        }
+        
+        return '';
+    }
 
     public function getSQL()
     {
@@ -39,6 +50,7 @@ class AutoQueue extends RecordList
         $sql = "SELECT sites.id as id, max(scans.date_created) as date_created 
                 FROM sites
                 LEFT JOIN scans ON (scans.sites_id = sites.id)
+                " . $this->getWhere() . "
                 GROUP BY sites.id
                 ORDER BY end_time ASC
                 " . $this->getLimit();
