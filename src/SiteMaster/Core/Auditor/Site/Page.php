@@ -269,7 +269,17 @@ class Page extends Record
             $spider->processPage($this->uri, 1);
         } catch (HTTPConnectionException $e) {
             //Couldn't get the page, so don't process it.
-            return $this->delete();
+            //Get the scan before we delete this page
+            $scan = $this->getScan();
+            
+            //Delete this page
+            $this->delete();
+
+            //Figure out we the site scan is finished.
+            if (!$scan->getNextQueuedPage()) {
+                //Could not find any more queued pages to scan.  The scan must be finished.
+                $scan->markAsComplete();
+            }
         }
         
         //Ensure that this record is up to date.
