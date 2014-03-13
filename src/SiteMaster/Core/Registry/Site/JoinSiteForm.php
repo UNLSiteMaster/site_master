@@ -214,6 +214,9 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         $this->join_user_membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         
         $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Roles were updated for ' . $this->join_user->getName());
+        if (!$this->join_user_membership) {
+            $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Membership dropped for ' . $this->join_user->getName());
+        }
         
         //If the membership was removed or they don't need verification, redirect em.
         if (!$this->join_user_membership || !$this->needsVerification()) {
