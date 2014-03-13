@@ -366,6 +366,18 @@ class ScanDBTest extends DBTestCase
         $hot_spots = $scan->getHotSpots($metric->getMetricRecord()->id);
 
         $this->assertEquals(array(2, 3), $hot_spots->getInnerIterator()->getArrayCopy(), 'Only the newest page scans should be returned');
+        
+        //Now, fix /test so it has 100%.  It should not show up in the hot spots
+        //Now do the same for a new page, simulating a single page scan with an improvement (less marks)
+        $page_4 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test');
+
+        $metric->grade($page_4, true);
+        $page_4->grade();
+
+        //Get the hot spots
+        $hot_spots = $scan->getHotSpots($metric->getMetricRecord()->id);
+
+        $this->assertEquals(array(3), $hot_spots->getInnerIterator()->getArrayCopy(), 'Fixed pages should not show up in the list of hot sports');
     }
 
     public function setUpDB()
