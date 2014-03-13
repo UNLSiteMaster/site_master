@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\DBTests\BaseTestDataInstaller;
 use SiteMaster\Core\DBTests\DBTestCase;
@@ -71,7 +72,7 @@ class ScanDBTest extends DBTestCase
         //Loop over each page, and add some extra marks (so that we can verify `changes_since_last_scan` is being set correctly) 
         foreach ($scan->getPages() as $page) {
             /**
-             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             * @var $page Page
              */
             $mark = Metric\Mark::getByMachineNameAndMetricID('test', $example_metric->id);
             $page->addMark($mark);
@@ -92,7 +93,7 @@ class ScanDBTest extends DBTestCase
 
         foreach ($scan->getPages() as $page) {
             /**
-             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             * @var $page Page
              */
             $grade = $page->getMetricGrade($example_metric->id);
             $this->assertEquals(-1, $grade->changes_since_last_scan, 'there should be one less mark');
@@ -145,7 +146,7 @@ class ScanDBTest extends DBTestCase
 
         foreach ($scan->getPages() as $page) {
             /**
-             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             * @var $page Page
              */
             $grade = $page->getMetricGrade($example_metric->id);
             $this->assertEquals(0, $grade->point_grade, 'the grade should be 0');
@@ -191,7 +192,7 @@ class ScanDBTest extends DBTestCase
 
         foreach ($scan->getPages() as $page) {
             /**
-             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             * @var $page Page
              */
             $grade = $page->getMetricGrade($example_metric->id);
             $this->assertEquals(34.5, $grade->point_grade);
@@ -237,7 +238,7 @@ class ScanDBTest extends DBTestCase
 
         foreach ($scan->getPages() as $page) {
             /**
-             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             * @var $page Page
              */
             $grade = $page->getMetricGrade($example_metric->id);
             $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $grade->letter_grade);
@@ -282,7 +283,7 @@ class ScanDBTest extends DBTestCase
 
         foreach ($scan->getPages() as $page) {
             /**
-             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             * @var $page Page
              */
             $grade = $page->getMetricGrade($example_metric->id);
             $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $grade->letter_grade);
@@ -308,7 +309,7 @@ class ScanDBTest extends DBTestCase
             }
 
             /**
-             * @var $page \SiteMaster\Core\Auditor\Site\Page
+             * @var $page Page
              */
             $queue->rewind();
             $page = $queue->current();
@@ -317,6 +318,54 @@ class ScanDBTest extends DBTestCase
 
             sleep(1);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function getHotSpots()
+    {
+        $this->setUpDB();
+
+        //Get the test site
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        //Start simulating a scan
+        $site->scheduleScan();
+
+        //get the new scan
+        $scan = $site->getLatestScan();
+        
+        //Ge the metric and mark to test with
+        $metric = new \SiteMaster\Plugins\Example\Metric('example');
+        $mark = $metric->getMark('test', 'Just a test', 10.5);
+        
+        //Simulate a page scan for the test page
+        $page_1 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test');
+        
+        $page_1->addMark($mark);
+        $page_1->addMark($mark);
+        $metric->grade($page_1, true);
+        $page_1->grade();
+
+        //Now do the same for a new page, simulating a single page scan with an improvement (less marks)
+        $page_2 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test');
+
+        $page_2->addMark($mark);
+        $metric->grade($page_2, true);
+        $page_2->grade();
+
+        //now Simulate a page scan for the new distinct page
+        $page_3 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test2');
+
+        $page_3->addMark($mark);
+        $metric->grade($page_3, true);
+        $page_3->grade();
+
+        //Get the hot spots
+        $hot_spots = $scan->getHotSpots($metric->getMetricRecord()->id);
+
+        $this->assertEquals(array(2, 3), $hot_spots->getInnerIterator()->getArrayCopy(), 'Only the newest page scans should be returned');
     }
 
     public function setUpDB()
