@@ -35,14 +35,6 @@ class ForScanAndMetric extends RecordList
 
         return $options;
     }
-
-    public function getWhere()
-    {
-        return 'WHERE scanned_page.scans_id = ' .(int)$this->options['scans_id']
-        . ' AND page_metric_grades.metrics_id = ' . (int)$this->options['metrics_id']
-        . ' AND page_metric_grades.point_grade != page_metric_grades.points_available'
-        . ' AND page_metric_grades.incomplete = "NO"';
-    }
     
     public function getLimit()
     {
@@ -57,13 +49,20 @@ class ForScanAndMetric extends RecordList
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT max(page_metric_grades.id) as id
+        $sql = "SELECT page_metric_grades.id as id
                 FROM page_metric_grades
-                  JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
-                " . $this->getWhere() . "
-                GROUP BY scanned_page.uri_hash
-                ORDER BY page_metric_grades.point_grade ASC 
-                " . $this->getLimit();
+                JOIN (SELECT MAX(page_metric_grades.id) as id
+                      FROM page_metric_grades
+                      JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
+                      WHERE scanned_page.scans_id = " .(int)$this->options['scans_id'] . "
+                      AND page_metric_grades.metrics_id = " . (int)$this->options['metrics_id'] . "
+                      AND page_metric_grades.incomplete = 'NO'
+                      GROUP BY scanned_page.uri_hash
+                      ) as grades ON (grades.id = page_metric_grades.id)
+                WHERE 
+                    page_metric_grades.point_grade != page_metric_grades.points_available 
+                 ORDER BY page_metric_grades.point_grade ASC
+                 " . $this->getLimit();
 
         return $sql;
     }
