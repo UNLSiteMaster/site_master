@@ -215,13 +215,13 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         
         $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Roles were added for ' . $this->join_user->getName());
         
-        //If we need to be verified, redirect them to that form
-        if ($this->needsVerification()) {
-            Controller::redirect($this->site->getURL() . 'verify/' . $this->join_user->id . '/', $notice);
+        //If the membership was removed or they don't need verification, redirect em.
+        if (!$this->join_user_membership || !$this->needsVerification()) {
+            Controller::redirect($this->site->getURL() . 'members/', $notice);
         }
-        
-        //Otherwise, redirect them to the members page for this site
-        Controller::redirect($this->site->getURL() . 'members/', $notice);
+
+        //we need to be verified, redirect them to that form
+        Controller::redirect($this->site->getURL() . 'verify/' . $this->join_user->id . '/', $notice);
     }
 
     /**
