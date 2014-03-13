@@ -45,7 +45,7 @@ class Metric extends MetricInterface
      */
     public function __construct($plugin_name, array $options = array())
     {
-        $options = array_merge_recursive($options, array(
+        $options = array_replace_recursive(array(
             'filters' => array(
                 '\\SiteMaster\\Plugins\\Metric_links\\Filters\\Scheme',
                 '\\SiteMaster\\Plugins\\Metric_links\\Filters\\InvalidURI',
@@ -93,7 +93,7 @@ class Metric extends MetricInterface
                 'link_http_code_502' => 'Bad Gateway',
                 'link_http_code_503' => 'This will usually get resolved without any need for action on your part.  If not, you will have to contact the server administrator or remove this link.',
             ),
-        ));
+        ), $options);
         
         parent::__construct($plugin_name, $options);
     }
