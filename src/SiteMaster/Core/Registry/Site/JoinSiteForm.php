@@ -213,15 +213,18 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
         //Reset $this->join_user_membership, because removing roles could have also removed the membership
         $this->join_user_membership = Member::getByUserIDAndSiteID($this->join_user->id, $this->site->id);
         
-        $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Roles were added for ' . $this->join_user->getName());
-        
-        //If we need to be verified, redirect them to that form
-        if ($this->needsVerification()) {
-            Controller::redirect($this->site->getURL() . 'verify/' . $this->join_user->id . '/', $notice);
+        $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Roles were updated for ' . $this->join_user->getName());
+        if (!$this->join_user_membership) {
+            $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Membership dropped for ' . $this->join_user->getName());
         }
         
-        //Otherwise, redirect them to the members page for this site
-        Controller::redirect($this->site->getURL() . 'members/', $notice);
+        //If the membership was removed or they don't need verification, redirect em.
+        if (!$this->join_user_membership || !$this->needsVerification()) {
+            Controller::redirect($this->site->getURL() . 'members/', $notice);
+        }
+
+        //we need to be verified, redirect them to that form
+        Controller::redirect($this->site->getURL() . 'verify/' . $this->join_user->id . '/', $notice);
     }
 
     /**
