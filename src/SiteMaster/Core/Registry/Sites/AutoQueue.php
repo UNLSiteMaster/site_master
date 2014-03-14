@@ -41,7 +41,7 @@ class AutoQueue extends RecordList
             return "WHERE scans.id IS NULL";
         }
         
-        return '';
+        return 'WHERE scans.status NOT IN ("RUNNING", "QUEUED", "CREATED")';
     }
 
     public function getSQL()
