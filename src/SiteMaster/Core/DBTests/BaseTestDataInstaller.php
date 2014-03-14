@@ -18,7 +18,7 @@ class BaseTestDataInstaller implements MockTestDataInstallerInterface
             'last_name' => 'test1',
             'email' => 'test1@test.com'
         ));
-        $user2 = User::createUser(2, 'test', array(
+        $user2 = User::createUser('email@provider.com', 'test', array(
             'first_name' => 'test2',
             'last_name' => 'test2',
             'email' => 'test2@test.com'

@@ -101,11 +101,14 @@ class Query extends \IteratorIterator
     {
         $details = explode('@', $query);
         
-        if (count($details) != 2) {
+        if (count($details) < 2) {
             throw new InvalidArgumentException('Must provide a query in the format of uid@provider');
         }
-        
-        if (!$user = User::getByUIDAndProvider($details[0], $details[1])) {
+
+        $provider = array_pop($details);
+        $uid = implode('@', $details);
+
+        if (!$user = User::getByUIDAndProvider($uid, $provider)) {
             return array();
         }
         

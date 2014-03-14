@@ -14,7 +14,7 @@ class QueryDBTest extends DBTestCase
         $this->setUpDB();
         
         $query = new Query();
-        $result = $query->query('2@test');
+        $result = $query->query('email@provider.com@test');
         $sites = array();
         
         foreach ($result as $site) {
@@ -26,7 +26,7 @@ class QueryDBTest extends DBTestCase
             'http://www.test.com/test/'
         );
         
-        $this->assertEquals($expected, $sites, '2@test should have 2 accepted sites');
+        $this->assertEquals($expected, $sites, 'email@provider.com@test should have 2 accepted sites');
 
         $result = $query->query('1@test');
         $sites = array();
