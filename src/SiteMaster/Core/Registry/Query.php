@@ -99,13 +99,13 @@ class Query extends \IteratorIterator
      */
     public function getByUser($query)
     {
-        $details = explode('?', $query);
+        $details = explode('@', $query);
         
         if (count($details) != 2) {
-            throw new InvalidArgumentException('Must provide a query in the format of provider?uid');
+            throw new InvalidArgumentException('Must provide a query in the format of uid@provider');
         }
         
-        if (!$user = User::getByUIDAndProvider($details[1], $details[0])) {
+        if (!$user = User::getByUIDAndProvider($details[0], $details[1])) {
             return array();
         }
         
