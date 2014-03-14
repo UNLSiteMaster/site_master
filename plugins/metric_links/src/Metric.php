@@ -55,7 +55,7 @@ class Metric extends MetricInterface
                 'connect_timeout' => 5,
                 'allow_redirects' => false
             ),
-            'chunks' => 10, //The number of URLs to request at once
+            'chunks' => 5, //The number of URLs to request at once
             'seconds_between_chunks' => 1,
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array( 
