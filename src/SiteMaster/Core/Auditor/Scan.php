@@ -182,7 +182,10 @@ class Scan extends Record
      */
     public function markAsComplete()
     {
-        $this->end_time = Util::epochToDateTime();
+        if (empty($this->end_time)) {
+            //This method can be called on single page scans.  Don't update the end time in that case.
+            $this->end_time = Util::epochToDateTime();
+        }
         $this->status   = self::STATUS_COMPLETE;
         $this->gpa      = $this->computeGPA();
         if ($this->save()) {

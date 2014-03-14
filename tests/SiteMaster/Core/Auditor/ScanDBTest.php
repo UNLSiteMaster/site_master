@@ -278,6 +278,8 @@ class ScanDBTest extends DBTestCase
 
         //get the scan
         $scan = $site->getLatestScan();
+        
+        $this->assertNotEmpty($scan->end_time);
 
         $example_metric = Metric::getByMachineName('example');
 
