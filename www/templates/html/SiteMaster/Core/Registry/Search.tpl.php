@@ -12,7 +12,7 @@ foreach ($authPlugins as $plugin) {
         Examples:
         <ul>
             <li>Site: absolute URI, must include protocol (http://wwww.domain.com/)</li>
-            <li>Person: provider:uid (google?1111)
+            <li>Person: uid@provider (1111@UNL)
                 <p>Available providers are: <?php echo implode(', ', $providers); ?></p>
             </li>
         </ul>

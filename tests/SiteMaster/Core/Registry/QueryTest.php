@@ -15,7 +15,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Query::QUERY_TYPE_URL, $query->getQueryType('http://www.domain.com/test/test.php?query#fragment'));
         $this->assertEquals(Query::QUERY_TYPE_URL, $query->getQueryType('http://www.domain.com'));
 
-        $this->assertEquals(Query::QUERY_TYPE_USER, $query->getQueryType('provider?uid'));
+        $this->assertEquals(Query::QUERY_TYPE_USER, $query->getQueryType('uid@provider'));
         $this->assertEquals(Query::QUERY_TYPE_USER, $query->getQueryType('test'), 'should fall back to a user');
 
         $this->assertEquals(Query::QUERY_TYPE_ALL, $query->getQueryType('*'));
