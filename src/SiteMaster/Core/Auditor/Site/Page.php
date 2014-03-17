@@ -285,6 +285,9 @@ class Page extends Record
                     //Could not find any more queued pages to scan.  The scan must be finished.
                     $scan->markAsComplete();
                 }
+                
+                //Return early because $this was deleted
+                return true;
             }
         }
         
