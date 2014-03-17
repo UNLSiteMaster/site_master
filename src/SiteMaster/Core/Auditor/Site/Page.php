@@ -13,6 +13,7 @@ use SiteMaster\Core\Auditor\Logger\Scheduler;
 use SiteMaster\Core\Auditor\Logger\PageTitle;
 use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Scan;
+use SiteMaster\Core\UnexpectedValueException;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\HTTPConnectionException;
 
@@ -248,8 +249,11 @@ class Page extends Record
         $site = $this->getSite();
         
         $spider = new \Spider(
-            new HTMLOnly(),
-            new \Spider_Parser()
+            new HTMLOnly($site, $this, $scan),
+            new \Spider_Parser(),
+            array(
+                'use_effective_uris' => false,
+            )
         );
         
         $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
@@ -267,18 +271,20 @@ class Page extends Record
 
         try {
             $spider->processPage($this->uri, 1);
-        } catch (HTTPConnectionException $e) {
-            //Couldn't get the page, so don't process it.
-            //Get the scan before we delete this page
-            $scan = $this->getScan();
-            
-            //Delete this page
-            $this->delete();
-
-            //Figure out we the site scan is finished.
-            if (!$scan->getNextQueuedPage()) {
-                //Could not find any more queued pages to scan.  The scan must be finished.
-                $scan->markAsComplete();
+        } catch (\Exception $e) {
+            if ($e instanceof HTTPConnectionException || $e instanceof UnexpectedValueException) {
+                //Couldn't get the page, so don't process it.
+                //Get the scan before we delete this page
+                $scan = $this->getScan();
+                
+                //Delete this page
+                $this->delete();
+    
+                //Figure out we the site scan is finished.
+                if (!$scan->getNextQueuedPage()) {
+                    //Could not find any more queued pages to scan.  The scan must be finished.
+                    $scan->markAsComplete();
+                }
             }
         }
         
