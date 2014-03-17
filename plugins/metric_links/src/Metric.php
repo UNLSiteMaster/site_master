@@ -7,6 +7,7 @@ use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Metric\Marks\UniqueValueFound;
 use SiteMaster\Core\Auditor\MetricInterface;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -377,6 +378,8 @@ class Metric extends MetricInterface
     public function getHTTPStatus($links)
     {
         $client = new Client();
+        $client->setUserAgent(Config::get('USER_AGENT') . ' link_checker/1.0');
+        
         $statuses = array();
         $requests = array();
         

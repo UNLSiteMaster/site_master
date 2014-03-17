@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor\Downloader;
 
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\HTTPConnectionException;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
@@ -45,7 +46,7 @@ class HTMLOnly extends \Spider_Downloader
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_USERAGENT      => 'silverorange-spider',
+                CURLOPT_USERAGENT      => Config::get('USER_AGENT'),
                 CURLOPT_HEADERFUNCTION  => array($this, 'checkHeaders')
             )
         );
