@@ -23,6 +23,7 @@ class Config
         'SCAN_PAGE_LIMIT'  => 2500,   //Max number of distinct pages to scan per site scan
         'RESTRICTED_URIS'  => array(), //Array of URIs that should not be scanned,
         'SITE_TITLE'       => 'SiteMaster', //The site title to display
+        'USER_AGENT'       => 'sitemaster/1.0', //The user agent to send with HTTP requests
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',

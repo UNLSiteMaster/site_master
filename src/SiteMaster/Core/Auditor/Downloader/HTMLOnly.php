@@ -1,18 +1,43 @@
 <?php
 namespace SiteMaster\Core\Auditor\Downloader;
 
+use SiteMaster\Core\Auditor\Scan;
+use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\HTTPConnectionException;
+use SiteMaster\Core\Registry\Registry;
+use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\UnexpectedValueException;
 
 class HTMLOnly extends \Spider_Downloader
 {
     private $curl = null;
 
     /**
+     * @var bool|Site
+     */
+    protected $site = false;
+
+    /**
+     * @var bool|Page
+     */
+    protected $page = false;
+
+    /**
+     * @var bool|Scan
+     */
+    protected $scan = false;
+
+    /**
      * Set up the HTMLOnly download
      */
-    public function __construct()
+    public function __construct(Site $site, Page $page, Scan $scan)
     {
         $this->curl = curl_init();
+        
+        $this->site = $site;
+        $this->page = $page;
+        $this->scan = $scan;
 
         curl_setopt_array(
             $this->curl,
@@ -21,7 +46,7 @@ class HTMLOnly extends \Spider_Downloader
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_USERAGENT      => 'silverorange-spider',
+                CURLOPT_USERAGENT      => Config::get('USER_AGENT'),
                 CURLOPT_HEADERFUNCTION  => array($this, 'checkHeaders')
             )
         );
@@ -74,8 +99,9 @@ class HTMLOnly extends \Spider_Downloader
     /**
      * @param $uri
      * @param array $options
-     * @return mixed
+     * @throws \SiteMaster\Core\UnexpectedValueException
      * @throws \SiteMaster\Core\HTTPConnectionException
+     * @return mixed
      */
     public function download($uri, $options = array())
     {
@@ -84,6 +110,28 @@ class HTMLOnly extends \Spider_Downloader
         
         if (!$result) {
             throw new HTTPConnectionException('Error downloading ' . $uri. $result);
+        }
+
+        $effective_url = curl_getinfo($this->curl, CURLINFO_EFFECTIVE_URL);
+        if ($effective_url !== $this->page->uri) {
+            //Check if it is external
+            $registry = new Registry();
+            $closest_site = $registry->getClosestSite($effective_url);
+
+            if (($closest_site == false) || ($closest_site->id != $this->site->id)) {
+                //The effective URI does not belong to this site.
+                throw new UnexpectedValueException('Effective URI does not belong to current site');
+            }
+            
+            //Check if this page already exists for this scan.
+            if (Page::getByScanIDAndURI($this->scan->id, $effective_url)) {
+                throw new UnexpectedValueException('This effective URI was already found.');
+            }
+            
+            //update the page.
+            $this->page->uri = $effective_url;
+            $this->page->uri_hash = md5($effective_url, true);
+            $result = $this->page->save();
         }
         
         return $result;

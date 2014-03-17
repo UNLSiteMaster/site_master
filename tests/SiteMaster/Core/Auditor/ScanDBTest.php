@@ -249,6 +249,40 @@ class ScanDBTest extends DBTestCase
     }
 
     /**
+     * Simulate a scan for a site that has incomplete metrics.  Verify all results
+     * This is an integration test rather than a unit test
+     *
+     * @test
+     * @group integration
+     */
+    public function scanRedirects()
+    {
+        $this->setUpDB();
+
+        $site = Site::createNewSite('http://unlcms.unl.edu/university-communications/sitemaster/');
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        $found_uris = array();
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page Page
+             */
+            $found_uris[] = $page->uri;
+        }
+        
+        $this->assertNotContains('http://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301', $found_uris, 'Should not have recoded the redirect');
+        
+        $this->assertEquals(1, count($found_uris), 'Should have only found one URI');
+    }
+
+    /**
      * Simulate a scan for a site that has incomplete metrics via exceptions.
      * This is an integration test rather than a unit test
      *
