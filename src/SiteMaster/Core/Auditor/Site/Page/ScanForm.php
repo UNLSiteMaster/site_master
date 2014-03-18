@@ -155,7 +155,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
             'scan_type' => Page::SCAN_TYPE_USER,
         ));
         
-        if ($page_scan->scheduleScan()) {
+        if ($page_scan->scheduleScan(Page::PRI_USER_SINGLE_PAGE_SCAN)) {
             Controller::redirect(
                 $page_scan->getURL(),
                 new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A scan has been scheduled')

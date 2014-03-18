@@ -47,10 +47,11 @@ class Page extends Record
     const SCAN_TYPE_USER = 'USER';
     const SCAN_TYPE_AUTO = 'AUTO';
 
-    const PRI_AUTO_SITE_SCAN = 400;
-    const PRI_AUTO_PAGE_SCAN = 300;
-    const PRI_USER_SITE_SCAN = 200;
-    const PRI_USER_PAGE_SCAN = 100;
+    const PRI_AUTO_SITE_SCAN        = 400;
+    const PRI_AUTO_PAGE_SCAN        = 300;
+    const PRI_USER_SITE_SCAN        = 200;
+    const PRI_USER_PAGE_SCAN        = 100;
+    const PRI_USER_SINGLE_PAGE_SCAN = 75;
 
     public function keys()
     {
@@ -201,9 +202,10 @@ class Page extends Record
     /**
      * Schedule a scan of this page.
      *
+     * @param bool $priority
      * @return bool True on success, false if it can not be scanned (was already scanned)
      */
-    public function scheduleScan()
+    public function scheduleScan($priority = false)
     {
         if ($this->status != self::STATUS_CREATED) {
             //The scan already finished.  Don't scan again.
@@ -212,18 +214,21 @@ class Page extends Record
         
         $site = $this->getSite();
         
-        $priority_site = self::PRI_AUTO_SITE_SCAN;
-        $priority_page = self::PRI_AUTO_PAGE_SCAN;
-        
-        if ($this->scan_type == 'USER') {
-            $priority_site = self::PRI_USER_SITE_SCAN;
-            $priority_page = self::PRI_USER_PAGE_SCAN;
-        }
-        
-        //Set the priority
-        $priority = $priority_page;
-        if ($this->uri == $site->base_url) {
-            $priority = $priority_site;
+        if ($priority == false) {
+            //Determine the priority
+            $priority_site = self::PRI_AUTO_SITE_SCAN;
+            $priority_page = self::PRI_AUTO_PAGE_SCAN;
+
+            if ($this->scan_type == 'USER') {
+                $priority_site = self::PRI_USER_SITE_SCAN;
+                $priority_page = self::PRI_USER_PAGE_SCAN;
+            }
+
+            //Set the priority
+            $priority = $priority_page;
+            if ($this->uri == $site->base_url) {
+                $priority = $priority_site;
+            }
         }
         
         $this->markAsQueued($priority);
@@ -397,7 +402,13 @@ class Page extends Record
     {
         $this->status   = self::STATUS_QUEUED;
         $this->priority = $priority;
-        $this->save();
+        
+        if (!$this->save()) {
+            return false;
+        }
+        
+        $scan = $this->getScan();
+        $scan->markAsQueued();
     }
 
     /**
