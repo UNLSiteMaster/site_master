@@ -101,7 +101,7 @@ class HTMLOnly extends \Spider_Downloader
      * @param array $options
      * @throws \SiteMaster\Core\UnexpectedValueException
      * @throws \SiteMaster\Core\HTTPConnectionException
-     * @return mixed
+     * @return string - The raw contents of the page
      */
     public function download($uri, $options = array())
     {
@@ -131,7 +131,7 @@ class HTMLOnly extends \Spider_Downloader
             //update the page.
             $this->page->uri = $effective_url;
             $this->page->uri_hash = md5($effective_url, true);
-            $result = $this->page->save();
+            $this->page->save();
         }
         
         return $result;
