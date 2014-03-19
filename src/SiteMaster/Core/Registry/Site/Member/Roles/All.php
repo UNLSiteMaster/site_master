@@ -36,11 +36,19 @@ class All extends RecordList
         }
 
         if (isset($this->options['approved'])) {
+            if (!empty($where)) {
+                $where .= 'AND ';
+            }
+            
             $where .= 'approved = "' . self::escapeString($this->options['approved']) . '" ';
         }
 
         if (isset($this->options['site_id'])) {
-            $where .= 'sites_members.sites_id = "' . (int) $this->options['site_id'] . '" ';
+            if (!empty($where)) {
+                $where .= 'AND ';
+            }
+            
+            $where .= 'site_members.sites_id = ' . (int) $this->options['site_id'] . ' ';
         }
         
         if ($where == '') {
