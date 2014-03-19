@@ -6,11 +6,15 @@ foreach ($context as $site) {
     $sites[$site->base_url]['title'] = $site->title;
     
     $members = array();
-    foreach ($site->getMembers() as $member) {
+    foreach ($site->getApprovedMembers() as $member) {
         $user = $member->getUser();
         
         $roles = array();
         foreach ($member->getRoles() as $role) {
+            if (!$role->isApproved()) {
+                //They might have individual unapproved roles
+                continue;
+            }
             $roles[] = $role->getRole()->role_name;
         }
         
