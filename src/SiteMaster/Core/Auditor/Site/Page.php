@@ -258,6 +258,7 @@ class Page extends Record
             new \Spider_Parser(),
             array(
                 'use_effective_uris' => false,
+                'user_agent'         => Config::get('USER_AGENT')
             )
         );
         
