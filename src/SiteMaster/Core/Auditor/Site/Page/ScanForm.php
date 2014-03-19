@@ -104,6 +104,10 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
             return false;
         }
 
+        if ($this->current_user->isAdmin()) {
+            return true;
+        }
+
         if ($this->site->userIsVerified($this->current_user)) {
             return true;
         }
