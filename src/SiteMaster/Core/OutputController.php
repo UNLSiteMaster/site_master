@@ -70,6 +70,8 @@ class OutputController extends \Savvy
                 header('Content-type:application/json');
                 $this->setTemplateFormatPaths('json');
                 break;
+            case 'email':
+                $this->setTemplateFormatPaths('email');
                 break;
             default:
                 throw new UnexpectedValueException('Invalid/unsupported output format', 500);
