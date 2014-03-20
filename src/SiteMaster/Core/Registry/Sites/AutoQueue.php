@@ -41,18 +41,23 @@ class AutoQueue extends RecordList
             return "WHERE scans.id IS NULL";
         }
         
-        return 'WHERE scans.status NOT IN ("RUNNING", "QUEUED", "CREATED")';
+        return 'WHERE scans.status NOT IN ("RUNNING", "QUEUED", "CREATED")
+                  OR scans.id IS NULL';
     }
 
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT sites.id as id, max(scans.date_created) as date_created 
+        $sql = "SELECT sites.id as id
                 FROM sites
-                LEFT JOIN scans ON (scans.sites_id = sites.id)
+                LEFT JOIN (
+                    SELECT max(scans.id) as id, scans.sites_id as sites_id
+                    FROM scans
+                    GROUP BY scans.sites_id
+                ) as max_scans ON (max_scans.sites_id = sites.id)
+                LEFT JOIN scans ON (scans.id = max_scans.id)
                 " . $this->getWhere() . "
-                GROUP BY sites.id
-                ORDER BY end_time ASC
+                ORDER BY scans.end_time ASC
                 " . $this->getLimit();
 
         return $sql;
