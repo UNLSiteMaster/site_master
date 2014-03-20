@@ -24,6 +24,7 @@ class Config
         'RESTRICTED_URIS'  => array(), //Array of URIs that should not be scanned,
         'SITE_TITLE'       => 'SiteMaster', //The site title to display
         'USER_AGENT'       => 'sitemaster/1.0', //The user agent to send with HTTP requests
+        'EMAIL_FROM'       => 'test@example.com',
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',
