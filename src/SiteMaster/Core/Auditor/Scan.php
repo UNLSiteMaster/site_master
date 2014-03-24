@@ -183,9 +183,11 @@ class Scan extends Record
      */
     public function markAsComplete()
     {
+        $send_email = false;
         if (empty($this->end_time)) {
             //This method can be called on single page scans.  Don't update the end time in that case.
             $this->end_time = Util::epochToDateTime();
+            $send_email = true; //Only send emails if the scan isn't being updated by a single page scan.
         }
         $this->status   = self::STATUS_COMPLETE;
         $this->gpa      = $this->computeGPA();
@@ -193,6 +195,10 @@ class Scan extends Record
             //remove any extra scans
             $site = $this->getSite();
             $site->cleanScans();
+        }
+        
+        if ($send_email) {
+            $this->sendChangedScanEmail();
         }
     }
 
