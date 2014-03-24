@@ -28,6 +28,7 @@ class Config
         'EXAMPLE_TO_EMAIL' => 'test@example.org', //Used in testing
         
         'EMAIL_WHITE_LIST' => array(), //List of email addresses that can be sent to.  If empty, there are no restrictions
+        'CHANGED_EMAIL_ROLES' => array('developer', 'admin'),  //Changed emails should be sent to these roles
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',

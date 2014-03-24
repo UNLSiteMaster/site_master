@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor\Scan;
 
+use SiteMaster\Core\Config;
 use SiteMaster\Core\EmailInterface;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
@@ -48,7 +49,7 @@ class ChangedEmail implements EmailInterface
                 /**
                  * @var $role \SiteMaster\Core\Registry\Site\Role
                  */
-                if (!in_array($role->role_name, array('developer', 'admin'))) {
+                if (!in_array($role->role_name, Config::get('CHANGED_EMAIL_ROLES'))) {
                     //Only send to developers and admin
                     continue;
                 }
