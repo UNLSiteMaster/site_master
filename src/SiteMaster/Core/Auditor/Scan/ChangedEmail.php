@@ -5,7 +5,7 @@ use SiteMaster\Core\EmailInterface;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
 
-class CompletedEmail implements EmailInterface
+class ChangedEmail implements EmailInterface
 {
 
     /**

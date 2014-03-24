@@ -19,6 +19,6 @@ if (!$scan = $site->getLatestScan()) {
     exit();
 }
 
-$result = $scan->sendCompletedEmail();
+$result = $scan->sendChangedScanEmail();
 
 var_dump($result);

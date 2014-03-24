@@ -7,6 +7,7 @@ use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
 use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\Config;
+use SiteMaster\Core\Emailer;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -251,12 +252,24 @@ class Scan extends Record
         
         return (int)$data['total'];
     }
-    
-    public function sendCompletedEmail()
-    {
-        
-    }
 
+    /**
+     * Send changed scan notifications
+     * 
+     * @return bool|int
+     */
+    public function sendChangedScanEmail()
+    {
+        if ($this->getABSNumberOfChanges() == 0) {
+            //Don't send notifications if nothing changed.
+            return false;
+        }
+        
+        $email = new Scan\ChangedEmail($this);
+
+        $emailer = new Emailer($email);
+        return $emailer->send();
+    }
 
     /**
      * Get the total number of distinct pages found in this scan
