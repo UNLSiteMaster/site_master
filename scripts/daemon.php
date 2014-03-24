@@ -47,9 +47,17 @@ while (true) {
      */
     $queue->rewind();
     $page = $queue->current();
+    $scan = $page->getScan();
 
     echo date("Y-m-d H:i:s"). " - scanning page.id=" . $page->id . PHP_EOL;
     $page->scan();
+    
+    //Check if there might have been some errors
+    $scan->reload();
+    if ($scan->start_time == $scan->end_time) {
+        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'attempting to restart daemon due to a possible error (start and end times are the same)');
+        exit(11);
+    }
     
     sleep(1);
 }

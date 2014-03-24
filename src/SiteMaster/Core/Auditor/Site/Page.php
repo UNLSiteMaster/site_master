@@ -291,6 +291,14 @@ class Page extends Record
                     //Could not find any more queued pages to scan.  The scan must be finished.
                     $scan->markAsComplete();
                 }
+
+                Util::log(
+                    \Monolog\Logger::ERROR,
+                    'Page removed due to exception: ' . $this->id .  ' - ' . $this->uri,
+                    array(
+                        'exception' => (string)$e,
+                    )
+                );
                 
                 //Return early because $this was deleted
                 return true;
