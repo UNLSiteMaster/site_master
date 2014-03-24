@@ -60,11 +60,27 @@ class Emailer
     {
         // Create the Mailer using your created Transport
         $mailer = \Swift_Mailer::newInstance($this->getTransport());
+        
+        $white_list = Config::get('EMAIL_WHITE_LIST');
+        $to = (array)$this->email->getTo();
+        if (!empty($white_list)) {
+            foreach ($to as $key=>$value) {
+                $email = $key;
+                if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    //Doesn't have a valid email
+                    $email = $value;
+                }
+
+                if (!in_array($email, $white_list)) {
+                    unset($to[$key]);
+                }
+            }
+        }
 
         // Create a message
         $message = \Swift_Message::newInstance(Config::get('SITE_TITLE') . ': ' . $this->email->getSubject())
             ->setFrom((array)$this->getFrom())
-            ->setTo((array)$this->email->getTo())
+            ->setTo($to)
             ->setBody($this->getBody(), 'text/html')
         ;
 
