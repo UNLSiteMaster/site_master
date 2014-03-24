@@ -251,6 +251,11 @@ class Scan extends Record
         
         return (int)$data['total'];
     }
+    
+    public function sendCompletedEmail()
+    {
+        
+    }
 
 
     /**
