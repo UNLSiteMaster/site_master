@@ -55,7 +55,12 @@ while (true) {
     //Check if there might have been some errors
     $scan->reload();
     if ($scan->start_time == $scan->end_time) {
-        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'attempting to restart daemon due to a possible error (start and end times are the same)');
+        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'attempting to restart daemon due to a possible error (start and end times are the same)',
+            array(
+                'sites.id' => $page->sites_id,
+                'scans.id' => $page->scans_id,
+            )
+        );
         exit(11);
     }
     
