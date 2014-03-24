@@ -38,7 +38,7 @@ $previous_scan = $context->scan->getPreviousScan();
 
 <p>
     Thank you,<br />
-    The <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> Team
+    <?php echo \SiteMaster\Core\Config::get('EMAIL_SIGNATURE') ?>
 </p>
 
 <p>
