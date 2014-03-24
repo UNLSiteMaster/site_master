@@ -81,6 +81,6 @@ class ChangedEmail implements EmailInterface
      */
     public function getSubject()
     {
-        return 'We found some changes!';
+        return 'We found some changes on ' . $this->scan->getSite()->base_url;
     }
 }
