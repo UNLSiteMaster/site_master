@@ -7,9 +7,16 @@ $site = $context->scan->getSite();
 
 $previous_scan = $context->scan->getPreviousScan();
 ?>
+<p>
+    Hello!
+</p>
 
 <p>
-    <?php echo $site->getTitle() ?> has changed! <a href="<?php $site->getURL();?>">View the new report</a>.
+    This is an automated email sent by <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?>.  You will receive one of these emails whenever we notice that something changed on your site.  This tool is here to help you ensure the best experience for your users by showing you potential problems.
+</p>
+
+<p>
+    <?php echo $site->getTitle() ?> has changed! View the new report at <?php echo $site->getURL();?>.
 </p>
 <p>
     The current GPA is <?php echo $context->scan->gpa ?>.
@@ -31,7 +38,7 @@ $previous_scan = $context->scan->getPreviousScan();
 
 <p>
     Thank you,<br />
-    The Web Developer Network
+    The <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> Team
 </p>
 
 <p>
