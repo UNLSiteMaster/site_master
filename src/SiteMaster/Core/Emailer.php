@@ -76,6 +76,10 @@ class Emailer
                 }
             }
         }
+        
+        if (empty($to)) {
+            return true;
+        }
 
         // Create a message
         $message = \Swift_Message::newInstance(Config::get('SITE_TITLE') . ': ' . $this->email->getSubject())
