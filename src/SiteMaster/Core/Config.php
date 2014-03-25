@@ -24,6 +24,12 @@ class Config
         'RESTRICTED_URIS'  => array(), //Array of URIs that should not be scanned,
         'SITE_TITLE'       => 'SiteMaster', //The site title to display
         'USER_AGENT'       => 'sitemaster/1.0', //The user agent to send with HTTP requests
+        'EMAIL_FROM'       => 'test@example.org',
+        'EXAMPLE_TO_EMAIL' => 'test@example.org', //Used in testing
+        
+        'EMAIL_WHITE_LIST'    => array(), //List of email addresses that can be sent to.  If empty, there are no restrictions
+        'CHANGED_EMAIL_ROLES' => array('developer', 'admin'),  //Changed emails should be sent to these roles
+        'EMAIL_SIGNATURE'     => 'The Web Developer Network ', //Custom email signature, if false, it will default to 'The $SITE_TITLE Team'
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',
@@ -75,6 +81,10 @@ class Config
                 Auditor\GradingHelper::GRADE_D_MINUS => 0.67,
                 Auditor\GradingHelper::GRADE_F       => 0,
             );
+        }
+        
+        if ($key == 'EMAIL_SIGNATURE' && self::$data[$key] == false) {
+            return 'The ' . self::$data['SITE_TITLE'] . ' Team';
         }
 
         //Special default case: CACHE_DIR
