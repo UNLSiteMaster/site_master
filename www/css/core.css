@@ -35,6 +35,7 @@
 .site .general-details .url {
     font-weight: bold;
     font-size: 1.4em;
+    word-wrap: break-word;
 }
 
 .site .general-details .title {
