@@ -8,32 +8,21 @@ $site = $context->scan->getSite();
 $previous_scan = $context->scan->getPreviousScan();
 ?>
 <p>
-    Hello!
+    Hello, Fellow Web Developer!
 </p>
 
 <p>
-    <?php echo $site->getTitle() ?> has changed! View the new report at <?php echo $site->getURL();?>.
+    <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> has noticed changes to the site at <?php echo $site->base_url ?>. You can view the new report at <?php echo $site->getURL();?>.
 </p>
 <p>
-    The current GPA is <?php echo $context->scan->gpa ?>.
-    
-    <?php
+    The site’s current <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> GPA is <?php echo $context->scan->gpa;
     if ($previous_scan) {
-        $diff = abs($previous_scan->gpa - $context->scan->gpa);
-        
-        if ($diff == 0) {
-            echo 'That is the same GPA as last time.';
-        } else if ($context->scan->gpa < $previous_scan->gpa) {
-            echo 'That is a decrease of ' . $diff;
-        } else {
-            echo 'That is an increase of ' . $diff . '.  Good job!';
-        }
+        echo ', compared to the ' . $previous_scan->gpa . ' GPA reported the last time the site was checked.';
+    } else {
+        echo '.';
     }
     ?>
-</p>
-
-<p>
-    This is an automated email sent by <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?>.  You will receive one of these emails whenever we notice that something changed on your site.  This tool is here to help you ensure the best experience for your users by showing you potential problems.
+     The audit tool is designed to help you ensure the best experience for your users, and to mitigate risk to the university, by showing you potential problems — problems you can fix. Please run the report from the URL above; it’ll pinpoint what the problem(s) are, and provide some guidance on how to fix them.
 </p>
 
 <p>
@@ -42,5 +31,5 @@ $previous_scan = $context->scan->getPreviousScan();
 </p>
 
 <p>
-    You received this email because you are a member of the site.  You can remove yourself from the site by visiting: <?php echo $site->getURL();?>
+    ps. This is an automated email sent by <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?>. The system sends these emails whenever it notices that something has changed on your site. You received this email because you are a member of the site. You can remove yourself from the site by visiting: <?php echo $site->getURL();?>
 </p>
