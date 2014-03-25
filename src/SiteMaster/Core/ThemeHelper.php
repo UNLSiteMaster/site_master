@@ -12,6 +12,6 @@ class ThemeHelper {
      */
     public function trimBaseURL($base_url, $url)
     {
-        return '/' . str_replace(strtolower($base_url), '', strtolower($url));
+        return '/' . str_ireplace($base_url, '', $url);
     }
 }
