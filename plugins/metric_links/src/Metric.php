@@ -60,6 +60,7 @@ class Metric extends MetricInterface
             ),
             'chunks' => 5, //The number of URLs to request at once
             'seconds_between_chunks' => 1,
+            'seconds_between_requests' => 1,
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array( 
                 301,
@@ -424,7 +425,7 @@ class Metric extends MetricInterface
                     $statuses[$url] = LinkStatus::createLinkStatus($url, $http_code, $curl_code);
                 }
                 
-                sleep(1);  //Don't flood with GET requests
+                sleep($this->options['seconds_between_requests']);  //Don't flood with GET requests
             }
 
             foreach ($e->getSuccessfulRequests() as $request) {
