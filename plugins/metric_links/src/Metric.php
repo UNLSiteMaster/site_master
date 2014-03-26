@@ -1,8 +1,10 @@
 <?php
 namespace SiteMaster\Plugins\Metric_links;
 
+use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Http\Exception\MultiTransferException;
+use Guzzle\Http\Exception\RequestException;
 use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Metric\Marks\UniqueValueFound;
@@ -58,6 +60,7 @@ class Metric extends MetricInterface
             ),
             'chunks' => 5, //The number of URLs to request at once
             'seconds_between_chunks' => 1,
+            'seconds_between_requests' => 1,
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array( 
                 301,
@@ -398,20 +401,31 @@ class Metric extends MetricInterface
             return $statuses; //We made it this far, so no links failed
         } catch (MultiTransferException $e) {
             foreach ($e->getFailedRequests() as $request) {
-                $curl_code         = 0;
-                $http_code         = null;
-                $url               = $request->getURL();
+                $url = $request->getURL();
 
-                $exception = $e->getExceptionForFailedRequest($request);
-                if ($exception instanceof CurlException) {
-                    $curl_code = $exception->getErrorNo();
+                try {
+                    //send a GET request to verify the status code (turns out some servers don't handle HEAD requests well)
+                    $request = $client->get($url, array(), $this->options['request_options']);
+                    $request->send();
+                    $url = $request->getURL();
+
+                    $statuses[$url] = LinkStatus::createLinkStatus($url, $request->getResponse()->getStatusCode(), 0);
+                } catch (RequestException $exception) {
+                    $curl_code = 0;
+                    $http_code = null;
+
+                    if ($exception instanceof BadResponseException) {
+                        $http_code = $exception->getResponse()->getStatusCode();
+                    }
+
+                    if ($exception instanceof CurlException) {
+                        $curl_code = $exception->getErrorNo();
+                    }
+                    
+                    $statuses[$url] = LinkStatus::createLinkStatus($url, $http_code, $curl_code);
                 }
-
-                if ($response = $request->getResponse()) {
-                    $http_code = $request->getResponse()->getStatusCode();
-                }
-
-                $statuses[$url] = LinkStatus::createLinkStatus($url, $http_code, $curl_code);
+                
+                sleep($this->options['seconds_between_requests']);  //Don't flood with GET requests
             }
 
             foreach ($e->getSuccessfulRequests() as $request) {
