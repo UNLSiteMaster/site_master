@@ -18,7 +18,7 @@ if ($context->count()) {
             ?>
             <tr>
                 <td>
-                    <a href="<?php echo $page->getURL()?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
+                    <a href="<?php echo $page->getURL()?>#metric_<?php echo $grade->metrics_id ?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
                 </td>
                 <td><?php echo $grade->letter_grade ?></td>
             </tr>

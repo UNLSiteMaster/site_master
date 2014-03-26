@@ -3,7 +3,7 @@ $metric = $context->getMetric();
 $metric_plugin = $metric->getMetricObject();
 $page_marks = $context->getMarks();
 ?>
-<div class="metric-grade-details">
+<div class="metric-grade-details" id="metric_<?php echo $metric->id ?>">
     <header class="header">
         <div class="details">
             <span class="title"><?php echo $metric_plugin->getName(); ?></span>
