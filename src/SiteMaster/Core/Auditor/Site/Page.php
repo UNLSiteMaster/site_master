@@ -302,6 +302,9 @@ class Page extends Record
                 
                 //Return early because $this was deleted
                 return true;
+            } else {
+                //Don't actually catch this exception...
+                throw $e;
             }
         }
         
