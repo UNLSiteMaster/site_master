@@ -15,7 +15,7 @@ $previous_scan = $context->scan->getPreviousScan();
     <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> has a new report ready for you to view at <?php echo $site->getURL();?> for your site <?php echo $site->base_url ?>.
 </p>
 <p>
-    The site’s current <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> GPA is <?php echo $context->scan->gpa;
+    The site’s current <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> GPA is <strong><?php echo $context->scan->gpa;?></strong><?php
     if ($previous_scan) {
         echo ', compared to the ' . $previous_scan->gpa . ' GPA reported the last time the site was checked.';
     } else {
