@@ -56,7 +56,7 @@ $pages = $context->getPages();
             if ($changes->count() > 20) {
                 ?>
                 <p class="change-list-first">
-                We suppressed the change list because there were too many changes.
+                We suppressed the change list because there were too many changes. <a href="<?php echo $context->getURL() . 'changes/' ?>"> View the changes</a>
                 </p>
                 <?php
             } else {
