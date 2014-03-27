@@ -52,7 +52,16 @@ $pages = $context->getPages();
         
         <?php 
         if ($previous_scan) {
-            echo $savvy->render($context->getChangedMetricGrades());
+            $changes = $context->getChangedMetricGrades();
+            if ($changes->count() > 20) {
+                ?>
+                <p class="change-list-first">
+                We suppressed the change list because there were too many changes.
+                </p>
+                <?php
+            } else {
+                echo $savvy->render($changes);
+            }    
         } else {
             //This is the first scan, don't the change list would probably be huge
             ?>
