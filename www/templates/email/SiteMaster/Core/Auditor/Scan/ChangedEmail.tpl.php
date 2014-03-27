@@ -10,18 +10,35 @@ $previous_scan = $context->scan->getPreviousScan();
 <p>
     Hello, Fellow Web Developer!
 </p>
-
 <p>
     <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> has a new report ready for you to view at <?php echo $site->getURL();?> for your site <?php echo $site->base_url ?>.
 </p>
-<p>
-    The site’s current <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> GPA is <strong><?php echo $context->scan->gpa;?></strong><?php
-    if ($previous_scan) {
-        echo ', compared to the ' . $previous_scan->gpa . ' GPA reported the last time the site was checked.';
-    } else {
-        echo '.';
+
+<?php
+$arrow = "&#8596; (same)";
+if ($previous_scan) {
+    if ($previous_scan->gpa > $context->scan->gpa) {
+        $arrow = "&#8595; (worse)";
+    } else if ($previous_scan->gpa < $context->scan->gpa) {
+        $arrow = "&#8593; (better)";
     }
-    ?>
+}
+?>
+
+<table cellpadding="5" width="100%" style="border:1px solid #dddddd">
+    <tr style="border-bottom:1px solid #dddddd">
+        <th align="center">Old GPA</th>
+        <th align="center">Change</th>
+        <th align="center">New GPA</th>
+    </tr>
+    <tr>
+        <td align="center"><?php echo ($previous_scan)?$previous_scan->gpa:'new site' ?></td>
+        <td align="center"><?php echo $arrow ?></td>
+        <td align="center"><?php echo $context->scan->gpa;?></td>
+    </tr>
+</table>
+
+<p>
      The audit tool is designed to help you ensure the best experience for your users, and to mitigate risk to the university, by showing you potential problems — problems you can fix. Please view the report from the URL above; it’ll pinpoint what the problem(s) are, and provide some guidance on how to fix them.
 </p>
 
