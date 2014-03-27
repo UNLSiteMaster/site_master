@@ -15,6 +15,7 @@ $previous_scan = $context->scan->getPreviousScan();
 </p>
 
 <?php
+$previous_scan->gpa = 4.0;
 $arrow = "&#8596; (same)";
 if ($previous_scan) {
     if ($previous_scan->gpa > $context->scan->gpa) {
@@ -37,6 +38,16 @@ if ($previous_scan) {
         <td align="center"><?php echo $context->scan->gpa;?></td>
     </tr>
 </table>
+
+<?php 
+if ($previous_scan &&  $context->scan->gpa == $previous_scan->gpa) {
+    ?>
+    <p>
+        There were some changes that did not affect the overall GPA.  Please view the report from the URL above to find out exactly what changed.
+    </p>
+    <?php
+}
+?>
 
 <p>
      The audit tool is designed to help you ensure the best experience for your users, and to mitigate risk to the university, by showing you potential problems — problems you can fix. Please view the report from the URL above; it’ll pinpoint what the problem(s) are, and provide some guidance on how to fix them.
