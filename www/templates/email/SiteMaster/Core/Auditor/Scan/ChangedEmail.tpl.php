@@ -11,7 +11,7 @@ $previous_scan = $context->scan->getPreviousScan();
     Hello, Fellow Web Developer!
 </p>
 <p>
-    <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> has a new report ready for you to view at <?php echo $site->getURL();?> for your site <?php echo $site->base_url ?>.
+    <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> has a <a href="<?php echo $site->getURL();?>">new report</a> for your site <?php echo $site->base_url ?>.
 </p>
 
 <?php
@@ -58,5 +58,5 @@ if ($previous_scan &&  $context->scan->gpa == $previous_scan->gpa) {
 </p>
 
 <p>
-    ps. This is an automated email sent by <?php echo \SiteMaster\Core\Config::get('URL') ?>. The system sends these emails because it detected that something has changed on your site. You received this email because you are a member of the site. You can remove yourself from the site by visiting: <?php echo $site->getURL();?>
+    ps. This is an automated email sent by <a href="<?php echo \SiteMaster\Core\Config::get('URL') ?>"><?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?></a>. The system sends these emails because it detected that something has changed on your site. You received this email because you are a member of the site. You can remove yourself from the site by visiting: <a href="<?php echo $site->getURL();?>"><?php echo $site->getURL();?></a>
 </p>
