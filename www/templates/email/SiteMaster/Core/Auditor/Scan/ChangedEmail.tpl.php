@@ -15,7 +15,6 @@ $previous_scan = $context->scan->getPreviousScan();
 </p>
 
 <?php
-$previous_scan->gpa = 4.0;
 $arrow = "&#8596; (same)";
 if ($previous_scan) {
     if ($previous_scan->gpa > $context->scan->gpa) {
