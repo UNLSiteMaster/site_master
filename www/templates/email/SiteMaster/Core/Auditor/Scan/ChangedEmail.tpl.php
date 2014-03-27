@@ -8,32 +8,48 @@ $site = $context->scan->getSite();
 $previous_scan = $context->scan->getPreviousScan();
 ?>
 <p>
-    Hello!
+    Hello, Fellow Web Developer!
+</p>
+<p>
+    <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> has a new report ready for you to view at <?php echo $site->getURL();?> for your site <?php echo $site->base_url ?>.
 </p>
 
-<p>
-    <?php echo $site->getTitle() ?> has changed! View the new report at <?php echo $site->getURL();?>.
-</p>
-<p>
-    The current GPA is <?php echo $context->scan->gpa ?>.
-    
-    <?php
-    if ($previous_scan) {
-        $diff = abs($previous_scan->gpa - $context->scan->gpa);
-        
-        if ($diff == 0) {
-            echo 'That is the same GPA as last time.';
-        } else if ($context->scan->gpa < $previous_scan->gpa) {
-            echo 'That is a decrease of ' . $diff;
-        } else {
-            echo 'That is an increase of ' . $diff . '.  Good job!';
-        }
+<?php
+$arrow = "&#8596; (same)";
+if ($previous_scan) {
+    if ($previous_scan->gpa > $context->scan->gpa) {
+        $arrow = "&#8595; (worse)";
+    } else if ($previous_scan->gpa < $context->scan->gpa) {
+        $arrow = "&#8593; (better)";
     }
+}
+?>
+
+<table cellpadding="5" width="100%" style="border:1px solid #dddddd">
+    <tr style="border-bottom:1px solid #dddddd">
+        <th align="center">Old GPA</th>
+        <th align="center">Change</th>
+        <th align="center">New GPA</th>
+    </tr>
+    <tr>
+        <td align="center"><?php echo ($previous_scan)?$previous_scan->gpa:'new site' ?></td>
+        <td align="center"><?php echo $arrow ?></td>
+        <td align="center"><?php echo $context->scan->gpa;?></td>
+    </tr>
+</table>
+
+<?php 
+if ($previous_scan &&  $context->scan->gpa == $previous_scan->gpa) {
     ?>
-</p>
+    <p>
+        There were some changes that did not affect the overall GPA.  Please view the report from the URL above to find out exactly what changed.
+    </p>
+    <?php
+}
+?>
 
 <p>
-    This is an automated email sent by <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?>.  You will receive one of these emails whenever we notice that something changed on your site.  This tool is here to help you ensure the best experience for your users by showing you potential problems.
+     The audit tool is designed to help you ensure the best experience for your users, and to mitigate risk to the university, by showing you potential problems — problems you can fix. Please view the report from the URL above; it’ll pinpoint what the problem(s) are, and provide some guidance on how to fix them.
 </p>
 
 <p>
@@ -42,5 +58,5 @@ $previous_scan = $context->scan->getPreviousScan();
 </p>
 
 <p>
-    You received this email because you are a member of the site.  You can remove yourself from the site by visiting: <?php echo $site->getURL();?>
+    ps. This is an automated email sent by <?php echo \SiteMaster\Core\Config::get('URL') ?>. The system sends these emails because it detected that something has changed on your site. You received this email because you are a member of the site. You can remove yourself from the site by visiting: <?php echo $site->getURL();?>
 </p>
