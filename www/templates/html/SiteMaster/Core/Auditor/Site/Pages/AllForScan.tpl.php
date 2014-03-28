@@ -1,6 +1,7 @@
 <?php
-$scan = $context->getScan();
-$site = $scan->getSite();
+$scan           = $context->getScan();
+$site           = $scan->getSite();
+$site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
 ?>
 
 <div class="pages info-section">
@@ -25,7 +26,15 @@ $site = $scan->getSite();
                 <td>
                     <a href="<?php echo $page->getURL()?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
                 </td>
-                <td><?php echo $page->letter_grade ?></td>
+                <td>
+                    <?php 
+                    if ($site_pass_fail) {
+                        echo $page->percent_grade . "% (" . $page->letter_grade . ")";
+                    } else {
+                        echo $page->letter_grade;
+                    }
+                    ?>
+                </td>
             </tr>
         <?php
         }
