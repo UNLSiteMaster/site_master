@@ -26,6 +26,7 @@ class Config
         'USER_AGENT'       => 'sitemaster/1.0', //The user agent to send with HTTP requests
         'EMAIL_FROM'       => 'test@example.org',
         'EXAMPLE_TO_EMAIL' => 'test@example.org', //Used in testing
+        'SITE_PASS_FAIL'        => false, //change to 'true' to grade everything as pass/fail, even sites.  GPA will become the percent of passing pages.
         
         'EMAIL_WHITE_LIST'    => array(), //List of email addresses that can be sent to.  If empty, there are no restrictions
         'CHANGED_EMAIL_ROLES' => array('developer', 'admin'),  //Changed emails should be sent to these roles
