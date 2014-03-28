@@ -129,4 +129,42 @@ class GradingHelper
         
         return round(array_sum($grade_points) / count($grade_points), 2);
     }
+
+    /**
+     * Calculate the SITE_PASS_FAIL gpa from a set of letter grades
+     *
+     * @param array $letter_grades an array of letter grades
+     * @return float
+     */
+    public function calculateSitePassFailGPA(array $letter_grades)
+    {
+        if (empty($letter_grades)) {
+            return 0;
+        }
+
+        $total_pass = 0;
+        $total      = 0;
+
+        foreach ($letter_grades as $letter_grade) {
+            if ($letter_grade == self::GRADE_INCOMPLETE) {
+                continue;
+            }
+
+            if ($letter_grade == self::GRADE_NOT_REPORTING) {
+                continue;
+            }
+
+            if ($letter_grade == self::GRADE_PASS) {
+                $total_pass++;
+            }
+            
+            $total++;
+        }
+
+        if ($total == 0) {
+            return 0;
+        }
+
+        return round($total_pass / $total, 2) * 100;
+    }
 }

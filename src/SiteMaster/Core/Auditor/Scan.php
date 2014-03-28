@@ -209,11 +209,39 @@ class Scan extends Record
      */
     public function computeGPA()
     {
+        if (Config::get('SITE_PASS_FAIL')) {
+            return $this->computeSitePassFailGPA();
+        }
+        
+        return $this->computeLetterGradeGPA();
+    }
+
+    /**
+     * Compute the letter grade gpa of this scan
+     *
+     * @return float
+     */
+    public function computeLetterGradeGPA()
+    {
         $letter_grades = array();
         foreach ($this->getPages() as $page) {
             $letter_grades[] = $page->letter_grade;
         }
-        
+
+        $grading_helper = new GradingHelper();
+        return $grading_helper->calculateGPA($letter_grades);
+    }
+
+    /**
+     * Compute the site pass/fail GPA, which is the percent of passing pages.
+     */
+    public function computeSitePassFailGPA()
+    {
+        $letter_grades = array();
+        foreach ($this->getPages() as $page) {
+            $letter_grades[] = $page->letter_grade;
+        }
+
         $grading_helper = new GradingHelper();
         return $grading_helper->calculateGPA($letter_grades);
     }
