@@ -105,6 +105,19 @@ class Plugin extends PluginInterface
      */
     public function onUpdate($previousVersion)
     {
+        switch ($previousVersion) {
+            case 0204201401:
+                $sql = "ALTER TABLE scans MODIFY gpa DECIMAL(5,2);
+                ALTER TABLE sites MODIFY gpa DECIMAL(5,2);";
+
+                if (!Util::execMultiQuery($sql, true)) {
+                    return false;
+                }
+                
+                return true;
+            break;
+        }
+
         return true;
     }
 
@@ -120,7 +133,7 @@ class Plugin extends PluginInterface
 
     /**
      * Returns the version of this plugin
-     * Follow a mmddyyyyxx syntax.
+     * Follow a YYYYMMDDxx syntax.
      *
      * for example 1118201301
      * would be 11/18/2013 - increment 1
@@ -129,7 +142,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 0204201401;
+        return 2014032801;
     }
 
     /**
