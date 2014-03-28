@@ -243,7 +243,7 @@ class Scan extends Record
         }
 
         $grading_helper = new GradingHelper();
-        return $grading_helper->calculateGPA($letter_grades);
+        return $grading_helper->calculateSitePassFailGPA($letter_grades);
     }
 
     /**
