@@ -3,9 +3,9 @@
  * @var $context \SiteMaster\Core\Auditor\Scan\CompletedEmail
  * @var $site \SiteMaster\Core\Registry\Site
  */
-$site = $context->scan->getSite();
-
-$previous_scan = $context->scan->getPreviousScan();
+$site           = $context->scan->getSite();
+$previous_scan  = $context->scan->getPreviousScan();
+$site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
 ?>
 <p>
     Hello, Fellow Web Developer!
@@ -25,16 +25,47 @@ if ($previous_scan) {
 }
 ?>
 
+<?php
+if ($site_pass_fail) {
+    ?>
+    <table cellpadding="5" width="100%" style="border:1px solid #dddddd; margin-bottom: 1em;">
+        <tr style="border-bottom:1px solid #dddddd">
+            <th align="center">Current Site Status</th>
+        </tr>
+        <tr>
+            <td align="center">
+                <?php
+                if ($context->scan->gpa == 100) {
+                    echo 'Passing';
+                } else {
+                    echo 'Not Passing';
+                }
+                ?>
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+?>
+
 <table cellpadding="5" width="100%" style="border:1px solid #dddddd">
     <tr style="border-bottom:1px solid #dddddd">
-        <th align="center">Old GPA</th>
+        <th align="center">Old Passing Pages</th>
         <th align="center">Change</th>
-        <th align="center">New GPA</th>
+        <th align="center">New Passing Pages</th>
     </tr>
     <tr>
         <td align="center"><?php echo ($previous_scan)?$previous_scan->gpa:'new site' ?></td>
         <td align="center"><?php echo $arrow ?></td>
-        <td align="center"><?php echo $context->scan->gpa;?></td>
+        <td align="center">
+            <?php 
+            echo $context->scan->gpa;
+            
+            if ($site_pass_fail) {
+                echo '%';
+            }
+            ?>
+        </td>
     </tr>
 </table>
 
