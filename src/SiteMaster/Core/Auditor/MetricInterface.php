@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -146,6 +147,11 @@ abstract class MetricInterface
 
         $grade->pass_fail = 'NO';
         if ($this->isPassFail()) {
+            $grade->pass_fail = 'YES';
+        }
+        
+        if (Config::get('SITE_PASS_FAIL')) {
+            //The grading method for the system is pass/fail...
             $grade->pass_fail = 'YES';
         }
         
