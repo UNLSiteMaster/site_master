@@ -50,9 +50,21 @@ if ($site_pass_fail) {
 
 <table cellpadding="5" width="100%" style="border:1px solid #dddddd">
     <tr style="border-bottom:1px solid #dddddd">
-        <th align="center">Old Passing Pages</th>
-        <th align="center">Change</th>
-        <th align="center">New Passing Pages</th>
+        <?php 
+        if ($site_pass_fail) {
+            ?>
+            <th align="center">Before</th>
+            <th align="center">Change in Passing Pages</th>
+            <th align="center">After</th>
+            <?php
+        } else {
+            ?>
+            <th align="center">Old GPA</th>
+            <th align="center">Change</th>
+            <th align="center">New GPA</th>
+            <?php
+        }
+        ?>
     </tr>
     <tr>
         <td align="center"><?php echo ($previous_scan)?$previous_scan->gpa:'new site' ?></td>
