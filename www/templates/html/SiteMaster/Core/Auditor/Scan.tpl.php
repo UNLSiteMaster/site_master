@@ -2,6 +2,7 @@
 $previous_scan = $context->getPreviousScan();
 $site = $context->getSite();
 $pages = $context->getPages();
+$site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
 ?>
 
 <div class="scan">
@@ -26,12 +27,51 @@ $pages = $context->getPages();
     <?php
     }
     ?>
+
+    <?php
+    if ($site_pass_fail && $context->isComplete()) {
+        $passing = false;
+        if ($context->gpa == 100) {
+            $passing = true;
+        }
+        ?>
+        <div class="dashboard-metrics">
+            <div class="visual-island site-pass-fail-status <?php echo ($passing)?'valid':'invalid'; ?>">
+                <span class="dashboard-value">
+                    <?php
+                    if ($passing) {
+                        echo 'Passing';
+                    } else {
+                        echo 'Not Passing';
+                    }
+                    ?>
+                </span>
+                <span class="dashboard-metric">
+                    <?php
+                    if ($passing) {
+                        echo 'All of your pages are passing.  Good job!';
+                    } else {
+                        echo 'In order for the site to pass, all pages must pass.';
+                    }
+                    ?>
+                </span>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
     
     <section class="row dashboard-metrics">
         <div class="large-4 columns">
             <div class="visual-island gpa">
-                <span class="dashboard-value"><?php echo $context->gpa ?></span>
-                <span class="dashboard-metric">GPA</span>
+                <span class="dashboard-value"><?php echo $context->gpa ?><?php echo ($site_pass_fail?'%':'') ?></span>
+                <?php
+                $gpa_name = 'GPA';
+                if ($site_pass_fail) {
+                    $gpa_name = 'of pages are passing';
+                }
+                ?>
+                <span class="dashboard-metric"><?php echo $gpa_name ?></span>
             </div>
         </div>
         <div class="large-4 columns">
