@@ -25,7 +25,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `sites` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `base_url` VARCHAR(255) NOT NULL COMMENT 'the base url of the site',
-  `gpa` DECIMAL(3,2) NOT NULL DEFAULT 0,
+  `gpa` DECIMAL(5,2) NOT NULL DEFAULT 0,
   `title` VARCHAR(255) NULL COMMENT 'The title of the site',
   `support_email` VARCHAR(45) NULL COMMENT 'The support email for the site',
   `last_connection_error` DATETIME NULL,
@@ -108,7 +108,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `scans` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `sites_id` INT NOT NULL,
-  `gpa` DECIMAL(3,2) NOT NULL DEFAULT 0 COMMENT 'the GPA.  This is computed by averaging the numeric value of the scanned_page.grade',
+  `gpa` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'the GPA.  This is computed by averaging the numeric value of the scanned_page.grade',
   `status` ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'CREATED',
   `scan_type` ENUM('USER', 'AUTO') NOT NULL DEFAULT 'AUTO',
   `date_created` DATETIME NOT NULL,
