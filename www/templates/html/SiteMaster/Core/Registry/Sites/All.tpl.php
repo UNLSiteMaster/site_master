@@ -1,6 +1,4 @@
 <?php
-$site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
-
 if (!$context->count()) {
     ?>
     No sites
@@ -33,7 +31,7 @@ if (!$context->count()) {
                                 </div>
                                 <div class="metric">
                                     <?php
-                                    if ($site_pass_fail) {
+                                    if ($scan->isPassFail()) {
                                         if ($scan->gpa == 100) {
                                             echo 'Looks Good';
                                         } else {

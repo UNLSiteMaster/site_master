@@ -5,7 +5,7 @@
  */
 $site           = $context->scan->getSite();
 $previous_scan  = $context->scan->getPreviousScan();
-$site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
+$site_pass_fail = $context->scan->isPassFail();
 ?>
 <p>
     Hello, Fellow Web Developer!

@@ -2,7 +2,7 @@
 $previous_scan = $context->getPreviousScan();
 $site = $context->getSite();
 $pages = $context->getPages();
-$site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
+$site_pass_fail = $context->isPassFail();
 ?>
 
 <div class="scan">

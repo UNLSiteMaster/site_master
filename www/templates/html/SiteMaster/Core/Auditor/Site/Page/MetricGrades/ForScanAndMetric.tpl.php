@@ -1,7 +1,7 @@
 <?php
 $scan           = $context->getScan();
 $site           = $scan->getSite();
-$site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
+$site_pass_fail = $scan->isPassFail();
 
 if ($context->count()) {
     ?>
