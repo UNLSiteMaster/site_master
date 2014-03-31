@@ -24,9 +24,9 @@ if ($context->count()) {
                 <td>
                     <?php
                     if ($site_pass_fail) {
-                        echo $page->percent_grade . "% (" . $page->letter_grade . ")";
+                        echo $grade->point_grade . "% (" . $grade->letter_grade . ")";
                     } else {
-                        echo $page->letter_grade;
+                        echo $grade->letter_grade;
                     }
                     ?>
                 </td>
