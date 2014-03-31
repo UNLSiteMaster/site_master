@@ -150,8 +150,9 @@ abstract class MetricInterface
             $grade->pass_fail = 'YES';
         }
         
-        if (Config::get('SITE_PASS_FAIL')) {
-            //The grading method for the system is pass/fail...
+        $scan = $page->getScan();
+        if ($scan->isPassFail()) {
+            //The grading method for the scan is pass/fail...
             $grade->pass_fail = 'YES';
         }
         

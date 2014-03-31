@@ -396,7 +396,8 @@ class Page extends Record
             }
         }
         
-        if (Config::get('SITE_PASS_FAIL')) {
+        $scan = $this->getScan();
+        if ($scan->isPassFail()) {
             //Handle the SITE_PASS_FAIL grading method
             if ($percent_grade >= 100) {
                 return GradingHelper::GRADE_PASS;

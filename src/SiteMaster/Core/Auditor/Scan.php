@@ -229,7 +229,7 @@ class Scan extends Record
      */
     public function computeGPA()
     {
-        if (Config::get('SITE_PASS_FAIL')) {
+        if ($this->isPassFail()) {
             return $this->computeSitePassFailGPA();
         }
         
