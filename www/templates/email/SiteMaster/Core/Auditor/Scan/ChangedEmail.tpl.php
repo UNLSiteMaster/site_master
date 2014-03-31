@@ -22,6 +22,10 @@ if ($previous_scan) {
     } else if ($previous_scan->gpa < $context->scan->gpa) {
         $arrow = "&#8593; (better)";
     }
+
+    if ($site_pass_fail != $previous_scan->isPassFail()) {
+        $arrow = "&#8800; <span class='secondary'>(incomparable)</span>";
+    }
 }
 ?>
 

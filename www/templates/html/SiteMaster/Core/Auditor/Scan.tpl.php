@@ -84,6 +84,10 @@ $site_pass_fail = $context->isPassFail();
                     } else if ($previous_scan->gpa < $context->gpa) {
                         $arrow = "&#8593; <span class='secondary'>(better)</span>";
                     }
+
+                    if ($site_pass_fail != $previous_scan->isPassFail()) {
+                        $arrow = "&#8800; <span class='secondary'>(incomparable)</span>";
+                    }
                 }
                 ?>
                 <div class="dashboard-value">
