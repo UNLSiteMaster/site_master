@@ -23,11 +23,7 @@ if ($context->count()) {
                 </td>
                 <td>
                     <?php
-                    if ($site_pass_fail) {
-                        echo $grade->point_grade . "% (" . $grade->letter_grade . ")";
-                    } else {
-                        echo $grade->letter_grade;
-                    }
+                    echo $theme_helper->formatGrade($grade->point_grade, $grade->letter_grade, $site_pass_fail);
                     ?>
                 </td>
             </tr>

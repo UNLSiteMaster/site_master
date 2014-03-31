@@ -27,12 +27,8 @@ $site_pass_fail = $scan->isPassFail();
                     <a href="<?php echo $page->getURL()?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
                 </td>
                 <td>
-                    <?php 
-                    if ($site_pass_fail) {
-                        echo $page->percent_grade . "% (" . $page->letter_grade . ")";
-                    } else {
-                        echo $page->letter_grade;
-                    }
+                    <?php
+                    echo $theme_helper->formatGrade($page->percent_grade, $page->letter_grade, $site_pass_fail);
                     ?>
                 </td>
             </tr>
