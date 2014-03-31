@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS `scans` (
   `gpa` DECIMAL(5,2) NOT NULL DEFAULT 0 COMMENT 'the GPA.  This is computed by averaging the numeric value of the scanned_page.grade',
   `status` ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL DEFAULT 'CREATED',
   `scan_type` ENUM('USER', 'AUTO') NOT NULL DEFAULT 'AUTO',
+  `pass_fail` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Was this scan a pass/fail scan of the site?',
   `date_created` DATETIME NOT NULL,
   `start_time` DATETIME NULL,
   `end_time` DATETIME NULL,
