@@ -105,17 +105,14 @@ class Plugin extends PluginInterface
      */
     public function onUpdate($previousVersion)
     {
-        switch ($previousVersion) {
-            case 0204201401:
-                $sql = "ALTER TABLE scans MODIFY gpa DECIMAL(5,2);
-                ALTER TABLE sites MODIFY gpa DECIMAL(5,2);";
+        if ($previousVersion <= 2014032801) {
+            $sql = "ALTER TABLE scans MODIFY gpa DECIMAL(5,2);
+                    ALTER TABLE sites MODIFY gpa DECIMAL(5,2);
+                    ALTER TABLE scans ADD COLUMN pass_fail ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'Was this scan a pass/fail scan of the site?'";
 
-                if (!Util::execMultiQuery($sql, true)) {
-                    return false;
-                }
-                
-                return true;
-            break;
+            if (!Util::execMultiQuery($sql, true)) {
+                return false;
+            }
         }
 
         return true;
@@ -142,7 +139,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 2014032801;
+        return 2014033101;
     }
 
     /**
