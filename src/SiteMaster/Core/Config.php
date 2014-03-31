@@ -93,6 +93,11 @@ class Config
             return  dirname(dirname(dirname(dirname(__FILE__)))) . "/tmp/";
         }
 
+        //Alter the mysql host to be persistent
+        if ($key == 'DB_HOST' && self::$data[$key] != false) {
+            return 'p:' . self::$data[$key];
+        }
+
         return self::$data[$key];
     }
 
