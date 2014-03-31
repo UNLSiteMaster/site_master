@@ -20,6 +20,7 @@ class Scan extends Record
     public $gpa;                   //double(2,2) NOT NULL default=0
     public $status;                //ENUM('CREATED', 'QUEUED', 'RUNNING', 'COMPLETE', 'ERROR') NOT NULL default='CREATED'
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
+    public $pass_fail;             //ENUM('YES', 'NO') NOT NULL default='NO'
     public $date_created;          //DATETIME NOT NULL, the date that this record was created
     public $start_time;            //DATETIME NOT NULL
     public $end_time;             //DATETIME
@@ -58,6 +59,11 @@ class Scan extends Record
         $scan->status     = self::STATUS_CREATED;
         $scan->scan_type  = self::SCAN_TYPE_AUTO;
         $scan->date_created = Util::epochToDateTime();
+        $scan->pass_fail  = 'NO';
+        
+        if (Config::get('SITE_PASS_FAIL')) {
+            $scan->pass_fail = 'YES';
+        }
         
         $scan->synchronizeWithArray($fields);
         $scan->sites_id = $sites_id;
