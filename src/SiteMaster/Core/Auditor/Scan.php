@@ -162,6 +162,20 @@ class Scan extends Record
     }
 
     /**
+     * Determine if this scan was pass/fail
+     * 
+     * @return bool
+     */
+    public function isPassFail()
+    {
+        if ($this->pass_fail == 'YES') {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
      * Mark this scan as queued
      */
     public function markAsQueued()
