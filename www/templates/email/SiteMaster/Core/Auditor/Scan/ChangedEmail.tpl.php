@@ -36,9 +36,9 @@ if ($site_pass_fail) {
             <td align="center">
                 <?php
                 if ($context->scan->gpa == 100) {
-                    echo 'Passing';
+                    echo 'Looks Good';
                 } else {
-                    echo 'Not Passing';
+                    echo 'Needs Work';
                 }
                 ?>
             </td>

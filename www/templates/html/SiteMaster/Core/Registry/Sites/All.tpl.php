@@ -35,9 +35,9 @@ if (!$context->count()) {
                                     <?php
                                     if ($site_pass_fail) {
                                         if ($scan->gpa == 100) {
-                                            echo 'PASSING';
+                                            echo 'Looks Good';
                                         } else {
-                                            echo 'NOT PASSING';
+                                            echo 'Needs Work';
                                         }
                                     } else {
                                         echo "GPA";

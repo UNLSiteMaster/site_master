@@ -40,9 +40,9 @@ $site_pass_fail = \SiteMaster\Core\Config::get('SITE_PASS_FAIL');
                 <span class="dashboard-value">
                     <?php
                     if ($passing) {
-                        echo 'Passing';
+                        echo 'Looks Good';
                     } else {
-                        echo 'Not Passing';
+                        echo 'Needs Work';
                     }
                     ?>
                 </span>
