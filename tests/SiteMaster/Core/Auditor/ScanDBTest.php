@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\DBTests\BaseTestDataInstaller;
 use SiteMaster\Core\DBTests\DBTestCase;
 use SiteMaster\Core\Registry\Site;
@@ -155,6 +156,60 @@ class ScanDBTest extends DBTestCase
             //The page should have an F grade because the only metric failed
             $this->assertEquals(GradingHelper::GRADE_F, $page->letter_grade);
         }
+    }
+
+    /**
+     * Simulate a scan when the config option SITE_PASS_FAIL is set to true.  Verify all results
+     * This is an integration test rather than a unit test
+     *
+     * @test
+     * @group integration
+     */
+    public function scanSitePassFail()
+    {
+        $this->setUpDB();
+
+        Config::set('SITE_PASS_FAIL', true);
+
+        $metrics = new Metrics();
+        foreach ($metrics as $metric) {
+            if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
+                $metric->setOptions(array(
+                    'pass_fail' => true,
+                    'weight' => 100
+                ));
+            }
+        }
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        $example_metric = Metric::getByMachineName('example');
+
+        foreach ($scan->getPages() as $page) {
+            /**
+             * @var $page Page
+             */
+            $grade = $page->getMetricGrade($example_metric->id);
+            $this->assertEquals(0, $grade->point_grade, 'the grade should be 0');
+            $this->assertEquals(GradingHelper::GRADE_NO_PASS, $grade->letter_grade);
+
+            //The page should have an F grade because the only metric failed
+            $this->assertEquals(GradingHelper::GRADE_NO_PASS, $page->letter_grade);
+        }
+        
+        $scan->reload();
+
+        $this->assertEquals(0, $scan->gpa);
+
+        Config::set('SITE_PASS_FAIL', false);
     }
 
     /**

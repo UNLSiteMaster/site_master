@@ -396,6 +396,16 @@ class Page extends Record
             }
         }
         
+        $scan = $this->getScan();
+        if ($scan->isPassFail()) {
+            //Handle the SITE_PASS_FAIL grading method
+            if ($percent_grade >= 100) {
+                return GradingHelper::GRADE_PASS;
+            } else {
+                return GradingHelper::GRADE_NO_PASS;
+            }
+        }
+        
         $grade_helper = new GradingHelper();
         
         return $grade_helper->convertPercentToLetterGrade($percent_grade);

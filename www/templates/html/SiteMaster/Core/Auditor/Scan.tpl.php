@@ -2,6 +2,7 @@
 $previous_scan = $context->getPreviousScan();
 $site = $context->getSite();
 $pages = $context->getPages();
+$site_pass_fail = $context->isPassFail();
 ?>
 
 <div class="scan">
@@ -26,21 +27,82 @@ $pages = $context->getPages();
     <?php
     }
     ?>
-    
-    <section class="row dashboard-metrics">
-        <div class="large-4 columns">
-            <div class="visual-island gpa">
-                <span class="dashboard-value"><?php echo $context->gpa ?></span>
-                <span class="dashboard-metric">GPA</span>
+
+    <?php
+    if ($site_pass_fail && $context->isComplete()) {
+        $passing = false;
+        if ($context->gpa == 100) {
+            $passing = true;
+        }
+        ?>
+        <div class="dashboard-metrics">
+            <div class="visual-island site-pass-fail-status <?php echo ($passing)?'valid':'invalid'; ?>">
+                <span class="dashboard-value">
+                    <?php
+                    if ($passing) {
+                        echo 'Looks Good';
+                    } else {
+                        echo 'Needs Work';
+                    }
+                    ?>
+                </span>
+                <span class="dashboard-metric">
+                    <?php
+                    if ($passing) {
+                        echo 'All of your pages are passing.  Good job!';
+                    } else {
+                        echo 'In order for the site to pass, all pages must pass.';
+                    }
+                    ?>
+                </span>
             </div>
         </div>
-        <div class="large-4 columns">
+    <?php
+    }
+    ?>
+    
+    <section class="row dashboard-metrics">
+        <div class="large-3 columns">
+            <div class="visual-island gpa">
+                <span class="dashboard-value"><?php echo $context->gpa ?><?php echo ($site_pass_fail?'%':'') ?></span>
+                <?php
+                $gpa_name = 'GPA';
+                if ($site_pass_fail) {
+                    $gpa_name = 'of pages are passing';
+                }
+                ?>
+                <span class="dashboard-metric"><?php echo $gpa_name ?></span>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <div class="visual-island">
+                <?php
+                $arrow = "&#8596; <span class='secondary'>(same)</span>";
+                if ($previous_scan) {
+                    if ($previous_scan->gpa > $context->gpa) {
+                        $arrow = "&#8595; <span class='secondary'>(worse)</span>";
+                    } else if ($previous_scan->gpa < $context->gpa) {
+                        $arrow = "&#8593; <span class='secondary'>(better)</span>";
+                    }
+
+                    if ($site_pass_fail != $previous_scan->isPassFail()) {
+                        $arrow = "&#8800; <span class='secondary'>(incomparable)</span>";
+                    }
+                }
+                ?>
+                <div class="dashboard-value">
+                    <?php echo $arrow ?>
+                </div>
+                <div class="dashboard-metric">Compared to Last Scan</div>
+            </div>
+        </div>
+        <div class="large-3 columns">
             <div class="visual-island">
                 <span class="dashboard-value"><?php echo $context->getABSNumberOfChanges() ?></span>
                 <span class="dashboard-metric">Changes</span>
             </div>
         </div>
-        <div class="large-4 columns">
+        <div class="large-3 columns">
             <div class="visual-island">
                 <span class="dashboard-value"><?php echo $pages->count() ?></span>
                 <span class="dashboard-metric">Pages</span>

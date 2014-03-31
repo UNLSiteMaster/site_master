@@ -75,4 +75,24 @@ class GradingHelperTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(3.5, $helper->calculateGPA($letter_grades));
     }
+
+    /**
+     * @test
+     */
+    public function calculateSitePassFailGPA()
+    {
+        $helper = new GradingHelper();
+
+        $letter_grades = array();
+        $this->assertEquals(0, $helper->calculateSitePassFailGPA($letter_grades));
+
+        $letter_grades = array(
+            GradingHelper::GRADE_PASS,
+            GradingHelper::GRADE_PASS,
+            GradingHelper::GRADE_NO_PASS,
+            GradingHelper::GRADE_INCOMPLETE,
+            GradingHelper::GRADE_NOT_REPORTING
+        );
+        $this->assertEquals(67, $helper->calculateSitePassFailGPA($letter_grades));
+    }
 }

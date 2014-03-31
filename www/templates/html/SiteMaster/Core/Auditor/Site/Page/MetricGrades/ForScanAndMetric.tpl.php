@@ -1,6 +1,7 @@
 <?php
-$scan = $context->getScan();
-$site = $scan->getSite();
+$scan           = $context->getScan();
+$site           = $scan->getSite();
+$site_pass_fail = $scan->isPassFail();
 
 if ($context->count()) {
     ?>
@@ -20,7 +21,11 @@ if ($context->count()) {
                 <td>
                     <a href="<?php echo $page->getURL()?>#metric_<?php echo $grade->metrics_id ?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
                 </td>
-                <td><?php echo $grade->letter_grade ?></td>
+                <td>
+                    <?php
+                    echo $theme_helper->formatGrade($grade->point_grade, $grade->letter_grade, $site_pass_fail);
+                    ?>
+                </td>
             </tr>
         <?php
         }

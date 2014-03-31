@@ -30,7 +30,17 @@ if (!$context->count()) {
                                     <?php echo $scan->gpa; ?>
                                 </div>
                                 <div class="metric">
-                                    GPA
+                                    <?php
+                                    if ($scan->isPassFail()) {
+                                        if ($scan->gpa == 100) {
+                                            echo 'Looks Good';
+                                        } else {
+                                            echo 'Needs Work';
+                                        }
+                                    } else {
+                                        echo "GPA";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <?php

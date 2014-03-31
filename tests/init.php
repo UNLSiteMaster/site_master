@@ -22,4 +22,7 @@ Config::set('PLUGINS', array(
     'theme_foundation' => array('setting'=>'value'),
 ));
 
+//Ensure that SITE_PASS_FAIL is false by default.
+Config::set('SITE_PASS_FAIL', false);
+
 require_once(__DIR__ . '/../init_plugins.php');

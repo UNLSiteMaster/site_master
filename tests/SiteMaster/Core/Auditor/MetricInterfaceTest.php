@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use SiteMaster\Core\Config;
+
 class MetricInterfaceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -48,7 +50,13 @@ class MetricInterfaceTest extends \PHPUnit_Framework_TestCase
         $grade = new Site\Page\MetricGrade();
         $grade->incomplete = 'YES';
         $this->assertEquals(GradingHelper::GRADE_INCOMPLETE, $metric->computeLetterGrade($grade));
+    }
 
+    /**
+     * @test
+     */
+    public function computeLetterGradePassFail()
+    {
         //simulate a pass/fail
         $metric = new \SiteMaster\Plugins\Example\Metric('example',
             array('pass_fail'=>true)
