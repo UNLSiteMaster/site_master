@@ -401,11 +401,15 @@ class Scan extends Record
      */
     public function getHotSpots($metrics_id)
     {
-        return new Page\MetricGrades\ForScanAndMetric(
-            array(
-                'metrics_id' => $metrics_id,
-                'scans_id' => $this->id,)
+        $options =  array(
+            'metrics_id' => $metrics_id,
+            'scans_id' => $this->id,
         );
+        
+        if ($this->isPassFail()) {
+            $options['order_by_marks'] = true;
+        }
+        return new Page\MetricGrades\ForScanAndMetric($options);
     }
 
     /**
