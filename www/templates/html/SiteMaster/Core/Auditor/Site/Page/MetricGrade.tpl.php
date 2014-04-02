@@ -96,14 +96,18 @@ $page_marks = $context->getMarks();
                         <?php
                         $points_deducted = $page_mark->points_deducted;
                         if ($context->isPassFail()) {
-                            if ($points_deducted) {
+                            if ($page_mark->points_deducted) {
                                 $points_deducted = 'Fail';
                             } else {
                                 $points_deducted = 'Pass';
                             }
                         }
-                        if ($points_deducted === '0.00') {
-                            $points_deducted = '0 (notice)';
+                        if ($page_mark->points_deducted === '0.00') {
+                            if ($context->isPassFail()) {
+                                $points_deducted = 'notice';
+                            } else {
+                                $points_deducted = '0 (notice)';
+                            }
                         }
                         echo $points_deducted;
                         ?>
