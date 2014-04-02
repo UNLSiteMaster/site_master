@@ -9,7 +9,18 @@ if ($context->count()) {
         <thead>
         <tr>
             <th>Page</th>
-            <th>Grade</th>
+            <?php
+            if ($site_pass_fail) {
+                ?>
+                <th>Marks</th>
+                <?php
+            } else {
+                ?>
+                <th>Grade</th>
+                <?php
+            }
+            ?>
+            
         </tr>
         </thead>
         <tbody>
@@ -23,7 +34,12 @@ if ($context->count()) {
                 </td>
                 <td>
                     <?php
-                    echo $theme_helper->formatGrade($grade->point_grade, $grade->letter_grade, $site_pass_fail);
+                    if ($site_pass_fail) {
+                        $marks = $grade->getMarks();
+                        echo $marks->count();
+                    } else {
+                        echo $theme_helper->formatGrade($grade->point_grade, $grade->letter_grade, $site_pass_fail);
+                    }
                     ?>
                 </td>
             </tr>
