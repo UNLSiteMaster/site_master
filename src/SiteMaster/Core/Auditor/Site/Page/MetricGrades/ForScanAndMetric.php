@@ -66,6 +66,7 @@ class ForScanAndMetric extends RecordList
                         AND pm.scanned_page_id = page_metric_grades.scanned_page_id
                 ) as marks
                 FROM page_metric_grades
+                /* Grab the newest page_metric_grades record for each uri_hash */
                 JOIN (SELECT MAX(page_metric_grades.id) as id
                       FROM page_metric_grades
                       JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
