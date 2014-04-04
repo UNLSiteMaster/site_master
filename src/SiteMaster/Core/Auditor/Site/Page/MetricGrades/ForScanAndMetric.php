@@ -58,7 +58,13 @@ class ForScanAndMetric extends RecordList
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT page_metric_grades.id as id, marks.total as marks
+        $sql = "SELECT page_metric_grades.id as id, (
+                    SELECT COUNT(*) 
+                    FROM page_marks as pm
+                    JOIN marks ON (pm.marks_id = marks.id)
+                    WHERE marks.metrics_id = page_metric_grades.metrics_id 
+                        AND pm.scanned_page_id = page_metric_grades.scanned_page_id
+                ) as marks
                 FROM page_metric_grades
                 JOIN (SELECT MAX(page_metric_grades.id) as id
                       FROM page_metric_grades
@@ -68,13 +74,6 @@ class ForScanAndMetric extends RecordList
                       AND page_metric_grades.incomplete = 'NO'
                       GROUP BY scanned_page.uri_hash
                       ) as grades ON (grades.id = page_metric_grades.id)
-                JOIN (
-                    SELECT COUNT(*) as total, scanned_page_id
-                    FROM page_marks as pm
-                    JOIN marks ON (pm.marks_id = marks.id)
-                    WHERE marks.metrics_id = " . (int)$this->options['metrics_id'] . "
-                    GROUP BY scanned_page_id
-                ) as marks ON (marks.scanned_page_id = page_metric_grades.scanned_page_id)
                 WHERE 
                     page_metric_grades.point_grade != page_metric_grades.points_available 
                  " . $this->getOrderBy() . "
