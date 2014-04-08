@@ -89,7 +89,7 @@ if ($site_pass_fail) {
 if ($previous_scan &&  $context->scan->gpa == $previous_scan->gpa) {
     ?>
     <p>
-        There were some changes that did not affect the overall GPA.  Please view the report from the URL above to find out exactly what changed.
+        There were some changes that did not affect the overall grade.  Please view the report from the URL above to find out exactly what changed.
     </p>
     <?php
 }
