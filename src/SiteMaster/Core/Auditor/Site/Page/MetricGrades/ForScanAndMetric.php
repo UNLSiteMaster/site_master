@@ -49,7 +49,7 @@ class ForScanAndMetric extends RecordList
     public function getOrderBy()
     {
         if (isset($this->options['order_by_marks'])) {
-            return 'ORDER BY marks DESC';
+            return 'ORDER BY total_marks DESC';
         }
         
         return 'ORDER BY page_metric_grades.point_grade ASC';
@@ -58,25 +58,27 @@ class ForScanAndMetric extends RecordList
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT page_metric_grades.id as id, marks.total as marks
+        $sql = "SELECT page_metric_grades.id as id, page_marks.total as total_marks
                 FROM page_metric_grades
-                JOIN (SELECT MAX(page_metric_grades.id) as id
-                      FROM page_metric_grades
-                      JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
-                      WHERE scanned_page.scans_id = " .(int)$this->options['scans_id'] . "
-                      AND page_metric_grades.metrics_id = " . (int)$this->options['metrics_id'] . "
-                      AND page_metric_grades.incomplete = 'NO'
-                      GROUP BY scanned_page.uri_hash
-                      ) as grades ON (grades.id = page_metric_grades.id)
+                /* Grab the newest page_metric_grades record for each uri_hash */
                 JOIN (
-                    SELECT COUNT(*) as total, scanned_page_id
-                    FROM page_marks as pm
-                    JOIN marks ON (pm.marks_id = marks.id)
-                    WHERE marks.metrics_id = " . (int)$this->options['metrics_id'] . "
-                    GROUP BY scanned_page_id
-                ) as marks ON (marks.scanned_page_id = page_metric_grades.scanned_page_id)
-                WHERE 
-                    page_metric_grades.point_grade != page_metric_grades.points_available 
+                    SELECT MAX(page_metric_grades.id) as id
+                    FROM page_metric_grades
+                    JOIN scanned_page ON (page_metric_grades.scanned_page_id = scanned_page.id)
+                    WHERE scanned_page.scans_id = " . (int)$this->options['scans_id'] . "
+                    AND page_metric_grades.metrics_id = " . (int)$this->options['metrics_id'] . "
+                    AND page_metric_grades.incomplete = 'NO'
+                    GROUP BY scanned_page.uri_hash
+                ) as grades ON (grades.id = page_metric_grades.id)
+                JOIN (
+                    SELECT count(pm.id) AS total, sp.id
+                    FROM page_marks pm
+                    JOIN scanned_page sp ON pm.scanned_page_id = sp.id AND sp.scans_id = " . (int)$this->options['scans_id'] . "
+                    JOIN marks m ON pm.marks_id = m.id AND m.metrics_id = " . (int)$this->options['metrics_id'] . "
+                    GROUP BY sp.id 
+                ) as page_marks ON page_marks.id = page_metric_grades.scanned_page_id
+                WHERE
+                    page_metric_grades.point_grade != page_metric_grades.points_available
                  " . $this->getOrderBy() . "
                  " . $this->getLimit();
 

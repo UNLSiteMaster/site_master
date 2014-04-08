@@ -22,10 +22,11 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
     public function cleanDB()
     {
         $pluginManager = PluginManager::getManager();
-        $installedPlugins = $pluginManager->getInstalledPlugins();
+        $installedPlugins = $pluginManager->getAllPlugins();
         
         //Clear the database
         foreach ($installedPlugins as $name=>$plugin) {
+            $plugin = PluginManager::getManager()->getPluginInfo($plugin);
             //Don't actually uninstall, just perform uninstall logic defined by the plugin (which should remove all SQL)
             $plugin->onUninstall();
         }
@@ -36,10 +37,11 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
     public function installBaseDB()
     {
         $pluginManager = PluginManager::getManager();
-        $installedPlugins = $pluginManager->getInstalledPlugins();
+        $installedPlugins = $pluginManager->getAllPlugins();
         
         //Reset database to a fresh install
         foreach ($installedPlugins as $name=>$plugin) {
+            $plugin = PluginManager::getManager()->getPluginInfo($plugin);
             $plugin->onInstall();
         }
     }
