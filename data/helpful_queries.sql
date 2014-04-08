@@ -45,3 +45,16 @@ FROM page_marks
   JOIN marks ON (page_marks.marks_id = marks.id)
 GROUP BY page_marks.marks_id
 ORDER BY count DESC;
+
+#Chancellors report
+SELECT sites.base_url, unl_scan_attributes.html_version, scans.gpa as percent_passing_pages, CONCAT('https://webaudit.unl.edu/sites/', CAST(sites.id as CHAR), '/') as report_url
+FROM (
+       SELECT max(scans.id) as id
+       FROM scans
+       WHERE scans.status = 'COMPLETE'
+       GROUP by scans.sites_id
+     ) as latest_scans
+  JOIN scans ON (scans.id = latest_scans.id)
+  JOIN unl_scan_attributes on (unl_scan_attributes.scans_id = scans.id)
+  JOIN sites ON (scans.sites_id = sites.id)
+ORDER BY sites.base_url
