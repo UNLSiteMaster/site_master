@@ -35,6 +35,9 @@ while (true) {
     $queue = new SiteMaster\Core\Auditor\Site\Pages\Queued();
     
     if (!$queue->count()) {
+        //Reset the cached robots.txt
+        \Spider_Filter_RobotsTxt::$robotstxt = array();
+        
         //Sleep for 10 seconds
         sleep(10);
         
