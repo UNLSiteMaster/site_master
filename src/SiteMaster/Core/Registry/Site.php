@@ -98,7 +98,10 @@ class Site extends Record
         
         $registry = new Registry();
         
-        $site = $registry->getClosestSite($query);
+        if (!$site = $registry->getClosestSite($query)) {
+            //Couldn't find a parent site, return false.
+            return false;
+        }
 
         /**
          * It might be the case that the base urls are the same.
