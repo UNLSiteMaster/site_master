@@ -364,3 +364,11 @@ Notices
 .fix-mark-details dt {
     font-weight: bold;
 }
+
+pre {
+    font-family: "Courier New", Courier, monospace;
+    margin-bottom: 10px;
+    background-color: #EEE;
+    overflow: auto;
+    padding: 1em;
+}
