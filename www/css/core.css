@@ -372,3 +372,11 @@ pre {
     overflow: auto;
     padding: 1em;
 }
+
+.metric-grade-details.grade_p {
+    border-top: 5px solid #008A2C;
+}
+
+.metric-grade-details.grade_np {
+    border-top: 5px solid #CC0000;
+}
