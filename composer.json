@@ -26,6 +26,7 @@
         "monolog/monolog": "1.7.*@dev",
         "pda/pheanstalk": "2.*@dev",
         "guzzle/guzzle": "~3.7",
-        "swiftmailer/swiftmailer": "@stable"
+        "swiftmailer/swiftmailer": "@stable",
+        "michelf/php-markdown": "1.4.*@dev"
     }
 }
