@@ -356,3 +356,11 @@ Notices
 .changes.info-section table th:first-child  {
     width: 50%;
 }
+
+.fix-mark-details .modal-inner {
+    padding: 1em;
+}
+
+.fix-mark-details dt {
+    font-weight: bold;
+}

@@ -114,7 +114,7 @@ $page_marks = $context->getMarks();
                     </td>
                     <td>
                         <a href="#fix-mark-<?php echo $page_mark->id ?>" class="call-modal" title="Clicking this link shows the modal">Fix</a>
-                        <section class="semantic-content" id="fix-mark-<?php echo $page_mark->id ?>"
+                        <section class="semantic-content fix-mark-details" id="fix-mark-<?php echo $page_mark->id ?>"
                                  tabindex="-1" role="dialog" aria-labelledby="fix-mark-<?php echo $page_mark->id ?>"
                                  aria-hidden="true">
 
