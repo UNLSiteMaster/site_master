@@ -132,9 +132,9 @@ $page_marks = $context->getMarks();
                                     }
 
                                     if (!empty($mark->help_text)) {
-                                        ?>
+                                        ?>  
                                         <dt>Suggested Fix</dt>
-                                        <dd><?php echo $mark->help_text ?></dd>
+                                        <dd><?php echo \Michelf\MarkdownExtra::defaultTransform($mark->help_text) ?></dd>
                                     <?php
                                     }
 
