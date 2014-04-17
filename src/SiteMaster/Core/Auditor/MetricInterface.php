@@ -347,6 +347,11 @@ abstract class MetricInterface
             $update = true;
         }
         
+        if ($mark->help_text != $help_text) {
+            $mark->help_text = $help_text;
+            $update = true;
+        }
+        
         if ($update) {
             $mark->update();
         }
