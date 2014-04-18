@@ -19,4 +19,13 @@ $(document).ready(function() {
         window.location.hash = '!';
         return false;
     });
+    
+    $(".in-page-nav").scrollToFixed({marginTop: 50, minWidth: 768});
+
+    $('.in-page-nav a').click(function(){
+        $('html, body').animate({
+            scrollTop: $( $.attr(this, 'href') ).offset().top - 50
+        }, 500);
+        return false;
+    });
 });
