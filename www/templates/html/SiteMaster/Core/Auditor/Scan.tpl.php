@@ -7,7 +7,15 @@ $site_pass_fail = $context->isPassFail();
 
 <div class="scan">
     <header>
-        <h2>Scan: <?php echo date("n-j-y g:i a", strtotime($context->start_time)); ?></h2>
+        <h2>
+            <?php
+            $date = date("n-j-y g:i a", strtotime($context->start_time));
+            if (!$context->isComplete()) {
+                $date = '--';
+            }
+            ?>
+            Scan: <?php echo $date ?>
+        </h2>
         <div class="sub-info">
             Status: <span class="scan-status"><?php echo $context->status;?></span>
             <span class="scan-queue-position"></span>
@@ -66,7 +74,15 @@ $site_pass_fail = $context->isPassFail();
     <section class="row dashboard-metrics">
         <div class="large-3 columns">
             <div class="visual-island gpa">
-                <span class="dashboard-value"><?php echo $context->gpa ?><?php echo ($site_pass_fail?'%':'') ?></span>
+                <span class="dashboard-value">
+                     <?php
+                     if ($context->isComplete()) {
+                         echo $context->gpa . ($site_pass_fail?'%':'');
+                     } else {
+                         echo '--';
+                     }
+                     ?>
+                </span>
                 <?php
                 $gpa_name = 'GPA';
                 if ($site_pass_fail) {
