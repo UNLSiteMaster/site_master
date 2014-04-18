@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster\Core\Auditor\Scan;
 
+use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\InvalidArgumentException;
@@ -46,5 +48,27 @@ class Progress extends View
         }
         
         return round(($scanned_page_count / $page_count) * 100, 0, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Get the queue position for this scan.  Because it is a queue of pages, not scans, return the position for the homepage.
+     * 
+     * @return bool|mixed
+     */
+    public function getQueuePosition()
+    {
+        if ($this->scan->isComplete()) {
+            return false;
+        }
+
+        $site = $this->scan->getSite();
+        
+        if (!$homepage = Page::getByScanIDAndURI($this->scan->id, $site->base_url)) {
+            return false;
+        }
+
+        $queue = new Queued(array('limit'=>-1));
+        
+        return array_search($homepage->id, $queue->getInnerIterator()->getArrayCopy());
     }
 }

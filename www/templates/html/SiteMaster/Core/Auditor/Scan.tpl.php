@@ -9,7 +9,8 @@ $site_pass_fail = $context->isPassFail();
     <header>
         <h2>Scan: <?php echo date("n-j-y g:i a", strtotime($context->start_time)); ?></h2>
         <div class="sub-info">
-            Status: <?php echo $context->status;?>
+            Status: <span class="scan-status"><?php echo $context->status;?></span>
+            <span class="scan-queue-position"></span>
             <?php
             if (!$context->isComplete()) {
                 echo $savvy->render($context->getProgress());
