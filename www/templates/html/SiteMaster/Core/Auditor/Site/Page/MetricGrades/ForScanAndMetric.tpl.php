@@ -12,15 +12,17 @@ if ($context->count()) {
             <?php
             if ($site_pass_fail) {
                 ?>
-                <th>Marks</th>
+                <th>Errors</th>
+                <th>Notices</th>
                 <?php
             } else {
                 ?>
                 <th>Grade</th>
+                <th>Errors</th>
+                <th>Notices</th>
                 <?php
             }
             ?>
-            
         </tr>
         </thead>
         <tbody>
@@ -32,14 +34,25 @@ if ($context->count()) {
                 <td>
                     <a href="<?php echo $page->getURL()?>#metric_<?php echo $grade->metrics_id ?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
                 </td>
+                <?php
+                if (!$site_pass_fail) {
+                    ?>
+                    <td>
+                        <?php echo $theme_helper->formatGrade($grade->point_grade, $grade->letter_grade, $site_pass_fail); ?>
+                    </td>
+                    <?php
+                }
+                ?>
                 <td>
                     <?php
-                    if ($site_pass_fail) {
-                        $marks = $grade->getMarks();
-                        echo $marks->count();
-                    } else {
-                        echo $theme_helper->formatGrade($grade->point_grade, $grade->letter_grade, $site_pass_fail);
-                    }
+                    $errors = $grade->getErrors();
+                    echo $errors->count();
+                    ?>
+                </td>
+                <td>
+                    <?php
+                    $errors = $grade->getNotices();
+                    echo $errors->count();
                     ?>
                 </td>
             </tr>

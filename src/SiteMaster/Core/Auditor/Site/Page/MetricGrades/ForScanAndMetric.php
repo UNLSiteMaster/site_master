@@ -78,7 +78,8 @@ class ForScanAndMetric extends RecordList
                     GROUP BY sp.id 
                 ) as page_marks ON page_marks.id = page_metric_grades.scanned_page_id
                 WHERE
-                    page_metric_grades.point_grade != page_metric_grades.points_available
+                    #Only select metric grades with marks
+                    page_marks.total > 0
                  " . $this->getOrderBy() . "
                  " . $this->getLimit();
 

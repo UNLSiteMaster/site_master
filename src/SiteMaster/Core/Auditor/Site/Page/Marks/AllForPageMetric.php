@@ -37,8 +37,20 @@ class AllForPageMetric extends RecordList
 
     public function getWhere()
     {
-        return 'WHERE scanned_page_id = ' .(int)$this->options['scanned_page_id'] . '
-                   AND marks.metrics_id = ' . (int)$this->options['metrics_id'] ;
+        $where = 'WHERE scanned_page_id = ' .(int)$this->options['scanned_page_id'] . '
+                   AND marks.metrics_id = ' . (int)$this->options['metrics_id'];
+        
+        if (isset($this->options['mark_type'])) {
+            if ($this->options['mark_type'] == 'errors') {
+                //Only show errors
+                $where .= ' AND page_marks.points_deducted > 0';
+            } else {
+                //Only show notices
+                $where .= ' AND page_marks.points_deducted = 0';
+            }
+        }
+        
+        return $where;
     }
 
     public function getSQL()
