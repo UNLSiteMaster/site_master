@@ -18,7 +18,8 @@ class Listener extends PluginListener
         $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',                  'SiteMaster\Core\User\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/$/',                                 'SiteMaster\Core\Registry\Site\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/$/',                           'SiteMaster\Core\Auditor\Site\ScanForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',                           'SiteMaster\Core\Auditor\Site\Page\ScanForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',                     'SiteMaster\Core\Auditor\Site\Page\ScanForm');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/hot-spots\/(?P<scans_id>(\d*))\/(?P<metrics_id>(\d*))\/$/', 'SiteMaster\Core\Auditor\Scan\HotSpots');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/pages\/(?P<pages_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Site\Page\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Scan\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/changes\/$/',      'SiteMaster\Core\Auditor\Scan\Changes');
