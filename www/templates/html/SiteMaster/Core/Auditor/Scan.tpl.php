@@ -168,14 +168,17 @@ $site_pass_fail = $context->isPassFail();
                     ?>
                     <h4><?php echo $metric->getName()?></h4>
                     <?php
+                    echo $savvy->render($grades);
+
                     if ($grades->count()) {
                         $url = $site->getURL() . 'hot-spots/' . $context->id . '/' . $metric_record->id . '/';
                         ?>
-                        <a href="<?php echo $url ?>">View all hot spots for <?php echo $metric->getName() ?></a>
+                        <div class="read-more">
+                            <a href="<?php echo $url ?>">View all hot spots for <?php echo $metric->getName() ?></a>
+                        </div>
                     <?php
                     }
 
-                    echo $savvy->render($grades);
                     ?>
                 <?php
                 }
