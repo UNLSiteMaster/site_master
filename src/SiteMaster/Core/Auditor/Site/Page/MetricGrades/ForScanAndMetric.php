@@ -38,9 +38,13 @@ class ForScanAndMetric extends RecordList
     
     public function getLimit()
     {
-        $limit = '5';
-        if (isset($options['scans_id'])) {
-            $limit = $options['scans_id'];
+        $limit = '-1';
+        if (isset($this->options['limit'])) {
+            $limit = $this->options['limit'];
+        }
+
+        if ($limit == -1) {
+            return '';
         }
         
         return 'LIMIT ' . (int)$limit;

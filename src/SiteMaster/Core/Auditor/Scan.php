@@ -405,11 +405,12 @@ class Scan extends Record
      * @param int $metrics_id the metrics_id
      * @return Page\MetricGrades\ForScanAndMetric
      */
-    public function getHotSpots($metrics_id)
+    public function getHotSpots($metrics_id, $limit = -1)
     {
         $options =  array(
             'metrics_id' => $metrics_id,
             'scans_id' => $this->id,
+            'limit' => $limit,
         );
         
         if ($this->isPassFail()) {

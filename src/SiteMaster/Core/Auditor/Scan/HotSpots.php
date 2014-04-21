@@ -60,10 +60,7 @@ class HotSpots implements ViewableInterface
             throw new InvalidArgumentException('Could not find a site with the given id', 400);
         }
         
-        $this->hot_spots = new ForScanAndMetric(array(
-            'scans_id' => $this->scan->id,
-            'metrics_id' => $this->options['metrics_id']
-        ));
+        $this->hot_spots = $this->scan->getHotSpots($this->metric->id);
     }
 
     /**
