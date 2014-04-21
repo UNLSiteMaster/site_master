@@ -128,8 +128,7 @@ $site_pass_fail = $context->isPassFail();
         </div>
     </section>
 
-    <section>
-        
+    <section id="changes">
         <?php 
         if ($previous_scan) {
             $changes = $context->getChangedMetricGrades();
@@ -151,34 +150,35 @@ $site_pass_fail = $context->isPassFail();
             <?php
         }
         ?>
+    </section>
         
-        <div class="row">
-            <div class="large-4 columns">
-                <section class="hot-spots info-section">
-                    <header>
-                        <h3>Hot Spots</h3>
-                        <div class="subhead">
-                            These are areas on your site that need some love
-                        </div>
-                    </header>
-                    <?php
-                    foreach ($plugin_manager->getMetrics() as $metric) {
-                        $metric_record = $metric->getMetricRecord();
-                        $grades = $context->getHotSpots($metric_record->id);
-                        ?>
-                        <h4><?php echo $metric->getName()?></h4>
-                        <?php echo $savvy->render($grades); ?>
-                    <?php
-                    }
+    <div class="row">
+        <div class="large-4 columns">
+            <section id="hot_spots" class="hot-spots info-section">
+                <header>
+                    <h3>Hot Spots</h3>
+                    <div class="subhead">
+                        These are areas on your site that need some love
+                    </div>
+                </header>
+                <?php
+                foreach ($plugin_manager->getMetrics() as $metric) {
+                    $metric_record = $metric->getMetricRecord();
+                    $grades = $context->getHotSpots($metric_record->id);
                     ?>
-                </section>
-            </div>
-            <div class="large-8 columns">
+                    <h4><?php echo $metric->getName()?></h4>
+                    <?php echo $savvy->render($grades); ?>
+                <?php
+                }
+                ?>
+            </section>
+        </div>
+        <div class="large-8 columns">
+            <section id="pages">
                 <?php
                 echo $savvy->render($pages);
                 ?>
-                
-            </div>
+            </section>
         </div>
-    </section>
+    </div>
 </div>
