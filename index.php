@@ -21,4 +21,9 @@ $savvy->addGlobal('grading_helper', new \SiteMaster\Core\Auditor\GradingHelper()
 $savvy->addGlobal('base_url', \SiteMaster\Core\Util::getAbsoluteBaseURL());
 $savvy->addGlobal('theme_helper', new \SiteMaster\Core\ThemeHelper());
 
+$savvy->addGlobal('scan', false);
+if (isset($app->options['scans_id']) && $scan = \SiteMaster\Core\Auditor\Scan::getById($app->options['scans_id'])) {
+    $savvy->addGlobal('scan', $scan);
+}
+
 echo $savvy->render($app);

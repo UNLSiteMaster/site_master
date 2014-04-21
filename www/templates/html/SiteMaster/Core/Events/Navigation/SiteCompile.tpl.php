@@ -14,6 +14,16 @@ $site = $context->getSite();
                 <?php echo $site->base_url;?>
                 <a href="<?php echo $site->base_url;?>" class="external" title="open the external page"><img src="<?php echo \SiteMaster\Core\Config::get('URL') ?>www/images/external.png" alt="link to external site"/></a>
             </div>
+            <?php
+            if ($scan) {
+                ?>
+                <div class="scan-date-info">
+                    Viewing details for the scan started on <a href="<?php echo $scan->getURL()?>"><?php echo date('n-j-y g:i a', strtotime($scan->start_time)) ?></a>
+                </div>
+                
+            <?php
+            }
+            ?>
         </div>
         <div class="right">
             <?php echo $savvy->render($site->getScanForm()); ?>
