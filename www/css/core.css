@@ -380,3 +380,8 @@ pre {
 .metric-grade-details.grade_np {
     border-top: 5px solid #CC0000;
 }
+
+.read-more {
+    background-color: rgb(229, 228, 226);
+    text-align: center;
+}
