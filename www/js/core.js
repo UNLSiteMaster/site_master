@@ -25,7 +25,7 @@ $(document).ready(function() {
     /* make sections focusable */
     $('section[id]').attr('tabindex', '0');
     
-    /* scroll to elements in an accessibly way.
+    /* scroll to elements in an accessible way.
      * via http://www.sitepoint.com/learning-to-focus/
      * */
     $('a[href*=#]:not([href=#])').click(function() {
