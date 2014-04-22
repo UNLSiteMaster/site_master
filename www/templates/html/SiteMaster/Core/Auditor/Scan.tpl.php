@@ -10,9 +10,9 @@ $site_pass_fail = $context->isPassFail();
         <header>
             <h2>
                 <?php
-                $date = date("n-j-y g:i a", strtotime($context->start_time));
-                if (!$context->isComplete()) {
-                    $date = '--';
+                $date = '--';
+                if ($context->isComplete()) {
+                    $date = date("n-j-y g:i a", strtotime($context->start_time));
                 }
                 ?>
                 Scan: <?php echo $date ?>
