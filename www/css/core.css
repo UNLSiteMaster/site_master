@@ -353,6 +353,16 @@ Notices
     
 }
 
+.pages.info-section table th.path  {
+    width: 60%;
+
+}
+
+.pages.info-section table th.grade  {
+    width: 20%;
+
+}
+
 .changes.info-section table th:first-child  {
     width: 50%;
 }
@@ -379,4 +389,9 @@ pre {
 
 .metric-grade-details.grade_np {
     border-top: 5px solid #CC0000;
+}
+
+.read-more {
+    background-color: rgb(229, 228, 226);
+    text-align: center;
 }

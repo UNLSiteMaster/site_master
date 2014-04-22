@@ -135,6 +135,32 @@ class Page extends Record
     }
 
     /**
+     * Get errors for this page
+     * 
+     * @return Page\Marks\AllForPage
+     */
+    public function getErrors()
+    {
+        return new Page\Marks\AllForPage(array(
+            'scanned_page_id' => $this->id,
+            'mark_type' => 'error',
+        ));
+    }
+
+    /**
+     * Get notices for this page
+     * 
+     * @return Page\Marks\AllForPage
+     */
+    public function getNotices()
+    {
+        return new Page\Marks\AllForPage(array(
+            'scanned_page_id' => $this->id,
+            'mark_type' => 'notice',
+        ));
+    }
+
+    /**
      * Get all of the metric grades for this page
      * 
      * @return Page\MetricGrades\AllForPage

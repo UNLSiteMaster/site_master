@@ -3,6 +3,11 @@ namespace SiteMaster\Core\Auditor\Site\Pages;
 
 class Queued extends All
 {
+    public function __construct(array $options = array())
+    {
+        parent::__construct($options);
+    }
+    
     public function getWhere()
     {
         $where = "WHERE status = 'QUEUED'";
@@ -16,6 +21,15 @@ class Queued extends All
     
     public function getLimit()
     {
+        if (isset($this->options['limit'])) {
+            if ($this->options['limit'] == '-1') {
+                //Don't use a limit
+                return '';
+            }
+            return 'LIMIT ' . (int)$this->options['limit'];
+        }
+        
+        //default to 1
         return 'LIMIT 1';
     }
 

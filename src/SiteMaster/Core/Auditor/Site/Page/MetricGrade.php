@@ -148,4 +148,36 @@ class MetricGrade extends Record
             )
         );
     }
+
+    /**
+     * Get all errors for this grade
+     *
+     * @return Marks\AllForPageMetric
+     */
+    public function getErrors()
+    {
+        return new Marks\AllForPageMetric(
+            array(
+                'scanned_page_id' => $this->scanned_page_id,
+                'metrics_id' => $this->metrics_id,
+                'mark_type' => 'errors'
+            )
+        );
+    }
+
+    /**
+     * Get all notices for this grade
+     *
+     * @return Marks\AllForPageMetric
+     */
+    public function getNotices()
+    {
+        return new Marks\AllForPageMetric(
+            array(
+                'scanned_page_id' => $this->scanned_page_id,
+                'metrics_id' => $this->metrics_id,
+                'mark_type' => 'notices'
+            )
+        );
+    }
 }

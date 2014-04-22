@@ -362,13 +362,19 @@ class Scan extends Record
     {
         $db = Util::getDB();
 
-        $sql = "SELECT count(*) as total
+        $sql = "SELECT sum(complete) as total                           # sum the total
                 FROM (
-                    SELECT max(id)
+                    SELECT case scanned_page.status                     # only completed pages count (return 1)
+                        WHEN '" . Page::STATUS_COMPLETE . "' THEN 1
+                        WHEN '" . Page::STATUS_ERROR . "' THEN 1
+                        ELSE 0
+                        end as complete
                     FROM scanned_page
-                    WHERE scanned_page.scans_id = " . (int)$this->id . "
-                      AND scanned_page.status IN ('" . Page::STATUS_COMPLETE . "', '" . Page::STATUS_ERROR . "')
-                    GROUP BY uri_hash
+                    JOIN (SELECT MAX(scanned_page.id) as id              # we need the latest scanned page id (could be multiple)
+                        FROM scanned_page
+                        WHERE scanned_page.scans_id = " . (int)$this->id . "
+                        GROUP BY uri_hash
+                    ) as newest_scans ON scanned_page.id = newest_scans.id
                     ORDER BY scanned_page.date_created DESC
                 ) sq ";
 
@@ -399,11 +405,12 @@ class Scan extends Record
      * @param int $metrics_id the metrics_id
      * @return Page\MetricGrades\ForScanAndMetric
      */
-    public function getHotSpots($metrics_id)
+    public function getHotSpots($metrics_id, $limit = -1)
     {
         $options =  array(
             'metrics_id' => $metrics_id,
             'scans_id' => $this->id,
+            'limit' => $limit,
         );
         
         if ($this->isPassFail()) {
