@@ -33,7 +33,19 @@ class AllForPage extends RecordList
     
     public function getWhere()
     {
-        return 'WHERE scanned_page_id = ' .(int)$this->options['scanned_page_id'];
+        $where = 'WHERE scanned_page_id = ' .(int)$this->options['scanned_page_id'];
+        
+        if (isset($this->options['mark_type'])) {
+            if ($this->options['mark_type'] == 'error') {
+                //Only select errors
+                $where .= ' AND page_marks.points_deducted > 0';
+            } else {
+                //Only select notices
+                $where .= ' AND page_marks.points_deducted = 0';
+            }
+        }
+        
+        return $where;
     }
 
     public function getSQL()

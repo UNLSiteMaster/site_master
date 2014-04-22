@@ -353,6 +353,16 @@ Notices
     
 }
 
+.pages.info-section table th.path  {
+    width: 60%;
+
+}
+
+.pages.info-section table th.grade  {
+    width: 20%;
+
+}
+
 .changes.info-section table th:first-child  {
     width: 50%;
 }

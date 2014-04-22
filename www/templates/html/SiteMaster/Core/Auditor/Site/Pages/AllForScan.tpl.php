@@ -14,8 +14,10 @@ $site_pass_fail = $scan->isPassFail();
     <table data-sortlist="[[0,0],[2,0]]">
         <thead>
         <tr>
-            <th>Path</th>
-            <th>Grade</th>
+            <th class="path">Path</th>
+            <th class="errors">Errors</th>
+            <th class="notices">Notices</th>
+            <th class="grade">Grade</th>
         </tr>
         </thead>
         <tbody>
@@ -23,10 +25,22 @@ $site_pass_fail = $scan->isPassFail();
         foreach ($context as $page) {
             ?>
             <tr>
-                <td>
+                <td class="path">
                     <a href="<?php echo $page->getURL()?>"><?php echo $theme_helper->trimBaseURL($site->base_url, $page->uri) ?></a>
                 </td>
-                <td>
+                <td class="errors">
+                    <?php
+                    $errors = $page->getErrors();
+                    echo $errors->count();
+                    ?>
+                </td>
+                <td class="notices">
+                    <?php
+                    $notices = $page->getNotices();
+                    echo $notices->count();
+                    ?>
+                </td>
+                <td class="grade">
                     <?php
                     echo $theme_helper->formatGrade($page->percent_grade, $page->letter_grade, $site_pass_fail);
                     ?>
