@@ -24,11 +24,16 @@ $(document).ready(function() {
 
     /* make sections focusable */
     $('section[id]').attr('tabindex', '0');
+
     
     /* scroll to elements in an accessible way.
      * via http://www.sitepoint.com/learning-to-focus/
      * */
-    $('a[href*=#]:not([href=#])').click(function() {
+    $('body').on('click', 'a[href^=#]',function(e) {
+        //Skip modal links
+        if ($(e.target).is('.call-modal') || $(e.target)[0].href === '#') { return; }
+        
+        //Implement scroll logic
         var $linkElem = $(this);
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
             var target = $(this.hash);
@@ -53,4 +58,5 @@ $(document).ready(function() {
             }
         }
     });
+
 });
