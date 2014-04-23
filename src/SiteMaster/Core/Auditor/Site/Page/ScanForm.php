@@ -162,7 +162,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
         if ($page_scan->scheduleScan(Page::PRI_USER_SINGLE_PAGE_SCAN)) {
             Controller::redirect(
                 $page_scan->getURL(),
-                new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A new scan has been scheduled.  Feel free to grab some coffee or work on something else -- we will email you if we find any changes.')
+                new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A new scan for the has been scheduled.  This may take some time, but feel free to refresh the page to see any progress.')
             );
         } else {
             Controller::redirect(

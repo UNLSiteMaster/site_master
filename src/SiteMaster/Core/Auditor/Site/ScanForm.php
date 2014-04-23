@@ -139,7 +139,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
         if ($this->site->scheduleScan(Scan::SCAN_TYPE_USER)) {
             Controller::redirect(
                 $this->site->getURL(),
-                new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A scan has been scheduled')
+                new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'A new scan has been scheduled.  Feel free to grab some coffee or work on something else -- we will email you if we find any changes.')
             );
         } else {
             Controller::redirect(
