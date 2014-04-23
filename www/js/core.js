@@ -28,7 +28,7 @@ $(document).ready(function() {
     /* scroll to elements in an accessible way.
      * via http://www.sitepoint.com/learning-to-focus/
      * */
-    $('a[href*=#]:not([href=#])').click(function() {
+    $('a[href*=#]:not([href=#])').not('.call-modal').click(function() {
         var $linkElem = $(this);
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
             var target = $(this.hash);
