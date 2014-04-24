@@ -44,7 +44,14 @@ if ($context->count()) {
                     ?>
                 </td>
                 <td>
-                    <?php echo $metric_grade->changes_since_last_scan ?>
+                    <?php 
+                    if ($metric_grade->changes_since_last_scan > 0) {
+                        //add a plus sign to indicate more changes
+                        echo '+'.$metric_grade->changes_since_last_scan . ' marks';
+                    } else {
+                        echo $metric_grade->changes_since_last_scan . ' marks';
+                    }
+                    ?>
                 </td>
             </tr>
         <?php
