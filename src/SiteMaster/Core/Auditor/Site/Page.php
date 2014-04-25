@@ -263,6 +263,16 @@ class Page extends Record
     }
 
     /**
+     * Return the RFC3986 version of the URI
+     * 
+     * @return string
+     */
+    public function getSanitizedURI()
+    {
+        return (string)\Guzzle\Http\Url::factory($this->uri);
+    }
+
+    /**
      * Scan this page
      * 
      * @return bool false if the scan is not queued or ready to be scanned
@@ -302,7 +312,7 @@ class Page extends Record
         $spider->addLogger(new Metrics($spider, $scan, $site, $this));
 
         try {
-            $spider->processPage($this->uri, 1);
+            $spider->processPage($this->getSanitizedURI(), 1);
         } catch (\Exception $e) {
             if ($e instanceof HTTPConnectionException || $e instanceof UnexpectedValueException) {
                 //Couldn't get the page, so don't process it.
