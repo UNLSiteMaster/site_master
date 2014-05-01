@@ -7,7 +7,7 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.201
             forwarded_port:
-                g0C9AFAAwVR9:
+                IzVYHwID8go0:
                     host: '8001'
                     guest: '80'
         provider:
@@ -26,8 +26,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            0OUuei9okTNJ:
-                id: vagrant-root
+            VvsV9lAgLyvh:
                 source: ./../../
                 target: /var/www/html
                 nfs: 'false'
@@ -57,14 +56,22 @@ mailcatcher:
         smtp_port: 1025
         http_ip: 0.0.0.0
         http_port: '1080'
-        path: /usr/local/bin
-        log: /var/log/mailcatcher/mailcatcher.log
+        mailcatcher_path: /usr/local/bin
+        log_path: /var/log/mailcatcher/mailcatcher.log
 apache:
+    install: '1'
+    settings:
+        user: www-data
+        group: www-data
+        default_vhost: true
+        manage_user: false
+        manage_group: false
+        sendfile: 0
     modules:
         - php
         - rewrite
     vhosts:
-        1KWllM8sOJYb:
+        sySSPfxJNyLR:
             servername: localhost
             serveraliases:
                 - localhost
@@ -76,15 +83,31 @@ apache:
             override:
                 - All
             custom_fragment: 'EnableSendFile Off'
-    user: www-data
-    group: www-data
-    default_vhost: true
-    mpm_module: prefork
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
     mod_pagespeed: 0
     mod_spdy: 0
+nginx:
+    install: 0
+    vhosts:
+        OpXam5LkWvc8:
+            server_name: awesome.dev
+            server_aliases:
+                - www.awesome.dev
+            www_root: /var/www/awesome.dev
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            envvars:
+                - 'APP_ENV dev'
 php:
+    install: '1'
     version: '55'
-    composer: '1'
+    composer: 1
     modules:
         php:
             - cli
@@ -108,16 +131,19 @@ xdebug:
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+xhprof:
+    install: '1'
 drush:
     install: 0
     settings:
         drush.tag_branch: 6.x
 mysql:
+    install: '1'
     root_password: '123'
     phpmyadmin: '1'
     adminer: 0
     databases:
-        nf5m764PszJu:
+        99rfexXBl7xW:
             grant:
                 - ALL
             name: sitemaster
@@ -125,7 +151,7 @@ mysql:
             user: sitemaster
             password: password
             sql_file: ''
-        HA8ZE89TYmfF:
+        rDhtRWFxiUgp:
             grant:
                 - ALL
             name: sitemaster_test
@@ -133,11 +159,32 @@ mysql:
             user: sitemaster_test
             password: password
             sql_file: ''
+postgresql:
+    install: 0
+    settings:
+        root_password: '123'
+        user_group: postgres
+        encoding: UTF8
+        version: '9.3'
+    databases: {  }
+    adminer: 0
+mariadb:
+    install: 0
+    root_password: '123'
+    phpmyadmin: 0
+    adminer: 0
+    databases: {  }
+    version: '10.0'
 mongodb:
     install: 0
-    auth: 1
-    port: '27017'
+    settings:
+        auth: 1
+        port: '27017'
     databases: {  }
+redis:
+    install: 0
+    settings:
+        conf_port: '6379'
 beanstalkd:
     install: 0
     settings:
@@ -152,5 +199,6 @@ beanstalkd:
     binlogdir: /var/lib/beanstalkd/binlog
 rabbitmq:
     install: 0
-    port: '5672'
+    settings:
+        port: '5672'
 
