@@ -115,6 +115,16 @@ class Plugin extends PluginInterface
             }
         }
 
+        if ($previousVersion <= 2014033101) {
+            $sql = "ALTER TABLE scans ADD date_updated DATETIME  COMMENT 'The date that this scan was last updated' AFTER date_created;
+                    ALTER TABLE scanned_page ADD num_errors INT COMMENT 'The total number of errors found';
+                    ALTER TABLE scanned_page ADD num_notices INT COMMENT 'The total number of notices found';";
+
+            if (!Util::execMultiQuery($sql, true)) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -139,7 +149,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 2014033101;
+        return 2014050101;
     }
 
     /**

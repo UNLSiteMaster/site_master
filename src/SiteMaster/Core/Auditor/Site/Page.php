@@ -37,6 +37,8 @@ class Page extends Record
     public $letter_grade;          //VARCHAR(2)
     public $error;                 //VARCHAR(256)
     public $tries;                 //INT(10), the number of times that the scan has tried to run
+    public $num_errors;            //INT, the number of errors found on this page
+    public $num_notices;           //INT, the number of notices found on this page
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';

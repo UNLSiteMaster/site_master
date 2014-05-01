@@ -22,6 +22,7 @@ class Scan extends Record
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $pass_fail;             //ENUM('YES', 'NO') NOT NULL default='NO'
     public $date_created;          //DATETIME NOT NULL, the date that this record was created
+    public $date_updated;          //DATETIME, the date that this record was updated
     public $start_time;            //DATETIME NOT NULL
     public $end_time;             //DATETIME
     public $error;                 //VARCHAR(256)
