@@ -107,6 +107,9 @@ class ScanDBTest extends DBTestCase
             $this->assertEquals(33.33, $page->points_available);
             $this->assertEquals(28.16, $page->point_grade);
             $this->assertEquals('B', $page->letter_grade);
+            
+            $this->assertEquals(2, $page->num_errors);
+            $this->assertEquals(0, $page->num_notices);
         }
         
         //TODO: test the GPA
