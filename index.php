@@ -9,8 +9,19 @@ require_once(__DIR__ . "/init.php");
 // Initialize App, and construct everything
 $app = new \SiteMaster\Core\Controller($_GET);
 
+
+// Set a few caching options
+$options = array(
+    'cacheDir' => \SiteMaster\Core\Config::get('CACHE_DIR'),
+    'lifeTime' => 60*60*24*7 //cache for 7 days
+);
+
+// Create a Cache_Lite object
+$cache_Lite = new \Savvy_Turbo_CacheInterface_UNLCacheLite($options);
+
 //Render Away
 $savvy = new \SiteMaster\Core\OutputController($app->options);
+$savvy->setCacheInterface($cache_Lite);
 $savvy->setTheme(\SiteMaster\Core\Config::get('THEME'));
 $savvy->initialize();
 
