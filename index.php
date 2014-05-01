@@ -17,11 +17,11 @@ $options = array(
 );
 
 // Create a Cache_Lite object
-$cache_Lite = new \Savvy_Turbo_CacheInterface_UNLCacheLite($options);
+$cache = new \Savvy_Turbo_CacheInterface_UNLCacheLite($options);
 
 //Render Away
 $savvy = new \SiteMaster\Core\OutputController($app->options);
-$savvy->setCacheInterface($cache_Lite);
+$savvy->setCacheInterface($cache);
 $savvy->setTheme(\SiteMaster\Core\Config::get('THEME'));
 $savvy->initialize();
 
