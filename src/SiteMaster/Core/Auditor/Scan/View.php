@@ -6,7 +6,7 @@ use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Auditor\Scan;
 
-class View implements ViewableInterface
+class View implements ViewableInterface, \Savvy_Turbo_CacheableInterface
 {
     /**
      * @var array
@@ -28,12 +28,17 @@ class View implements ViewableInterface
         $this->options += $options;
 
         //get the site
-        if (!isset($this->options['scans_id'])) {
-            throw new InvalidArgumentException('a scan id is required', 400);
-        }
+        if (isset($this->options['scan'])) {
+            $this->scan = $this->options['scan'];
+        } else {
+            //Try to get it by ID
+            if (!isset($this->options['scans_id'])) {
+                throw new InvalidArgumentException('a scan id is required', 400);
+            }
 
-        if (!$this->scan = Scan::getByID($this->options['scans_id'])) {
-            throw new InvalidArgumentException('Could not find a scan for the given page.', 500);
+            if (!$this->scan = Scan::getByID($this->options['scans_id'])) {
+                throw new InvalidArgumentException('Could not find a scan for the given page.', 500);
+            }
         }
 
         if (!$this->site = $this->scan->getSite()) {
@@ -59,5 +64,28 @@ class View implements ViewableInterface
     public function getPageTitle()
     {
         return 'Site Scan';
+    }
+
+    public function getCacheKey()
+    {
+        if (!$this->scan->isComplete()) {
+            //Don't cache if the scan is not complete
+            return false;
+        }
+
+        $key = array();
+        $key['fields'] = $this->scan->getFields();
+        $key['format'] = $this->options['format'];
+        return serialize($key);
+    }
+
+    public function run()
+    {
+        return;
+    }
+
+    public function preRun($cached)
+    {
+        return;
     }
 }

@@ -37,6 +37,8 @@ class Page extends Record
     public $letter_grade;          //VARCHAR(2)
     public $error;                 //VARCHAR(256)
     public $tries;                 //INT(10), the number of times that the scan has tried to run
+    public $num_errors;            //INT, the number of errors found on this page
+    public $num_notices;           //INT, the number of notices found on this page
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';
@@ -494,8 +496,15 @@ class Page extends Record
      */
     public function markAsComplete()
     {
-        $this->end_time = Util::epochToDateTime();
-        $this->status   = self::STATUS_COMPLETE;
+        //Get errors and notices for later use
+        $errors  = $this->getErrors();
+        $notices = $this->getNotices();
+        
+        //Set local properties
+        $this->end_time    = Util::epochToDateTime();
+        $this->status      = self::STATUS_COMPLETE;
+        $this->num_errors  = $errors->count();
+        $this->num_notices = $notices->count();
         $this->save();
         
         $scan = $this->getScan();

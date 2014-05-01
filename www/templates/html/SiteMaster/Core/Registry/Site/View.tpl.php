@@ -41,7 +41,7 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
 
 
 
-if ($scan = $context->site->getLatestScan()) {
+if ($scan = $context->getScan()) {
     echo $savvy->render($scan);
 } else {
     ?>

@@ -32,6 +32,22 @@ class View implements ViewableInterface
     }
 
     /**
+     * Get the viewable (cacheable) scan
+     * 
+     * @return false|\SiteMaster\Core\Auditor\Scan\View
+     */
+    public function getScan()
+    {
+        $options = $this->options;
+        
+        if (!$options['scan'] = $this->site->getLatestScan()) {
+            return false;
+        }
+        
+        return new \SiteMaster\Core\Auditor\Scan\View($options);
+    }
+
+    /**
      * Get the url for this page
      *
      * @return bool|string

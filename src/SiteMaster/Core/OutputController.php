@@ -4,7 +4,7 @@ namespace SiteMaster\Core;
 use SiteMaster\Core\Events\RegisterTheme;
 use SiteMaster\Core\Plugin\PluginManager;
 
-class OutputController extends \Savvy
+class OutputController extends \Savvy_Turbo
 {
     public $format = 'html';
     protected $options = array();

@@ -115,6 +115,34 @@ class Plugin extends PluginInterface
             }
         }
 
+        if ($previousVersion <= 2014033101) {
+            $sql = file_get_contents(Util::getRootDir() . "/data/update-2014050101.sql");
+
+            if (!Util::execMultiQuery($sql, true)) {
+                return false;
+            }
+            
+            //Update all pages to populate the num_errors and num_notices
+            $pages = new \SiteMaster\Core\Auditor\Site\Pages\All();
+            foreach ($pages as $page) {
+                /**
+                 * @var $page \SiteMaster\Core\Auditor\Site\Page
+                 */
+                if (!$page->isComplete()) {
+                    //We only want to update pages that have finished scanning
+                    continue;
+                }
+                
+                $errors  = $page->getErrors();
+                $notices = $page->getNotices();
+                
+                $page->num_errors  = $errors->count();
+                $page->num_notices = $notices->count();
+                
+                $page->save();
+            }
+        }
+
         return true;
     }
 
@@ -139,7 +167,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 2014033101;
+        return 2014050101;
     }
 
     /**

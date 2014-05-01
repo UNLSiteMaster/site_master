@@ -22,8 +22,9 @@ class Scan extends Record
     public $scan_type;             //ENUM('USER', 'AUTO') NOT NULL default='AUTO'
     public $pass_fail;             //ENUM('YES', 'NO') NOT NULL default='NO'
     public $date_created;          //DATETIME NOT NULL, the date that this record was created
-    public $start_time;            //DATETIME NOT NULL
-    public $end_time;             //DATETIME
+    public $date_updated;          //DATETIME, the date that this record was updated
+    public $start_time;            //DATETIME
+    public $end_time;              //DATETIME
     public $error;                 //VARCHAR(256)
     
     const STATUS_CREATED  = 'CREATED';
@@ -191,8 +192,11 @@ class Scan extends Record
      */
     public function markAsRunning()
     {
-        $this->start_time = Util::epochToDateTime();
-        $this->status     = self::STATUS_RUNNING;
+        if (empty($this->start_time)) {
+            $this->start_time = Util::epochToDateTime();
+        }
+        
+        $this->status = self::STATUS_RUNNING;
         $this->save();
     }
 
@@ -208,9 +212,14 @@ class Scan extends Record
             //This method can be called on single page scans.  Don't update the end time in that case.
             $this->end_time = Util::epochToDateTime();
             $send_email = true; //Only send emails if the scan isn't being updated by a single page scan.
+        } else {
+            //Set the updated tme
+            $this->date_updated = Util::epochToDateTime();
         }
-        $this->status   = self::STATUS_COMPLETE;
-        $this->gpa      = $this->computeGPA();
+        
+        $this->status = self::STATUS_COMPLETE;
+        $this->gpa    = $this->computeGPA();
+        
         if ($this->save()) {
             //remove any extra scans
             $site = $this->getSite();

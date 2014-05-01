@@ -14,6 +14,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/saltybeagle/Spider.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/saltybeagle/Savvy_Turbo.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/unlpear/UNL_Cache_Lite.git"
         }
     ],
     "require": {
@@ -23,6 +31,8 @@
         "symfony/http-foundation": "2.2.*",
         "ircmaxell/password-compat": "dev-master",
         "saltybeagle/Spider": "dev-master",
+        "saltybeagle/savvy_turbo": "dev-master",
+        "unl/unl_cache_lite": "dev-master",
         "monolog/monolog": "1.7.*@dev",
         "pda/pheanstalk": "2.*@dev",
         "guzzle/guzzle": "~3.7",
