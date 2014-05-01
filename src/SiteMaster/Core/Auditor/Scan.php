@@ -13,7 +13,7 @@ use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Util;
 
-class Scan extends Record implements \Savvy_Turbo_CacheableInterface
+class Scan extends Record
 {
     public $id;                    //int required
     public $sites_id;              //fk for sites.id
@@ -451,25 +451,5 @@ class Scan extends Record implements \Savvy_Turbo_CacheableInterface
         }
         
         return false;
-    }
-
-    public function getCacheKey()
-    {
-        if (!$this->isComplete()) {
-            //Don't cache if the scan is not complete
-            return false;
-        }
-        
-        return serialize($this);
-    }
-
-    public function run()
-    {
-        return;
-    }
-
-    public function preRun($cached)
-    {
-        return;
     }
 }
