@@ -212,9 +212,14 @@ class Scan extends Record
             //This method can be called on single page scans.  Don't update the end time in that case.
             $this->end_time = Util::epochToDateTime();
             $send_email = true; //Only send emails if the scan isn't being updated by a single page scan.
+        } else {
+            //Set the updated tme
+            $this->date_updated = Util::epochToDateTime();
         }
-        $this->status   = self::STATUS_COMPLETE;
-        $this->gpa      = $this->computeGPA();
+        
+        $this->status = self::STATUS_COMPLETE;
+        $this->gpa    = $this->computeGPA();
+        
         if ($this->save()) {
             //remove any extra scans
             $site = $this->getSite();
