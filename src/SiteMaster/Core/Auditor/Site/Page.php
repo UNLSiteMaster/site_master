@@ -496,8 +496,15 @@ class Page extends Record
      */
     public function markAsComplete()
     {
-        $this->end_time = Util::epochToDateTime();
-        $this->status   = self::STATUS_COMPLETE;
+        //Get errors and notices for later use
+        $errors  = $this->getErrors();
+        $notices = $this->getNotices();
+        
+        //Set local properties
+        $this->end_time    = Util::epochToDateTime();
+        $this->status      = self::STATUS_COMPLETE;
+        $this->num_errors  = $errors->count();
+        $this->num_notices = $notices->count();
         $this->save();
         
         $scan = $this->getScan();
