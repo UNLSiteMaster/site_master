@@ -76,7 +76,7 @@ class View implements ViewableInterface, \Savvy_Turbo_CacheableInterface
         $key = array();
         $key['fields'] = $this->scan->getFields();
         $key['format'] = $this->options['format'];
-        return serialize($this);
+        return serialize($key);
     }
 
     public function run()
