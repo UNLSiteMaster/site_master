@@ -30,14 +30,12 @@ $site_pass_fail = $scan->isPassFail();
                 </td>
                 <td class="errors">
                     <?php
-                    $errors = $page->getErrors();
-                    echo $errors->count();
+                    echo (int)$page->num_errors;
                     ?>
                 </td>
                 <td class="notices">
                     <?php
-                    $notices = $page->getNotices();
-                    echo $notices->count();
+                    echo (int)$page->num_notices;
                     ?>
                 </td>
                 <td class="grade">
