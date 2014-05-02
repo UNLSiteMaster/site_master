@@ -313,14 +313,6 @@ class PluginManager
 
     public static function autoload($class)
     {
-        //try a basic PSR-0 load first
-
-        $file = str_replace(array('_', '\\'), '/', $class).'.php';
-        if ($fullpath = stream_resolve_include_path($file)) {
-            include $fullpath;
-            return true;
-        }
-
         //take of the plugin namespace
         $tmp = str_replace("SiteMaster\\Plugins\\", "", $class, $count);
 
@@ -337,13 +329,17 @@ class PluginManager
         }
 
         //start the starting directory (plugin/src/) for plugin classes
-        $file = strtolower($plugin) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
+        $file = Util::getRootDir() . DIRECTORY_SEPARATOR 
+                    . 'plugins' . DIRECTORY_SEPARATOR 
+                    . strtolower($plugin) . DIRECTORY_SEPARATOR 
+                    . 'src' . DIRECTORY_SEPARATOR;
 
         //convert the namespace to a path
         $file .=  implode(DIRECTORY_SEPARATOR, $parts).'.php';
 
-        if ($fullpath = stream_resolve_include_path($file)) {
-            include $fullpath;
+        if (file_exists($file)) {
+            //We found it!  Include that bad boy!
+            include $file;
             return true;
         }
 
