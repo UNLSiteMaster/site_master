@@ -14,7 +14,7 @@ vagrantfile-local:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
-                    memory: '512'
+                    memory: '1024'
                 setextradata:
                     VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root: 1
         provision:
