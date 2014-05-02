@@ -40,13 +40,30 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
 }
 
 
-
-if ($scan = $context->getScan()) {
-    echo $savvy->render($scan);
-} else {
-    ?>
-    <p>
-        No scans found
-    </p>
+?>
+<div class="scan-include">
     <?php
-}
+    if ($scan = $context->getScan()) {
+        ?>
+        <script type="text/javascript">
+            var request = $.ajax("<?php echo $scan->getURL() ?>?format=partial");
+            request.done(function(html) {
+                $("#scan_ajax").html(html);
+            });
+            request.fail(function(jqXHR, textStatus) {
+                $("#scan_ajax").html("Request failed... please reload the page");
+            });
+        </script>
+        <div id="scan_ajax">
+            Loading...
+        </div>
+        <?php
+    } else {
+        ?>
+        <p>
+            No scans found
+        </p>
+        <?php
+    }
+    ?>
+</div>
