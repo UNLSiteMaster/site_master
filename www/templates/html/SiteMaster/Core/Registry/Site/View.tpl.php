@@ -40,13 +40,36 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
 }
 
 
-
-if ($scan = $context->getScan()) {
-    echo $savvy->render($scan);
-} else {
-    ?>
-    <p>
-        No scans found
-    </p>
+?>
+<div class="scan-include">
     <?php
-}
+    if ($scan = $context->getScan()) {
+        ?>
+        <script type="text/javascript">
+            var request = $.ajax("<?php echo $scan->getURL() ?>?format=partial");
+            request.done(function(html) {
+                $("#scan_ajax").html(html);
+                sitemaster.initAnchors();
+                sitemaster.initInPageNav();
+                sitemaster.initTables();
+            });
+            request.fail(function(jqXHR, textStatus) {
+                $("#scan_ajax").html("Request failed... please reload the page");
+            });
+        </script>
+        <div id="scan_ajax">
+            <img src="<?php echo $base_url . 'www/images/loading.gif' ?>" />
+            <p>
+                Please wait while we load the latest scan.  This should be pretty quick.
+            </p>
+        </div>
+        <?php
+    } else {
+        ?>
+        <p>
+            No scans found
+        </p>
+        <?php
+    }
+    ?>
+</div>

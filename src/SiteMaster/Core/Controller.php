@@ -55,6 +55,10 @@ class Controller
     {
         try {
             $this->verifyModel();
+            
+            if ($this->options['format'] == 'partial') {
+                \Savvy_ClassToTemplateMapper::$output_template[__CLASS__] = 'SiteMaster/Core/Controller-partial';
+            }
 
             $this->output = new $this->options['model']($this->options);
             
