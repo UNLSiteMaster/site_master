@@ -58,6 +58,7 @@ class OutputController extends \Savvy_Turbo
     public function initialize()
     {
         switch ($this->options['format']) {
+            case 'partial':
             case 'html':
                 // Always escape output, use $context->getRaw('var'); to get the raw data.
                 $this->setEscape(function($data) {
@@ -91,6 +92,10 @@ class OutputController extends \Savvy_Turbo
     {
         $plugin_dir = dirname(dirname(dirname(__DIR__))) . '/plugins';
 
+        if ($format == 'partial') {
+            //Trick the partial format into looking for html templates
+            $format = 'html';
+        }
         $this->format = $format;
 
         $this->setTemplatePath(
