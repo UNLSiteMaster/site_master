@@ -179,6 +179,12 @@ $page_marks = $context->getMarks();
             </tbody>
         </table>
         <?php
+    } else if ($context->letter_grade == \SiteMaster\Core\Auditor\GradingHelper::GRADE_INCOMPLETE) {
+        ?>
+        <p>
+            We were unable to scan this page.  This might be because of an error with our scanner, or it might be because of an error on the page.  Please make sure that the page passes HTML validation and there are no JavaScript errors.
+        </p>
+        <?php
     } else {
         ?>
         <p>Everything looks good!  Keep up the good work!</p>
