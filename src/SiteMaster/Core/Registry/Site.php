@@ -209,18 +209,24 @@ class Site extends Record
 
     /**
      * Get the latest scan for this site
-     * 
+     *
+     * @param bool $completed - get the latest complete scan
      * @return bool|Scan
      */
-    public function getLatestScan()
+    public function getLatestScan($completed = false)
     {
         $db = Util::getDB();
 
         $sql = "SELECT *
                 FROM scans
-                WHERE sites_id = " . (int)$this->id . "
-                ORDER BY id DESC
-                LIMIT 1";
+                WHERE sites_id = " . (int)$this->id . " ";
+        
+        if ($completed) {
+            $sql .= " AND status = 'COMPLETE' ";
+        }
+        
+        $sql .= "ORDER BY id DESC
+                 LIMIT 1";
 
         if (!$result = $db->query($sql)) {
             return false;
