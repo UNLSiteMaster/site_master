@@ -5,31 +5,15 @@ use DB\RecordList;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\InvalidArgumentException;
 
-class ChangesForScan extends RecordList
+class ChangesForScan extends All
 {
     public function __construct(array $options = array())
     {
-        $this->options = $options + $this->options;
-
         if (!isset($options['scans_id'])) {
             throw new InvalidArgumentException('A scans_id must be set', 500);
         }
 
-        $options['array'] = self::getBySQL(array(
-            'sql'         => $this->getSQL(),
-            'returnArray' => true
-        ));
-
         parent::__construct($options);
-    }
-
-    public function getDefaultOptions()
-    {
-        $options = array();
-        $options['itemClass'] = '\SiteMaster\Core\Auditor\Site\Page\MetricGrade';
-        $options['listClass'] = __CLASS__;
-
-        return $options;
     }
 
     public function getWhere()
