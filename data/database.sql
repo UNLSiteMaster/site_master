@@ -246,6 +246,8 @@ CREATE TABLE IF NOT EXISTS `page_metric_grades` (
   `incomplete` ENUM('YES', 'NO') NOT NULL DEFAULT 'NO' COMMENT 'YES if the metric was unable to complete for any reason.  For Example: the html check was unable to get a response from the validator service.',
   `weight` DECIMAL(5,2) NOT NULL DEFAULT 0,
   `letter_grade` VARCHAR(2) NULL,
+  `num_errors` INT NULL COMMENT 'The total number of errors found',
+  `num_notices` INT NULL COMMENT 'The total number of notices found',
   INDEX `fk_page_metric_grades_metrics1_idx` (`metrics_id` ASC),
   INDEX `fk_page_metric_grades_scanned_page1_idx` (`scanned_page_id` ASC),
   PRIMARY KEY (`id`),

@@ -5,21 +5,16 @@ ini_set('display_errors', true);
 require_once(__DIR__ . "/../init.php");
 
 //Update all pages to populate the num_errors and num_notices
-$pages = new \SiteMaster\Core\Auditor\Site\Pages\All();
-foreach ($pages as $page) {
+$grades = new \SiteMaster\Core\Auditor\Site\Page\MetricGrades\All();
+foreach ($grades as $grade) {
     /**
-     * @var $page \SiteMaster\Core\Auditor\Site\Page
+     * @var $grade \SiteMaster\Core\Auditor\Site\Page\MetricGrade
      */
-    if (!$page->isComplete()) {
-        //We only want to update pages that have finished scanning
-        continue;
-    }
+    $errors  = $grade->getErrors();
+    $notices = $grade->getNotices();
 
-    $errors  = $page->getErrors();
-    $notices = $page->getNotices();
+    $grade->num_errors  = $errors->count();
+    $grade->num_notices = $notices->count();
 
-    $page->num_errors  = $errors->count();
-    $page->num_notices = $notices->count();
-
-    $page->save();
+    $grade->save();
 }
