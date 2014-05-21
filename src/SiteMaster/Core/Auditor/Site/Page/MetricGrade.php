@@ -19,6 +19,8 @@ class MetricGrade extends Record
     public $incomplete;              //ENUM('YES', 'NO') NOT NULL DEFAULT='NO'.  'YES' if the metric was unable to complete
     public $letter_grade;            //VARCHAR(2) for historic tracking of the letter grade in case the scale changes
     public $weight;                  //DOUBLE(2,2) NOT NULL default=0, % of total page grade
+    public $num_errors;              //INT, the total number of errors for this metric grade
+    public $num_notices;             //INT, the total number of notices for this metric grade
 
     public function keys()
     {

@@ -182,6 +182,13 @@ abstract class MetricInterface
         //Compute the letter grade
         $grade->letter_grade = $this->computeLetterGrade($grade);
 
+        //Store the number of errors and notices to make them easier to access (less complicated and faster sql queries)
+        $errors  = $grade->getErrors();
+        $notices = $grade->getNotices();
+
+        $grade->num_errors  = (int)$errors->count();
+        $grade->num_notices = (int)$notices->count();
+
         if (!$grade->save()) {
             return false;
         }
