@@ -37,7 +37,7 @@ class ForScanAndMetric extends All
     public function getOrderBy()
     {
         if (isset($this->options['order_by_marks'])) {
-            return 'ORDER BY total_marks DESC';
+            return 'ORDER BY total_errors DESC';
         }
         
         return 'ORDER BY page_metric_grades.point_grade ASC';
@@ -46,7 +46,7 @@ class ForScanAndMetric extends All
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT page_metric_grades.id as id, page_marks.total as total_marks
+        $sql = "SELECT page_metric_grades.id as id, page_metric_grades.num_errors as total_errors, page_metric_grades.num_notices as total_notices
                 FROM page_metric_grades
                 /* Grab the newest page_metric_grades record for each uri_hash */
                 JOIN (
@@ -58,16 +58,9 @@ class ForScanAndMetric extends All
                     AND page_metric_grades.incomplete = 'NO'
                     GROUP BY scanned_page.uri_hash
                 ) as grades ON (grades.id = page_metric_grades.id)
-                JOIN (
-                    SELECT count(pm.id) AS total, sp.id
-                    FROM page_marks pm
-                    JOIN scanned_page sp ON pm.scanned_page_id = sp.id AND sp.scans_id = " . (int)$this->options['scans_id'] . "
-                    JOIN marks m ON pm.marks_id = m.id AND m.metrics_id = " . (int)$this->options['metrics_id'] . "
-                    GROUP BY sp.id 
-                ) as page_marks ON page_marks.id = page_metric_grades.scanned_page_id
                 WHERE
                     #Only select metric grades with marks
-                    page_marks.total > 0
+                    page_metric_grades.num_errors > 0 OR page_metric_grades.num_notices > 0
                  " . $this->getOrderBy() . "
                  " . $this->getLimit();
 
