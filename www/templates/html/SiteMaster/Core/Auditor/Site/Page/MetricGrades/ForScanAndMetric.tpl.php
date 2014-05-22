@@ -28,6 +28,9 @@ if ($context->count()) {
         <tbody>
         <?php
         foreach ($context as $grade) {
+            /**
+             * @var $grade \SiteMaster\Core\Auditor\Site\Page\MetricGrade
+             */
             $page = $grade->getPage();
             ?>
             <tr>
@@ -45,14 +48,12 @@ if ($context->count()) {
                 ?>
                 <td>
                     <?php
-                    $errors = $grade->getErrors();
-                    echo $errors->count();
+                    echo (int)$grade->num_errors;
                     ?>
                 </td>
                 <td>
                     <?php
-                    $errors = $grade->getNotices();
-                    echo $errors->count();
+                    echo (int)$grade->num_notices;
                     ?>
                 </td>
             </tr>
