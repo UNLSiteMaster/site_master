@@ -6,14 +6,17 @@
 $nav = $context->getNavigation();
 
 if (count($nav)) {
-    foreach ($nav as $url=>$title)
     ?>
-    
     <ul class="dropdown">
-        <li>
-            <a href="<?php echo $url;?>"><?php echo $title ?></a>
-        </li>
+        <?php
+        foreach ($nav as $url=>$title) {
+            ?>
+            <li>
+                <a href="<?php echo $url;?>"><?php echo $title ?></a>
+            </li>
+            <?php
+        }
+    ?>
     </ul>
-    <?php
+<?php
 }
-
