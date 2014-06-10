@@ -47,7 +47,7 @@ class Progress extends View
             return $progress;
         }
         
-        return round(($scanned_page_count / $page_count) * 100, 0, PHP_ROUND_HALF_DOWN);
+        return floor(($scanned_page_count / $page_count) * 100);
     }
 
     /**
