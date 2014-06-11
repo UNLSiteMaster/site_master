@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `sites` (
   `last_connection_error` DATETIME NULL,
   `http_code` INT(10) NULL,
   `curl_code` INT(10) NULL,
+  `production_status` ENUM('PRODUCTION', 'DEVELOPMENT', 'ARCHIVED') NOT NULL DEFAULT 'PRODUCTION',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `baseurl_UNIQUE` (`base_url` ASC))
 ENGINE = InnoDB;

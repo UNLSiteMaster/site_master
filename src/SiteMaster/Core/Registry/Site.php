@@ -21,7 +21,11 @@ class Site extends Record
     public $last_connection_error; //datetime
     public $http_code;             //int
     public $curl_code;             //int
+    public $production_status;     //ENUM('PRODUCTION', 'DEVELOPMENT', 'ARCHIVED') NOT NULL DEFAULT 'PRODUCTION'
     
+    const PRODUCTION_STATUS_PRODUCTION  = 'PRODUCTION';
+    const PRODUCTION_STATUS_DEVELOPMENT = 'DEVELOPMENT';
+    const PRODUCTION_STATUS_ARCHIVED    = 'ARCHIVED';
 
     public function keys()
     {
@@ -54,6 +58,7 @@ class Site extends Record
     public static function createNewSite($base_url, array $details = array())
     {
         $site = new self();
+        $site->production_status = self::PRODUCTION_STATUS_PRODUCTION;
         $site->synchronizeWithArray($details);
         $site->base_url = $base_url;
         
