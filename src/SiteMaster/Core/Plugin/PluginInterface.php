@@ -167,7 +167,7 @@ abstract class PluginInterface
 
         //do we need to update?
         $installedVersion = $this->getInstalledVersion();
-        if ($installedVersion >= $this->getVersion()) {
+        if ((int)$installedVersion >= $this->getVersion()) {
             return false;
         }
 
@@ -205,7 +205,7 @@ abstract class PluginInterface
 
         //do we need to update?
         $installedVersion = $this->getInstalledVersion();
-        if ($installedVersion < $this->getVersion()) {
+        if ((int)$installedVersion < $this->getVersion()) {
             return 'update';
         }
 
