@@ -2,12 +2,18 @@
 namespace SiteMaster\Core\Registry\Sites;
 
 use DB\RecordList;
+use SiteMaster\Core\Registry\Site;
 
 class AutoQueue extends RecordList
 {
     public function __construct(array $options = array())
     {
         $this->options = $options + $this->options;
+        
+        if (!isset($this->options['production_status'])) {
+            //Default to queueing production sites
+            $this->options['production_status'] =  Site::PRODUCTION_STATUS_PRODUCTION;
+        }
         
         $options['array'] = self::getBySQL(array(
             'sql'         => $this->getSQL(),
@@ -42,6 +48,7 @@ class AutoQueue extends RecordList
         }
         
         return 'WHERE scans.status NOT IN ("RUNNING", "QUEUED", "CREATED")
+                  AND sites.production_status = "' . self::escapeString($this->options['production_status']) . '"
                   OR scans.id IS NULL';
     }
 
@@ -59,7 +66,7 @@ class AutoQueue extends RecordList
                 " . $this->getWhere() . "
                 ORDER BY scans.end_time ASC
                 " . $this->getLimit();
-
+print_r($sql);
         return $sql;
     }
 }
