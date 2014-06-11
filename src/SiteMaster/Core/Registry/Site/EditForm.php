@@ -22,7 +22,7 @@ class EditForm implements ViewableInterface, PostHandlerInterface
     public $options = array();
 
     /**
-     * @var \SiteMaster\Core\Registry\Site
+     * @var Site
      */
     public $site = false;
 
@@ -131,6 +131,14 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         
         if (isset($post['support_email'])) {
             $this->site->support_email = $post['support_email'];
+        }
+        
+        if (isset($post['production_status']) && in_array($post['production_status'], array(
+                Site::PRODUCTION_STATUS_PRODUCTION,
+                Site::PRODUCTION_STATUS_DEVELOPMENT,
+                Site::PRODUCTION_STATUS_ARCHIVED,
+            ))) {
+            $this->site->production_status = $post['production_status'];
         }
         
         $this->site->save();
