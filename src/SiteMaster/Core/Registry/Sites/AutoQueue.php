@@ -66,7 +66,7 @@ class AutoQueue extends RecordList
                 " . $this->getWhere() . "
                 ORDER BY scans.end_time ASC
                 " . $this->getLimit();
-print_r($sql);
+
         return $sql;
     }
 }
