@@ -123,6 +123,19 @@ class HTMLOnly extends \Spider_Downloader
                 throw new UnexpectedValueException('Effective URI does not belong to current site');
             }
             
+            //check if it has a fragment
+            $effective_url_no_fragment = preg_replace('/#(.*)/', '',$effective_url, -1, $count);
+            if ($count) {
+                //Fragment found, reschedule download because of bug in CURL versions < 7.20
+                $page_scan = Page::createNewPage($this->scan->id, $this->scan->sites_id, $effective_url_no_fragment, array(
+                    'scan_type' => $this->scan->scan_type,
+                ));
+
+                $page_scan->scheduleScan();
+                
+                throw new UnexpectedValueException('Redirect found with a fragment: ' . $effective_url . '  This leads to a CURL bug, so scheduling a new download.  Rescheduling without fragment: ' . $effective_url_no_fragment);
+            }
+            
             //Check if this page already exists for this scan.
             if (Page::getByScanIDAndURI($this->scan->id, $effective_url)) {
                 throw new UnexpectedValueException('This effective URI was already found.');
