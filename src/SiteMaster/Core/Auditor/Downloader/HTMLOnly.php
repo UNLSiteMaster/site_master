@@ -126,14 +126,8 @@ class HTMLOnly extends \Spider_Downloader
             //check if it has a fragment
             $effective_url_no_fragment = preg_replace('/#(.*)/', '',$effective_url, -1, $count);
             if ($count) {
-                //Fragment found, reschedule download because of bug in CURL versions < 7.20
-                $page_scan = Page::createNewPage($this->scan->id, $this->scan->sites_id, $effective_url_no_fragment, array(
-                    'scan_type' => $this->scan->scan_type,
-                ));
-
-                $page_scan->scheduleScan();
-                
-                throw new UnexpectedValueException('Redirect found with a fragment: ' . $effective_url . '  This leads to a CURL bug, so scheduling a new download.  Rescheduling without fragment: ' . $effective_url_no_fragment);
+                sleep(1); //Prevent flooding of the server
+                return $this->download($effective_url_no_fragment, $options);
             }
             
             //Check if this page already exists for this scan.
