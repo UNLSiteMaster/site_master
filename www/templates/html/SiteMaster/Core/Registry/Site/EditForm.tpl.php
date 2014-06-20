@@ -6,7 +6,7 @@
         </li>
         <li>
             <label for="support_email">Support Email Address</label>
-            <input type="email" id="support_email" name="support_email" value="<?php echo $context->site->support_email ?>" />
+            <input type="email" id="support_email" name="support_email" multiple value="<?php echo $context->site->support_email ?>" />
         </li>
         <li>
             <fieldset>
