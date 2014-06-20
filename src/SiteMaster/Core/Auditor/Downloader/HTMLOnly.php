@@ -123,6 +123,13 @@ class HTMLOnly extends \Spider_Downloader
                 throw new UnexpectedValueException('Effective URI does not belong to current site');
             }
             
+            //check if it has a fragment
+            $effective_url_no_fragment = preg_replace('/#(.*)/', '',$effective_url, -1, $count);
+            if ($count) {
+                sleep(1); //Prevent flooding of the server
+                return $this->download($effective_url_no_fragment, $options);
+            }
+            
             //Check if this page already exists for this scan.
             if (Page::getByScanIDAndURI($this->scan->id, $effective_url)) {
                 throw new UnexpectedValueException('This effective URI was already found.');
