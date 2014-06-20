@@ -395,3 +395,9 @@ pre {
     background-color: rgb(229, 228, 226);
     text-align: center;
 }
+code {
+    background-color: #fff;
+    display: block;
+    padding: .5em;
+    border: 1px solid #000;
+}
