@@ -234,11 +234,9 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public function needsVerification()
     {
-        if (!$this->join_user_membership) {
-            return true;
-        }
+        $admin_role = $this->join_user_membership->getRole('admin');
         
-        if (!$this->join_user_membership->isVerified()) {
+        if ($admin_role && !$admin_role->isApproved()) {
             return true;
         }
         
