@@ -54,8 +54,8 @@ class Metric extends MetricInterface
                 '\\SiteMaster\\Plugins\\Metric_links\\Filters\\InvalidURI',
             ),
             'request_options' => array( //Guzzle request options
-                'timeout' => 5,
-                'connect_timeout' => 5,
+                'timeout' => 30,
+                'connect_timeout' => 30,
                 'allow_redirects' => false
             ),
             'chunks' => 5, //The number of URLs to request at once
