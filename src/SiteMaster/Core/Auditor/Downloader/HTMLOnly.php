@@ -46,6 +46,8 @@ class HTMLOnly extends \Spider_Downloader
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_CONNECTTIMEOUT => 60,
+                CURLOPT_TIMEOUT        => 60,
                 CURLOPT_USERAGENT      => Config::get('USER_AGENT'),
                 CURLOPT_HEADERFUNCTION  => array($this, 'checkHeaders')
             )
