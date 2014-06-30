@@ -5,6 +5,7 @@ use DB\Record;
 use Monolog\Logger;
 use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\Metric\Mark;
+use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -293,7 +294,7 @@ class Page extends Record
         
         $spider = new \Spider(
             new HTMLOnly($site, $this, $scan),
-            new \Spider_Parser(),
+            new HTML5(),
             array(
                 'use_effective_uris' => false,
                 'user_agent'         => Config::get('USER_AGENT')
