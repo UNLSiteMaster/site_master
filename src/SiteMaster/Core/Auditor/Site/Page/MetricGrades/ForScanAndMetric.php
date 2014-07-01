@@ -42,6 +42,16 @@ class ForScanAndMetric extends All
         
         return 'ORDER BY page_metric_grades.point_grade ASC';
     }
+    
+    public function getWhere()
+    {
+        $where = 'page_metric_grades.num_errors > 0';
+        if (!isset($this->options['include_notices']) || $this->options['include_notices'] == true) {
+            $where .= ' OR page_metric_grades.num_notices > 0';
+        }
+        
+        return $where;
+    }
 
     public function getSQL()
     {
@@ -59,8 +69,7 @@ class ForScanAndMetric extends All
                     GROUP BY scanned_page.uri_hash
                 ) as grades ON (grades.id = page_metric_grades.id)
                 WHERE
-                    #Only select metric grades with marks
-                    page_metric_grades.num_errors > 0 OR page_metric_grades.num_notices > 0
+                 " . $this->getWhere() . "
                  " . $this->getOrderBy() . "
                  " . $this->getLimit();
 

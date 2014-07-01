@@ -410,16 +410,19 @@ class Scan extends Record
 
     /**
      * Get hot spots for a given metric
-     * 
+     *
      * @param int $metrics_id the metrics_id
+     * @param $limit
+     * @param bool $include_notices
      * @return Page\MetricGrades\ForScanAndMetric
      */
-    public function getHotSpots($metrics_id, $limit = -1)
+    public function getHotSpots($metrics_id, $limit = -1, $include_notices = true)
     {
         $options =  array(
             'metrics_id' => $metrics_id,
             'scans_id' => $this->id,
             'limit' => $limit,
+            'include_notices' => $include_notices
         );
         
         if ($this->isPassFail()) {
