@@ -90,6 +90,10 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         if (!$this->current_user) {
             return false;
         }
+
+        if ($this->current_user->isAdmin()) {
+            return true;
+        }
         
         if ($this->site->userIsVerified($this->current_user)) {
             return true;
