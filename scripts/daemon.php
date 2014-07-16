@@ -60,7 +60,7 @@ while (true) {
     $page->reload();
     if ($page->letter_grade == \SiteMaster\Core\Auditor\GradingHelper::GRADE_INCOMPLETE) {
         $total_incomplete++;
-        $total_incomplete = 50;
+
         if ($total_incomplete >= 50) {
             SiteMaster\Core\Util::log(Monolog\Logger::WARNING, 'stopping daemon due due to 50 incomplete page scans in a row');
             exit(12);
