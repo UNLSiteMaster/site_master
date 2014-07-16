@@ -2,6 +2,7 @@
 namespace SiteMaster\Core;
 
 use DB\Connection;
+use Monolog\Handler\NativeMailerHandler;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -293,6 +294,10 @@ class Util
         if (!$log) {
             $log = new Logger('sitemaster');
             $log->pushHandler(new StreamHandler(self::getRootDir() . '/tmp/sitemaster.log'));
+            $email_to = Config::get('LOG_EMAIL_TO');
+            if (!empty($email_to)) {
+                $log->pushHandler(new NativeMailerHandler($email_to, 'SiteMaster Alert', Config::get('LOG_EMAIL_FROM'), Config::get('LOG_EMAIL_LEVEL')));
+            }
         }
 
         $log->log($level, $message, $context);

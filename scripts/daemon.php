@@ -12,7 +12,7 @@ $last_modified = filemtime($config_file);
 $running = new SiteMaster\Core\Auditor\Site\Pages\Running();
 foreach ($running as $page) {
     //Log it
-    SiteMaster\Core\Util::log(Monolog\Logger::ALERT, 'Re-scheduling running job: pages.id=' . $page->id);
+    SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'Re-scheduling running job: pages.id=' . $page->id);
     
     if ($page->tries >= 3) {
         //Give up, and mark it as an error
@@ -23,6 +23,7 @@ foreach ($running as $page) {
     $page->rescheduleScan();
 }
 
+$total_incomplete = 0;
 while (true) {
     clearstatcache(false, $config_file);
     //Check the last modified time to see if we need to load a new config
@@ -55,10 +56,24 @@ while (true) {
     echo date("Y-m-d H:i:s"). " - scanning page.id=" . $page->id . PHP_EOL;
     $page->scan();
     
+    //Check if we might need to restart the daemon due to metric problems.
+    $page->reload();
+    if ($page->letter_grade == \SiteMaster\Core\Auditor\GradingHelper::GRADE_INCOMPLETE) {
+        $total_incomplete++;
+        $total_incomplete = 50;
+        if ($total_incomplete >= 50) {
+            SiteMaster\Core\Util::log(Monolog\Logger::WARNING, 'stopping daemon due due to 50 incomplete page scans in a row');
+            exit(12);
+        }
+    } else {
+        //All is fine.
+        $total_incomplete = 0;
+    }
+    
     //Check if there might have been some errors
     $scan->reload();
     if ($scan->start_time == $scan->end_time) {
-        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'attempting to restart daemon due to a possible error (start and end times are the same)',
+        SiteMaster\Core\Util::log(Monolog\Logger::WARNING, 'attempting to restart daemon due to a possible error (start and end times are the same)',
             array(
                 'sites.id' => $page->sites_id,
                 'scans.id' => $page->scans_id,
