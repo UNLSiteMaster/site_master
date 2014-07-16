@@ -122,7 +122,7 @@ class HTMLOnly extends \Spider_Downloader
 
             if (($closest_site == false) || ($closest_site->id != $this->site->id)) {
                 //The effective URI does not belong to this site.
-                throw new UnexpectedValueException('Effective URI does not belong to current site');
+                throw new DownloadException('Effective URI does not belong to current site');
             }
             
             //check if it has a fragment
@@ -134,7 +134,7 @@ class HTMLOnly extends \Spider_Downloader
             
             //Check if this page already exists for this scan.
             if (Page::getByScanIDAndURI($this->scan->id, $effective_url)) {
-                throw new UnexpectedValueException('This effective URI was already found.');
+                throw new DownloadException('This effective URI was already found.');
             }
             
             //update the page.

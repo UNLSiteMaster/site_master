@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor\Site;
 
 use DB\Record;
 use Monolog\Logger;
+use SiteMaster\Core\Auditor\Downloader\DownloadException;
 use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Parser\HTML5;
@@ -317,7 +318,7 @@ class Page extends Record
         try {
             $spider->processPage($this->getSanitizedURI(), 1);
         } catch (\Exception $e) {
-            if ($e instanceof HTTPConnectionException || $e instanceof UnexpectedValueException) {
+            if ($e instanceof HTTPConnectionException || $e instanceof DownloadException) {
                 //Couldn't get the page, so don't process it.
                 //Get the scan before we delete this page
                 $scan = $this->getScan();
@@ -332,7 +333,7 @@ class Page extends Record
                 }
 
                 Util::log(
-                    \Monolog\Logger::ERROR,
+                    Logger::NOTICE,
                     'Page removed due to exception: ' . $this->id .  ' - ' . $this->uri,
                     array(
                         'exception' => (string)$e,
