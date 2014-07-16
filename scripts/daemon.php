@@ -1,4 +1,6 @@
 <?php
+use SiteMaster\Core\Config;
+
 ini_set('display_errors', true);
 
 //Initialize all settings and autoloaders
@@ -61,8 +63,8 @@ while (true) {
     if ($page->letter_grade == \SiteMaster\Core\Auditor\GradingHelper::GRADE_INCOMPLETE) {
         $total_incomplete++;
 
-        if ($total_incomplete >= 50) {
-            SiteMaster\Core\Util::log(Monolog\Logger::WARNING, 'stopping daemon due due to 50 incomplete page scans in a row');
+        if ($total_incomplete >= Config::get('INCOMPLETE_LIMIT')) {
+            SiteMaster\Core\Util::log(Monolog\Logger::WARNING, 'stopping daemon due due to ' . Config::get('INCOMPLETE_LIMIT') . ' incomplete page scans in a row');
             exit(12);
         }
     } else {
