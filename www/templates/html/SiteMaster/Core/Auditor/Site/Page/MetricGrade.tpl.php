@@ -152,7 +152,7 @@ $page_marks = $context->getMarks();
                                         $location = 'Line ' . $page_mark->line . ', Column ' . $page_mark->col;
                                     }
                                     if (!empty($page_mark->context)) {
-                                        $location .= '<br />Context: <pre>' . strip_tags(htmlspecialchars_decode($page_mark->context)) . '</pre>';
+                                        $location .= '<br />Context: <pre>' . strip_tags($page_mark->getRaw('context')) . '</pre>';
                                     }
                                     ?>
                                     <dd><?php echo $location ?></dd>
