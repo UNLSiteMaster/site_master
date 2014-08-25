@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "9dcccb7deff092f981aaf3b28f97cc4e",
     "packages": [
@@ -1000,18 +1001,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/unlpear/UNL_Cache_Lite.git",
-                "reference": "df3c1f57d441add21d30326ecfccca1632310381"
+                "reference": "ead1a59700a52f84250de2820d650e207ee7d698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/unlpear/UNL_Cache_Lite/zipball/df3c1f57d441add21d30326ecfccca1632310381",
-                "reference": "df3c1f57d441add21d30326ecfccca1632310381",
+                "url": "https://api.github.com/repos/unlpear/UNL_Cache_Lite/zipball/ead1a59700a52f84250de2820d650e207ee7d698",
+                "reference": "ead1a59700a52f84250de2820d650e207ee7d698",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "UNL_Cache_Lite": "src/"
+                    "UNL_Cache_Lite": ""
                 }
             },
             "description": "a speedy and safe caching library",
@@ -1019,15 +1020,11 @@
                 "source": "https://github.com/unlpear/UNL_Cache_Lite/tree/master",
                 "issues": "https://github.com/unlpear/UNL_Cache_Lite/issues"
             },
-            "time": "2014-04-30 21:38:21"
+            "time": "2014-08-25 20:13:04"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "saltybeagle/savvy": 20,
@@ -1040,10 +1037,7 @@
         "swiftmailer/swiftmailer": 0,
         "michelf/php-markdown": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
 }
