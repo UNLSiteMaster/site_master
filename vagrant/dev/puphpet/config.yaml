@@ -1,36 +1,46 @@
 ---
 vagrantfile-local:
     vm:
-        box: centos64-x64-vbox43-1383512148
-        box_url: 'http://box.puphpet.com/centos64-x64-vbox43.box'
-        hostname: null
+        box: puphpet/centos65-x64
+        box_url: puphpet/centos65-x64
+        hostname: ''
+        memory: '512'
+        cpus: '1'
+        chosen_provider: virtualbox
         network:
             private_network: 192.168.56.201
             forwarded_port:
-                IzVYHwID8go0:
+                g8TGCTT4Uusf:
                     host: '8001'
                     guest: '80'
+        post_up_message: ''
         provider:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
-                    memory: '1024'
-                setextradata:
-                    VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root: 1
+            vmware:
+                numvcpus: 1
+            parallels:
+                cpus: 1
         provision:
             puppet:
                 manifests_path: puphpet/puppet
-                manifest_file: manifest.pp
+                manifest_file: site.pp
+                module_path: puphpet/puppet/modules
                 options:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            VvsV9lAgLyvh:
+            ZiqMaauAIpUe:
                 source: ./../../
                 target: /var/www/html
-                nfs: 'false'
-        usable_port_range: 2200..2250
+                sync_type: default
+                rsync:
+                    auto: 'false'
+        usable_port_range:
+            start: 10200
+            stop: 10500
     ssh:
         host: null
         port: null
@@ -44,20 +54,11 @@ vagrantfile-local:
     vagrant:
         host: detect
 server:
+    install: '1'
     packages: {  }
-    dot_files:
-        -
-            bash_aliases: null
-    _prevent_empty: ''
-mailcatcher:
-    install: 0
-    settings:
-        smtp_ip: 0.0.0.0
-        smtp_port: 1025
-        http_ip: 0.0.0.0
-        http_port: '1080'
-        mailcatcher_path: /usr/local/bin
-        log_path: /var/log/mailcatcher/mailcatcher.log
+firewall:
+    install: '1'
+    rules: null
 apache:
     install: '1'
     settings:
@@ -68,10 +69,9 @@ apache:
         manage_group: false
         sendfile: 0
     modules:
-        - php
         - rewrite
     vhosts:
-        sySSPfxJNyLR:
+        UNxCdaTF0XZb:
             servername: localhost
             serveraliases:
                 - localhost
@@ -82,32 +82,41 @@ apache:
                 - 'APP_ENV dev'
             override:
                 - All
+            engine: ''
             custom_fragment: 'EnableSendFile Off'
             ssl_cert: ''
             ssl_key: ''
             ssl_chain: ''
             ssl_certs_dir: ''
     mod_pagespeed: 0
-    mod_spdy: 0
 nginx:
-    install: 0
+    install: '0'
+    settings:
+        default_vhost: 1
+        proxy_buffer_size: 128k
+        proxy_buffers: '4 256k'
     vhosts:
-        OpXam5LkWvc8:
+        oxee4qtkwNJL:
             server_name: awesome.dev
             server_aliases:
                 - www.awesome.dev
             www_root: /var/www/awesome.dev
             listen_port: '80'
+            location: .php$
             index_files:
                 - index.html
                 - index.htm
                 - index.php
             envvars:
                 - 'APP_ENV dev'
+            engine: ''
+            ssl_cert: ''
+            ssl_key: ''
 php:
     install: '1'
     version: '55'
-    composer: 1
+    composer: '1'
+    composer_home: ''
     modules:
         php:
             - cli
@@ -120,8 +129,18 @@ php:
     ini:
         display_errors: On
         error_reporting: '-1'
-        session.save_path: /var/lib/php/session
     timezone: America/Chicago
+    mod_php: '1'
+hhvm:
+    install: '0'
+    nightly: 0
+    composer: '1'
+    composer_home: ''
+    settings:
+        host: '0'
+        port: '0'
+    ini: {  }
+    timezone: null
 xdebug:
     install: '1'
     settings:
@@ -134,16 +153,24 @@ xdebug:
 xhprof:
     install: '1'
 drush:
-    install: 0
-    settings:
-        drush.tag_branch: 6.x
+    install: '0'
+    version: ''
+ruby:
+    install: '1'
+    versions: {  }
+nodejs:
+    install: '0'
+    npm_packages: {  }
+python:
+    install: '1'
+    packages: {  }
+    versions: {  }
 mysql:
     install: '1'
     root_password: '123'
-    phpmyadmin: '1'
     adminer: 0
     databases:
-        99rfexXBl7xW:
+        8C2pNl4J0CCT:
             grant:
                 - ALL
             name: sitemaster
@@ -151,7 +178,7 @@ mysql:
             user: sitemaster
             password: password
             sql_file: ''
-        rDhtRWFxiUgp:
+        pxPtsIXqI0s7:
             grant:
                 - ALL
             name: sitemaster_test
@@ -160,7 +187,7 @@ mysql:
             password: password
             sql_file: ''
 postgresql:
-    install: 0
+    install: '0'
     settings:
         root_password: '123'
         user_group: postgres
@@ -169,24 +196,36 @@ postgresql:
     databases: {  }
     adminer: 0
 mariadb:
-    install: 0
+    install: '0'
     root_password: '123'
-    phpmyadmin: 0
     adminer: 0
     databases: {  }
     version: '10.0'
+sqlite:
+    install: '0'
+    adminer: 0
+    databases: {  }
 mongodb:
-    install: 0
+    install: '0'
     settings:
         auth: 1
         port: '27017'
     databases: {  }
 redis:
-    install: 0
+    install: '0'
     settings:
         conf_port: '6379'
+mailcatcher:
+    install: '0'
+    settings:
+        smtp_ip: 0.0.0.0
+        smtp_port: 1025
+        http_ip: 0.0.0.0
+        http_port: '1080'
+        mailcatcher_path: /usr/local/rvm/wrappers/default
+        from_email_method: inline
 beanstalkd:
-    install: 0
+    install: '0'
     settings:
         listenaddress: 0.0.0.0
         listenport: '11300'
@@ -198,7 +237,12 @@ beanstalkd:
     beanstalk_console: 0
     binlogdir: /var/lib/beanstalkd/binlog
 rabbitmq:
-    install: 0
+    install: '0'
     settings:
         port: '5672'
+elastic_search:
+    install: '0'
+    settings:
+        java_install: true
+        autoupgrade: true
 
