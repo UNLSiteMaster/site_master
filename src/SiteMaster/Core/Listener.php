@@ -15,6 +15,7 @@ class Listener extends PluginListener
         $event->addRoute('/^$/',                                                            'SiteMaster\Core\Home\Home');
         $event->addRoute('/^registry\/$/',                                                  'SiteMaster\Core\Registry\Search');
         $event->addRoute('/^logout\/$/',                                                    'SiteMaster\Core\User\Logout');
+        $event->addRoute('/^metrics\/$/',                                                   'SiteMaster\Core\Auditor\Metrics\View');
         $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',                  'SiteMaster\Core\User\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/$/',                                 'SiteMaster\Core\Registry\Site\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/$/',                           'SiteMaster\Core\Auditor\Site\ScanForm');
@@ -48,6 +49,8 @@ class Listener extends PluginListener
         if ($user && $user->isAdmin()) {
             $event->addNavigationItem(Config::get('URL') . 'admin/', 'Administration');
         }
+
+        $event->addNavigationItem(Config::get('URL') . 'metrics/', 'Metrics');
     }
 
     /**
