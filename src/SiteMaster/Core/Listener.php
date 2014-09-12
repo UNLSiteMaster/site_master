@@ -31,7 +31,7 @@ class Listener extends PluginListener
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',                   'SiteMaster\Core\Registry\Site\AddMemberForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/verify\/?((?P<users_id>(\d*))\/)$/', 'SiteMaster\Core\Registry\Site\VerifyForm');
         $event->addRoute('/^sites\/add\/$/',                                                'SiteMaster\Core\Registry\Site\AddSiteForm');
-        $event->addRoute('/^admin\/sites\/$/',                                              'SiteMaster\Core\admin\AllSites');
+        $event->addRoute('/^admin\/sites\/$/',                                              'SiteMaster\Core\Admin\AllSites');
     }
 
     /**
