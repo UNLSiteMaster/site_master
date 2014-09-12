@@ -31,6 +31,7 @@ class Listener extends PluginListener
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',                   'SiteMaster\Core\Registry\Site\AddMemberForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/verify\/?((?P<users_id>(\d*))\/)$/', 'SiteMaster\Core\Registry\Site\VerifyForm');
         $event->addRoute('/^sites\/add\/$/',                                                'SiteMaster\Core\Registry\Site\AddSiteForm');
+        $event->addRoute('/^admin\/sites\/$/',                                              'SiteMaster\Core\admin\AllSites');
     }
 
     /**
@@ -63,6 +64,10 @@ class Listener extends PluginListener
         if ($user = User\Session::getCurrentUser()) {
             if ($event->isFor($user->getURL())) {
                 $event->addNavigationItem(Config::get('URL') . 'sites/add/', 'Add a site');
+            }
+
+            if ($event->isFor(Config::get('URL') . 'admin/') && $user->isAdmin()) {
+                $event->addNavigationItem(Config::get('URL') . 'admin/sites/', 'All Sites');
             }
         }
     }

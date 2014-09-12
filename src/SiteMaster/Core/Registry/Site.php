@@ -294,6 +294,22 @@ class Site extends Record
     }
 
     /**
+     * Get the most recent page count for this site.
+     * 
+     * @return bool|int
+     */
+    public function getPageCount()
+    {
+        $scan = $this->getLatestScan();
+        
+        if (false === $this->getLatestScan()) {
+            return false;
+        }
+        
+        return $scan->getDistinctPageCount();
+    }
+
+    /**
      * @return ScanForm
      */
     public function getScanForm()
