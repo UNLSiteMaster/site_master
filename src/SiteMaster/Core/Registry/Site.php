@@ -19,9 +19,11 @@ class Site extends Record
     public $title;                 //varchar
     public $support_email;         //varchar
     public $last_connection_error; //datetime
+    public $last_connection_success; //datetime
     public $http_code;             //int
     public $curl_code;             //int
     public $production_status;     //ENUM('PRODUCTION', 'DEVELOPMENT', 'ARCHIVED') NOT NULL DEFAULT 'PRODUCTION'
+    public $source;                //varchar(45)
     
     const PRODUCTION_STATUS_PRODUCTION  = 'PRODUCTION';
     const PRODUCTION_STATUS_DEVELOPMENT = 'DEVELOPMENT';
@@ -315,5 +317,36 @@ class Site extends Record
     public function getScanForm()
     {
         return new ScanForm(array('site_id'=>$this->id));
+    }
+
+    /**
+     * Determine if this site has a connection error which is preventing us from scanning it.
+     * 
+     * @return bool
+     */
+    public function hasConnectionError()
+    {
+        $last_error   = strtotime($this->last_connection_error);
+        $last_success = strtotime($this->last_connection_success);
+        
+        if ($last_error > $last_success) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Get the interval of time since the last success
+     * 
+     * @return \DateInterval
+     */
+    public function timeSinceLastSuccess()
+    {
+        $last_error   = new \DateTime($this->last_connection_error);
+        $last_success = new \DateTime($this->last_connection_success);
+        $interval     = $last_success->diff($last_error);
+        
+        return $interval;
     }
 }

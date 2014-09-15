@@ -5,12 +5,15 @@
 <table class="sortable">
     <thead>
     <tr>
-        <td>
+        <th>
             Site
-        </td>
-        <td>
+        </th>
+        <th>
             Pages
-        </td>
+        </th>
+        <th>
+            Error
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +25,13 @@
                 <a href="<?php echo $site->base_url ?>"><?php echo $site->base_url;?></a>
                 <?php if (!empty($site->title)) {?>
                     <br />
-                    <?php echo $site->getTitle() ?>
+                    <?php 
+                    if (strlen($site->getTitle()) > 40) {
+                        echo substr($site->getTitle(), 0, 40) . '...';
+                    } else {
+                        echo $site->getTitle();
+                    }
+                    ?>
                 <?php }?>
                 <div>
                     <a href="<?php echo $site->getURL() ?>">view</a> | <a href="<?php echo $site->getURL() ?>edit/">edit</a>
@@ -30,6 +39,13 @@
             </td>
             <td>
                 <?php echo $site->getPageCount() ?>
+            </td>
+            <td>
+                <?php
+                if ($site->hasConnectionError()) {
+                    echo $site->timeSinceLastSuccess()->format('%d days') . ' (' . (int)$site->http_code . '|' . (int)$site->curl_code . ')';
+                }
+                ?>
             </td>
         </tr>
         <?php
