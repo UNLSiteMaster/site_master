@@ -401,3 +401,14 @@ code {
     padding: .5em;
     border: 1px solid #000;
 }
+
+.sitemaster_core_admin_allsites table {
+    table-layout: fixed;
+    width: 100%;
+}
+.sitemaster_core_admin_allsites table th:first-child {
+    width: 75%;
+}
+.sitemaster_core_admin_allsites table tr td:first-child {
+    word-wrap: break-word;
+}

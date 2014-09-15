@@ -29,9 +29,11 @@ CREATE TABLE IF NOT EXISTS `sites` (
   `title` VARCHAR(255) BINARY NULL COMMENT 'The title of the site',
   `support_email` VARCHAR(255) NULL COMMENT 'The support email for the site',
   `last_connection_error` DATETIME NULL,
+  `last_connection_success` DATETIME NULL,
   `http_code` INT(10) NULL,
   `curl_code` INT(10) NULL,
   `production_status` ENUM('PRODUCTION', 'DEVELOPMENT', 'ARCHIVED') NOT NULL DEFAULT 'PRODUCTION',
+  `source` VARCHAR(45) NULL COMMENT 'The source system.  Null means that it was created by sitemaster.',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `baseurl_UNIQUE` (`base_url` ASC))
 ENGINE = InnoDB;
