@@ -19,7 +19,14 @@
         ?>
         <tr>
             <td>
-                <a href="<?php echo $site->getURL() ?>"><?php echo $site->getTitle() ?></a>
+                <a href="<?php echo $site->base_url ?>"><?php echo $site->base_url;?></a>
+                <?php if (!empty($site->title)) {?>
+                    <br />
+                    <?php echo $site->getTitle() ?>
+                <?php }?>
+                <div>
+                    <a href="<?php echo $site->getURL() ?>">view</a> | <a href="<?php echo $site->getURL() ?>edit/">edit</a>
+                </div>
             </td>
             <td>
                 <?php echo $site->getPageCount() ?>
