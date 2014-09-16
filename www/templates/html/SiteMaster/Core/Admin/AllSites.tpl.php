@@ -43,7 +43,13 @@
             <td>
                 <?php
                 if ($site->hasConnectionError()) {
-                    echo $site->timeSinceLastSuccess()->format('%d days') . ' (' . (int)$site->http_code . '|' . (int)$site->curl_code . ')';
+                    $time = '';
+                    if (!empty($site->last_connection_success)) {
+                        $time = $site->timeSinceLastSuccess()->format('%d days');
+                    } else {
+                        
+                    }
+                    echo $time . ' (' . (int)$site->http_code . '|' . (int)$site->curl_code . ')';
                 }
                 ?>
             </td>
