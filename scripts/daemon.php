@@ -58,8 +58,13 @@ while (true) {
     echo date("Y-m-d H:i:s"). " - scanning page.id=" . $page->id . PHP_EOL;
     $page->scan();
     
+    //The page might have been removed after the scan, so we need to check for that.
+    if (!$page = \SiteMaster\Core\Auditor\Site\Page::getById($this->id)) {
+        sleep(1);
+        continue;
+    }
+    
     //Check if we might need to restart the daemon due to metric problems.
-    $page->reload();
     if ($page->letter_grade == \SiteMaster\Core\Auditor\GradingHelper::GRADE_INCOMPLETE) {
         $total_incomplete++;
 
