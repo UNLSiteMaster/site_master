@@ -59,7 +59,7 @@ while (true) {
     $page->scan();
     
     //The page might have been removed after the scan, so we need to check for that.
-    if (!$page = \SiteMaster\Core\Auditor\Site\Page::getById($this->id)) {
+    if (!$page = \SiteMaster\Core\Auditor\Site\Page::getById($page->id)) {
         sleep(1);
         continue;
     }
