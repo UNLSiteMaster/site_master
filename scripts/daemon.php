@@ -28,20 +28,11 @@ foreach ($running as $page) {
 $total_incomplete = 0;
 $total_checked = 0;
 while (true) {
-    $total_checked++;
     clearstatcache(false, $config_file);
     //Check the last modified time to see if we need to load a new config
     if (filemtime($config_file) > $last_modified) {
         SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'stopping daemon due to a change in config.inc.php');
         exit(10);
-    }
-    
-    if ($total_checked >= 10) {
-        /**
-         * Do a routine restart of the daemon after a few pages have been scanned.  Metrics and plugins can cause problems over, and restarting the daemon script can solve those problems.
-         */
-        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'doing a routine restart of the daemon after 10 pages');
-        exit(12);
     }
     
     //Get the queue
@@ -56,6 +47,15 @@ while (true) {
         
         //Check again.
         continue;
+    }
+
+    $total_checked++;
+    if ($total_checked >= 10) {
+        /**
+         * Do a routine restart of the daemon after a few pages have been scanned.  Metrics and plugins can cause problems over, and restarting the daemon script can solve those problems.
+         */
+        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'doing a routine restart of the daemon after 10 pages');
+        exit(12);
     }
 
     /**
