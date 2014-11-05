@@ -111,7 +111,7 @@ class HTMLOnly extends \Spider_Downloader
         $result = curl_exec($this->curl);
         
         if (!$result) {
-            throw new HTTPConnectionException('Error downloading ' . $uri. $result);
+            throw new HTTPConnectionException('Error downloading ' . $uri . ' -- ' . curl_error($this->curl));
         }
 
         $effective_url = curl_getinfo($this->curl, CURLINFO_EFFECTIVE_URL);
