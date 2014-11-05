@@ -89,7 +89,13 @@ abstract class PluginInterface
             return false;
         }
 
+        //Run plugin install logic
         if (!$this->onInstall()) {
+            return false;
+        }
+
+        //Run any updates.
+        if (!$this->onUpdate(false)) {
             return false;
         }
 
