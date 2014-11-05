@@ -64,6 +64,7 @@ while (true) {
     $queue->rewind();
     $page = $queue->current();
     $scan = $page->getScan();
+    $site = $scan->getSite();
     
     if (($current_site !== false) && ($current_site != $scan->sites_id)) {
         //Restart the daemon before scanning a new site. (to help prevent errors and clear any variables such as robots.txt)
@@ -88,7 +89,7 @@ while (true) {
         $total_incomplete++;
 
         if ($total_incomplete >= Config::get('INCOMPLETE_LIMIT')) {
-            SiteMaster\Core\Util::log(Monolog\Logger::WARNING, 'stopping daemon due due to ' . Config::get('INCOMPLETE_LIMIT') . ' incomplete page scans in a row');
+            SiteMaster\Core\Util::log(Monolog\Logger::WARNING, 'stopping daemon due due to ' . Config::get('INCOMPLETE_LIMIT') . ' incomplete page scans in a row for ' . $site->base_url);
             exit(12);
         }
     } else {

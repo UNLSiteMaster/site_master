@@ -29,8 +29,8 @@ class Config
         'EMAIL_FROM'       => 'test@example.org',
         'EXAMPLE_TO_EMAIL' => 'test@example.org', //Used in testing
         'SITE_PASS_FAIL'   => false, //change to 'true' to grade everything as pass/fail, even sites.  GPA will become the percent of passing pages.
-        'INCOMPLETE_LIMIT' => 50, //The max number of incomplete page scans before the daemon should restart and issue an alert (to help notify/prevent errors).
-        'RESTART_INTERVAL' => 20, //The max number of pages to scan before routinely restarting the daemon (to fix potential errors with a long running daemon).
+        'INCOMPLETE_LIMIT' => 25, //The max number of incomplete page scans before the daemon should restart and issue an alert (to help notify/prevent errors).
+        'RESTART_INTERVAL' => 50, //The max number of pages to scan before routinely restarting the daemon (to fix potential errors with a long running daemon).
         'LOG_EMAIL_LEVEL'  => Logger::WARNING,
         'LOG_EMAIL_FROM'   => 'alert@sitemaster.com',
         'LOG_EMAIL_TO'     => '',
