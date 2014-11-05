@@ -26,7 +26,8 @@ foreach ($running as $page) {
 }
 
 $total_incomplete = 0;
-$total_checked = 0;
+$total_checked    = 0;
+$current_site     = false;
 while (true) {
     clearstatcache(false, $config_file);
     //Check the last modified time to see if we need to load a new config
@@ -53,10 +54,9 @@ while (true) {
         /**
          * Do a routine restart of the daemon after a few pages have been scanned.  Metrics and plugins can cause problems over, and restarting the daemon script can solve those problems.
          */
-        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'doing a routine restart of the daemon after 10 pages');
+        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'doing a routine restart of the daemon after ' . Config::get('RESTART_INTERVAL') . ' pages');
         exit(12);
     }
-    $total_checked++;
     
     /**
      * @var $page \SiteMaster\Core\Auditor\Site\Page
@@ -64,6 +64,15 @@ while (true) {
     $queue->rewind();
     $page = $queue->current();
     $scan = $page->getScan();
+    
+    if (($current_site !== false) && ($current_site != $scan->sites_id)) {
+        //Restart the daemon before scanning a new site. (to help prevent errors and clear any variables such as robots.txt)
+        SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'Restarting before scanning a different site.');
+        exit(13);
+    }
+    
+    $current_site = $scan->sites_id;
+    $total_checked++;
 
     echo date("Y-m-d H:i:s"). " - scanning page.id=" . $page->id . PHP_EOL;
     $page->scan();
