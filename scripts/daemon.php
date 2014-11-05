@@ -49,15 +49,15 @@ while (true) {
         continue;
     }
 
-    $total_checked++;
-    if ($total_checked >= 10) {
+    if ($total_checked >= Config::get('RESTART_INTERVAL')) {
         /**
          * Do a routine restart of the daemon after a few pages have been scanned.  Metrics and plugins can cause problems over, and restarting the daemon script can solve those problems.
          */
         SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'doing a routine restart of the daemon after 10 pages');
         exit(12);
     }
-
+    $total_checked++;
+    
     /**
      * @var $page \SiteMaster\Core\Auditor\Site\Page
      */
