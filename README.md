@@ -24,6 +24,18 @@ SiteMaster is a web auditing and registry tool.  These are some of its features:
   * Metrics
   * More!
 
+Current Plugins
+---------------
+* Metic: [w3c validator](https://github.com/UNLSiteMaster/metric_w3c_html) - tests HTML validity
+* Metirc: [pa11y](https://github.com/UNLSiteMaster/metric_pa11y) - tests accessibility
+* Metric: Link Checker - included
+* Metric: Example Metric - included
+* Metric/Plugin: [UNL plugin](https://github.com/unl/sitemaster_plugin_unl) - UNL specific tests and functionality
+* Theme: [UNL Theme](https://github.com/unl/sitemaster_theme_unl) - advanced theme usage
+* Theme: Foundation - included
+* Auth: [UNL Auth](https://github.com/unl/sitemaster_plugin_auth_unl)
+* Auth: Google - included [readme](https://github.com/UNLSiteMaster/site_master/tree/master/plugins/auth_google)
+
 Working with the vagrant development machine
 --------------------------------------------
 To install:
