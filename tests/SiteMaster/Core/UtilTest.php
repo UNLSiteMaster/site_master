@@ -95,7 +95,6 @@ class UtilTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException        \SiteMaster\Core\InvalidArgumentException
-     * @expectedExceptionMessage A password must not be set
      *
      * @test
      */
