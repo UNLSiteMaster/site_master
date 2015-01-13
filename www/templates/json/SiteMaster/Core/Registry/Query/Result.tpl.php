@@ -2,8 +2,9 @@
 $sites = array();
 
 foreach ($context as $site) {
-    $sites[$site->base_url]['support_email'] = $site->support_email;
-    $sites[$site->base_url]['title'] = $site->title;
+    $sites[$site->base_url]['support_email']  = $site->support_email;
+    $sites[$site->base_url]['support_groups'] = $site->support_groups;
+    $sites[$site->base_url]['title']          = $site->title;
     
     $members = array();
     foreach ($site->getApprovedMembers() as $member) {
