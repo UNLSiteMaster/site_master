@@ -188,6 +188,8 @@ class PluginManager
     protected function initializePlugins(array $plugins)
     {
         foreach ($plugins as $name=>$plugin) {
+            $plugin->initialize();
+            
             foreach ($plugin->getEventListeners() as $listener) {
                 $priority = 0;
                 if (isset($listener['priority'])) {
