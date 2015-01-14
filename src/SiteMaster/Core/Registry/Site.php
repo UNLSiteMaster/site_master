@@ -18,6 +18,7 @@ class Site extends Record
     public $base_url;              //varchar required
     public $title;                 //varchar
     public $support_email;         //varchar
+    public $support_groups;        //varchar
     public $last_connection_error; //datetime
     public $last_connection_success; //datetime
     public $http_code;             //int

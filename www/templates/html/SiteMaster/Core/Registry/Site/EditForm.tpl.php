@@ -9,6 +9,10 @@
             <input type="email" id="support_email" name="support_email" multiple value="<?php echo $context->site->support_email ?>" />
         </li>
         <li>
+            <label for="support_groups">Support assignments for this site (separated by spaces and quoted if the group name includes spaces).</label>
+            <input type="text" id="support_groups" name="support_groups" multiple value="<?php echo $context->site->support_groups ?>" />
+        </li>
+        <li>
             <fieldset>
                 <?php 
                 //Store in temp variables to make things easier to read (shorter)
