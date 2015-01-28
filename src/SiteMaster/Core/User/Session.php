@@ -48,15 +48,15 @@ class Session
     
     public static function start()
     {
-        if (!self::$session) {
-            self::$session = new \Symfony\Component\HttpFoundation\Session\Session();
-            self::$session->start();
-        }
+        $session = self::getSession();
+        return $session->start();
     }
 
     public static function getSession()
     {
-        self::start();
+        if (!self::$session) {
+            self::$session = new \Symfony\Component\HttpFoundation\Session\Session();
+        }
 
         return self::$session;
     }

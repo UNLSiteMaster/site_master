@@ -259,4 +259,9 @@ abstract class PluginInterface
 
         return Util::getRootDir();
     }
+    
+    public function initialize()
+    {
+        //Do important stuff.
+    }
 }
