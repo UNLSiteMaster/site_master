@@ -67,6 +67,21 @@ class Registry
     }
 
     /**
+     * Return the Root URL of a URL
+     *
+     * A Root URL is defined as the root URL with only a '/' for the path
+     *
+     * @param $url
+     * @return string the base URL with http%:// as the protocol
+     */
+    public function getRootURL($url)
+    {
+        $possible_site_uris = $this->getPossibleSiteURIs($url);
+        
+        return array_pop($possible_site_uris);
+    }
+
+    /**
      * Trim a filename from a given path
      * 
      * @param $path
