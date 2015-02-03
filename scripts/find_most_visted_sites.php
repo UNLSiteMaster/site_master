@@ -65,7 +65,7 @@ foreach ($csv_rows as $row_number=>$row) {
         echo 'Could not find a site for ' . $url . PHP_EOL;
         $root_url = str_replace('http%://', 'http://', $registry->getRootURL($url));
 
-        if (strpos($root_url,'.unl.edu/') === false) {
+        if (false == $registry->URLIsAllowed($url)) {
             echo "\tNot a UNL Website" . PHP_EOL;
             continue;
         }
