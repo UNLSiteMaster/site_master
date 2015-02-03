@@ -1,6 +1,8 @@
 <?php
 namespace SiteMaster\Core\Registry;
 
+use SiteMaster\Core\Config;
+
 class RegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -60,6 +62,27 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/test/test/', $registry->trimFileName('/test/test/test.php?url=test'));
         $this->assertEquals('/test/test/', $registry->trimFileName('/test/test/test.php#fragment'));
         $this->assertEquals('/test/test/', $registry->trimFileName('/test/test/test.php?url=test#fragment'));
+    }
+
+    /**
+     * @test
+     */
+    public function URLIsAllowed()
+    {
+        $registry = new Registry();
+        
+        $this->assertEquals(true, $registry->URLIsAllowed('http://www.example.org'), 'All domains should be allowed if the config option is empty');
+        $this->assertEquals(true, $registry->URLIsAllowed('http://www.example.com'), 'All domains should be allowed if the config option is empty');
+        
+        Config::set('ALLOWED_DOMAINS', array(
+            'www.example.org'
+        ));
+
+        $this->assertEquals(true, $registry->URLIsAllowed('http://www.example.org'), 'This domain should be allowed');
+        $this->assertEquals(false, $registry->URLIsAllowed('http://www.example.com'), 'This domain should not be allowed');
+        $this->assertEquals(false, $registry->URLIsAllowed('http://www.example.org.www.example.com'), 'This domain should not be allowed');
+        
+        Config::set('ALLOWED_DOMAINS', array());
     }
 
     /**

@@ -34,6 +34,7 @@ class Config
         'LOG_EMAIL_LEVEL'  => Logger::WARNING,
         'LOG_EMAIL_FROM'   => 'alert@sitemaster.com',
         'LOG_EMAIL_TO'     => '',
+        'ALLOWED_DOMAINS'  => array(),
         
         'EMAIL_WHITE_LIST'    => array(), //List of email addresses that can be sent to.  If empty, there are no restrictions
         'CHANGED_EMAIL_ROLES' => array('developer', 'admin'),  //Changed emails should be sent to these roles
