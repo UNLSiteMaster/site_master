@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Registry;
 
+use SiteMaster\Core\Config;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Plugins\Auth_Unl\RuntimeException;
 use SiteMaster\Core\Util;
@@ -64,6 +65,54 @@ class Registry
         
         //Make sure that they are indexed correctly if array_unique removed any
         return array_values($uris);
+    }
+
+    /**
+     * Return the Root URL of a URL
+     *
+     * A Root URL is defined as the root URL with only a '/' for the path
+     *
+     * @param $url
+     * @return string the base URL with http%:// as the protocol
+     */
+    public function getRootURL($url)
+    {
+        $possible_site_uris = $this->getPossibleSiteURIs($url);
+        
+        return array_pop($possible_site_uris);
+    }
+
+    /**
+     * Determine if the given URL is allowed in the system
+     *
+     * @param $url
+     * @return bool
+     */
+    public function URLIsAllowed($url)
+    {
+        $allowed_domains = Config::get('ALLOWED_DOMAINS');
+        
+        if (empty($allowed_domains)) {
+            return true;
+        }
+
+        $parts = parse_url($url);
+        
+        if (!isset($parts['host'])) {
+            return false;
+        }
+
+        $regex = "";
+        foreach ($allowed_domains as $domain) {
+            $regex .= preg_quote($domain, ".-/") . "|";
+        }
+
+        $regex = trim($regex, "|");
+        if (preg_match("/" . $regex . "$/", $parts['host'])) {
+            return true;
+        }
+        
+        return false;
     }
 
     /**

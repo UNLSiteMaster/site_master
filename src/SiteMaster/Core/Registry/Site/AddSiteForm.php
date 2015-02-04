@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\UnexpectedValueException;
@@ -55,6 +56,13 @@ class AddSiteForm implements ViewableInterface, PostHandlerInterface
         }
         
         $base_url = Util::validateBaseURL($post['base_url'], true);
+        
+        $registry = new Registry();
+        
+        if (false == $registry->URLIsAllowed($base_url)) {
+            $allowed_domains = implode(', ', Config::get('ALLOWED_DOMAINS'));
+            throw new UnexpectedValueException('The provided URL is not allowed.  It must be a site within one of the following domains: ' . $allowed_domains, 400);
+        }
         
         if ($site = Site::getByBaseURL($base_url)) {
             Controller::redirect($site->getJoinURL());
