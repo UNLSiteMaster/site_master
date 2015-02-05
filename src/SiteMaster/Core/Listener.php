@@ -22,6 +22,7 @@ class Listener extends PluginListener
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',                     'SiteMaster\Core\Auditor\Site\Page\ScanForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/hot-spots\/(?P<scans_id>(\d*))\/(?P<metrics_id>(\d*))\/$/', 'SiteMaster\Core\Auditor\Scan\HotSpots');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/pages\/(?P<pages_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Site\Page\View');
+        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/reviews(\/(?P<reviews_id>(\d*)))?\/edit\/$/', 'SiteMaster\Core\Auditor\Review\EditForm');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Scan\View');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/changes\/$/',      'SiteMaster\Core\Auditor\Scan\Changes');
         $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/progress\/$/',     'SiteMaster\Core\Auditor\Scan\Progress');
