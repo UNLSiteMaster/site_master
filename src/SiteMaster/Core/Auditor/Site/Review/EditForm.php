@@ -2,7 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Review;
 
 use SiteMaster\Core\AccessDeniedException;
-use SiteMaster\Core\Auditor\Review;
+use SiteMaster\Core\Auditor\Site\Review;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\FlashBagMessage;
@@ -24,10 +24,13 @@ class EditForm implements ViewableInterface, PostHandlerInterface
     public $options = array();
 
     /**
-     * @var \SiteMaster\Core\Auditor\Review
+     * @var \SiteMaster\Core\Auditor\Site\Review
      */
     public $review = false;
-    
+
+    /**
+     * @var \SiteMaster\Core\Registry\Site
+     */
     public $site = false;
 
     /**
@@ -139,7 +142,7 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         $this->review->date_scheduled = $post['date_scheduled'];
 
         if (isset($post['date_reviewed'])) {
-            $this->review->date_reviewed = $post['date_reviewed'];
+            $this->review->date_reviewed = Util::epochToDateTime(strtotime($post['date_reviewed']));
         }
 
         if (isset($post['internal_notes'])) {
