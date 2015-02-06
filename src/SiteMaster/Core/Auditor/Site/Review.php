@@ -92,4 +92,18 @@ class Review extends Record
         
         return $this->getSite()->getURL() . 'reviews/' . $this->id . '/';
     }
+
+    /**
+     * Get the Edit URL for this review
+     *
+     * @return bool|string
+     */
+    public function getEditURL()
+    {
+        if (false == $this->id) {
+            return false;
+        }
+
+        return $this->getSite()->getURL() . 'reviews/' . $this->id . '/edit/';
+    }
 }
