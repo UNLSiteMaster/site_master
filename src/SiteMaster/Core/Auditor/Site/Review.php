@@ -78,4 +78,18 @@ class Review extends Record
     {
         return Site::getByID($this->sites_id);
     }
+
+    /**
+     * Get the URL for this review
+     * 
+     * @return bool|string
+     */
+    public function getURL()
+    {
+        if (false == $this->id) {
+            return false;
+        }
+        
+        return $this->getSite()->getURL() . 'reviews/' . $this->id . '/';
+    }
 }
