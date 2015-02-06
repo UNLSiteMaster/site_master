@@ -54,6 +54,7 @@ class Review extends Record
         $review = new self();
         $review->status       = self::STATUS_SCHEDULED;
         $review->date_created = Util::epochToDateTime();
+        $review->date_edited  = Util::epochToDateTime();
         
         $review->synchronizeWithArray($fields);
         $review->date_scheduled       = $date_scheduled;
