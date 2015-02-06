@@ -2,11 +2,11 @@
 use \SiteMaster\Core\Auditor\Site\Review;
 ?>
 
-<form>
+<form method="POST">
     <ul>
         <li>
-            <label for="scheduled_date">The review will be started on:</label>
-            <input id="scheduled_date" name="scheduled_date" type="date" value="<?php echo ($context->review)?$context->review->date_scheduled:'' ?>" />
+            <label for="date_scheduled">The review will be started on:</label>
+            <input id="date_scheduled" name="date_scheduled" type="date" value="<?php echo ($context->review)?$context->review->date_scheduled:'' ?>" />
         </li>
         <li>
             <label id="status">Current Status of the review</label>
