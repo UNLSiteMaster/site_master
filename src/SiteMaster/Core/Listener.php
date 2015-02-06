@@ -108,6 +108,10 @@ class Listener extends PluginListener
             if ($is_verified || $user->isAdmin()) {
                 $event->addNavigationItem($site->getURL() . 'edit/', 'Edit Site Info');
             }
+            
+            if ($user->isAdmin()) {
+                $event->addNavigationItem($site->getURL() . 'reviews/edit/', 'Manual Review');
+            }
         } else {
             $event->addNavigationItem($site->getURL() . 'members/', 'Members');
         }
