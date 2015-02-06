@@ -8,6 +8,7 @@ use SiteMaster\Core\Controller;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\Registry\Sites\All;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\UnexpectedValueException;
 use Sitemaster\Core\User\Session;
@@ -26,6 +27,8 @@ class EditForm implements ViewableInterface, PostHandlerInterface
      * @var \SiteMaster\Core\Auditor\Review
      */
     public $review = false;
+    
+    public $site = false;
 
     /**
      * @var bool|\SiteMaster\Core\User\User
@@ -44,6 +47,12 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         if (isset($this->options['review_id'])) {
             if (!$this->review = Review::getByID($this->options['review_id'])) {
                 throw new InvalidArgumentException('Could not find that review', 400);
+            }
+            
+            $this->site = $this->review->getSite();
+        } else {
+            if (!$this->site = Site::getByID($this->options['site_id'])) {
+                throw new InvalidArgumentException('Could not find that site', 400);
             }
         }
         
@@ -175,6 +184,16 @@ class EditForm implements ViewableInterface, PostHandlerInterface
             Config::get('URL'),
             new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, 'Review deleted')
         );
+    }
+
+    /**
+     * Return a list of all reviewable sites
+     * 
+     * @return All
+     */
+    public function getReviewableSites()
+    {
+        return new All();
     }
 
     public function getEditURL()
