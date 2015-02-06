@@ -81,10 +81,6 @@ class EditForm implements ViewableInterface, PostHandlerInterface
      */
     public function canEdit()
     {
-        if (!$this->review) {
-            return false;
-        }
-
         if (!$this->current_user) {
             return false;
         }
