@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Auditor;
+namespace SiteMaster\Core\Auditor\Site;
 
 use DB\Record;
 use SiteMaster\Core\Config;

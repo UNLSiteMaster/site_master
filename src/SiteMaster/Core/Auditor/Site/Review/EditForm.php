@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Auditor\Review;
+namespace SiteMaster\Core\Auditor\Site\Review;
 
 use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Auditor\Review;

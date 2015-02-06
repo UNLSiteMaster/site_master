@@ -1,5 +1,5 @@
 <?php
-use \SiteMaster\Core\Auditor\Review;
+use \SiteMaster\Core\Auditor\Site\Review;
 ?>
 Edit Review
 
