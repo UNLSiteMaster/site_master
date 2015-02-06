@@ -161,6 +161,8 @@ class EditForm implements ViewableInterface, PostHandlerInterface
             $this->review->result = $post['result'];
         }
 
+        $this->review->date_edited          = Util::epochToDateTime();
+        $this->review->last_edited_users_id = $this->current_user->id;
         $this->review->save();
 
         Controller::redirect(
