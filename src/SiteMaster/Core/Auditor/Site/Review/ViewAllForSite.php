@@ -1,7 +1,8 @@
 <?php
 namespace SiteMaster\Core\Auditor\Site\Review;
 
-use SiteMaster\Core\Auditor\Review;
+use SiteMaster\Core\Auditor\Site\Review;
+use SiteMaster\Core\Auditor\Site\Reviews\AllForSite;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
 use Sitemaster\Core\User\Session;
@@ -14,6 +15,9 @@ class ViewAlLForSite implements ViewableInterface
      */
     public $options = array();
 
+    /**
+     * @var Site
+     */
     public $site = false;
 
     /**
@@ -52,6 +56,14 @@ class ViewAlLForSite implements ViewableInterface
         }
 
         return false;
+    }
+
+    /**
+     * @return AllForSite
+     */
+    public function getReviews()
+    {
+        return new AllForSite(array('sites_id'=>$this->site->id));
     }
 
     public function getURL()
