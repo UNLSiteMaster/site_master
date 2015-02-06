@@ -136,7 +136,7 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         }
         
         if (!$this->review) {
-            $this->review = Review::createNewReview($post['sits_id'], $this->current_user->id, $post['date_scheduled']);
+            $this->review = Review::createNewReview($this->site->id, $this->current_user->id, $post['date_scheduled']);
         }
         
         $this->review->date_scheduled = $post['date_scheduled'];
