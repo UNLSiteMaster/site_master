@@ -1,7 +1,6 @@
 <?php
 use \SiteMaster\Core\Auditor\Site\Review;
 ?>
-Edit Review
 
 <form>
     <ul>
