@@ -47,8 +47,8 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         Session::requireLogin();
 
         //get the review
-        if (isset($this->options['review_id'])) {
-            if (!$this->review = Review::getByID($this->options['review_id'])) {
+        if (isset($this->options['reviews_id'])) {
+            if (!$this->review = Review::getByID($this->options['reviews_id'])) {
                 throw new InvalidArgumentException('Could not find that review', 400);
             }
             
