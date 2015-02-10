@@ -25,7 +25,7 @@ $reviews = $context->getReviews();
                     <tr>
                         <td><?php echo $review->date_scheduled; ?></td>
                         <td><?php echo $review->status; ?></td>
-                        <td><a href="<?php $review->getEditURL() ?>">edit</a></td>
+                        <td><a href="<?php echo $review->getEditURL() ?>">edit</a></td>
                     </tr>
                 <?php endforeach ?>
             </tbody>
