@@ -1,12 +1,22 @@
 <?php
 use \SiteMaster\Core\Auditor\Site\Review;
+
+/**
+ * @var $context \SiteMaster\Core\Auditor\Site\Review\EditForm
+ */
 ?>
 
 <form method="POST">
     <ul>
         <li>
+            <?php 
+            $date_scheduled = '';
+            if ($context->review) {
+                $date_scheduled = date('Y-m-d', strtotime($context->review->date_scheduled));
+            }
+            ?>
             <label for="date_scheduled">The review will be started on:</label>
-            <input id="date_scheduled" name="date_scheduled" type="date" value="<?php echo ($context->review)?$context->review->date_scheduled:'' ?>" />
+            <input id="date_scheduled" name="date_scheduled" type="date" value="<?php echo $date_scheduled ?>" />
         </li>
         <li>
             <label id="status">Current Status of the review</label>
