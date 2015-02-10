@@ -23,9 +23,9 @@ class Review extends Record
     public $public_notes;          //LONGTEXT
     public $result;                //ENUM('OKAY', 'NEEDS WORK')
 
-    const STATUS_SCHEDULED       = 'CREATED';
-    const STATUS_IN_REVIEW       = 'QUEUED';
-    const STATUS_REVIEW_FINISHED = 'RUNNING';
+    const STATUS_SCHEDULED       = 'SCHEDULED';
+    const STATUS_IN_REVIEW       = 'IN_REVIEW';
+    const STATUS_REVIEW_FINISHED = 'REVIEW_FINISHED';
     
     const RESULT_OKAY       = 'COMPLETE';
     const RESULT_NEEDS_WORK = 'ERROR';
