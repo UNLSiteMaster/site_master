@@ -1,0 +1,1 @@
+<?php echo $savvy->render($context->getReviews(), 'SiteMaster/Core/Auditor/Site/Reviews/Table.tpl.php') ?>
