@@ -71,6 +71,7 @@ class Listener extends PluginListener
 
             if ($event->isFor(Config::get('URL') . 'admin/') && $user->isAdmin()) {
                 $event->addNavigationItem(Config::get('URL') . 'admin/sites/', 'All Sites');
+                $event->addNavigationItem(Config::get('URL') . 'admin/reviews/', 'Unfinished Manual Reviews');
             }
         }
     }
