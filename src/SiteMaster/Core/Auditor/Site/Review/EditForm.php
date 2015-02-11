@@ -156,15 +156,15 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         if (isset($post['status'])) {
             $this->review->status = $post['status'];
         }
-
-        if (isset($post['result'])) {
-            $this->review->status = $post['result'];
-        }
-
+        
         if (isset($post['result'])) {
             $this->review->result = $post['result'];
         }
 
+        if ($this->review->status == Review::STATUS_REVIEW_FINISHED && empty($this->review->date_reviewed)) {
+            $this->review->date_reviewed = Util::epochToDateTime();
+        }
+        
         $this->review->date_edited          = Util::epochToDateTime();
         $this->review->last_edited_users_id = $this->current_user->id;
         $this->review->save();
