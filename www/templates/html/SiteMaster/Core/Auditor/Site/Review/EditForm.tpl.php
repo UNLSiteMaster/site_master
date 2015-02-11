@@ -49,6 +49,28 @@ use \SiteMaster\Core\Auditor\Site\Review;
             <label for="public_notes">Public Notes</label>
             <textarea name="public_notes" id="public_notes"><?php echo ($context->review)?$context->review->public_notes:'' ?></textarea>
         </li>
+        <li>
+        <li>
+            <label for="result">Result of the review</label>
+            <select id="result" name="result">
+                <option value="">
+                    
+                </option>
+                <option
+                    value="<?php echo Review::RESULT_NEEDS_WORK ?>"
+                    <?php echo ($context->review && $context->review->result == Review::RESULT_NEEDS_WORK)?'selected="selected"':'' ?>
+                    >
+                    The site needs work
+                </option>
+                <option
+                    value="<?php echo Review::RESULT_OKAY ?>"
+                    <?php echo ($context->review && $context->review->result == Review::RESULT_NEEDS_WORK)?'selected="selected"':'' ?>
+                    >
+                    The site is okay
+                </option>
+            </select>
+        </li>
+        </li>
     </ul>
     <input type="hidden" name="action" value="edit" />
     <button type="submit">Save</button>

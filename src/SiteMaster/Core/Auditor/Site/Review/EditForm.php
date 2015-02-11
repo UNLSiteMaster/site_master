@@ -158,6 +158,10 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         }
 
         if (isset($post['result'])) {
+            $this->review->status = $post['result'];
+        }
+
+        if (isset($post['result'])) {
             $this->review->result = $post['result'];
         }
 
