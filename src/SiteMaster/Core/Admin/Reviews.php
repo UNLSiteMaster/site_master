@@ -70,6 +70,6 @@ class Reviews implements ViewableInterface
 
     public function getPageTitle()
     {
-        return 'Reviews';
+        return 'Unfinished Manual Reviews';
     }
 }
