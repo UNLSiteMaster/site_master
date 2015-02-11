@@ -6,6 +6,7 @@ use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\User\User;
 use SiteMaster\Core\Util;
 
 class Review extends Record
@@ -105,5 +106,55 @@ class Review extends Record
         }
 
         return $this->getSite()->getURL() . 'reviews/' . $this->id . '/edit/';
+    }
+
+    /**
+     * Determine if this review is complete
+     * 
+     * @return bool
+     */
+    public function isComplete()
+    {
+        if ($this->status == self::STATUS_REVIEW_FINISHED) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Determine if a user can view this record
+     * 
+     * @param User $user
+     * @return bool
+     */
+    public function canView(User $user)
+    {
+        $site = $this->getSite();
+        
+        if ($site->userIsVerified($user)) {
+            return true;
+        }
+
+        if ($user) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Determine if a user can edit this record
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function canEdit(User $user)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        return false;
     }
 }

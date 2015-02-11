@@ -15,7 +15,14 @@
                 <tr>
                     <td><?php echo $review->date_scheduled; ?></td>
                     <td><?php echo $review->status; ?></td>
-                    <td><a href="<?php echo $review->getEditURL() ?>">edit</a></td>
+                    <td>
+                        <?php if ($review->canEdit($user->getRawObject())): ?>
+                        <a href="<?php echo $review->getEditURL() ?>">edit</a>
+                        <?php endif; ?>
+                        <?php if ($review->isComplete($user->getRawObject())): ?>
+                            or <a href="<?php echo $review->getURL() ?>">view</a>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach ?>
             </tbody>

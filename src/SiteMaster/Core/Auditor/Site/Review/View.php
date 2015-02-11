@@ -92,15 +92,7 @@ class View implements ViewableInterface
         if (!$this->current_user) {
             return false;
         }
-
-        if ($this->site->userIsVerified($this->current_user)) {
-            return true;
-        }
         
-        if ($this->current_user->isAdmin()) {
-            return true;
-        }
-
-        return false;
+        return $this->review->canView($this->current_user);
     }
 }

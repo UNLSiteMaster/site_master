@@ -97,11 +97,7 @@ class EditForm implements ViewableInterface, PostHandlerInterface
             return false;
         }
 
-        if ($this->current_user->isAdmin()) {
-            return true;
-        }
-
-        return false;
+        return $this->review->canEdit($this->current_user);
     }
 
     public function handlePost($get, $post, $files)
