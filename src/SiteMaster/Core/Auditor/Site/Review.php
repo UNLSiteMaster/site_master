@@ -132,7 +132,7 @@ class Review extends Record
     {
         $site = $this->getSite();
         
-        if ($site->userIsVerified($user)) {
+        if ($site->userIsVerified($user) && $this->isComplete()) {
             return true;
         }
 
