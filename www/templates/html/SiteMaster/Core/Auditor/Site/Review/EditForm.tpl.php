@@ -19,8 +19,8 @@ use \SiteMaster\Core\Auditor\Site\Review;
             <input id="date_scheduled" name="date_scheduled" type="date" value="<?php echo $date_scheduled ?>" />
         </li>
         <li>
-            <label id="status">Current Status of the review</label>
-            <select id="status">
+            <label for="status">Current Status of the review</label>
+            <select id="status" name="status">
                 <option 
                     value="<?php echo Review::STATUS_SCHEDULED ?>"
                     <?php echo ($context->review && $context->review->status == Review::STATUS_SCHEDULED)?'selected="selected"':'' ?>
