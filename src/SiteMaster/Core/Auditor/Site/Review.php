@@ -27,8 +27,8 @@ class Review extends Record
     const STATUS_IN_REVIEW       = 'IN_REVIEW';
     const STATUS_REVIEW_FINISHED = 'REVIEW_FINISHED';
     
-    const RESULT_OKAY       = 'COMPLETE';
-    const RESULT_NEEDS_WORK = 'ERROR';
+    const RESULT_OKAY       = 'OKAY';
+    const RESULT_NEEDS_WORK = 'NEEDS WORK';
 
     public function keys()
     {
