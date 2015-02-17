@@ -136,16 +136,16 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         if (!isset($post['date_scheduled'])) {
             throw new InvalidArgumentException('The review must be scheduled.', 400);
         }
+
+        if (!Util::validateDate($post['date_scheduled'])) {
+            throw new InvalidArgumentException('The provided date_scheduled is not a valid date.', 400);
+        }
         
         if (!$this->review) {
             $this->review = Review::createNewReview($this->site->id, $this->current_user->id, $post['date_scheduled']);
         }
         
         $this->review->date_scheduled = $post['date_scheduled'];
-
-        if (isset($post['date_reviewed'])) {
-            $this->review->date_reviewed = Util::epochToDateTime(strtotime($post['date_reviewed']));
-        }
 
         if (isset($post['internal_notes'])) {
             $this->review->internal_notes = $post['internal_notes'];
