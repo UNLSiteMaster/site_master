@@ -156,10 +156,30 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         }
 
         if (isset($post['status'])) {
+            $valid_statuses = array(
+                Review::STATUS_REVIEW_FINISHED,
+                Review::STATUS_SCHEDULED,
+                REview::STATUS_IN_REVIEW,
+            );
+            
+            if (!in_array($post['status'], $valid_statuses)) {
+                throw new InvalidArgumentException('A valid status was not provided.', 400);
+            }
+            
             $this->review->status = $post['status'];
         }
         
         if (isset($post['result'])) {
+            $valid_results = array(
+                Review::RESULT_NEEDS_WORK,
+                Review::RESULT_OKAY,
+                '',
+            );
+
+            if (!in_array($post['result'], $valid_results)) {
+                throw new InvalidArgumentException('A valid result was not provided.', 400);
+            }
+            
             $this->review->result = $post['result'];
         }
 
