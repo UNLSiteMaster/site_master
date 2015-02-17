@@ -8,7 +8,7 @@ use SiteMaster\Core\Registry\Site;
 use Sitemaster\Core\User\Session;
 use SiteMaster\Core\ViewableInterface;
 
-class ViewAlLForSite implements ViewableInterface
+class ViewAllForSite implements ViewableInterface
 {
     /**
      * @var array
