@@ -277,6 +277,43 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `site_reviews`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `site_reviews` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `sites_id` INT NOT NULL,
+  `creator_users_id` INT NOT NULL,
+  `last_edited_users_id` INT NOT NULL,
+  `date_created` DATETIME NOT NULL COMMENT 'The date that this record was created',
+  `date_edited` VARCHAR(45) NOT NULL COMMENT 'The date that this record was last edited',
+  `date_scheduled` DATETIME NOT NULL,
+  `date_reviewed` DATETIME NULL,
+  `status` ENUM('SCHEDULED', 'IN_REVIEW', 'REVIEW_FINISHED') NOT NULL DEFAULT 'SCHEDULED',
+  `internal_notes` LONGTEXT NULL,
+  `public_notes` LONGTEXT NULL,
+  `result` ENUM('OKAY', 'NEEDS WORK') NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_table1_users1_idx` (`creator_users_id` ASC),
+  INDEX `fk_table1_users2_idx` (`last_edited_users_id` ASC),
+  INDEX `fk_site_reviews_sites1_idx` (`sites_id` ASC),
+  CONSTRAINT `fk_table1_users1`
+    FOREIGN KEY (`creator_users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_table1_users2`
+    FOREIGN KEY (`last_edited_users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_site_reviews_sites1`
+    FOREIGN KEY (`sites_id`)
+    REFERENCES `sites` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `scanned_page_links`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scanned_page_links` (
@@ -287,11 +324,11 @@ CREATE TABLE IF NOT EXISTS `scanned_page_links` (
   PRIMARY KEY (`id`),
   INDEX `fk_scan_links_scanned_page1_idx` (`scanned_page_id` ASC),
   CONSTRAINT `fk_scan_links_scanned_page1`
-    FOREIGN KEY (`scanned_page_id`)
-    REFERENCES `scanned_page` (`id`)
+  FOREIGN KEY (`scanned_page_id`)
+  REFERENCES `scanned_page` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

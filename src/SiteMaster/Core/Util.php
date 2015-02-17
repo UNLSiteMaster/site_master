@@ -317,4 +317,16 @@ class Util
         
         return 'http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['SERVER_NAME'].$port.$base;
     }
+
+    /**
+     * Determine if a user-provided date is valid
+     * 
+     * @param $date
+     * @return bool
+     */
+    public static function validateDate($date)
+    {
+        $d = \DateTime::createFromFormat('Y-m-d', $date);
+        return $d && $d->format('Y-m-d') == $date;
+    }
 }
