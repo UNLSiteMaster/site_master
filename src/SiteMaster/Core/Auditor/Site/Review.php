@@ -157,4 +157,60 @@ class Review extends Record
 
         return false;
     }
+
+    /**
+     * Get the date that this review is scheduled to take place
+     * 
+     * @return bool|\DateTime
+     */
+    public function getDateScheduled()
+    {
+        if (empty($this->date_scheduled)) {
+            return false;
+        }
+        
+        return new \DateTime($this->date_scheduled);
+    }
+
+    /**
+     * Get the date that this review was finished
+     *
+     * @return bool|\DateTime
+     */
+    public function getDateReviewed()
+    {
+        if (empty($this->date_reviewed)) {
+            return false;
+        }
+        
+        return new \DateTime($this->date_reviewed);
+    }
+
+    /**
+     * Get the date that this review was last edited
+     *
+     * @return bool|\DateTime
+     */
+    public function getDateEdited()
+    {
+        if (empty($this->date_edited)) {
+            return false;
+        }
+        
+        return new \DateTime($this->date_edited);
+    }
+
+    /**
+     * Get the date that this review was created
+     *
+     * @return bool|\DateTime
+     */
+    public function getDateCreated()
+    {
+        if (empty($this->date_created)) {
+            return false;
+        }
+        
+        return new \DateTime($this->date_created);
+    }
 }

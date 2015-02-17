@@ -9,10 +9,10 @@ use \SiteMaster\Core\Auditor\Site\Review;
 <form method="POST">
     <ul>
         <li>
-            <?php 
+            <?php
             $date_scheduled = '';
             if ($context->review) {
-                $date_scheduled = date('Y-m-d', strtotime($context->review->date_scheduled));
+                $date_scheduled = $context->review->getDateScheduled()->format('Y-m-d');
             }
             ?>
             <label for="date_scheduled">The review will be started on:</label>

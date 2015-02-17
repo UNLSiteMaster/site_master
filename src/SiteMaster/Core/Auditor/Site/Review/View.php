@@ -76,7 +76,7 @@ class View implements ViewableInterface
     public function getPageTitle()
     {
         if (!empty($this->review->date_reviewed)) {
-            return 'Manual Review conducted on ' . date('F j, Y', strtotime($this->review->date_reviewed));
+            return 'Manual Review conducted on ' . $this->review->getDateReviewed()->format('F j, Y');
         }
         
         return 'Manual Review';
