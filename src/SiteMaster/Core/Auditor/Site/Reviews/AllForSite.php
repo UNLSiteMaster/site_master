@@ -24,9 +24,4 @@ class AllForSite extends All
 
         return $sql;
     }
-
-    public function getWhere()
-    {
-        return "WHERE scans_id = " . (int)$this->options['scans_id'];
-    }
 }
