@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor\Site\Reviews;
 
-use SiteMaster\Core\InvalidArgumentException;
+use SiteMaster\Core\Auditor\Site\Review;
 
 class Unfinished extends All
 {
@@ -15,7 +15,7 @@ class Unfinished extends All
         //Build the list
         $sql = "SELECT id as id
                 FROM site_reviews
-                WHERE site_reviews.status != 'REVIEW_FINISHED'
+                WHERE site_reviews.status != '" . Review::STATUS_REVIEW_FINISHED ."'
                 ORDER BY site_reviews.status DESC, site_reviews.date_scheduled DESC";
 
         return $sql;
