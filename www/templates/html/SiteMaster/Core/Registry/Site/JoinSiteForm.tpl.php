@@ -1,33 +1,32 @@
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
-    <ul>
-    <?php
-    foreach ($context->all_roles as $role) {
-        $checked = '';
-        $pending = '';
-        if ($context->userHasRole($role->id)) {
-            $checked = 'checked="checked"';
-            $member_role = $context->join_user_membership->getRole($role->id);
-            if (!$member_role->isApproved()) {
-                $pending = '(pending approval or self verification)';
+    <fieldset>
+        <legend><span class="required">(required)</span> Select roles for this site</legend>
+        <ul>
+        <?php
+        foreach ($context->all_roles as $role) {
+            $checked = '';
+            $pending = '';
+            if ($context->userHasRole($role->id)) {
+                $checked = 'checked="checked"';
+                $member_role = $context->join_user_membership->getRole($role->id);
+                if (!$member_role->isApproved()) {
+                    $pending = '(pending approval or self verification)';
+                }
             }
+            ?>
+            <li>
+                <label for="role_<?php echo $role->id ?>">
+                    <input type="checkbox" id="role_<?php echo $role->id ?>" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked ?>>
+                    <?php echo $role->role_name ?> - <?php echo $pending . ' ' . $role->description ?>
+                </label>
+            </li>
+            <?php
         }
         ?>
-        <li>
-            <label>
-                <input type="checkbox" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked ?>>
-                <?php echo $role->role_name ?> - <?php echo $pending . ' ' . $role->description ?>
-            </label>
-        </li>
-        <?php
-    }
-    ?>
-    </ul>
+        </ul>
+    </fieldset>
 
     <div class="panel">
-        <p>
-            Select some roles for this site.
-        </p>
-        
         <p>
         <?php
         if ($context->approveRoles()) {

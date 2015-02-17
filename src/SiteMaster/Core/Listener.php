@@ -12,26 +12,102 @@ class Listener extends PluginListener
 {
     public function onRoutesCompile(RoutesCompile $event)
     {
-        $event->addRoute('/^$/',                                                            'SiteMaster\Core\Home\Home');
-        $event->addRoute('/^registry\/$/',                                                  'SiteMaster\Core\Registry\Search');
-        $event->addRoute('/^logout\/$/',                                                    'SiteMaster\Core\User\Logout');
-        $event->addRoute('/^metrics\/$/',                                                   'SiteMaster\Core\Auditor\Metrics\View');
-        $event->addRoute('/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',                  'SiteMaster\Core\User\View');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/$/',                                 'SiteMaster\Core\Registry\Site\View');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/$/',                           'SiteMaster\Core\Auditor\Site\ScanForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',                     'SiteMaster\Core\Auditor\Site\Page\ScanForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/hot-spots\/(?P<scans_id>(\d*))\/(?P<metrics_id>(\d*))\/$/', 'SiteMaster\Core\Auditor\Scan\HotSpots');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/pages\/(?P<pages_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Site\Page\View');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/$/',     'SiteMaster\Core\Auditor\Scan\View');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/changes\/$/',      'SiteMaster\Core\Auditor\Scan\Changes');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/progress\/$/',     'SiteMaster\Core\Auditor\Scan\Progress');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/edit\/$/',                           'SiteMaster\Core\Registry\Site\EditForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/join\/?((?P<users_id>(\d*))\/)$/',   'SiteMaster\Core\Registry\Site\JoinSiteForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/$/',                        'SiteMaster\Core\Registry\Site\MembersForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',                   'SiteMaster\Core\Registry\Site\AddMemberForm');
-        $event->addRoute('/^sites\/(?P<site_id>(\d*))\/verify\/?((?P<users_id>(\d*))\/)$/', 'SiteMaster\Core\Registry\Site\VerifyForm');
-        $event->addRoute('/^sites\/add\/$/',                                                'SiteMaster\Core\Registry\Site\AddSiteForm');
-        $event->addRoute('/^admin\/sites\/$/',                                              'SiteMaster\Core\Admin\AllSites');
+        $event->addRoute(
+            '/^$/',
+            'SiteMaster\Core\Home\Home'
+        );
+        $event->addRoute(
+            '/^registry\/$/',
+            'SiteMaster\Core\Registry\Search'
+        );
+        $event->addRoute(
+            '/^logout\/$/',
+            'SiteMaster\Core\User\Logout'
+        );
+        $event->addRoute(
+            '/^metrics\/$/',
+            'SiteMaster\Core\Auditor\Metrics\View'
+        );
+        $event->addRoute(
+            '/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',
+            'SiteMaster\Core\User\View'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/$/',
+            'SiteMaster\Core\Registry\Site\View'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/scan\/$/',
+            'SiteMaster\Core\Auditor\Site\ScanForm'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',
+            'SiteMaster\Core\Auditor\Site\Page\ScanForm'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/hot-spots\/(?P<scans_id>(\d*))\/(?P<metrics_id>(\d*))\/$/',
+            'SiteMaster\Core\Auditor\Scan\HotSpots'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/pages\/(?P<pages_id>(\d*))\/$/',
+            'SiteMaster\Core\Auditor\Site\Page\View'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/reviews(\/(?P<reviews_id>(\d*)))?\/edit\/$/',
+            'SiteMaster\Core\Auditor\Site\Review\EditForm'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/reviews\/$/',
+            'SiteMaster\Core\Auditor\Site\Review\ViewAllForSite'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/reviews\/(?P<reviews_id>(\d*))?\/$/',
+            'SiteMaster\Core\Auditor\Site\Review\View'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/$/',
+            'SiteMaster\Core\Auditor\Scan\View'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/changes\/$/',
+            'SiteMaster\Core\Auditor\Scan\Changes'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/progress\/$/',
+            'SiteMaster\Core\Auditor\Scan\Progress'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/edit\/$/',
+            'SiteMaster\Core\Registry\Site\EditForm'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/join\/?((?P<users_id>(\d*))\/)$/',
+            'SiteMaster\Core\Registry\Site\JoinSiteForm'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/members\/$/',
+            'SiteMaster\Core\Registry\Site\MembersForm'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/members\/add\/$/',
+            'SiteMaster\Core\Registry\Site\AddMemberForm'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/verify\/?((?P<users_id>(\d*))\/)$/',
+            'SiteMaster\Core\Registry\Site\VerifyForm'
+        );
+        $event->addRoute(
+            '/^sites\/add\/$/',
+            'SiteMaster\Core\Registry\Site\AddSiteForm'
+        );
+        $event->addRoute(
+            '/^admin\/sites\/$/',
+            'SiteMaster\Core\Admin\AllSites'
+        );
+        $event->addRoute(
+            '/^admin\/reviews\/$/',
+            'SiteMaster\Core\Admin\Reviews'
+        );
     }
 
     /**
@@ -68,6 +144,7 @@ class Listener extends PluginListener
 
             if ($event->isFor(Config::get('URL') . 'admin/') && $user->isAdmin()) {
                 $event->addNavigationItem(Config::get('URL') . 'admin/sites/', 'All Sites');
+                $event->addNavigationItem(Config::get('URL') . 'admin/reviews/', 'Unfinished Manual Reviews');
             }
         }
     }
@@ -106,6 +183,7 @@ class Listener extends PluginListener
 
             if ($is_verified || $user->isAdmin()) {
                 $event->addNavigationItem($site->getURL() . 'edit/', 'Edit Site Info');
+                $event->addNavigationItem($site->getURL() . 'reviews/', 'Manual Reviews');
             }
         } else {
             $event->addNavigationItem($site->getURL() . 'members/', 'Members');
