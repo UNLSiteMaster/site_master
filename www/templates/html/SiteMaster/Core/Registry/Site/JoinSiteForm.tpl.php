@@ -15,8 +15,8 @@
             }
             ?>
             <li>
+                <input type="checkbox" id="role_<?php echo $role->id ?>" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked ?>>
                 <label for="role_<?php echo $role->id ?>">
-                    <input type="checkbox" id="role_<?php echo $role->id ?>" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked ?>>
                     <?php echo $role->role_name ?> - <?php echo $pending . ' ' . $role->description ?>
                 </label>
             </li>
