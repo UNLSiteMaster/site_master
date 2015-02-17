@@ -6,8 +6,8 @@ foreach ($authPlugins as $plugin) {
 }
 ?>
 <form action="<?php echo $context->getURL();?>" method="GET">
-    <label for="query">Enter Query</label>
-    <input type="text" id="query" name="query" placeholder="http://www.domain.com/" value="<?php echo $context->query ?>" />
+    <label for="query"><span class="required">(required)</span> Enter Query</label>
+    <input type="text" id="query" name="query" placeholder="http://www.domain.com/" value="<?php echo $context->query ?>" required />
     <div class="panel">
         Examples:
         <ul>
