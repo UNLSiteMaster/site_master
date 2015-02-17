@@ -23,5 +23,5 @@ use \SiteMaster\Core\Auditor\Site\Review;
 <?php endif; ?>
 
 <p>
-    <?php echo $context->review->public_notes ?>
+    <?php echo nl2br($context->review->public_notes) ?>
 </p>
