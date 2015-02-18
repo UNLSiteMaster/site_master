@@ -239,6 +239,9 @@ class Util
 
         curl_close($curl);
         
+        //Always sleep after requesting data, this will help prevent loops from flooding a server.
+        sleep(1);
+        
         $okay = self::httpCodeIsOkay($http_status);
 
         //Sometimes HEAD requests result in a false negative.  Do a GET request just to verify
