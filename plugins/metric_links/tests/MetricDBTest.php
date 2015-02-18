@@ -1,11 +1,13 @@
 <?php
 namespace SiteMaster\Plugins\Metric_links;
 
+use SiteMaster\Core\Auditor\Logger\Links;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\DBTests\BaseTestDataInstaller;
 use SiteMaster\Core\DBTests\DBTestCase;
 use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\Util;
 
 class MetricDBTest extends DBTestCase
 {
@@ -16,18 +18,34 @@ class MetricDBTest extends DBTestCase
     {
         $this->setUpDB();
 
+        $base_uri      = 'http://www.test.com/';
+
         $metric = new Metric('metric_links');
         $metric_record = $metric->getMetricRecord();
-        $site = Site::getByBaseURL('http://www.test.com/');
+        $site = Site::getByBaseURL($base_uri);
         $scan = Scan::createNewScan($site->id);
-        $page = Page::createNewPage($scan->id, $site->id, 'http://test.com/test');
+        $page = Page::createNewPage($scan->id, $site->id, $base_uri);
+
+
+        //Set up a spider that needs to be sent to the logger
+        $parser = new \Spider_Parser();
+        $spider = new \Spider(new \Spider_Downloader(), $parser, array(
+                'respect_robots_txt'=>false,
+                'use_effective_uris' => false)
+        );
+        $scan = Scan::createNewScan($site->id);
+
+        //Set up the logger to test
+        $logger = new Links($spider, $page);
+
+        //Set up the xpath
+        $html = file_get_contents(Util::getRootDir() . '/tests/data/link_logger_test.html');
+        $xpath = $parser->parse($html);
+
+        //log
+        $logger->log($base_uri, 1, $xpath);
         
-        $metric->markPage($page, array(
-            'http://unlcms.unl.edu/university-communications/sitemaster/example-404',
-            'http://unlcms.unl.edu/university-communications/sitemaster/example-404',
-            'http://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301',
-            'http://unlcms.unl.edu/university-communications/sitemaster/'
-        ));
+        $metric->markPage($page);
 
         $machine_names_found = array();
         foreach ($page->getMarks($metric_record->id) as $page_mark) {
@@ -35,31 +53,23 @@ class MetricDBTest extends DBTestCase
             $machine_names_found[] = $mark->machine_name;
         }
         
-        $this->assertEquals(
-            array(
-                'link_http_code_404',
-                'link_http_code_404',
-                'link_http_code_301'
-            ),
-        $machine_names_found);
+        $expected =  array(
+            'link_http_code_404',
+            'link_http_code_404',
+            'link_http_code_301'
+        );
+
+        sort($expected);
+        sort($machine_names_found);
+        
+        $this->assertEquals($expected, $machine_names_found);
     }
 
 
     public function setUpDB()
     {
-        $plugin = new Plugin();
-        
-        //Uninstall plugin data
-        $plugin->onUninstall();
-        
-        //clean and install base db
         $this->cleanDB();
         $this->installBaseDB();
-        
-        //Install plugin data
-        $plugin->onInstall();
-        
-        //Install basic moc data
         $this->installMockData(new BaseTestDataInstaller());
     }
 }
