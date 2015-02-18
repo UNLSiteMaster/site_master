@@ -123,4 +123,18 @@ class Link extends Record
             return true;
         }
     }
+
+    /**
+     * Determine if this link was a redirect
+     * 
+     * @return bool
+     */
+    public function isRedirect()
+    {
+        if (in_array($this->original_status_code, array(301, 302))) {
+            return true;
+        }
+        
+        return false;
+    }
 }
