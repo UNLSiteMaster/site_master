@@ -71,7 +71,7 @@ class Link extends Record
                 //The last result is expired, grab fresh data
                 $insert_new = true;
             }
-        }var_dump($latest_link);
+        }
         
         if ($insert_new) {
             $original_info = Util::getHTTPInfo($original_url);
@@ -92,6 +92,24 @@ class Link extends Record
             $link->cached               = 0; //indicate that this was a fresh request
         } else {
             $link->synchronizeWithArray($latest_link->toArray());
+            
+            //Verify data integrity, sometimes the DBA will switch 0 values to NULL values =/
+            if (null == $link->original_status_code) {
+                $link->original_status_code = 0;
+            }
+
+            if (null == $link->final_status_code) {
+                $link->final_status_code = 0;
+            }
+
+            if (null == $link->original_curl_code) {
+                $link->original_curl_code = 0;
+            }
+
+            if (null == $link->final_curl_code) {
+                $link->final_curl_code = 0;
+            }
+            
             $link->cached = 1;
         }
 
