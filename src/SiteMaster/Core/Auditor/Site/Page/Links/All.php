@@ -37,8 +37,31 @@ class All extends RecordList
         $sql = "SELECT scanned_page_links.id
                 FROM scanned_page_links
                 " . $this->getWhere() . "
-                ORDER BY scanned_page_links.date_created DESC";
+                ORDER BY scanned_page_links.date_created DESC
+                " . $this->getLimit();
 
         return $sql;
+    }
+
+    /**
+     * @return \SiteMaster\Core\Auditor\Site\Page\Link
+     */
+    public function current()
+    {
+        return parent::current();
+    }
+
+    /**
+     * Get the limit for the SQL query
+     * 
+     * @return string
+     */
+    public function getLimit()
+    {
+        if (!isset($this->options['limit']) || $this->options['limit'] == -1) {
+            return '';
+        }
+
+        return 'LIMIT ' . (int)$this->options['limit'];
     }
 }
