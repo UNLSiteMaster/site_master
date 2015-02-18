@@ -38,9 +38,9 @@ class Link extends Record
     public static function getByOriginalURL($original_url, $cached = null)
     {
         $links = new Links\ByOriginalURL(array(
-            'original_url_hash' => md5($original_url, true),
-            'limit'             => 1,
-            'cached'            => $cached,
+            'original_url' => $original_url,
+            'limit'        => 1,
+            'cached'       => $cached,
         ));
 
         if ($links->count() == 0) {
@@ -71,7 +71,7 @@ class Link extends Record
                 //The last result is expired, grab fresh data
                 $insert_new = true;
             }
-        }
+        }var_dump($latest_link);
         
         if ($insert_new) {
             $original_info = Util::getHTTPInfo($original_url);

@@ -8,8 +8,8 @@ class ByOriginalURL extends All
 {
     public function __construct(array $options = array())
     {
-        if (!isset($options['original_url_hash'])) {
-            throw new InvalidArgumentException('An original_url_hash must be set', 500);
+        if (!isset($options['original_url'])) {
+            throw new InvalidArgumentException('An original_url must be set', 500);
         }
 
         parent::__construct($options);
@@ -22,6 +22,6 @@ class ByOriginalURL extends All
             $cached = ' AND cached = ' . (int)$this->options['cached'];
         }
         
-        return 'WHERE original_url_hash = "' . self::escapeString($this->options['original_url_hash']) . '"' . $cached;
+        return 'WHERE original_url_hash = "' . self::escapeString(md5($this->options['original_url'], true)) . '"' . $cached;
     }
 }
