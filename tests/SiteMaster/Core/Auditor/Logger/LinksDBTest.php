@@ -52,6 +52,7 @@ class LinksDBTest extends DBTestCase
         $expected_links = array(
             $redirect_url,
             $not_found_url,
+            $not_found_url,
             $okay_url,
         );
         
@@ -76,6 +77,20 @@ class LinksDBTest extends DBTestCase
         $this->assertEquals(200, $redirect_link->final_status_code);
         $this->assertEquals(404, $not_found_link->original_status_code);
         $this->assertEquals(200, $okay_link->original_status_code);
+        
+        //Verify that the caching of requests is working
+        $expected = array(0,1);
+        $found    = array();
+        foreach($list as $link) {
+            if ($link->original_url == $not_found_url) {
+                $found[] = $link->cached;
+            }
+        }
+
+        sort($expected);
+        sort($found);
+        
+        $this->assertEquals($expected, $found, 'There should be one uncahced and one cached link');
     }
 
     public function setUpDB()
