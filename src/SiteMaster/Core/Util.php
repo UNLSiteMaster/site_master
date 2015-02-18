@@ -335,4 +335,24 @@ class Util
         $d = \DateTime::createFromFormat('Y-m-d', $date);
         return $d && $d->format('Y-m-d') == $date;
     }
+
+    /**
+     * Strip fragments for URIs
+     *
+     * This is used when getting the status code for a URI.
+     * Some environments return 404 for every URI with a #fragment
+     *
+     * @param string $uri
+     * @return string the new URI
+     */
+    public static function stripURIFragment($uri)
+    {
+        $parts = explode('#', $uri, 2);
+
+        if (isset($parts[0])) {
+            return $parts[0];
+        }
+
+        return $uri;
+    }
 }
