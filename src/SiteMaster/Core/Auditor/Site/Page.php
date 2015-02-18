@@ -622,4 +622,14 @@ class Page extends Record
 
         return false;
     }
+
+    /**
+     * Get all links found on this page
+     * 
+     * @return Page\Links\AllForPage
+     */
+    public function getLinks()
+    {
+        return new Page\Links\AllForPage(array('pages_id' => $this->id));
+    }
 }
