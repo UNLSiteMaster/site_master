@@ -65,7 +65,7 @@ class Link extends Record
         
         $insert_new = true;
         //Check if we already know about the url
-        if ($latest_link = self::getByOriginalURL($original_url, true)) {
+        if ($latest_link = self::getByOriginalURL($original_url, false)) {
             $insert_new = false;
             if ($latest_link->isExpired()) {
                 //The last result is expired, grab fresh data
