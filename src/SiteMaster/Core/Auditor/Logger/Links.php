@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor\Logger;
 
 use DOMXPath;
 use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\Util;
 
 class Links extends \Spider_LoggerAbstract
 {
@@ -24,9 +25,25 @@ class Links extends \Spider_LoggerAbstract
 
     public function log($uri, $depth, DOMXPath $xpath)
     {
-        $uris = \Spider::getUris(\Spider::getUriBase($uri), $uri, $xpath);
+
+        $links = \Spider::getUris(\Spider::getUriBase($uri), $uri, $xpath);
         
-        foreach ($uris as $uri) { 
+        $filters = array(
+            '\\SiteMaster\\Core\\Auditor\\Filter\\Scheme',
+            '\\SiteMaster\\Core\\Auditor\\Filter\\InvalidURI',
+        );
+
+        //Filter the links
+        foreach ($filters as $filter_class) {
+            $links = new $filter_class($links);
+        }
+
+        $links_array = array();
+        foreach ($links as $link) {
+            $links_array[] = Util::stripURIFragment($link);
+        }
+        
+        foreach ($links_array as $uri) { 
             Page\Link::createNewPageLink($this->page->id, $uri);
         }
     }
