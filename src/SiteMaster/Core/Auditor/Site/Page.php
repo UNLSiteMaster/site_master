@@ -630,6 +630,6 @@ class Page extends Record
      */
     public function getLinks()
     {
-        return new Page\Links\AllForPage(array('pages_id' => $this->id));
+        return new Page\Links\AllForPage(array('scanned_page_id' => $this->id));
     }
 }
