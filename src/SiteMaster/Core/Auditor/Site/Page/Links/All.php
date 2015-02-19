@@ -36,6 +36,8 @@ class All extends RecordList
         //Build the list
         $sql = "SELECT scanned_page_links.id
                 FROM scanned_page_links
+                LEFT JOIN scanned_page ON (scanned_page.id = scanned_page_links.scanned_page_id)
+                LEFT JOIN scans ON (scans.id = scanned_page.scans_id)
                 " . $this->getWhere() . "
                 ORDER BY scanned_page_links.date_created DESC
                 " . $this->getLimit();

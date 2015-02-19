@@ -72,6 +72,7 @@ $metric_grades = $context->page->getMetricGrades();
     </table>
 </div>
 <div class="panel clear-fix">
+    <a href="<?php echo $context->getURL() . 'links-to-this/' ?>" class="button wdn-button">Links to this page</a>
     <div class="pull-right wdn-pull-right">
         <?php echo $savvy->render($context->page->getScanForm()) ?>
     </div>

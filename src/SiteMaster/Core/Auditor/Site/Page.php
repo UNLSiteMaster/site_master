@@ -632,4 +632,17 @@ class Page extends Record
     {
         return new Page\Links\AllForPage(array('scanned_page_id' => $this->id));
     }
+
+    /**
+     * Get a list of links that linked to this page for the current scan
+     * 
+     * @return Page\Links\ForScanAndURL
+     */
+    public function getLinksToThisPage()
+    {
+        return new Page\Links\ForScanAndURL(array(
+            'scans_id' => $this->scans_id,
+            'url'      => $this->uri
+        ));
+    }
 }

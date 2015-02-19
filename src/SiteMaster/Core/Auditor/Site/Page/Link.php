@@ -156,4 +156,12 @@ class Link extends Record
         
         return false;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPage()
+    {
+        return \SiteMaster\Core\Auditor\Site\Page::getByID($this->scanned_page_id);
+    }
 }
