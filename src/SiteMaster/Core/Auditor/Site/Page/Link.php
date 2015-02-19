@@ -43,12 +43,13 @@ class Link extends Record
             'cached'       => $cached,
         ));
 
-        if ($links->count() == 0) {
-            return false;
+        foreach ($links as $link) {
+            if ($link->original_url == $original_url) {
+                return $link;
+            }
         }
 
-        $links->rewind();
-        return $links->current();
+        return false;
     }
 
     /**
