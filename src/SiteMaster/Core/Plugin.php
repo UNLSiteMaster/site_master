@@ -195,6 +195,7 @@ class Plugin extends PluginInterface
 
         if ($previousVersion <= 2015020401) {
             $sql = file_get_contents(Util::getRootDir() . "/data/database.sql");
+            $sql .= file_get_contents(Util::getRootDir() . "/data/update-2015021701.sql");
 
             if (!Util::execMultiQuery($sql, true)) {
                 return false;
