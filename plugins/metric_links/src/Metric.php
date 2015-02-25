@@ -217,7 +217,7 @@ class Metric extends MetricInterface
      */
     public function isError(Page\Link $link)
     {
-        if ($link->original_curl_code && empty($link->original_status_code)) {
+        if ($link->isCurlError()) {
             return true;
         }
         
@@ -237,7 +237,7 @@ class Metric extends MetricInterface
      */
     public function getMachineNameForStatus(Page\Link $link)
     {
-        if ($link->original_curl_code && empty($link->original_status_code)) {
+        if ($link->isCurlError()) {
             return 'link_connection_error_' . $link->original_curl_code;
         }
         

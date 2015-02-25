@@ -158,6 +158,20 @@ class Link extends Record
     }
 
     /**
+     * Determine if this link resulted in a CURL error
+     * 
+     * @return bool
+     */
+    public function isCurlError()
+    {
+        if ($this->original_curl_code && empty($this->original_status_code)) {
+            return true;
+        }
+    
+        return false;
+    }
+
+    /**
      * @return mixed
      */
     public function getPage()
