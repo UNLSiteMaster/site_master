@@ -224,14 +224,15 @@ class Util
             CURLOPT_MAXREDIRS      => 5,
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_USERAGENT      => 'UNL_SITEMASTER/1.0'
+            CURLOPT_USERAGENT      => 'UNL_SITEMASTER/1.0',
+            CURLOPT_RETURNTRANSFER => true
         );
         
         $options = $options + $default_options;
 
         curl_setopt_array($curl, $options);
         
-        curl_exec($curl);
+        $content = curl_exec($curl);
 
         $http_status   = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $effective_url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
@@ -254,7 +255,8 @@ class Util
             'http_code'     => $http_status,
             'curl_code'     => $curl_error_no,
             'effective_url' => $effective_url,
-            'okay'          => $okay
+            'okay'          => $okay,
+            'content'       => $content
         );
     }
 
