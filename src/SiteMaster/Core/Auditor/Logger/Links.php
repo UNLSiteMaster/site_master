@@ -8,14 +8,14 @@ use SiteMaster\Core\Util;
 class Links extends \Spider_LoggerAbstract
 {
     /**
-     * @var bool|\Spider
+     * @var \Spider
      */
-    protected $spider = false;
+    protected $spider;
 
     /**
-     * @var bool|Page
+     * @var Page
      */
-    protected $page = false;
+    protected $page;
 
     function __construct(\Spider $spider, Page $page)
     {
