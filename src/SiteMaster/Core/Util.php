@@ -240,7 +240,7 @@ class Util
         curl_close($curl);
         
         //Always sleep after requesting data, this will help prevent loops from flooding a server.
-        sleep(1);
+        sleep(Config::get('SECONDS_BETWEEN_REQUESTS'));
         
         $okay = self::httpCodeIsOkay($http_status);
 
