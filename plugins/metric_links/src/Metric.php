@@ -217,11 +217,11 @@ class Metric extends MetricInterface
      */
     public function isError(Page\Link $link)
     {
-        if (in_array($link->original_status_code, $this->options['http_error_codes'])) {
+        if ($link->original_curl_code && empty($link->original_status_code)) {
             return true;
         }
-
-        if ($link->original_curl_code && empty($link->http_code)) {
+        
+        if (in_array($link->original_status_code, $this->options['http_error_codes'])) {
             return true;
         }
         
