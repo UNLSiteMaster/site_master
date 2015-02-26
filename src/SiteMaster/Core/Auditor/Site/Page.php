@@ -5,6 +5,7 @@ use DB\Record;
 use Monolog\Logger;
 use SiteMaster\Core\Auditor\Downloader\DownloadException;
 use SiteMaster\Core\Auditor\GradingHelper;
+use SiteMaster\Core\Auditor\Logger\Links;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Config;
@@ -312,6 +313,7 @@ class Page extends Record
         }
         
         $spider->addLogger(new Scheduler($spider, $scan, $site));
+        $spider->addLogger(new Links($spider, $this));
         $spider->addLogger($page_title_logger);
         $spider->addLogger(new Metrics($spider, $scan, $site, $this));
 
@@ -619,5 +621,28 @@ class Page extends Record
         }
 
         return false;
+    }
+
+    /**
+     * Get all links found on this page
+     * 
+     * @return Page\Links\AllForPage
+     */
+    public function getLinks()
+    {
+        return new Page\Links\AllForPage(array('scanned_page_id' => $this->id));
+    }
+
+    /**
+     * Get a list of links that linked to this page for the current scan
+     * 
+     * @return Page\Links\ForScanAndURL
+     */
+    public function getLinksToThisPage()
+    {
+        return new Page\Links\ForScanAndURL(array(
+            'scans_id' => $this->scans_id,
+            'url'      => $this->uri
+        ));
     }
 }

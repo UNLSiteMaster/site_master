@@ -219,12 +219,13 @@ class Util
         $curl = curl_init($url);
         
         $default_options = array(
-            CURLOPT_NOBODY => true,
+            CURLOPT_NOBODY         => true, //Attempt a HEAD request by default to save bandwidth
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_MAXREDIRS => 5,
-            CURLOPT_TIMEOUT => 30,
+            CURLOPT_MAXREDIRS      => 5,
+            CURLOPT_TIMEOUT        => 30,
             CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_USERAGENT => 'UNL_SITEMASTER/1.0'
+            CURLOPT_USERAGENT      => 'UNL_SITEMASTER/1.0',
+            CURLOPT_FILE           => fopen('/dev/null', 'w+')
         );
         
         $options = $options + $default_options;
@@ -233,13 +234,22 @@ class Util
         
         curl_exec($curl);
 
-        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $http_status   = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $effective_url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
         $curl_error_no = curl_errno($curl);
 
         curl_close($curl);
         
+        //Always sleep after requesting data, this will help prevent loops from flooding a server.
+        sleep(Config::get('SECONDS_BETWEEN_REQUESTS'));
+        
         $okay = self::httpCodeIsOkay($http_status);
+
+        //Sometimes HEAD requests result in a false negative.  Do a GET request just to verify
+        if (true === $options[CURLOPT_NOBODY] && false === $okay) {
+            $options[CURLOPT_NOBODY] = false;
+            return self::getHTTPInfo($url, $options);
+        }
 
         return array(
             'http_code'     => $http_status,
@@ -328,5 +338,25 @@ class Util
     {
         $d = \DateTime::createFromFormat('Y-m-d', $date);
         return $d && $d->format('Y-m-d') == $date;
+    }
+
+    /**
+     * Strip fragments for URIs
+     *
+     * This is used when getting the status code for a URI.
+     * Some environments return 404 for every URI with a #fragment
+     *
+     * @param string $uri
+     * @return string the new URI
+     */
+    public static function stripURIFragment($uri)
+    {
+        $parts = explode('#', $uri, 2);
+
+        if (isset($parts[0])) {
+            return $parts[0];
+        }
+
+        return $uri;
     }
 }

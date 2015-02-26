@@ -49,18 +49,6 @@ class Metric extends MetricInterface
     public function __construct($plugin_name, array $options = array())
     {
         $options = array_replace_recursive(array(
-            'filters' => array(
-                '\\SiteMaster\\Plugins\\Metric_links\\Filters\\Scheme',
-                '\\SiteMaster\\Plugins\\Metric_links\\Filters\\InvalidURI',
-            ),
-            'request_options' => array( //Guzzle request options
-                'timeout' => 30,
-                'connect_timeout' => 30,
-                'allow_redirects' => false
-            ),
-            'chunks' => 5, //The number of URLs to request at once
-            'seconds_between_chunks' => 1,
-            'seconds_between_requests' => 1,
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array( 
                 301,
@@ -152,9 +140,7 @@ class Metric extends MetricInterface
      */
     public function scan($uri, \DOMXPath $xpath, $depth, Page $page, Metrics $context)
     {
-        $links = $this->getLinks($uri, $xpath);
-        
-        $this->markPage($page, $links);
+        $this->markPage($page);
         
         return true;
     }
@@ -163,32 +149,32 @@ class Metric extends MetricInterface
      * This method will find broken links and mark a page appropriately
      * 
      * @param Page $page the page to mark
-     * @param array $links an array of the links found on the page
      */
-    public function markPage(Page $page, $links)
+    public function markPage(Page $page)
     {
-        $statuses = $this->getStatuses(array_unique($links));
-        $counts = array_count_values($links);
-
-        foreach ($statuses as $url=>$status) {
-            if (!$this->isError($status)) {
+        $links = $page->getLinks();
+        
+        foreach ($links as $link) {
+            if (!$this->isError($link)) {
                 //don't mark it...
                 continue;
             }
 
-            $machine_name = $this->getMachineNameForStatus($status);
+            $machine_name = $this->getMachineNameForStatus($link);
             $message      = $this->getStatusMessage($machine_name);
             $help_text    = $this->getStatusHelpText($machine_name);
-            $points       = $this->getPointDeduction($status->http_code);
+            $points       = $this->getPointDeduction($link->original_status_code);
 
             $mark = $this->getMark($machine_name, $message, $points, null, $help_text);
 
-            for ($i = 1; $i <= $counts[$url]; $i++) {
-                //Add it for every instance of the link found on the page.
-                $page->addMark($mark, array(
-                    'value_found' => $url
-                ));
+            $value_found = $link->original_url;
+            if ($link->isRedirect()) {
+                $value_found .= ' which redirected to ' . $link->final_url;
             }
+            
+            $page->addMark($mark, array(
+                'value_found' => $value_found
+            ));
         }
     }
 
@@ -224,17 +210,18 @@ class Metric extends MetricInterface
 
     /**
      * Determine if a status is an error and should be logged
-     * 
-     * @param LinkStatus $status
+     *
+     * @param Page\Link $link
+     * @internal param LinkStatus $status
      * @return bool
      */
-    public function isError(LinkStatus $status)
+    public function isError(Page\Link $link)
     {
-        if (in_array($status->http_code, $this->options['http_error_codes'])) {
+        if ($link->isCurlError()) {
             return true;
         }
-
-        if ($status->curl_code && empty($status->http_code)) {
+        
+        if (in_array($link->original_status_code, $this->options['http_error_codes'])) {
             return true;
         }
         
@@ -243,41 +230,18 @@ class Metric extends MetricInterface
 
     /**
      * Get the machine name for a status
-     * 
-     * @param LinkStatus $status
+     *
+     * @param Page\Link $link
+     * @internal param Page\Link $status
      * @return string
      */
-    public function getMachineNameForStatus(LinkStatus $status)
+    public function getMachineNameForStatus(Page\Link $link)
     {
-        if ($status->curl_code && empty($status->http_code)) {
-            return 'link_connection_error_' . $status->curl_code;
+        if ($link->isCurlError()) {
+            return 'link_connection_error_' . $link->original_curl_code;
         }
         
-        return 'link_http_code_' . $status->http_code;
-    }
-
-    /**
-     * Get the links for a page
-     * 
-     * @param string $uri the uri of the page to get links for
-     * @param \DOMXPath $xpath the xpath of the page
-     * @return array an array of links
-     */
-    public function getLinks($uri, \DOMXPath $xpath)
-    {
-        $links = \Spider::getUris(\Spider::getUriBase($uri), $uri, $xpath);
-
-        //Filter the links
-        foreach ($this->options['filters'] as $filter_class) {
-            $links = new $filter_class($links);
-        }
-        
-        $links_array = array();
-        foreach ($links as $link) {
-            $links_array[] = $this->stripURIFragment($link);
-        }
-
-        return $links_array;
+        return 'link_http_code_' . $link->original_status_code;
     }
 
     /**
@@ -299,7 +263,7 @@ class Metric extends MetricInterface
                     return 0;
                 }
 
-                //Connection problems
+                //Connection problems (zero points because it is probably our fault)
                 return 0;
             case self::GRADE_METHOD_NUMBER_OF_LINKS:
                 if ($http_code >= 400) {
@@ -313,7 +277,7 @@ class Metric extends MetricInterface
                 }
 
                 if ($http_code == 0) {
-                    //Connection problems
+                    //Connection problems (zero points because it is probably our fault)
                     return 0;
                 }
 
@@ -326,125 +290,11 @@ class Metric extends MetricInterface
                 }
                 
                 if ($http_code == 0) {
-                    //Connection problems
+                    //Connection problems (zero points because it is probably our fault)
                     return 0;
                 }
                 
                 return 1;
         }
-    }
-
-    /**
-     * Strip fragments for URIs
-     *
-     * This is used when getting the status code for a URI.
-     * Some environments return 404 for every URI with a #fragment
-     *
-     * @param string $uri
-     * @return string the new URI
-     */
-    function stripURIFragment($uri)
-    {
-        $parts = explode('#', $uri, 2);
-
-        if (isset($parts[0])) {
-            return $parts[0];
-        }
-
-        return $uri;
-    }
-
-    /**
-     * Get the http statuses for a set of links.  This will check for cached statuses before sending requests.
-     * 
-     * @param array $links the links to check
-     * @return array an associative array of URLs and LinkStatuses
-     */
-    public function getStatuses(array $links)
-    {
-        $statuses = array();
-        
-        foreach ($links as $key=>$link) {
-            if ($status = LinkStatus::getByURL($link)) {
-                $statuses[$link] = $status;
-                unset($links[$key]);
-            }
-        }
-        
-        //divide the links into groups to 10 to check
-        $chunks = array_chunk($links, $this->options['chunks']);
-        
-        foreach ($chunks as $chunk) {
-            $statuses = array_merge($this->getHTTPStatus($chunk), $statuses);
-            sleep($this->options['seconds_between_chunks']);
-        }
-        
-        return $statuses;
-    }
-
-    /**
-     * Get the http statuses for a set of links
-     *
-     * @param array $links the links to check
-     * @return array an associative array of URLs and LinkStatuses
-     */
-    public function getHTTPStatus($links)
-    {
-        $client = new Client();
-        $client->setUserAgent(Config::get('USER_AGENT') . ' link_checker/1.0');
-        
-        $statuses = array();
-        $requests = array();
-        
-        try {
-            foreach ($links as $link) {
-                $requests[] = $client->head($link, array(), $this->options['request_options']);
-            }
-
-            $responses = $client->send($requests);
-            
-            foreach ($responses as $response) {
-                $url = $response->getEffectiveUrl();
-                $statuses[$url] = LinkStatus::createLinkStatus($url, $response->getStatusCode(), 0);
-            }
-
-            return $statuses; //We made it this far, so no links failed
-        } catch (MultiTransferException $e) {
-            foreach ($e->getFailedRequests() as $request) {
-                $url = $request->getURL();
-
-                try {
-                    //send a GET request to verify the status code (turns out some servers don't handle HEAD requests well)
-                    $request = $client->get($url, array(), $this->options['request_options']);
-                    $request->send();
-                    $url = $request->getURL();
-
-                    $statuses[$url] = LinkStatus::createLinkStatus($url, $request->getResponse()->getStatusCode(), 0);
-                } catch (RequestException $exception) {
-                    $curl_code = 0;
-                    $http_code = null;
-
-                    if ($exception instanceof BadResponseException) {
-                        $http_code = $exception->getResponse()->getStatusCode();
-                    }
-
-                    if ($exception instanceof CurlException) {
-                        $curl_code = $exception->getErrorNo();
-                    }
-                    
-                    $statuses[$url] = LinkStatus::createLinkStatus($url, $http_code, $curl_code);
-                }
-                
-                sleep($this->options['seconds_between_requests']);  //Don't flood with GET requests
-            }
-
-            foreach ($e->getSuccessfulRequests() as $request) {
-                $response = $request->getResponse();
-                $url = $response->getEffectiveUrl();
-                $statuses[$url] = LinkStatus::createLinkStatus($url, $response->getStatusCode(), 0);
-            }
-        }
-        
-        return $statuses;
     }
 }

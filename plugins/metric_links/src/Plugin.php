@@ -11,12 +11,6 @@ class Plugin extends PluginInterface
      */
     public function onInstall()
     {
-        $sql = file_get_contents($this->getRootDirectory() . "/data/database.sql");
-
-        if (!Util::execMultiQuery($sql, true)) {
-            return false;
-        }
-        
         return true;
     }
 
@@ -25,14 +19,6 @@ class Plugin extends PluginInterface
      */
     public function onUninstall()
     {
-        $sql = "SET FOREIGN_KEY_CHECKS = 0;
-                drop table if exists metric_links_status;
-                SET FOREIGN_KEY_CHECKS = 1";
-
-        if (!Util::execMultiQuery($sql, true)) {
-            return false;
-        }
-
         return true;
     }
 

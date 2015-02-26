@@ -102,4 +102,14 @@ class UtilTest extends \PHPUnit_Framework_TestCase
     {
         Util::validateBaseURL('http://:pass@www.test.com/test/');
     }
+
+    /**
+     * @test
+     */
+    public function stripURIFragment()
+    {
+        $this->assertEquals('http://www.test.com/', Util::stripURIFragment('http://www.test.com/#'));
+        $this->assertEquals('http://www.test.com/', Util::stripURIFragment('http://www.test.com/'));
+        $this->assertEquals('http://www.test.com/?test=test', Util::stripURIFragment('http://www.test.com/?test=test#test'));
+    }
 }
