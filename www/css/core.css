@@ -340,6 +340,10 @@ Notices
     margin-top: .1em;
 }
 
+.info-section header h2 {
+    margin-top: .1em;
+}
+
 .info-section table {
     table-layout: fixed;
 }
@@ -374,6 +378,12 @@ Notices
 .fix-mark-details dt {
     font-weight: bold;
 }
+
+
+.info-section.scroll-to-fixed-fixed {
+    width: 260px;
+}
+
 
 pre {
     font-family: "Courier New", Courier, monospace;

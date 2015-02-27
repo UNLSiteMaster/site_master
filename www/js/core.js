@@ -41,7 +41,13 @@ var sitemaster = {
     },
     
     initInPageNav : function() {
-        $(".in-page-nav").scrollToFixed({marginTop: 50, minWidth: 768});
+        $(".in-page-nav").scrollToFixed({
+            marginTop: 50,
+            minWidth: 1000,
+            limit: $("#footer").offset().top - $(".in-page-nav").outerHeight(true) - 25,
+            dontSetWidth: true,
+            zIndex: 10
+        });
     },
     
     initTables : function() {
