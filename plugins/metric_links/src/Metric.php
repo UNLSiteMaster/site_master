@@ -212,7 +212,7 @@ class Metric extends MetricInterface
      * Determine if a status is an error and should be logged
      *
      * @param Page\Link $link
-     * @internal param LinkStatus $status
+     * @internal param Page\Link $status
      * @return bool
      */
     public function isError(Page\Link $link)
