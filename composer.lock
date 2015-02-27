@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9dcccb7deff092f981aaf3b28f97cc4e",
+    "hash": "370cd45dc8d23aa2bf73941e4467fcc5",
     "packages": [
         {
             "name": "guzzle/guzzle",
@@ -717,12 +717,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/saltybeagle/Spider.git",
-                "reference": "f77be15101d55efe2847b27cad1219549d66ca7c"
+                "reference": "07767dc2af6d4d4e27673019d7b3b5b2647d000d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/f77be15101d55efe2847b27cad1219549d66ca7c",
-                "reference": "f77be15101d55efe2847b27cad1219549d66ca7c",
+                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/07767dc2af6d4d4e27673019d7b3b5b2647d000d",
+                "reference": "07767dc2af6d4d4e27673019d7b3b5b2647d000d",
                 "shasum": ""
             },
             "type": "library",
@@ -735,20 +735,20 @@
                 "source": "https://github.com/saltybeagle/Spider/tree/master",
                 "issues": "https://github.com/saltybeagle/Spider/issues"
             },
-            "time": "2014-04-25 14:51:42"
+            "time": "2015-02-24 17:34:40"
         },
         {
             "name": "saltybeagle/savvy",
-            "version": "dev-master",
+            "version": "v0.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saltybeagle/Savvy.git",
-                "reference": "d8b58c71b5184dfb6615048748c118147706dab4"
+                "reference": "d07ffa39fa850cf702f73cd9d7106cfbca20741c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saltybeagle/Savvy/zipball/d8b58c71b5184dfb6615048748c118147706dab4",
-                "reference": "d8b58c71b5184dfb6615048748c118147706dab4",
+                "url": "https://api.github.com/repos/saltybeagle/Savvy/zipball/d07ffa39fa850cf702f73cd9d7106cfbca20741c",
+                "reference": "d07ffa39fa850cf702f73cd9d7106cfbca20741c",
                 "shasum": ""
             },
             "type": "library",
@@ -759,14 +759,14 @@
             },
             "description": "Savvy is a powerful but lightweight object-oriented template system for PHP.",
             "support": {
-                "source": "https://github.com/saltybeagle/Savvy/tree/master",
+                "source": "https://github.com/saltybeagle/Savvy/tree/v0.8.1",
                 "issues": "https://github.com/saltybeagle/Savvy/issues"
             },
-            "time": "2014-03-11 16:58:11"
+            "time": "2014-10-08 16:24:53"
         },
         {
             "name": "saltybeagle/savvy_turbo",
-            "version": "dev-master",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/saltybeagle/Savvy_Turbo.git",
@@ -997,7 +997,7 @@
         },
         {
             "name": "unl/unl_cache_lite",
-            "version": "dev-master",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/unlpear/UNL_Cache_Lite.git",
@@ -1017,7 +1017,7 @@
             },
             "description": "a speedy and safe caching library",
             "support": {
-                "source": "https://github.com/unlpear/UNL_Cache_Lite/tree/master",
+                "source": "https://github.com/unlpear/UNL_Cache_Lite/tree/v0.1.1",
                 "issues": "https://github.com/unlpear/UNL_Cache_Lite/issues"
             },
             "time": "2014-08-25 20:13:04"
@@ -1027,17 +1027,15 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "saltybeagle/savvy": 20,
         "ircmaxell/password-compat": 20,
         "saltybeagle/spider": 20,
-        "saltybeagle/savvy_turbo": 20,
-        "unl/unl_cache_lite": 20,
         "monolog/monolog": 20,
         "pda/pheanstalk": 20,
         "swiftmailer/swiftmailer": 0,
         "michelf/php-markdown": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }
