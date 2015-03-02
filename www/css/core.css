@@ -375,6 +375,9 @@ Notices
     font-weight: bold;
 }
 
+.fix-mark-details dd {
+    margin-bottom: 1em;
+}
 
 .info-section.scroll-to-fixed-fixed {
     width: 260px;
