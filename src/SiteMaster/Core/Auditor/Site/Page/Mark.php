@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Page;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Registry\Site\Member;
 
 class Mark extends Record
@@ -57,5 +58,15 @@ class Mark extends Record
         }
 
         return $mark;
+    }
+
+    /**
+     * Get the page for this mark
+     * 
+     * @return mixed
+     */
+    public function getPage()
+    {
+        return Page::getByID($this->scanned_page_id);
     }
 }

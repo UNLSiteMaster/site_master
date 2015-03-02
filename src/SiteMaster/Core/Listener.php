@@ -53,6 +53,10 @@ class Listener extends PluginListener
             'SiteMaster\Core\Auditor\Site\Page\View'
         );
         $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/pages\/(?P<pages_id>(\d*))\/marks\/(?P<page_marks_id>(\d*))\/$/',
+            'SiteMaster\Core\Auditor\Site\Page\Mark\View'
+        );
+        $event->addRoute(
             '/^sites\/(?P<site_id>(\d*))\/pages\/(?P<pages_id>(\d*))\/links-to-this\/$/',
             'SiteMaster\Core\Auditor\Site\Page\ViewLinksToPage'
         );
