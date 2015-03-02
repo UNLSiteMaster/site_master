@@ -41,7 +41,7 @@ var sitemaster = {
         $(".in-page-nav").scrollToFixed({
             marginTop: 50,
             minWidth: 1000,
-            limit: $("#footer").offset().top - $(".in-page-nav").outerHeight(true) - 25,
+            limit: $("#footer").offset().top - $(".in-page-nav").outerHeight(true) - 150,
             dontSetWidth: true,
             zIndex: 10
         });
