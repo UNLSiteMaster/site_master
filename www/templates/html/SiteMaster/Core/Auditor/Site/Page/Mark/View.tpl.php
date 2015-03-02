@@ -1,4 +1,4 @@
-<dl>
+<dl class="fix-mark-details">
     <dt>Mark Name</dt>
     <dd><?php echo $context->mark->name; ?></dd>
     <dt>Found on page</dt>
@@ -11,9 +11,9 @@
             $points_deducted = $context->page_mark->points_deducted;
             if ($context->metric_grade->isPassFail()) {
                 if ($context->page_mark->points_deducted) {
-                    $points_deducted = 'Fail';
+                    $points_deducted = $context->page_mark->points_deducted . ' Fail';
                 } else {
-                    $points_deducted = 'Pass';
+                    $points_deducted = ' 0 Pass';
                 }
             }
             if ($context->page_mark->points_deducted === '0.00') {
