@@ -299,6 +299,13 @@ Metric Grades
     border-bottom: 1px solid #d3d3d3;
 }
 
+.value-found-sm {
+    font-size: .75em;
+    display: block;
+    margin-left: 1em;
+    word-break: break-all;
+}
+
 
 /**
 Info headers

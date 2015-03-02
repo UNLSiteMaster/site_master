@@ -92,6 +92,9 @@ $page = $context->getPage();
                 <tr>
                     <td>
                         <span class="<?php echo $mark->machine_name ?>"><?php echo $mark->name; ?></span>
+                        <?php if (strlen($page_mark->value_found) <= 256): ?>
+                            <span class="value-found-sm"><?php echo $page_mark->value_found ?></span>
+                        <?php endif ?>
                     </td>
                     <td>
                         <?php
