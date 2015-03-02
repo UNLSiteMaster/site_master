@@ -12,7 +12,7 @@ $site = $context->getSite();
             <div class="title"><?php echo $site->getTitle();?></div>
             <div class="url">
                 <?php echo $site->base_url;?>
-                <a href="<?php echo $site->base_url;?>" class="external" title="open the external page"><img src="<?php echo \SiteMaster\Core\Config::get('URL') ?>www/images/external.png" alt="link to external site"/></a>
+                <a href="<?php echo $site->base_url;?>" target="_blank" class="external" title="open the external page">Go to the site <img src="<?php echo \SiteMaster\Core\Config::get('URL') ?>www/images/external.png" alt="link to external site"/></a>
             </div>
             <?php
             if ($scan) {

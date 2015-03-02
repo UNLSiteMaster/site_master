@@ -41,7 +41,7 @@ $metric_grades = $context->page->getMetricGrades();
                 </header>
                 <ul>
                     <li><a href="<?php echo $scan->getURL() ?>">Go back to the site scan</a></li>
-                    <li><a href="<?php echo $context->page->uri;?>">View the scanned page</a></li>
+                    <li><a href="<?php echo $context->page->uri;?>" target="_blank">View the scanned page</a></li>
                     <li><a href="<?php echo $context->getURL() . 'links-to-this/' ?>">View pages that link to this page</a></li>
                 </ul>
                 <?php echo $savvy->render($context->page->getScanForm()) ?>
