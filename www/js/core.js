@@ -10,9 +10,6 @@ var sitemaster = {
          $('section[id]').attr('tabindex', '0');
         
          $('body').on('click', 'a[href^=#]',function(e) {
-            //Skip modal links
-            if ($(e.target).is('.call-modal') || $(e.target)[0].href === '#') { return; }
-
             //Implement scroll logic
             var $linkElem = $(this);
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
@@ -69,11 +66,6 @@ $(document).ready(function() {
 
     $(".scan-page").click(function(e) {
         return confirm('Scanning a page may take a long time, do you wish to continue?');
-    });
-    
-    $(".close-action").click(function() {
-        window.location.hash = '!';
-        return false;
     });
     
     sitemaster.initAnchors();

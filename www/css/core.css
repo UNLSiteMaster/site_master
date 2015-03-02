@@ -371,10 +371,6 @@ Notices
     width: 50%;
 }
 
-.fix-mark-details .modal-inner {
-    padding: 1em;
-}
-
 .fix-mark-details dt {
     font-weight: bold;
 }
@@ -385,12 +381,13 @@ Notices
 }
 
 
-pre {
+pre, code {
     font-family: "Courier New", Courier, monospace;
     margin-bottom: 10px;
     background-color: #EEE;
     overflow: auto;
     padding: 1em;
+    word-wrap: break-word;
 }
 
 .metric-grade-details.grade_p {
