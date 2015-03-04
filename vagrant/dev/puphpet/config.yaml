@@ -123,6 +123,7 @@ php:
             - intl
             - mcrypt
             - tidy
+            - mbstring
         pear: {  }
         pecl:
             - pecl_http
