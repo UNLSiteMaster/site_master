@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Page;
 
 use DB\Record;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Util;
 
@@ -135,12 +136,13 @@ class Link extends Record
     {
         $created = new \DateTime($this->date_created);
         $now = new \DateTime();
-        $interval = $created->diff($now);
-
-        if ($interval->h >= 1) {
-            //Let it expire after an hour
+        
+        //Determine if the request is expired
+        if ($now > $created->modify(Config::get('PAGE_LINK_TTL'))) {
             return true;
         }
+        
+        return false;
     }
 
     /**
