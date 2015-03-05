@@ -246,7 +246,7 @@ class Util
         $okay = self::httpCodeIsOkay($http_status);
 
         //Sometimes HEAD requests result in a false negative.  Do a GET request just to verify
-        if (true === $options[CURLOPT_NOBODY] && false === $okay) {
+        if (true == $options[CURLOPT_NOBODY] && false === $okay) {
             $options[CURLOPT_NOBODY] = false;
             return self::getHTTPInfo($url, $options);
         }
