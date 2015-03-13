@@ -394,7 +394,6 @@ Notices
 pre, code {
     font-family: "Courier New", Courier, monospace;
     margin-bottom: 10px;
-    background-color: #EEE;
     overflow: auto;
     padding: 1em;
     word-wrap: break-word;
@@ -428,4 +427,8 @@ code {
 }
 .sitemaster_core_admin_allsites table tr td:first-child {
     word-wrap: break-word;
+}
+
+.machine_name {
+    font-size: .5em;
 }

@@ -31,10 +31,21 @@
     <?php
     }
 
-    if (!empty($context->mark->help_text)) {
+    $help_text = $context->mark->getRawObject()->getHelpText();
+    if (!empty($context->mark->help_text) || !empty($help_text)) {
         ?>
         <dt>Suggested Fix</dt>
-        <dd><?php echo \Michelf\MarkdownExtra::defaultTransform($context->mark->help_text) ?></dd>
+        <dd>
+            <?php 
+            if (!empty($context->mark->help_text)) {
+                echo \Michelf\MarkdownExtra::defaultTransform($context->mark->help_text);
+            }
+
+            if (!empty($help_text)) {
+                echo \Michelf\MarkdownExtra::defaultTransform($help_text);
+            }
+            ?>
+        </dd>
     <?php
     }
 
@@ -59,3 +70,7 @@
 </dl>
 
 <a href="<?php echo $context->page->getURL() ?>">Go back to the page report</a>
+
+<div class="pull-right wdn-pull-right">
+    <span class="machine_name">Machine Name: <?php echo $context->mark->machine_name ?></span>
+</div>

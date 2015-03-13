@@ -2,6 +2,8 @@
 namespace SiteMaster\Core\Auditor\Metric;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Metric;
+use SiteMaster\Core\Auditor\MetricInterface;
 use SiteMaster\Core\Registry\Site\Member;
 
 class Mark extends Record
@@ -59,5 +61,43 @@ class Mark extends Record
         }
         
         return $scan;
+    }
+
+    /**
+     * Get the metric for this mark
+     * 
+     * @return bool|MetricInterface
+     */
+    public function getMetric()
+    {
+        $metric_record = Metric::getByID($this->metrics_id);
+        
+        if (!$metric_plugin = $metric_record->getMetricObject()) {
+            return false;
+        }
+        
+        return $metric_plugin;
+    }
+
+    /**
+     * Get the help file for this mark
+     * 
+     * @return bool|string
+     */
+    public function getHelpText()
+    {
+        if (!$metric_plugin = $this->getMetric()) {
+            return false;
+        }
+        
+        $plugin = $metric_plugin->getPlugin();
+
+        $file_path = $plugin->getRootDirectory() . '/help_text/' . $this->machine_name . '.md';
+
+        if (file_exists($file_path)) {
+            return file_get_contents($file_path);
+        }
+
+        return false;
     }
 }
