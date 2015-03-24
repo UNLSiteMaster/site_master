@@ -35,6 +35,6 @@ class Queued extends All
 
     public function getOrderBy()
     {
-        return 'ORDER BY priority ASC, start_time ASC';
+        return 'ORDER BY priority ASC, date_created ASC';
     }
 }
