@@ -16,6 +16,10 @@ class Config
         'DB_PASSWORD'      => false,  //DATABASE PASSWORD
         'DB_NAME'          => false,  //DATABASE NAME
         'PLUGINS'          => array(), //Plugin list and configuration
+        
+        //AUTO QUEUE SETTINGS
+        'AUTO_QUEUE_RESCAN_PRODUCTION' => 31,  //Once every 31 days or 1 month
+        'AUTO_QUEUE_RESCAN_DEVELOPMENT' => 62, //Once every 62 days or 2 months
 
         //OTHER SETTINGS
         'THEME'            => false,

@@ -12,8 +12,8 @@ $development_sites = new \SiteMaster\Core\Registry\Sites\ByProductionStatus(arra
 ));
 
 //Figure the number of sites to queue each day in order to scan them all once a month (total sites/31 days) 
-$production_limit  = round($production_sites->count() / 14);  //at least Once every 14 days
-$development_limit = round($development_sites->count() / 31);  //at least Once every 31 days
+$production_limit  = round($production_sites->count() / \SiteMaster\Core\Config::get('AUTO_QUEUE_RESCAN_PRODUCTION'));  //at least Once every x days
+$development_limit = round($development_sites->count() / \SiteMaster\Core\Config::get('AUTO_QUEUE_RESCAN_DEVELOPMENT'));  //at least Once every x days
 
 //Schedule production sites
 
