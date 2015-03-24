@@ -77,6 +77,10 @@ class Listener extends PluginListener
             'SiteMaster\Core\Auditor\Scan\View'
         );
         $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/scans\/$/',
+            'SiteMaster\Core\Auditor\Site\Scans\View'
+        );
+        $event->addRoute(
             '/^sites\/(?P<site_id>(\d*))\/scans\/(?P<scans_id>(\d*))\/changes\/$/',
             'SiteMaster\Core\Auditor\Scan\Changes'
         );
@@ -167,7 +171,8 @@ class Listener extends PluginListener
         $site = $event->getSite();
         
         $event->addNavigationItem($site->getURL(), 'Current Report');
-        
+
+        $event->addNavigationItem($site->getURL() . 'scans/', 'Scan History');
         
         $user = User\Session::getCurrentUser();
         
