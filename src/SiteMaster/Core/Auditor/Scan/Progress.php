@@ -61,7 +61,7 @@ class Progress extends View
             return false;
         }
 
-        $queue = new Queued(array('limit'=>-1));
+        $queue = new Queued();
         
         return $queue->getPositionOfScan($this->scan);
     }
