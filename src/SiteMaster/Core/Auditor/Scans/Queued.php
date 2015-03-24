@@ -26,23 +26,4 @@ class Queued extends All
 
         return $sql;
     }
-
-    public function getLimit()
-    {
-        if (isset($this->options['limit'])) {
-            if ($this->options['limit'] == '-1') {
-                //Don't use a limit
-                return '';
-            }
-            return 'LIMIT ' . (int)$this->options['limit'];
-        }
-
-        //default to 1
-        return 'LIMIT 1';
-    }
-
-    public function getOrderBy()
-    {
-        return 'ORDER BY priority ASC, start_time ASC';
-    }
 }
