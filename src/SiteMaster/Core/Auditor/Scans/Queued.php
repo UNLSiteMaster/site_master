@@ -19,13 +19,13 @@ class Queued extends All
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT scans.id as id, MIN(scanned_page.priority) as priority, MIN(scanned_page.date_created) as date_created
+        $sql = "SELECT scans.id as id
                 FROM scanned_page
                 LEFT JOIN scans ON (scanned_page.scans_id = scans.id)
                 WHERE scans.status = '" . Scan::STATUS_QUEUED . "'
                     AND scanned_page.status = '" . Page::STATUS_QUEUED ."'
                 GROUP BY scans.id
-                ORDER BY priority ASC, date_created ASC";
+                ORDER BY MIN(scanned_page.priority) ASC, MIN(scanned_page.date_created) ASC";
 
         return $sql;
     }
