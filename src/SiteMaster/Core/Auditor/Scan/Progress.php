@@ -2,7 +2,7 @@
 namespace SiteMaster\Core\Auditor\Scan;
 
 use SiteMaster\Core\Auditor\Site\Page;
-use SiteMaster\Core\Auditor\Site\Pages\Queued;
+use SiteMaster\Core\Auditor\Scans\Queued;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\InvalidArgumentException;
@@ -61,14 +61,8 @@ class Progress extends View
             return false;
         }
 
-        $site = $this->scan->getSite();
+        $queue = new Queued();
         
-        if (!$homepage = Page::getByScanIDAndURI($this->scan->id, $site->base_url)) {
-            return false;
-        }
-
-        $queue = new Queued(array('limit'=>-1));
-        
-        return array_search($homepage->id, $queue->getInnerIterator()->getArrayCopy());
+        return $queue->getPositionOfScan($this->scan);
     }
 }
