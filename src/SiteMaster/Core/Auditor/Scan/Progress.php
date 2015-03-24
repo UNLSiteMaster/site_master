@@ -2,7 +2,7 @@
 namespace SiteMaster\Core\Auditor\Scan;
 
 use SiteMaster\Core\Auditor\Site\Page;
-use SiteMaster\Core\Auditor\scans\Queued;
+use SiteMaster\Core\Auditor\Scans\Queued;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\InvalidArgumentException;
