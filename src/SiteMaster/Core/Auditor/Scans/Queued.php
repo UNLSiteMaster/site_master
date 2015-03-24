@@ -29,4 +29,15 @@ class Queued extends All
 
         return $sql;
     }
+
+    /**
+     * Get the position in the queue for a given scan
+     * 
+     * @param Scan $scan
+     * @return mixed
+     */
+    public function getPositionOfScan(\SiteMaster\Core\Auditor\Scan $scan)
+    {
+        return array_search($scan->id, $this->getInnerIterator()->getArrayCopy());
+    }
 }

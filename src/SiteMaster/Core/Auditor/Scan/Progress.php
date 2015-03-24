@@ -63,6 +63,6 @@ class Progress extends View
 
         $queue = new Queued(array('limit'=>-1));
         
-        return array_search($this->scan->id, $queue->getInnerIterator()->getArrayCopy());
+        return $queue->getPositionOfScan($this->scan);
     }
 }
