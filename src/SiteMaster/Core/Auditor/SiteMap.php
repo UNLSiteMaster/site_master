@@ -14,7 +14,11 @@ class SiteMap
     
     public function getURLs()
     {
-        if (!$xml = file_get_contents($this->site_map_url)) {
+        if (empty($this->site_map_url)) {
+            return false;
+        }
+        
+        if (!$xml = @file_get_contents($this->site_map_url)) {
             return false;
         }
 
