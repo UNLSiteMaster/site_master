@@ -37,14 +37,14 @@ class MetricGradeDBTest extends DBTestCase
 
         //Create a scan
         $scan1 = Scan::createNewScan($site->id);
-        $page1 = Page::createNewPage($scan1->id, $site->id, 'http://www.test.com/');
+        $page1 = Page::createNewPage($scan1->id, $site->id, 'http://www.test.com/', Page::FOUND_WITH_CRAWL);
         //Add Marks
         $page1->addMark($mark1);
         $page1->addMark($mark2);
         $page1->addMark($mark3);
         $grade1 = $example_metric->grade($page1, true);
 
-        $page2 = Page::createNewPage($scan1->id, $site->id, 'http://www.test.com/1');
+        $page2 = Page::createNewPage($scan1->id, $site->id, 'http://www.test.com/1', Page::FOUND_WITH_CRAWL);
         //Add Marks
         $page2->addMark($mark1);
         $grade2 = $example_metric->grade($page2, true);

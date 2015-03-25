@@ -26,7 +26,7 @@ class HTMLOnlyDBTest extends DBTestCase
         $site = Site::getByBaseURL($site_url);
         
         $scan = Scan::createNewScan($site->id);
-        $page_scan = Page::createNewPage($scan->id, $site->id, $redirect_url, array(
+        $page_scan = Page::createNewPage($scan->id, $site->id, $redirect_url, Page::FOUND_WITH_CRAWL, array(
             'scan_type' => $scan->scan_type,
         ));
         

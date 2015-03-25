@@ -29,7 +29,7 @@ class SiteDBTest extends DBTestCase
             'status' => Scan::STATUS_COMPLETE,
             'date_created' => '2014-02-22'
         ));
-        $page = Page::createNewPage($scan_1->id, $site->id, 'http://www.test.com/');
+        $page = Page::createNewPage($scan_1->id, $site->id, 'http://www.test.com/', Page::FOUND_WITH_CRAWL);
 
         $site->cleanScans();
         $this->assertNotEquals(false, Scan::getByID($scan_2->id));

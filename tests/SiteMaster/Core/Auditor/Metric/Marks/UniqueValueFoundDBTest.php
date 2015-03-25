@@ -27,7 +27,7 @@ class UniqueValueFoundDBTest extends DBTestCase
 
         //Create a scan
         $scan1 = Scan::createNewScan($site->id);
-        $page = Page::createNewPage($scan1->id, $site->id, 'http://www.test.com/');
+        $page = Page::createNewPage($scan1->id, $site->id, 'http://www.test.com/', Page::FOUND_WITH_CRAWL);
         //Add Marks
         $page->addMark($mark1, array(
             'value_found' => 'http://www.test.com/1'
@@ -42,7 +42,7 @@ class UniqueValueFoundDBTest extends DBTestCase
 
         //Create another scan
         $scan2 = Scan::createNewScan($site->id);
-        $page = Page::createNewPage($scan2->id, $site->id, 'http://www.test.com/');
+        $page = Page::createNewPage($scan2->id, $site->id, 'http://www.test.com/', Page::FOUND_WITH_CRAWL);
 
         //Add marks
         $page->addMark($mark1, array(
