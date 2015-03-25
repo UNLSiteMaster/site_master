@@ -148,6 +148,11 @@ form .panel li {
     list-style-type: disc;
 }
 
+div.help-text {
+    margin-left: 2em;
+    font-size: .75em;
+}
+
 /**
 Dashboard
 **/

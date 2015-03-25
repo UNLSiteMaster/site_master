@@ -140,6 +140,10 @@ class EditForm implements ViewableInterface, PostHandlerInterface
         if (isset($post['support_groups'])) {
             $this->site->support_groups = str_replace('"', "'", $post['support_groups']);
         }
+
+        if (isset($post['site_map_url'])) {
+            $this->site->site_map_url = $post['site_map_url'];
+        }
         
         if (isset($post['production_status']) && in_array($post['production_status'], array(
                 Site::PRODUCTION_STATUS_PRODUCTION,
