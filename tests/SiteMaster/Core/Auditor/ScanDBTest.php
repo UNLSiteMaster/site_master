@@ -116,6 +116,70 @@ class ScanDBTest extends DBTestCase
     }
 
     /**
+     * Verify that all three crawling methods are working
+     *
+     * @test
+     * @group integration
+     */
+    public function scanCrawlMethods()
+    {
+        $this->setUpDB();
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        /*
+         * Test Site Map Only
+         */
+        $site->crawl_method = Site::CRAWL_METHOD_SITE_MAP_ONLY;
+        $site->save();
+        
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+        
+        //Ensure that pages were scanned
+        $this->assertNotEquals(0, $scan->getDistinctPageCount());
+
+        /*
+         * Test Crawl Only
+         */
+        $site->crawl_method = Site::CRAWL_METHOD_CRAWL_ONLY;
+        $site->save();
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        //Ensure that pages were scanned
+        $this->assertNotEquals(0, $scan->getDistinctPageCount());
+        
+        /*
+         * Test Hybrid
+         */
+        $site->crawl_method = Site::CRAWL_METHOD_HYBRID;
+        $site->save();
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        //Ensure that pages were scanned
+        $this->assertNotEquals(0, $scan->getDistinctPageCount());
+    }
+
+    /**
      * Simulate a scan for a site that has pass/fail metrics.  Verify all results
      * This is an integration test rather than a unit test
      *
