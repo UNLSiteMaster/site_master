@@ -63,7 +63,7 @@
         $location = 'Line ' . $context->page_mark->line . ', Column ' . $context->page_mark->col;
     }
     if (!empty($context->page_mark->context)) {
-        $location .= '<br />HTML Context: <code>' . strip_tags($context->page_mark->getRaw('context')) . '</code>';
+        $location .= '<br />HTML Context: <pre><code>' . trim(strip_tags($context->page_mark->getRaw('context'))) . '</code></pre>';
     }
     ?>
     <dd><?php echo $location ?></dd>
