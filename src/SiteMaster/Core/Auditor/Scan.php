@@ -8,6 +8,7 @@ use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
 use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Emailer;
+use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Site\Page;
@@ -155,11 +156,45 @@ class Scan extends Record
             return true;
         }
         
-        $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url, array(
-            'scan_type' => $this->scan_type,
-        ));
+        //Use the site map if the crawl method says we should
+        if (in_array($site->crawl_method, array(Site::CRAWL_METHOD_SITE_MAP_ONLY, Site::CRAWL_METHOD_HYBRID))) {
+            $site_map = new SiteMap($site->site_map_url);
+            $registry = new Registry();
+            
+            //Make sure the the site map is a valid URL and that we can actually parse it.
+            if (filter_var($site->site_map_url, FILTER_VALIDATE_URL) && $URLs = $site_map->getURLs()) {
+                foreach ($URLs as $url) {
+                    //Verify that it isn't a child site
+                    $closest_site = $registry->getClosestSite($url);
+
+                    if ($closest_site->base_url != $site->base_url) {
+                        //This uri must be a member of a different site, perhaps a sub-site
+                        continue;
+                    }
+
+
+                    $page_scan = Page::createNewPage($this->id, $this->sites_id, $url, Page::FOUND_WITH_SITE_MAP, array(
+                        'scan_type' => $this->scan_type,
+                    ));
+
+                    $page_scan->scheduleScan();
+                }
+            }
+        }
+
+        //Initialize the homepage if the crawl method says we should crawl the site
+        if (in_array($site->crawl_method, array(Site::CRAWL_METHOD_CRAWL_ONLY, Site::CRAWL_METHOD_HYBRID))) {
+            //Only add the the page if it wasn't already added by the site map
+            if (!$page_scan = Page::getByScanIDAndURI($this->id, $site->base_url)) {
+                $page_scan = Page::createNewPage($this->id, $this->sites_id, $site->base_url, Page::FOUND_WITH_CRAWL, array(
+                    'scan_type' => $this->scan_type,
+                ));
+
+                $page_scan->scheduleScan();
+            }
+        }
         
-        return $page_scan->scheduleScan();
+        return true;
     }
 
     /**

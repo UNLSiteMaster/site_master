@@ -24,7 +24,7 @@ class MetricDBTest extends DBTestCase
         $metric_record = $metric->getMetricRecord();
         $site = Site::getByBaseURL($base_uri);
         $scan = Scan::createNewScan($site->id);
-        $page = Page::createNewPage($scan->id, $site->id, $base_uri);
+        $page = Page::createNewPage($scan->id, $site->id, $base_uri, Page::FOUND_WITH_CRAWL);
 
 
         //Set up a spider that needs to be sent to the logger

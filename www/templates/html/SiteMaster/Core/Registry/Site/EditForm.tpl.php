@@ -13,6 +13,22 @@
             <input type="text" id="support_groups" name="support_groups" multiple value="<?php echo $context->site->support_groups ?>" />
         </li>
         <li>
+            <label for="site_map_url">Absolute URL to the site map for your site</label>
+            <input type="url" id="site_map_url" name="site_map_url" value="<?php echo $context->site->site_map_url ?>" />
+            <div class="help-text">
+                <p>
+                    See <a href="http://www.sitemaps.org/protocol.html">sitemaps.org</a> for details about the site map protocol.  There are three scanning methos for your site:</p>
+                <ul>
+                    <li><?php echo \SiteMaster\Core\Registry\Site::CRAWL_METHOD_CRAWL_ONLY ?> - only crawl the site to discover pages</li>
+                    <li><?php echo \SiteMaster\Core\Registry\Site::CRAWL_METHOD_SITE_MAP_ONLY ?> - only use the site map to discover pages</li>
+                    <li><?php echo \SiteMaster\Core\Registry\Site::CRAWL_METHOD_HYBRID ?> - (default) Use both methods, crawling and a sitemap to discover pages</li>
+                </ul>
+                <p>
+                    This site is currently using the <strong><?php echo $context->site->crawl_method ?></strong> method to discover pages.  If you would like to use a different method, please contact the <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> administrator.
+                </p>
+            </div>
+        </li>
+        <li>
             <fieldset>
                 <?php 
                 //Store in temp variables to make things easier to read (shorter)

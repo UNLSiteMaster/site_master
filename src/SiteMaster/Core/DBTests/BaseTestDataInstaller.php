@@ -27,7 +27,9 @@ class BaseTestDataInstaller implements MockTestDataInstallerInterface
         //create sites
         $site1 = Site::createNewSite('http://www.test.com/');
         $site2 = Site::createNewSite('http://www.test.com/test/');
-        $site3 = Site::createNewSite('http://unlsitemaster.github.io/test_site/'); //Integration testing site
+        $site3 = Site::createNewSite('http://unlsitemaster.github.io/test_site/', array(
+            'site_map_url' => 'http://unlsitemaster.github.io/test_site/sitemaster_site_map.xml'
+        )); //Integration testing site
         
         //Create memberships
         $membership_user1_site1 = Member::createMembership($user1, $site1);

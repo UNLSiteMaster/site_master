@@ -116,6 +116,70 @@ class ScanDBTest extends DBTestCase
     }
 
     /**
+     * Verify that all three crawling methods are working
+     *
+     * @test
+     * @group integration
+     */
+    public function scanCrawlMethods()
+    {
+        $this->setUpDB();
+
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        /*
+         * Test Site Map Only
+         */
+        $site->crawl_method = Site::CRAWL_METHOD_SITE_MAP_ONLY;
+        $site->save();
+        
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+        
+        //Ensure that pages were scanned
+        $this->assertNotEquals(0, $scan->getDistinctPageCount());
+
+        /*
+         * Test Crawl Only
+         */
+        $site->crawl_method = Site::CRAWL_METHOD_CRAWL_ONLY;
+        $site->save();
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        //Ensure that pages were scanned
+        $this->assertNotEquals(0, $scan->getDistinctPageCount());
+        
+        /*
+         * Test Hybrid
+         */
+        $site->crawl_method = Site::CRAWL_METHOD_HYBRID;
+        $site->save();
+
+        //Schedule a scan
+        $site->scheduleScan();
+
+        $this->runScan();
+
+        //get the scan
+        $scan = $site->getLatestScan();
+
+        //Ensure that pages were scanned
+        $this->assertNotEquals(0, $scan->getDistinctPageCount());
+    }
+
+    /**
      * Simulate a scan for a site that has pass/fail metrics.  Verify all results
      * This is an integration test rather than a unit test
      *
@@ -435,7 +499,7 @@ class ScanDBTest extends DBTestCase
         $mark = $metric->getMark('test', 'Just a test', 10.5);
         
         //Simulate a page scan for the test page
-        $page_1 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test');
+        $page_1 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test', Page::FOUND_WITH_CRAWL);
         
         $page_1->addMark($mark);
         $page_1->addMark($mark);
@@ -443,14 +507,14 @@ class ScanDBTest extends DBTestCase
         $page_1->grade();
 
         //Now do the same for a new page, simulating a single page scan with an improvement (less marks)
-        $page_2 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test');
+        $page_2 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test', Page::FOUND_WITH_CRAWL);
 
         $page_2->addMark($mark);
         $metric->grade($page_2, true);
         $page_2->grade();
 
         //now Simulate a page scan for the new distinct page
-        $page_3 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test2');
+        $page_3 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test2', Page::FOUND_WITH_CRAWL);
 
         $page_3->addMark($mark);
         $metric->grade($page_3, true);
@@ -463,7 +527,7 @@ class ScanDBTest extends DBTestCase
         
         //Now, fix /test so it has 100%.  It should not show up in the hot spots
         //Now do the same for a new page, simulating a single page scan with an improvement (less marks)
-        $page_4 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test');
+        $page_4 = Page::createNewPage($scan->id, $site->id, self::INTEGRATION_TESTING_URL . 'test', Page::FOUND_WITH_CRAWL);
 
         $metric->grade($page_4, true);
         $page_4->grade();

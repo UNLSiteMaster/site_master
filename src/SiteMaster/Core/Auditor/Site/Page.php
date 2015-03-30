@@ -42,6 +42,7 @@ class Page extends Record
     public $tries;                 //INT(10), the number of times that the scan has tried to run
     public $num_errors;            //INT, the number of errors found on this page
     public $num_notices;           //INT, the number of notices found on this page
+    public $found_with;            //ENUM('SITE_MAP', 'CRAWL') NOT NULL
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';
@@ -57,6 +58,9 @@ class Page extends Record
     const PRI_USER_SITE_SCAN        = 200;
     const PRI_USER_PAGE_SCAN        = 100;
     const PRI_USER_SINGLE_PAGE_SCAN = 75;
+    
+    const FOUND_WITH_SITE_MAP = 'SITE_MAP';
+    const FOUND_WITH_CRAWL    = 'CRAWL';
 
     public function keys()
     {
@@ -183,10 +187,11 @@ class Page extends Record
      * @param int $scans_id the scan id that this page belongs to
      * @param int $sites_id the site id that this page belongs to
      * @param string $uri the uri of the page
+     * @param string $found_with the method in which the page was found (crawl, or site_map)
      * @param array $fields an associative array of field names and values to insert
      * @return bool|Page
      */
-    public static function createNewPage($scans_id, $sites_id, $uri, array $fields = array())
+    public static function createNewPage($scans_id, $sites_id, $uri, $found_with, array $fields = array())
     {
         $page = new self();
         $page->status           = self::STATUS_CREATED;
@@ -198,10 +203,11 @@ class Page extends Record
         $page->date_created     = Util::epochToDateTime();
         
         $page->synchronizeWithArray($fields);
-        $page->scans_id = $scans_id;
-        $page->sites_id = $sites_id;
-        $page->uri      = $uri;
-        $page->uri_hash = md5($uri, true);
+        $page->scans_id  = $scans_id;
+        $page->sites_id  = $sites_id;
+        $page->uri       = $uri;
+        $page->uri_hash  = md5($uri, true);
+        $page->found_with = $found_with;
 
         if (!$page->insert()) {
             return false;

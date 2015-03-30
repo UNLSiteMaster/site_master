@@ -25,10 +25,16 @@ class Site extends Record
     public $curl_code;             //int
     public $production_status;     //ENUM('PRODUCTION', 'DEVELOPMENT', 'ARCHIVED') NOT NULL DEFAULT 'PRODUCTION'
     public $source;                //varchar(45)
+    public $site_map_url;          //TEXT
+    public $crawl_method;          //ENUM('CRAWL_ONLY', 'SITE_MAP_ONLY', 'HYBRID') NOT NULL DEFAULT 'HYBRID'
     
     const PRODUCTION_STATUS_PRODUCTION  = 'PRODUCTION';
     const PRODUCTION_STATUS_DEVELOPMENT = 'DEVELOPMENT';
     const PRODUCTION_STATUS_ARCHIVED    = 'ARCHIVED';
+    
+    const CRAWL_METHOD_CRAWL_ONLY    = 'CRAWL_ONLY';
+    const CRAWL_METHOD_SITE_MAP_ONLY = 'SITE_MAP_ONLY';
+    const CRAWL_METHOD_HYBRID        = 'HYBRID';
 
     public function keys()
     {
@@ -62,6 +68,7 @@ class Site extends Record
     {
         $site = new self();
         $site->production_status = self::PRODUCTION_STATUS_PRODUCTION;
+        $site->crawl_method      = self::CRAWL_METHOD_HYBRID;
         $site->synchronizeWithArray($details);
         $site->base_url = $base_url;
         

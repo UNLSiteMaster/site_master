@@ -36,6 +36,11 @@ class Scheduler extends \Spider_LoggerAbstract
 
     public function log($uri, $depth, DOMXPath $xpath)
     {
+        if ($this->site->crawl_method == Site::CRAWL_METHOD_SITE_MAP_ONLY) {
+            //Don't schedule anything because we are only using the site map to discover pages
+            return;
+        }
+        
         $pages = $this->spider->getCrawlableUris($this->site->base_url, \Spider::getURIBase($uri), $uri, $xpath);
         
         $total_pages = $this->scan->getDistinctPageCount();
@@ -64,7 +69,7 @@ class Scheduler extends \Spider_LoggerAbstract
                 continue;
             }
             
-            $page_scan = Page::createNewPage($this->scan->id, $this->scan->sites_id, $uri, array(
+            $page_scan = Page::createNewPage($this->scan->id, $this->scan->sites_id, $uri, Page::FOUND_WITH_CRAWL, array(
                 'scan_type' => $this->scan->scan_type,
             ));
             
