@@ -15,10 +15,6 @@
         <li>
             <label for="site_map_url">Absolute URL to the site map for your site</label>
             <input type="url" id="site_map_url" name="site_map_url" value="<?php echo $context->site->site_map_url ?>" />
-        </li>
-        <li>
-            <label for="site_map_url">Absolute URL to the site map for your site</label>
-            <input type="url" id="site_map_url" name="site_map_url" value="<?php echo $context->site->site_map_url ?>" />
             <div class="help-text">
                 <p>
                     See <a href="http://www.sitemaps.org/protocol.html">sitemaps.org</a> for details about the site map protocol.  There are three scanning methos for your site:</p>
