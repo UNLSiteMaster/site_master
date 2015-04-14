@@ -1,6 +1,6 @@
+<?php echo $savvy->render($context->mark); ?>
+
 <dl class="fix-mark-details">
-    <dt>Mark Name</dt>
-    <dd><?php echo $context->mark->name; ?></dd>
     <dt>Found on page</dt>
     <dd>
         <?php echo $context->page->uri ?> (<a href="<?php echo $context->page->getURL() ?>">view page report</a> or <a href="<?php echo $context->page->uri ?>" target="_blank">View Page</a>)
@@ -24,31 +24,6 @@
     </dd>
     
     <?php
-    if (!empty($context->mark->description)) {
-        ?>
-        <dt>Description</dt>
-        <dd><?php echo $context->mark->description ?></dd>
-    <?php
-    }
-
-    $help_text = $context->mark->getRawObject()->getHelpText();
-    if (!empty($context->mark->help_text) || !empty($help_text)) {
-        ?>
-        <dt>Suggested Fix</dt>
-        <dd>
-            <?php 
-            if (!empty($context->mark->help_text)) {
-                echo \Michelf\MarkdownExtra::defaultTransform($context->mark->help_text);
-            }
-
-            if (!empty($help_text)) {
-                echo \Michelf\MarkdownExtra::defaultTransform($help_text);
-            }
-            ?>
-        </dd>
-    <?php
-    }
-
     if (!empty($context->page_mark->value_found)) {
         ?>
         <dt>Value Found</dt>

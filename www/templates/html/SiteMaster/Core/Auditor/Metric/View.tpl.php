@@ -11,7 +11,7 @@
             <?php $mark = $markUsage->getMark(); ?>
             <tr>
                 <td>
-                    <?php echo $mark->name; ?>
+                    <a href="<?php echo $context->getURL() . 'marks/' . $mark->id . '/' ?>"><?php echo $mark->name; ?></a>
                 </td>
                 <td>
                     <?php echo $markUsage->getCount(); ?>
