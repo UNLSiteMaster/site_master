@@ -29,6 +29,10 @@ class Listener extends PluginListener
             'SiteMaster\Core\Auditor\Metrics\View'
         );
         $event->addRoute(
+            '/^metrics\/(?P<metrics_id>(\d*))\/$/',
+            'SiteMaster\Core\Auditor\Metric\View'
+        );
+        $event->addRoute(
             '/^users\/(?P<provider>(.*))\/(?P<uid>(.*))\/$/',
             'SiteMaster\Core\User\View'
         );

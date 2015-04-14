@@ -67,4 +67,11 @@ class Metric extends Record
         
         return $metrics[$this->machine_name];
     }
+    
+    public function getAllMarks()
+    {
+        return new Metric\Marks\AllForMetric(array(
+            'metrics_id' => $this->id
+        ));
+    }
 }
