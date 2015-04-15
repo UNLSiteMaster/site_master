@@ -26,6 +26,7 @@ class FrequentForMetric extends \ArrayIterator
 
     protected function query()
     {
+        //Get all marks from and the number of times they have been found for the most recent scan of all sites
         $sql = '
           SELECT COUNT(marks_id) as count, page_marks.marks_id as marks_id
             FROM page_marks
