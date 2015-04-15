@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($context->getMetric()->getAllMarks() as $markUsage): ?>
+        <?php foreach ($context->getMetric()->getFrequentMarks() as $markUsage): ?>
             <?php $mark = $markUsage->getMark(); ?>
             <tr>
                 <td>

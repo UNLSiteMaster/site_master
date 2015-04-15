@@ -1,14 +1,13 @@
 <?php
 namespace SiteMaster\Core\Auditor\Metric\Marks;
 
-use DB\RecordList;
 use SiteMaster\Core\Auditor\Metric\MarkUsage;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Util;
 
-class AllForMetric extends \ArrayIterator
+class FrequentForMetric extends \ArrayIterator
 {
     public $options = array();
 
