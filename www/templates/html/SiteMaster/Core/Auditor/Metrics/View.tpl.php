@@ -3,6 +3,10 @@ foreach ($context as $metric) {
     ?>
     <h2><?php echo $metric->getName() ?></h2>
     
+    <div>
+        <a href="<?php echo $context->getURL() . $metric->getMetricRecord()->id . '/' ?>" class="button wdn-button">View Marks</a>
+    </div>
+    
     <?php
     try {
         $description = $savvy->render($metric);

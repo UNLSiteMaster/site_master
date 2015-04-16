@@ -67,4 +67,11 @@ class Metric extends Record
         
         return $metrics[$this->machine_name];
     }
+    
+    public function getFrequentMarks()
+    {
+        return new Metric\Marks\FrequentForMetric(array(
+            'metrics_id' => $this->id
+        ));
+    }
 }
