@@ -365,4 +365,16 @@ abstract class MetricInterface
         
         return $mark;
     }
+
+    /**
+     * Format a value_found for presentation
+     * 
+     * @param $machine_name
+     * @param $value_found
+     * @return mixed
+     */
+    function formatValueFound($machine_name, $value_found)
+    {
+        return $value_found;
+    }
 }
