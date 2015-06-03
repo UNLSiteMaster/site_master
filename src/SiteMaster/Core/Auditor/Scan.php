@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
 use SiteMaster\Core\Auditor\Scan\Progress;
+use SiteMaster\Core\Auditor\Site\History\SiteHistory;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
 use SiteMaster\Core\Auditor\Site\ScanForm;
@@ -260,6 +261,11 @@ class Scan extends Record
             $site = $this->getSite();
             $site->cleanScans();
         }
+        
+        //Add a historical record of the GPA
+        SiteHistory::createNewSiteHistory($this->sites_id, $this->gpa);
+        
+        
         
         if ($send_email) {
             $this->sendChangedScanEmail();
