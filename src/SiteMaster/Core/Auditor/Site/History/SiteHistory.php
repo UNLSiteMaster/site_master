@@ -26,6 +26,7 @@ class SiteHistory extends Record
     public $sites_id;
     public $gpa;
     public $date_created;
+    public $total_pages;
     
     public function keys()
     {
@@ -36,26 +37,32 @@ class SiteHistory extends Record
     {
         return 'site_scan_history';
     }
-    
+
     /**
      * Create a historical record for a site's GPA
-     * 
-     * @param $sites_id
+     *
+     * @param Scan $scan
      * @param $gpa
+     * @param $total_pages
      * @param array $fields
      * @return bool|SiteHistory
      */
-    public static function createNewSiteHistory($sites_id, $gpa, array $fields = array())
+    public static function createNewSiteHistory(Scan $scan, $gpa, $total_pages, array $fields = array())
     {
         $history = new self();
-        $history->sites_id     = $sites_id;
+        $history->sites_id     = $scan->sites_id;
         $history->date_created = Util::epochToDateTime();
-        $history->gpa = $gpa;
+        $history->gpa          = $gpa;
+        $history->total_pages  = $total_pages;
 
         $history->synchronizeWithArray($fields);
 
         if (!$history->insert()) {
             return false;
+        }
+
+        foreach ($scan->getMetricGPAs() as $metric_id=>$gpa) {
+            MetricHistory::createNewMetricHistory($history->id, $metric_id, $gpa);
         }
 
         return $history;

@@ -263,13 +263,34 @@ class Scan extends Record
         }
         
         //Add a historical record of the GPA
-        SiteHistory::createNewSiteHistory($this->sites_id, $this->gpa);
-        
-        
+        SiteHistory::createNewSiteHistory($this, $this->gpa, $this->getDistinctPageCount());
         
         if ($send_email) {
             $this->sendChangedScanEmail();
         }
+    }
+    
+    public function getMetricGPAs()
+    {
+        $letter_grades = array();
+        foreach ($this->getPages() as $page) {
+            foreach ($page->getMetricGrades() as $metric_grade) {
+                $letter_grades[$metric_grade->metrics_id][] = $metric_grade->letter_grade;
+            }
+        }
+        
+        $GPAs = array();
+
+        $grading_helper = new GradingHelper();
+        foreach ($letter_grades as $metric_id=>$grades) {
+            if ($this->isPassFail()) {
+                $GPAs[$metric_id] = $grading_helper->calculateSitePassFailGPA($grades);
+            } else {
+                $GPAs[$metric_id] = $grading_helper->calculateGPA($grades);
+            }
+        }
+        
+        return $GPAs;
     }
 
     /**
