@@ -451,3 +451,25 @@ pre, code {
 .sitemaster_core_auditor_metric_view table td {
     word-break: break-all;
 }
+
+.legend-container .title {
+    font-size: 1.5em;
+}
+
+ul.line-legend {
+    list-style: none;
+}
+
+ul.line-legend li {
+    display: inline;
+    margin-right: 1em;
+}
+
+.line-legend span.color {
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+    margin-right: .25em;
+    border-radius: 5px;
+    vertical-align: middle;
+}

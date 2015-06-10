@@ -39,8 +39,62 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
     }
 }
 
+$data = array();
+foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
+    $data['dates'][] = $history->date_created;
+    $data['total_pages'][] = $history->total_pages;
+    $data['gpa'][] = $history->gpa;
+}
 
 ?>
+
+<div class="graph-container wdn-grid-set">
+    <canvas id="history_chart" class="wdn-col-one-half"></canvas>
+    <div class="legend-container wdn-col-one-half">
+        <div id="history_legend"></div>
+    </div>
+</div>
+<script>
+    var data = {
+        labels: <?php echo json_encode($data['dates']) ?>,
+        datasets: [
+            {
+                label: "Site GPA",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: <?php echo json_encode($data['total_pages']) ?>
+            },
+            {
+                label: "Total Pages",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: <?php echo json_encode($data['gpa']) ?>
+            }
+        ]
+    };
+
+    var ctx = document.getElementById("history_chart").getContext("2d");
+    var chart = new Chart(ctx).Line(data, {
+        responsive: true,
+        maintainAspectRatio: false,
+        datasetFill: false,
+        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span class=\"color\" style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+
+        tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
+        multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
+    });
+    //console.log(chart.generateLegend());
+    WDN.jQuery("#history_legend").html(chart.generateLegend());
+</script>
+
 <div class="scan-include">
     <?php
     if ($scan = $context->getScan()) {

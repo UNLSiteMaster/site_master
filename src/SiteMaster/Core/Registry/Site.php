@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Registry;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Site\History\SiteHistoryList\ForSite;
 use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\Auditor\Scans\AllForSite;
@@ -356,5 +357,16 @@ class Site extends Record
         $interval     = $last_success->diff($last_error);
         
         return $interval;
+    }
+
+    /**
+     * @param array $options
+     * @return ForSite
+     */
+    public function getHistory($options = array())
+    {
+        $options = $options + array('sites_id'=>$this->id);
+        
+        return new ForSite($options);
     }
 }
