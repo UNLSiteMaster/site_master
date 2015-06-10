@@ -458,6 +458,8 @@ pre, code {
 
 ul.line-legend {
     list-style: none;
+    font-size: .7em;
+    text-align: center;
 }
 
 ul.line-legend li {
@@ -472,4 +474,9 @@ ul.line-legend li {
     margin-right: .25em;
     border-radius: 5px;
     vertical-align: middle;
+}
+
+.graph-container canvas {
+    height: 15em !important;
+    width: 100% !important;
 }

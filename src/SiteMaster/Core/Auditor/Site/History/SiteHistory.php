@@ -67,4 +67,12 @@ class SiteHistory extends Record
 
         return $history;
     }
+
+    /**
+     * @return MetricHistoryList\ForSiteHistory
+     */
+    public function getMetricHistory()
+    {
+        return new MetricHistoryList\ForSiteHistory(array('site_scan_history_id'=>$this->id));
+    }
 }

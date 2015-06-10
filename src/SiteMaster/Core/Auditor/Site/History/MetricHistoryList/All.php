@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Auditor\Site\History\SiteHistoryList;
+namespace SiteMaster\Core\Auditor\Site\History\MetricHistoryList;
 
 use DB\RecordList;
 
@@ -20,7 +20,7 @@ class All extends RecordList
     public function getDefaultOptions()
     {
         $options = array();
-        $options['itemClass'] = '\SiteMaster\Core\Auditor\Site\History\SiteHistory';
+        $options['itemClass'] = '\SiteMaster\Core\Auditor\Site\History\MetricHistory';
         $options['listClass'] = __CLASS__;
 
         return $options;
@@ -34,8 +34,9 @@ class All extends RecordList
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT site_scan_history.id
-                FROM site_scan_history
+        $sql = "SELECT site_scan_metric_history.id
+                FROM site_scan_metric_history
+                LEFT JOIN site_scan_history ON (site_scan_history.id = site_scan_metric_history.site_scan_history_id)
                 " . $this->getWhere() . "
                 ORDER BY site_scan_history.date_created ASC
                 " . $this->getLimit();

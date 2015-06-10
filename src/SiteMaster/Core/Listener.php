@@ -232,7 +232,6 @@ class Listener extends PluginListener
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.tablesorter.min.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/nanobar.min.js');
         $event->addScript(Config::get('URL') . 'www/js/vendor/jquery.scrolltofixed-min.js');
-        $event->addScript(Config::get('URL') . 'www/js/vendor/chart.min.js');
         $event->addScript(Config::get('URL') . 'www/js/core.js');
     }
     

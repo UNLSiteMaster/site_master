@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\History;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Metric;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -47,5 +48,10 @@ class MetricHistory extends Record
         }
 
         return $history;
+    }
+    
+    public function getMetric()
+    {
+        return Metric::getByID($this->metrics_id);
     }
 }
