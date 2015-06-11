@@ -164,6 +164,10 @@ Dashboard
     margin-bottom:1em;min-height:9.2em
 }
 
+.dashboard {
+    color: #585857;
+}
+
 .dashboard .section-title {
     font-weight: bold;
     font-size: 1.2em;
@@ -429,7 +433,7 @@ pre, code {
 }
 
 .read-more {
-    background-color: rgb(229, 228, 226);
+    background-color: rgb(242, 242, 242);
     text-align: center;
 }
 
