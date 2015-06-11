@@ -164,6 +164,10 @@ Dashboard
     margin-bottom:1em;min-height:9.2em
 }
 
+.dashboard {
+    color: #585857;
+}
+
 .dashboard .section-title {
     font-weight: bold;
     font-size: 1.2em;
@@ -429,7 +433,7 @@ pre, code {
 }
 
 .read-more {
-    background-color: rgb(229, 228, 226);
+    background-color: rgb(242, 242, 242);
     text-align: center;
 }
 
@@ -450,4 +454,33 @@ pre, code {
 
 .sitemaster_core_auditor_metric_view table td {
     word-break: break-all;
+}
+
+.legend-container .title {
+    font-size: 1.5em;
+}
+
+ul.line-legend {
+    list-style: none;
+    font-size: .7em;
+    text-align: center;
+}
+
+ul.line-legend li {
+    display: inline;
+    margin-right: 1em;
+}
+
+.line-legend span.color {
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+    margin-right: .25em;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.graph-container canvas {
+    height: 15em !important;
+    width: 100% !important;
 }

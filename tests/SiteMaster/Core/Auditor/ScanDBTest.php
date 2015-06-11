@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use SiteMaster\Core\Auditor\Site\History\SiteHistory;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Config;
@@ -223,6 +224,10 @@ class ScanDBTest extends DBTestCase
             //The page should have an F grade because the only metric failed
             $this->assertEquals(GradingHelper::GRADE_F, $page->letter_grade);
         }
+        
+        $site_history = SiteHistory::getByID(1);
+        
+        $this->assertEquals($scan->gpa, $site_history->gpa, 'The GPA should be logged in history');
     }
 
     /**

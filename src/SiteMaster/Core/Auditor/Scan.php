@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use DB\Record;
 use SiteMaster\Core\Auditor\Scan\Progress;
+use SiteMaster\Core\Auditor\Site\History\SiteHistory;
 use SiteMaster\Core\Auditor\Site\Pages\Queued;
 use SiteMaster\Core\Auditor\Site\Pages\AllForScan;
 use SiteMaster\Core\Auditor\Site\ScanForm;
@@ -261,9 +262,35 @@ class Scan extends Record
             $site->cleanScans();
         }
         
+        //Add a historical record of the GPA
+        SiteHistory::createNewSiteHistory($this, $this->gpa, $this->getDistinctPageCount());
+        
         if ($send_email) {
             $this->sendChangedScanEmail();
         }
+    }
+    
+    public function getMetricGPAs()
+    {
+        $letter_grades = array();
+        foreach ($this->getPages() as $page) {
+            foreach ($page->getMetricGrades() as $metric_grade) {
+                $letter_grades[$metric_grade->metrics_id][] = $metric_grade->letter_grade;
+            }
+        }
+        
+        $GPAs = array();
+
+        $grading_helper = new GradingHelper();
+        foreach ($letter_grades as $metric_id=>$grades) {
+            if ($this->isPassFail()) {
+                $GPAs[$metric_id] = $grading_helper->calculateSitePassFailGPA($grades);
+            } else {
+                $GPAs[$metric_id] = $grading_helper->calculateGPA($grades);
+            }
+        }
+        
+        return $GPAs;
     }
 
     /**

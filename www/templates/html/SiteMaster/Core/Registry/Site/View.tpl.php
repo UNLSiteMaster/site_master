@@ -1,4 +1,6 @@
 <?php
+use SiteMaster\Core\Config;
+
 if ($user && $membership = $context->site->getMembershipForUser($user->getRawObject())) {
     $display_notice = false;
     $verified = $membership->isVerified();
@@ -39,8 +41,9 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
     }
 }
 
-
+echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.php');
 ?>
+
 <div class="scan-include">
     <?php
     if ($scan = $context->getScan()) {
