@@ -45,6 +45,13 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
      */
     public $uri = false;
 
+    /**
+     * The previous page scan that this will be re-scanning.
+     * 
+     * @var bool|Page
+     */
+    public $page = false;
+
 
     function __construct($options = array())
     {
@@ -63,6 +70,10 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
         
         if (!$this->scan = $this->site->getLatestScan()) {
             throw new InvalidArgumentException('There needs to be an existing site scan', 400);
+        }
+        
+        if (!$this->page = Page::getByScanIDAndURI($this->scan->id, $this->uri)) {
+            throw new \Exception('Unable to find the previous page scan', 500);
         }
         
         $this->current_user = Session::getCurrentUser();
@@ -155,7 +166,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
      */
     protected function scan($get, $post, $files)
     {
-        $page_scan = Page::createNewPage($this->scan->id, $this->site->id, $this->uri, array(
+        $page_scan = Page::createNewPage($this->scan->id, $this->site->id, $this->uri, $this->page->found_with, array(
             'scan_type' => Page::SCAN_TYPE_USER,
         ));
         
