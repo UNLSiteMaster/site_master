@@ -13,7 +13,6 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
         $i = $i-1;
     }
     
-    echo $date;
     $data['dates'][$i] = $date;
     $data['total_pages'][$i] = $history->total_pages;
     $data['gpa'][$i] = $history->gpa;
