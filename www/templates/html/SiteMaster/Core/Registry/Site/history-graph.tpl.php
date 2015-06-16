@@ -3,10 +3,20 @@ use SiteMaster\Core\Config;
 
 $data = array();
 $data['metric_history'] = array();
+
+$i = 0;
 foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
-    $data['dates'][] = $history->date_created;
-    $data['total_pages'][] = $history->total_pages;
-    $data['gpa'][] = $history->gpa;
+    $date = date('Y-m-d', strtotime($history->date_created));
+    
+    if (isset($data['dates'][$i-1]) && $data['dates'][$i-1] == $date) {
+        //Only show one record for each day
+        $i = $i-1;
+    }
+    
+    echo $date;
+    $data['dates'][$i] = $date;
+    $data['total_pages'][$i] = $history->total_pages;
+    $data['gpa'][$i] = $history->gpa;
 
     foreach ($history->getMetricHistory() as $metric_history) {
         if (!isset($data['metric_history'][$metric_history->metrics_id])) {
@@ -16,8 +26,10 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
             );
         }
 
-        $data['metric_history'][$metric_history->metrics_id]['rows'][] = $metric_history->gpa;
+        $data['metric_history'][$metric_history->metrics_id]['rows'][$i] = $metric_history->gpa;
     }
+    
+    $i++;
 }
 ?>
 <?php if (count($data['dates']) > 1): ?>
