@@ -3,32 +3,44 @@ use SiteMaster\Core\Config;
 
 $data = array();
 $data['metric_history'] = array();
+$last_data = array();
 
-$i = 0;
 foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
     $date = date('Y-m-d', strtotime($history->date_created));
     
-    if (isset($data['dates'][$i-1]) && $data['dates'][$i-1] == $date) {
-        //Only show one record for each day
-        $i = $i-1;
-    }
-    
-    $data['dates'][$i] = $date;
-    $data['total_pages'][$i] = $history->total_pages;
-    $data['gpa'][$i] = $history->gpa;
+    $new_data = array(
+        'date' => $date,
+        'total_pages' => $history->total_pages,
+        'gpa' => $history->gpa
+    );
 
     foreach ($history->getMetricHistory() as $metric_history) {
         if (!isset($data['metric_history'][$metric_history->metrics_id])) {
             $data['metric_history'][$metric_history->metrics_id] = array(
-                'title' => $metric_history->getMetric()->getMetricObject()->getName(),
-                'rows' => array()
+                'title' => $metric_history->getMetric()->getMetricObject()->getName()
             );
         }
 
-        $data['metric_history'][$metric_history->metrics_id]['rows'][$i] = $metric_history->gpa;
+        $new_data['metric_history'][$metric_history->metrics_id] = $metric_history->gpa;
     }
     
-    $i++;
+    if ($new_data == $last_data) {
+        //Remove duplicates (no change in data) as long as they are on the same day
+        //This will hopefully help to un-clutter the graph
+        continue;
+    }
+    
+    $last_data = $new_data;
+
+    //Add data to the graph array
+    $data['dates'][]       = $date;
+    $data['dates_long'][]  = $history->date_created;
+    $data['total_pages'][] = $history->total_pages;
+    $data['gpa'][]         = $history->gpa;
+    
+    foreach ($new_data['metric_history'] as $metrics_id=>$gpa) {
+        $data['metric_history'][$metrics_id]['rows'][] = $gpa;
+    }
 }
 ?>
 <?php if (count($data['dates']) > 1): ?>
@@ -41,7 +53,7 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
     </div>
     <script>
         var data = {
-            labels: <?php echo json_encode($data['dates']) ?>,
+            labels: <?php echo json_encode($data['dates_long']) ?>,
             datasets: [
                 {
                     label: "Site GPA",
