@@ -94,7 +94,7 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
                     $color = '#595959';
                     break;
                 case 5:
-                    $color = '#94C160';
+                    $color = '#1b6300';
                     break;
                 case 6:
                     $color = '#005596';
