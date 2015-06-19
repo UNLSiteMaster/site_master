@@ -50,6 +50,34 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
         <div class="legend-container">
             <div id="history_legend"></div>
         </div>
+        <div class="table">
+            <table class="wdn-text-hidden show-for-sr">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Site GPA</th>
+                    <th>Total Pages</th>
+                    <?php
+                    foreach ($data['metric_history'] as $metric) {
+                        echo '<th>' . $metric['title'] . '</th>';
+                    }
+                    ?>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data['dates'] as $key=>$details): ?>
+                    <tr>
+                        <td><?php echo $data['dates_long'][$key] ?></td>
+                        <td><?php echo $data['gpa'][$key] ?></td>
+                        <td><?php echo $data['total_pages'][$key] ?></td>
+                        <?php foreach ($data['metric_history'] as $metric): ?>
+                            <td><?php echo $metric['rows'][$key] ?></td>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     <script>
         var data = {
