@@ -318,7 +318,11 @@ class Page extends Record
             $page_title_logger = new PageTitle($this);
         }
         
-        $spider->addLogger(new Scheduler($spider, $scan, $site));
+        if ($this->priority != self::PRI_USER_SINGLE_PAGE_SCAN) {
+            //Don't schedule new pages to be scanned if this is a single page scan.
+            $spider->addLogger(new Scheduler($spider, $scan, $site));
+        }
+        
         $spider->addLogger(new Links($spider, $this));
         $spider->addLogger($page_title_logger);
         $spider->addLogger(new Metrics($spider, $scan, $site, $this));
