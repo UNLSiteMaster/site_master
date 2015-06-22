@@ -61,7 +61,7 @@ echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.p
             });
         </script>
         <div id="scan_ajax">
-            <img src="<?php echo $base_url . 'www/images/loading.gif' ?>" />
+            <img alt="loading..." src="<?php echo $base_url . 'www/images/loading.gif' ?>" />
             <p>
                 Please wait while we load the latest scan.  This should be pretty quick.
             </p>
