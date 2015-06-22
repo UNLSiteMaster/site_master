@@ -56,7 +56,6 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
                 <tr>
                     <th>Date</th>
                     <th>Site GPA</th>
-                    <th>Total Pages</th>
                     <?php
                     foreach ($data['metric_history'] as $metric) {
                         echo '<th>' . $metric['title'] . '</th>';
@@ -69,7 +68,6 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
                     <tr>
                         <td><?php echo $data['dates_long'][$key] ?></td>
                         <td><?php echo $data['gpa'][$key] ?></td>
-                        <td><?php echo $data['total_pages'][$key] ?></td>
                         <?php foreach ($data['metric_history'] as $metric): ?>
                             <td><?php echo $metric['rows'][$key] ?></td>
                         <?php endforeach; ?>
@@ -93,44 +91,34 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
                     pointHighlightStroke: "#D00000",
                     lineThickness: 5,
                     data: <?php echo json_encode($data['gpa']) ?>
-                },
-                {
-                    label: "Total Pages",
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: <?php echo json_encode($data['total_pages']) ?>
                 }
             ]
         };
 
         <?php 
-        $i = 2;
+        $i = 1;
         foreach ($data['metric_history'] as $metric_history) {
         
             switch ($i) {
-                case 2:
+                case 1:
                     $color = '#34A7FF';
                     break;
-                case 3:
+                case 2:
                     $color = '#36C700';
                     break;
-                case 4:
+                case 3:
                     $color = '#595959';
                     break;
-                case 5:
+                case 4:
                     $color = '#1b6300';
                     break;
-                case 6:
+                case 5:
                     $color = '#005596';
                     break;
-                case 7:
+                case 6:
                     $color = '#496D89';
                     break;
-                case 8:
+                case 7:
                     $color = '#9CD4FF';
                     break;
                 default:
