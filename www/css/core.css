@@ -180,6 +180,14 @@ Dashboard
     text-align: center;
     display: block;
 }
+
+.dashboard-note {
+    display: block;
+    text-transform: initial;
+    font-size: .75em;
+    font-weight: normal;
+}
+
 .dashboard-metrics {text-transform:uppercase;font-weight:bold;letter-spacing:-0.05em}
 .dashboard-metrics [class*=dashboard-]{display:block;text-align:center}
 .dashboard-metrics .visual-island{margin-bottom:1em;min-height:7.2em}
