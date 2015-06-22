@@ -2,6 +2,7 @@
 use SiteMaster\Core\Config;
 
 $data = array();
+$data['dates'] = array();
 $data['metric_history'] = array();
 $last_data = array();
 
