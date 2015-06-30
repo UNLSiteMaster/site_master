@@ -128,6 +128,10 @@ class Listener extends PluginListener
             '/^admin\/reviews\/$/',
             'SiteMaster\Core\Admin\Reviews'
         );
+        $event->addRoute(
+            '/^qa-test\/$/',
+            'SiteMaster\Core\Auditor\QALinkController'
+        );
     }
 
     /**
