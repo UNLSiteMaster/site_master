@@ -6,6 +6,7 @@ use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\User\Session;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\Auditor\Scan;
 
@@ -15,6 +16,7 @@ class QATestController implements ViewableInterface
     public $site;
     public $scan;
     public $page;
+    public $current_user;
     
     public function __construct($options = array())
     {
@@ -41,6 +43,8 @@ class QATestController implements ViewableInterface
             //This page has been scanned, let's redirect to it.
             Controller::redirect($this->page->getURL());
         }
+
+        $this->current_user = Session::getCurrentUser();
     }
     
     public function getURL()

@@ -1,8 +1,9 @@
 <p>
     URL To Test: <?php echo $context->url ?>
 </p>
-
-<?php if (!$context->site): ?>
+<?php if (!$context->current_user): ?>
+    <p>We were not able to find a previous scan for this page.  You must log in to continue.</p>
+<?php elseif (!$context->site): ?>
     <p>
         We don't know about this site.  Please add it and we will scan it!
         <a href="<?php \SiteMaster\Core\Config::get('URL') ?>/sites/add/" class="button wdn-button">Register the site now</a>
