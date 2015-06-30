@@ -9,7 +9,7 @@ use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\Auditor\Scan;
 
-class QALinkController implements ViewableInterface
+class QATestController implements ViewableInterface
 {
     public $url;
     public $site;

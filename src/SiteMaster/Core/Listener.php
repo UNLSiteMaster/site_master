@@ -130,7 +130,7 @@ class Listener extends PluginListener
         );
         $event->addRoute(
             '/^qa-test\/$/',
-            'SiteMaster\Core\Auditor\QALinkController'
+            'SiteMaster\Core\Auditor\QATestController'
         );
     }
 
