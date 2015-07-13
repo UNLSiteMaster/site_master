@@ -2,7 +2,14 @@
     URL To Test: <?php echo $context->url ?>
 </p>
 <?php if (!$context->current_user): ?>
-    <p>We were not able to find a previous scan for this page.  You must log in to continue.</p>
+    <p>We were not able to find a previous scan for this page.  If you want to run a scan now, you must log in to continue.</p>
+    <ul>
+    <?php foreach (\SiteMaster\Core\Plugin\PluginManager::getManager()->getAuthPlugins() as $auth): ?>
+        <li>
+            <a href="<?php echo $auth->getLoginURL() ?>">Log in with <?php echo $auth->getProviderHumanName() ?></a>
+        </li>
+    <?php endforeach ?>
+    </ul>
 <?php elseif (!$context->site): ?>
     <p>
         We don't know about this site.  Please add it and we will scan it!
@@ -20,6 +27,6 @@
     </p>
 <?php else: ?>
     <p>
-        There was an unknown problem...
+        Oh no! There was an unknown problem...
     </p>
 <?php endif; ?>
