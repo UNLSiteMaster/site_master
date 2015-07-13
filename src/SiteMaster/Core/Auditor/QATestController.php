@@ -4,6 +4,7 @@ namespace SiteMaster\Core\Auditor;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\User\Session;
@@ -41,6 +42,11 @@ class QATestController implements ViewableInterface
         
         if ($this->page) {
             //This page has been scanned, let's redirect to it.
+            $message = new FlashBagMessage(
+                FlashBagMessage::TYPE_INFO,
+                'Welcome to ' . Config::get('SITE_TITLE') . '! Here you will find the latest report for ' . $this->page->uri . '.  The report is designed to help site developers find and fix possible problems.'
+            );
+            Controller::addFlashBagMessage($message);
             Controller::redirect($this->page->getURL());
         }
 
