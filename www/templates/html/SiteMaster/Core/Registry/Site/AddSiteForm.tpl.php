@@ -1,8 +1,15 @@
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
     <ul>
         <li>
+            <?php
+            
+            $value = '';
+            if (isset($context->options['recommended'])) {
+                $value = 'value="' . urldecode($context->options['recommended']) . '"';
+            }
+            ?>
             <label for="base_url"><span class="required">(required)</span> The base URL of the site</label>
-            <input type="url" id="base_url" name="base_url" placeholder="http://www.yoursite.edu/" autofocus required />
+            <input type="url" id="base_url" name="base_url" placeholder="http://www.yoursite.edu/" autofocus required <?php echo $value ?> />
         </li>
     </ul>
 

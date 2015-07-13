@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\RuntimeException;
@@ -26,6 +27,11 @@ class AddSiteForm implements ViewableInterface, PostHandlerInterface
 
         //Require login
         Session::requireLogin();
+        
+        if (isset($this->options['recommended'])) {
+            $message = new FlashBagMessage(FlashBagMessage::TYPE_INFO, 'We filled in the base URL of the site for you based on what we think it probably is.  Please change it if we did not guess right.');
+            Controller::addFlashBagMessage($message);
+        }
     }
 
     /**

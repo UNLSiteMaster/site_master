@@ -53,6 +53,15 @@ class QATestController implements ViewableInterface
         $this->current_user = Session::getCurrentUser();
     }
     
+    public function getRecommendedSiteURL()
+    {
+        $registry = new Registry();
+        $possibilities = $registry->getPossibleSiteURIs($this->url);
+        
+        // This should return the closest site (most specific)
+        return str_replace('http%://', 'http://', $possibilities[0]);
+    }
+    
     public function getURL()
     {
         return Config::get('URL') . 'qa-link/';
