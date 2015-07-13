@@ -4,6 +4,10 @@
             <?php
             
             $value = '';
+            if (isset($_POST['base_url'])) {
+                $value = 'value="' . $_POST['base_url'] . '"';
+            }
+            
             if (isset($context->options['recommended'])) {
                 $value = 'value="' . urldecode($context->options['recommended']) . '"';
             }
