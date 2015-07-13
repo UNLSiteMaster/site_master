@@ -205,4 +205,19 @@ class Registry
         
         return Site::getByID($id);
     }
+
+    /**
+     * return the recommended base URL, which is usually the closest folder
+     *
+     * @param string $uri the absolute url
+     * @return mixed
+     */
+    public function getRecommendedBaseURL($uri)
+    {
+        $registry = new Registry();
+        $possibilities = $registry->getPossibleSiteURIs($uri);
+
+        // This should return the closest site (most specific)
+        return str_replace('http%://', 'http://', $possibilities[0]);
+    }
 }

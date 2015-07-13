@@ -56,10 +56,7 @@ class QATestController implements ViewableInterface
     public function getRecommendedSiteURL()
     {
         $registry = new Registry();
-        $possibilities = $registry->getPossibleSiteURIs($this->url);
-        
-        // This should return the closest site (most specific)
-        return str_replace('http%://', 'http://', $possibilities[0]);
+        return $registry->getRecommendedBaseURL($this->url);
     }
     
     public function getURL()

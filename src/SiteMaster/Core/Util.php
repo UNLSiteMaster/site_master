@@ -188,7 +188,7 @@ class Util
         }
         
         if (substr($url_parts['path'], -1) != '/') {
-            throw new InvalidArgumentException('The Path must end in a /', 400);
+            throw new PathRequiredException('The Path must end in a /', 400);
         }
         
         //sanitize because things like http://www.test.com/?# are valid with the above

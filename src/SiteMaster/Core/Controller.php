@@ -109,6 +109,12 @@ class Controller
         return Session::getSession()->getFlashBag()->all();
     }
 
+    public static function addValidationMessage(ValidationMessage $message)
+    {
+        $session = Session::getSession();
+        $session->getFlashBag()->add('alert', $message);
+    }
+
     public static function addFlashBagMessage(FlashBagMessage $message)
     {
         $session = Session::getSession();
