@@ -173,7 +173,8 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
             );
         }
         
-        $found_with = Page::FOUND_WITH_CRAWL;
+        // Unless this is a new page, use the previous found with code
+        $found_with = Page::FOUND_WITH_MANUAL;
         if ($this->page) {
             $found_with = $this->page->found_with;
         }

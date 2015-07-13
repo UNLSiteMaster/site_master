@@ -61,6 +61,7 @@ class Page extends Record
     
     const FOUND_WITH_SITE_MAP = 'SITE_MAP';
     const FOUND_WITH_CRAWL    = 'CRAWL';
+    const FOUND_WITH_MANUAL   = 'MANUAL';
 
     public function keys()
     {
