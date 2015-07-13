@@ -1,9 +1,11 @@
 <?php
 namespace SiteMaster\Core\Registry\Site;
 
+use SiteMaster\Core\AbstractPostHandler;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\FlashBagMessage;
+use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\PathRequiredException;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
@@ -13,9 +15,8 @@ use Sitemaster\Core\User\Session;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\ValidationMessage;
 use SiteMaster\Core\ViewableInterface;
-use SiteMaster\Core\PostHandlerInterface;
 
-class AddSiteForm implements ViewableInterface, PostHandlerInterface
+class AddSiteForm extends AbstractPostHandler implements ViewableInterface
 {
     /**
      * @var array
@@ -74,19 +75,26 @@ class AddSiteForm implements ViewableInterface, PostHandlerInterface
             $base_url = Util::validateBaseURL($post['base_url'], true);
         } catch (PathRequiredException $e) {
             
-            $message = new ValidationMessage(array('base_url'=>'It looks like you gave an invalid base url; it must end in a slash.  We replaced it with our best guess, please make sure it is correct and submit the form again.'));
-            Controller::addValidationMessage($message);
+            $this->addError('base_url', 'It looks like you gave an invalid base url; it must end in a slash.  We replaced it with our best guess, please make sure it is correct and submit the form again.');
 
             $this->options['recommended'] = $registry->getRecommendedBaseURL($post['base_url']);
-            $this->errors['base_url']     = true;
             
+            //stop rendering
+            return false;
+        } catch (InvalidArgumentException $e) {
+            $this->addError('base_url', $e->getMessage());
+
             //stop rendering
             return false;
         }
         
         if (false == $registry->URLIsAllowed($base_url)) {
             $allowed_domains = implode(', ', Config::get('ALLOWED_DOMAINS'));
-            throw new UnexpectedValueException('The provided URL is not allowed.  It must be a site within one of the following domains: ' . $allowed_domains, 400);
+            
+            $this->addError('base_url', 'The provided URL is not allowed.  It must be a site within one of the following domains: ' . $allowed_domains);
+            
+            //stop rendering
+            return false;
         }
         
         if ($site = Site::getByBaseURL($base_url)) {
