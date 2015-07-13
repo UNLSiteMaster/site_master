@@ -168,7 +168,7 @@ class Util
         }
 
         if (!isset($url_parts['path'])) {
-            throw new InvalidArgumentException('A path must be set', 400);
+            throw new PathRequiredException('A path must be set', 400);
         }
         
         if (isset($url_parts['query'])) {

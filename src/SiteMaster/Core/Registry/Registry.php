@@ -218,6 +218,10 @@ class Registry
         $possibilities = $registry->getPossibleSiteURIs($uri);
 
         // This should return the closest site (most specific)
-        return str_replace('http%://', 'http://', $possibilities[0]);
+        if (!empty($possibilities)) {
+            return str_replace('http%://', 'http://', $possibilities[0]);
+        }
+        
+        return $uri . '/';
     }
 }
