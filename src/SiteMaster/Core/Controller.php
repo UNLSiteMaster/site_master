@@ -101,12 +101,24 @@ class Controller
             throw new RuntimeException("All Post Handlers must be an instance of \\SiteMaster\\Core\\PostHandlerInterface");
         }
 
-        return $object->handlePost($this->options, $_POST, $_FILES);
+        $result = $object->handlePost($this->options, $_POST, $_FILES);
+        
+        if (!$result && $object instanceof AbstractPostHandler) {
+            $object->sendErrorMessage();
+        }
+        
+        return $result;
     }
 
     public function getFlashBagMessages()
     {
         return Session::getSession()->getFlashBag()->all();
+    }
+
+    public static function addValidationMessage(ValidationMessage $message)
+    {
+        $session = Session::getSession();
+        $session->getFlashBag()->add('alert', $message);
     }
 
     public static function addFlashBagMessage(FlashBagMessage $message)

@@ -172,7 +172,7 @@ class EditForm implements ViewableInterface, PostHandlerInterface
     protected function delete($get, $post, $files)
     {
         if (!$this->site->delete()) {
-            throw new RuntimeException('Unable to delete the site', 400);
+            throw new RuntimeException('Unable to delete the site', 500);
         }
         
         Controller::redirect(

@@ -61,7 +61,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
             throw new InvalidArgumentException('a page uri is required', 400);
         }
         
-        $this->uri = urldecode($this->options['uri']);
+        $this->uri = $this->options['uri'];
 
         $registry = new Registry();
         if (!$this->site = $registry->getClosestSite($this->uri)) {
@@ -72,9 +72,8 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
             throw new InvalidArgumentException('There needs to be an existing site scan', 400);
         }
         
-        if (!$this->page = Page::getByScanIDAndURI($this->scan->id, $this->uri)) {
-            throw new \Exception('Unable to find the previous page scan', 500);
-        }
+        //Get the previous page scan if we can.
+        $this->page = Page::getByScanIDAndURI($this->scan->id, $this->uri);
         
         $this->current_user = Session::getCurrentUser();
     }
@@ -141,7 +140,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
     public function handlePost($get, $post, $files)
     {
         if (!$this->canEdit()) {
-            throw new AccessDeniedException('You do not have permission to schedule a scan', 403);
+            throw new AccessDeniedException('You do not have permission to schedule a scan.  Please make sure that you are logged in and are a member of this site.', 403);
         }
 
         if (!isset($post['action'])) {
@@ -166,7 +165,21 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
      */
     protected function scan($get, $post, $files)
     {
-        $page_scan = Page::createNewPage($this->scan->id, $this->site->id, $this->uri, $this->page->found_with, array(
+        if (!$this->page && $this->scan->isAtMaxPages()) {
+            //Account for page limits
+            Controller::redirect(
+                $this->site->getURL(),
+                new FlashBagMessage(FlashBagMessage::TYPE_ERROR, 'Can\'t schedule a page scan because the page limit has been reached')
+            );
+        }
+        
+        // Unless this is a new page, use the previous found with code
+        $found_with = Page::FOUND_WITH_MANUAL;
+        if ($this->page) {
+            $found_with = $this->page->found_with;
+        }
+        
+        $page_scan = Page::createNewPage($this->scan->id, $this->site->id, $this->uri, $found_with, array(
             'scan_type' => Page::SCAN_TYPE_USER,
         ));
         

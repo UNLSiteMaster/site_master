@@ -39,7 +39,7 @@ class UtilTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        \SiteMaster\Core\InvalidArgumentException
+     * @expectedException        \SiteMaster\Core\PathRequiredException
      * @expectedExceptionMessage A path must be set
      *
      * @test
@@ -50,7 +50,7 @@ class UtilTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        \SiteMaster\Core\InvalidArgumentException
+     * @expectedException        \SiteMaster\Core\PathRequiredException
      * @expectedExceptionMessage The Path must end in a /
      *
      * @test

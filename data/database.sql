@@ -363,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `site_scan_history` (
   CONSTRAINT `fk_site_scan_history_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -382,12 +382,12 @@ CREATE TABLE IF NOT EXISTS `site_scan_metric_history` (
   CONSTRAINT `fk_site_scan_metric_history_metrics1`
     FOREIGN KEY (`metrics_id`)
     REFERENCES `metrics` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_site_scan_metric_history_site_scan_history1`
     FOREIGN KEY (`site_scan_history_id`)
     REFERENCES `site_scan_history` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
