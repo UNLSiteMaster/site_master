@@ -526,4 +526,18 @@ class Scan extends Record
         
         return false;
     }
+
+    /**
+     * Determine if this scan has reached the maximum number of pages
+     * 
+     * @return bool
+     */
+    public function isAtMaxPages()
+    {
+        if ($this->getDistinctPageCount() >= Config::get('SCAN_PAGE_LIMIT')) {
+            return true;
+        }
+        
+        return false;
+    }
 }

@@ -165,7 +165,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
      */
     protected function scan($get, $post, $files)
     {
-        if (!$this->page && $this->scan->getDistinctPageCount() >= Config::get('SCAN_PAGE_LIMIT')) {
+        if (!$this->page && $this->scan->isAtMaxPages()) {
             //Account for page limits
             Controller::redirect(
                 $this->site->getURL(),
