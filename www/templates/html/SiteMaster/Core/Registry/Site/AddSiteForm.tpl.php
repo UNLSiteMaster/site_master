@@ -9,7 +9,7 @@
             }
             
             if (isset($context->options['recommended'])) {
-                $value = 'value="' . urldecode($context->options['recommended']) . '"';
+                $value = 'value="' . $context->options['recommended'] . '"';
             }
             
             $invalid = '';

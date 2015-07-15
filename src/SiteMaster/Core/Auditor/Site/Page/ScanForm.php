@@ -61,7 +61,7 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
             throw new InvalidArgumentException('a page uri is required', 400);
         }
         
-        $this->uri = urldecode($this->options['uri']);
+        $this->uri = $this->options['uri'];
 
         $registry = new Registry();
         if (!$this->site = $registry->getClosestSite($this->uri)) {
