@@ -5,7 +5,7 @@
             
             $value = '';
             if (isset($_POST['base_url'])) {
-                $value = 'value="' . $_POST['base_url'] . '"';
+                $value = 'value="' . $savvy->escape($_POST['base_url']) . '"';
             }
             
             if (isset($context->options['recommended'])) {
