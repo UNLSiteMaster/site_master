@@ -71,6 +71,6 @@ class QATestController implements ViewableInterface
     
     public function getPageScanForm()
     {
-        return new Page\ScanForm(array('uri'=>urlencode($this->url)));
+        return new Page\ScanForm(array('uri'=>$this->url));
     }
 }
