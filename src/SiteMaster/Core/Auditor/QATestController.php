@@ -66,7 +66,7 @@ class QATestController implements ViewableInterface
 
     public function getPageTitle()
     {
-        return 'QA Link';
+        return 'Quality Assurance';
     }
     
     public function getPageScanForm()
