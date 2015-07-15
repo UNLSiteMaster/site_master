@@ -617,7 +617,7 @@ class Page extends Record
      */
     public function getScanForm()
     {
-        return new Page\ScanForm(array('uri'=>urlencode($this->uri)));
+        return new Page\ScanForm(array('uri'=>$this->uri));
     }
 
     /**
