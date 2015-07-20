@@ -21,14 +21,20 @@ class QATestController implements ViewableInterface
     
     public function __construct($options = array())
     {
-        if (!isset($_SERVER['HTTP_REFERER'])) {
-            throw new \Exception('An HTTP referer is missing! We don\'t know what you want to test.', 400);
+        $this->current_user = Session::getCurrentUser();
+
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $this->url = $_SERVER['HTTP_REFERER'];
         }
         
-        $this->url = $_SERVER['HTTP_REFERER'];
-
-        $registry = new Registry();
-        $this->site = $registry->getClosestSite($this->url);
+        if (isset($options['url'])) {
+            $this->url = $options['url'];
+        }
+        
+        if (NULL != $this->url) {
+            $registry = new Registry();
+            $this->site = $registry->getClosestSite($this->url);
+        }
         
         if ($this->site) {
             //only find a scan if we found a site
@@ -50,7 +56,7 @@ class QATestController implements ViewableInterface
             Controller::redirect($this->page->getURL());
         }
 
-        $this->current_user = Session::getCurrentUser();
+        
     }
     
     public function getRecommendedSiteURL()
