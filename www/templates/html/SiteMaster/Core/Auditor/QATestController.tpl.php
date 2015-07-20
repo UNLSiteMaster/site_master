@@ -1,7 +1,19 @@
+<form>
+    <label>
+        Please enter a URL to test:
+        <input type="url" name="url" required value="<?php echo $context->url ?>" />
+    </label>
+    <input type="submit" value="Find the report for this page" />
+</form>
+
+<?php if (NULL != $context->url): ?>
 <p>
-    URL To Test: <?php echo $context->url ?>
+    <strong>URL To Test: <?php echo $context->url ?></strong>
 </p>
-<?php if (!$context->current_user): ?>
+<?php endif; ?>
+
+<?php if (NULL == $context->url): ?>
+<?php elseif (!$context->current_user): ?>
     <p>We were not able to find a previous scan for this page.  If you want to run a scan now, you must log in to continue.</p>
     <ul>
     <?php foreach (\SiteMaster\Core\Plugin\PluginManager::getManager()->getAuthPlugins() as $auth): ?>
@@ -24,9 +36,5 @@
     <p>
         We didn't find this page in the last scan.  Would you like to scan it now?
         <?php echo $savvy->render($context->getPageScanForm()); ?>
-    </p>
-<?php else: ?>
-    <p>
-        Oh no! There was an unknown problem...
     </p>
 <?php endif; ?>
