@@ -5,7 +5,16 @@ class FileExtension extends \Spider_UriFilterInterface
 {
     function accept()
     {
-        $path_parts = pathinfo($this->current());
+        //First parse with parse_url to get the correct file name
+        $url_parts = parse_url($this->current());
+        
+        if (!isset($url_parts['path'])) {
+            //No extension given, this is okay...
+            return true;
+        }
+        
+        $path_parts = pathinfo($url_parts['path']);
+        
         if (!isset($path_parts['extension'])
             || stripos($path_parts['extension'], 'htm') === 0
             || stripos($path_parts['extension'], 'html') === 0
@@ -17,7 +26,7 @@ class FileExtension extends \Spider_UriFilterInterface
             || stripos($path_parts['extension'], 'htm') === 0) {
             return true;
         }
-        
+
         return false;
     }
 }
