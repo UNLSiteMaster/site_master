@@ -3,7 +3,7 @@ use SiteMaster\Core\Config;
 
 if ($user && $membership = $context->site->getMembershipForUser($user->getRawObject())) {
     $display_notice = false;
-    $verified = $membership->isVerified();
+    $needs_verification = $membership->needsVerification();
     $unapproved = false;
     
     $roles = $membership->getRoles();
@@ -14,27 +14,35 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
         }
     }
     
-    if (!$verified || $unapproved) {
+    if ($needs_verification || $unapproved) {
         ?>
         <div class="notice">
             <h2>
-                It looks like you are unverified or have unapproved roles.
+                It looks like you have some pending roles
             </h2>
             <p>
                 <?php
-                if (!$verified) {
-                    ?>
+                if ($needs_verification): ?>
+                    You need to verify yourself or ask another member with the 'admin' role to approve your membership.
                     <a href="<?php echo $context->site->getURL() . 'verify/' ?>" class="button wdn-button">Verify Me Now</a>
-                <?php
-                }
-                ?>
-                <?php
-                if ($unapproved) {
-                    ?>
-                    <a href="<?php echo $context->site->getURL() . 'join/' ?>" class="button wdn-button">Edit My Roles</a>
-                <?php
-                }
-                ?>
+                <?php endif; ?>
+                <?php if ($unapproved): ?>
+                    You will need to ask a member with the 'admin' role to approve your pending role(s).
+                    
+                    <?php
+                    $admins = $context->site->getMembersWithRoleName('admin');
+                    
+                    if ($admins && $admins->count()): ?>
+                        These people are able to approve your role:
+                        <ul>
+                            <?php foreach ($admins as $admin): ?>
+                            <li><?php echo $admin->getUser()->getName(); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        There are currently no admins for this site.  You will either have to make yourself an admin or wait for an admin to join.
+                    <?php endif; ?>
+                <?php endif; ?>
             </p>
         </div>
         <?php

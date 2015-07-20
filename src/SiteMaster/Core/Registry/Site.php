@@ -4,6 +4,7 @@ namespace SiteMaster\Core\Registry;
 use DB\Record;
 use SiteMaster\Core\Auditor\Site\History\SiteHistoryList\ForSite;
 use SiteMaster\Core\Auditor\Site\ScanForm;
+use SiteMaster\Core\Registry\Site\Role;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\Auditor\Scans\AllForSite;
 use SiteMaster\Core\Auditor\Scans\FinishedForSite;
@@ -88,6 +89,22 @@ class Site extends Record
     public function getMembers()
     {
         return new Site\Members\All(array('site_id' => $this->id));
+    }
+
+    /**
+     * @param $role_name
+     * @return bool|Site\Members\WithRole
+     */
+    public function getMembersWithRoleName($role_name)
+    {
+        if (!$role = Role::getByRoleName($role_name)) {
+            return false;
+        }
+        
+        return new Site\Members\WithRole(array(
+            'site_id' => $this->id,
+            'role_id' => $role->id,
+        ));
     }
 
     /**

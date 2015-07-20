@@ -176,6 +176,18 @@ class Member extends Record
     }
 
     /**
+     * Determine if this member needs verification
+     */
+    public function needsVerification()
+    {
+        if (!$role = $this->getRole('admin')) {
+            return false;
+        }
+
+        return !$role->isApproved();
+    }
+
+    /**
      * Verify this membership.
      * 
      * This will add the 'admin role' and also approve all pending roles.
