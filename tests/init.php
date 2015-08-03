@@ -22,6 +22,8 @@ Config::set('PLUGINS', array(
     'theme_foundation' => array('setting'=>'value'),
 ));
 
+Config::set('ENVIRONMENT', Config::ENVIRONMENT_TESTING);
+
 //Ensure that SITE_PASS_FAIL is false by default.
 Config::set('SITE_PASS_FAIL', false);
 
