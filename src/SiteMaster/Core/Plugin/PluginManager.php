@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Plugin;
 
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\RuntimeException;
 use SiteMaster\Core\Util;
@@ -66,11 +67,11 @@ class PluginManager
      *
      * @param $eventsManager
      * @param array $options
-     * @throws \SiteMaster\Core\RuntimeException
+     * @param bool $force
      */
-    public static function initialize($eventsManager, $options = array())
+    public static function initialize($eventsManager, $options = array(), $force = false)
     {
-        if (self::$singleton) {
+        if (self::$singleton && !$force) {
             throw new RuntimeException("Plugin Manager can only be initialized once", 500);
         }
 
@@ -152,13 +153,9 @@ class PluginManager
     public function initializeMetrics()
     {
         foreach ($this->getAllPlugins() as $plugin_name) {
-            //The metric should be defined as PLUGIN\Metric
-            $class = $this->getPluginNamespaceFromName($plugin_name);
-            $class .= 'Metric';
+            $plugin = $this->getPluginInfo($plugin_name);
             
-            if (class_exists($class)) {
-                //Metric was found.  add it to the list of metrics.
-                $metric = new $class($plugin_name, $this->getPluginOptions($plugin_name));
+            if ($metric = $plugin->getMetric()) {
                 $this->metrics[$metric->getMachineName()] = $metric;
             }
         }
@@ -176,6 +173,10 @@ class PluginManager
 
     function getInstalledPluginsFileName()
     {
+        if (Config::get('ENVIRONMENT') == Config::ENVIRONMENT_TESTING) {
+            return Util::getRootDir() . '/plugins_testing.json';
+        }
+        
         return Util::getRootDir() . '/plugins.json';
     }
 
