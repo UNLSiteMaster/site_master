@@ -15,10 +15,12 @@ abstract class AbstractMetricDBTest extends DBTestCase
 {
     const INTEGRATION_TESTING_URL = 'http://unlsitemaster.github.io/test_site/';
 
-    protected function setUp()
+    public function installBaseDB()
     {
-        parent::setUp();
-        
+        //Install base data
+        parent::installBaseDB();
+
+        //Now, install this plugin
         $plugin = $this->getPlugin();
 
         $plugins = array_merge(
@@ -44,18 +46,6 @@ abstract class AbstractMetricDBTest extends DBTestCase
                 ),
                 true //force re-initialize
             );
-        }
-    }
-
-    protected function tearDown()
-    {
-        parent::setUp();
-
-        $plugin = $this->getPlugin();
-
-        //uninstall this metric
-        if ($plugin->isInstalled()) {
-            $plugin->uninstall();
         }
     }
 
@@ -85,17 +75,10 @@ abstract class AbstractMetricDBTest extends DBTestCase
             sleep(1);
         }
     }
-
-    public function setUpDB()
-    {
-        $this->cleanDB();
-        $this->installBaseDB();
-        $this->installMockData(new BaseTestDataInstaller());
-    }
-
+    
     /**
      * Get the plugin object for this metric
-     * 
+     *
      * @return \SiteMaster\Core\Plugin\PluginInterface
      */
     abstract function getPlugin();
