@@ -5,6 +5,9 @@ use Monolog\Logger;
 
 class Config
 {
+    CONST ENVIRONMENT_PRODUCTION = 'PRODUCTION';
+    CONST ENVIRONMENT_TESTING    = 'TESTING';
+    
     protected static $data = array(
         //SERVER RELATED SETTINGS
         'URL'              => false,        //base url for the application
@@ -58,6 +61,10 @@ class Config
 
     public static function get($key)
     {
+        if (!isset(self::$data[$key]) && $key == 'ENVIRONMENT') {
+            return self::ENVIRONMENT_PRODUCTION;
+        }
+        
         if (!isset(self::$data[$key])) {
             return false;
         }

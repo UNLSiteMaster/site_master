@@ -1,8 +1,10 @@
 <?php
 namespace SiteMaster\Core\DBTests;
 
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Util;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class DBTestCase
@@ -18,34 +20,54 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Test database is not available, database tests were skipped: ' . $e->getMessage());
         }
     }
-    
+
     public function cleanDB()
     {
         $pluginManager = PluginManager::getManager();
         $installedPlugins = $pluginManager->getAllPlugins();
-        
+
         //Clear the database
         foreach ($installedPlugins as $name=>$plugin) {
             $plugin = PluginManager::getManager()->getPluginInfo($plugin);
             //Don't actually uninstall, just perform uninstall logic defined by the plugin (which should remove all SQL)
-            $plugin->onUninstall();
+            $plugin->uninstall();
         }
-
-        
     }
-    
+
     public function installBaseDB()
     {
         $pluginManager = PluginManager::getManager();
         $installedPlugins = $pluginManager->getAllPlugins();
-        
+
         //Reset database to a fresh install
         foreach ($installedPlugins as $name=>$plugin) {
             $plugin = PluginManager::getManager()->getPluginInfo($plugin);
-            $plugin->onInstall();
+            if (!$plugin->isInstalled()) {
+                //Run the install process
+                $plugin->performUpdate();
+
+                //Re-register any new plugins
+                PluginManager::initialize(
+                    new EventDispatcher(),
+                    array(
+                        'internal_plugins' => array(
+                            'Core' => array(),
+                        ),
+                        'external_plugins' => Config::get('PLUGINS')
+                    ),
+                    true //force re-initialize
+                );
+            }
         }
     }
-    
+
+    public function setUpDB()
+    {
+        $this->cleanDB();
+        $this->installBaseDB();
+        $this->installMockData(new BaseTestDataInstaller());
+    }
+
     public function installMockData(MockTestDataInstallerInterface $installer)
     {
         $installer->install();

@@ -104,6 +104,11 @@ abstract class PluginInterface
         $plugins[$this->getMachineName()] = $this->getVersion();
 
         PluginManager::getManager()->updateInstalledPlugins($plugins);
+        
+        if ($metric = $this->getMetric()) {
+            //Create a metric record if we don't have one yet.
+            $metric_record = $metric->getMetricRecord();
+        }
 
         return true;
     }
@@ -258,6 +263,21 @@ abstract class PluginInterface
         }
 
         return Util::getRootDir();
+    }
+
+    /**
+     * @return bool|\SiteMaster\Core\Auditor\MetricInterface
+     */
+    public function getMetric()
+    {
+        $class = PluginManager::getManager()->getPluginNamespaceFromName($this->getMachineName()) . 'Metric';
+
+        if (!class_exists($class)) {
+            return false;
+        }
+        
+        //Metric was found.  add it to the list of metrics.
+        return new $class($this->getMachineName(), PluginManager::getManager()->getPluginOptions($this->getMachineName()));
     }
     
     public function initialize()
