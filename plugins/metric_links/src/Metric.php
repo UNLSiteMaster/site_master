@@ -78,7 +78,7 @@ class Metric extends MetricInterface
                 'link_http_code_301' => 'The content that this link points to has moved.  It is a best practice to update your links to the new URL, as the old one might stop working.  You can find the new URL by clicking the link (your browser should redirect you to the new URL)',
                 'link_http_code_400' => 'The remote server did not understand the link.  Either fix the link or remove it.',
                 'link_http_code_402' => 'Payment Required',
-                'link_http_code_403' => 'The content that this link points to requires authorization to access.  Please remove this link.',
+                'link_http_code_403' => 'The content that this link points to requires authorization to access.  Please ensure that this is not a mistake and that there is enough context to help the user gain access if they need to.',
                 'link_http_code_404' => 'The content that this link points to no longer exists.  Please remove this link.',
                 'link_http_code_500' => 'The server is returning an error for this link.  This may be resolved in time without any action on your part, but it might be worth while to contact the server\'s administrator or remove/update this link.',
                 'link_http_code_501' => 'Not Implemented',
@@ -253,6 +253,11 @@ class Metric extends MetricInterface
         switch ($this->options['grading_method'])
         {
             case self::GRADE_METHOD_DEFAULT:
+                if ($http_code == 403) {
+                    //These can be legitimate, show them as a notice
+                    return 0;
+                }
+                
                 if ($http_code >= 400) {
                     //error
                     return 20;
@@ -266,6 +271,11 @@ class Metric extends MetricInterface
                 //Connection problems (zero points because it is probably our fault)
                 return 0;
             case self::GRADE_METHOD_NUMBER_OF_LINKS:
+                if ($http_code == 403) {
+                    //These can be legitimate, show them as a notice
+                    return 0;
+                }
+                
                 if ($http_code >= 400) {
                     //error
                     return 2;
@@ -284,6 +294,11 @@ class Metric extends MetricInterface
                 //Connection problems
                 return 1;
             case self::GRADE_METHOD_PASS_FAIL:
+                if ($http_code == 403) {
+                    //These can be legitimate, show them as a notice
+                    return 0;
+                }
+                
                 if ($http_code == 301) {
                     //Redirect
                     return 0;
