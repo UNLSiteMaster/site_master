@@ -17,8 +17,15 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
 
     foreach ($history->getMetricHistory() as $metric_history) {
         if (!isset($data['metric_history'][$metric_history->metrics_id])) {
+            $metric_object = $metric_history->getMetric()->getMetricObject();
+
+            $metric_name = 'unknown';
+            if ($metric_object) {
+                $metric_name = $metric_object->getName();
+            }
+
             $data['metric_history'][$metric_history->metrics_id] = array(
-                'title' => $metric_history->getMetric()->getMetricObject()->getName()
+                'title' => $metric_name
             );
         }
 
@@ -68,9 +75,9 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
                 <?php foreach ($data['dates'] as $key=>$details): ?>
                     <tr>
                         <td><?php echo $data['dates_long'][$key] ?></td>
-                        <td><?php echo $data['gpa'][$key] ?></td>
+                        <td><?php echo (isset($data['gpa'][$key]))?$data['gpa'][$key]:'' ?></td>
                         <?php foreach ($data['metric_history'] as $metric): ?>
-                            <td><?php echo $metric['rows'][$key] ?></td>
+                            <td><?php echo (isset($metric['rows'][$key]))?$metric['rows'][$key]:'' ?></td>
                         <?php endforeach; ?>
                     </tr>
                 <?php endforeach; ?>
