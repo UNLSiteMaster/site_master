@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor\Downloader;
 
+use Monolog\Logger;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Config;
@@ -8,6 +9,7 @@ use SiteMaster\Core\HTTPConnectionException;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\UnexpectedValueException;
+use SiteMaster\Core\Util;
 
 class HTMLOnly extends \Spider_Downloader
 {
@@ -126,8 +128,8 @@ class HTMLOnly extends \Spider_Downloader
             }
             
             //check if it has a fragment
-            $effective_url_no_fragment = preg_replace('/#(.*)/', '',$effective_url, -1, $count);
-            if ($count) {
+            $effective_url_no_fragment = preg_replace('/#(.*)/', '',$effective_url, -1, $fragment_count);
+            if ($fragment_count) {
                 sleep(1); //Prevent flooding of the server
                 return $this->download($effective_url_no_fragment, $options);
             }
@@ -135,6 +137,30 @@ class HTMLOnly extends \Spider_Downloader
             //Check if this page already exists for this scan.
             if (Page::getByScanIDAndURI($this->scan->id, $effective_url)) {
                 throw new DownloadException('This effective URI was already found.');
+            }
+            
+            //handle upgrading to https
+            $effective_is_https = (0 === strpos($effective_url, 'https://'));
+            $is_upgrade_to_base_url = str_replace('https://', 'http://', $effective_url) === $this->site->base_url;
+            
+            if ($effective_is_https && $is_upgrade_to_base_url && !$fragment_count) {
+                $this->site->base_url = $effective_url;
+                $this->site->save();
+                
+                //Delete this scan
+                $this->scan->delete();
+
+                //and start fresh
+                $this->site->scheduleScan();
+                
+                //Log this
+                Util::log(
+                    Logger::NOTICE,
+                    'base_url upgraded to https for ' . $this->site->base_url
+                );
+                
+                //Break this scan
+                throw new DownloadException('The baseURL has changed to https and has been updated ' . $this->site->base_url);
             }
             
             //update the page.

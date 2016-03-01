@@ -334,7 +334,11 @@ class Page extends Record
             if ($e instanceof HTTPConnectionException || $e instanceof DownloadException) {
                 //Couldn't get the page, so don't process it.
                 //Get the scan before we delete this page
-                $scan = $this->getScan();
+                if (!$scan = $this->getScan()) {
+                    //the scan was deleted, probably due to a base url changing to https
+                    //Fail early
+                    return true;
+                }
                 
                 //Delete this page
                 $this->delete();
