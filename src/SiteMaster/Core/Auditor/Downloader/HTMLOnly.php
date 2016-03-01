@@ -128,8 +128,8 @@ class HTMLOnly extends \Spider_Downloader
             }
             
             //check if it has a fragment
-            $effective_url_no_fragment = preg_replace('/#(.*)/', '',$effective_url, -1, $count);
-            if ($count) {
+            $effective_url_no_fragment = preg_replace('/#(.*)/', '',$effective_url, -1, $fragment_count);
+            if ($fragment_count) {
                 sleep(1); //Prevent flooding of the server
                 return $this->download($effective_url_no_fragment, $options);
             }
@@ -140,7 +140,10 @@ class HTMLOnly extends \Spider_Downloader
             }
             
             //handle upgrading to https
-            if (str_replace('https://', 'http://', $effective_url) === $this->site->base_url) {
+            $effective_is_https = (0 === strpos($effective_url, 'https://'));
+            $is_upgrade_to_base_url = str_replace('https://', 'http://', $effective_url) === $this->site->base_url;
+            
+            if ($effective_is_https && $is_upgrade_to_base_url && !$fragment_count) {
                 $this->site->base_url = $effective_url;
                 $this->site->save();
                 
