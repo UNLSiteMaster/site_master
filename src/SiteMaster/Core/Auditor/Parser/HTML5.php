@@ -20,6 +20,8 @@ class HTML5 extends \Spider_Parser
         $document = new \DOMDocument();
         $document->strictErrorChecking = false;
 
+        $content = html_entity_decode($content, ENT_HTML5);
+
         if ($this->options['tidy'] && extension_loaded('tidy')) {
             //Convert and repair as xhtml
             $tidy     = new \tidy;
