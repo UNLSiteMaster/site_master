@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Auditor\Site\Page\Links\AllForPage;
 use SiteMaster\Core\Util;
@@ -26,7 +27,7 @@ class LinksDBTest extends DBTestCase
         $site = Site::getByBaseURL($base_uri);
 
         //Set up a spider that needs to be sent to the logger
-        $parser = new \Spider_Parser();
+        $parser = new HTML5();
         $spider = new \Spider(new \Spider_Downloader(), $parser, array(
                 'respect_robots_txt'=>false,
                 'use_effective_uris' => false)
