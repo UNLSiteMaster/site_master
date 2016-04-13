@@ -37,6 +37,7 @@
         "pda/pheanstalk": "2.*@dev",
         "guzzle/guzzle": "~3.7",
         "swiftmailer/swiftmailer": "@stable",
-        "michelf/php-markdown": "1.4.*@dev"
+        "michelf/php-markdown": "1.4.*@dev",
+        "masterminds/html5": "2.*"
     }
 }

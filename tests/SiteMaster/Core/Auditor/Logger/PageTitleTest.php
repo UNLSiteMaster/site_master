@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Util;
 
@@ -12,7 +13,7 @@ class PageTitleTest extends \PHPUnit_Framework_TestCase
     public function getPageTitle()
     {
         $logger = new Logger\PageTitle(new Site\Page());
-        $parser = new \Spider_Parser();
+        $parser = new HTML5();
         $html = file_get_contents(Util::getRootDir() . '/tests/data/example.html');
         $xpath = $parser->parse($html);
 

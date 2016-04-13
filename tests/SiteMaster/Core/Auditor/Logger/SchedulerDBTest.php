@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Util;
 use SiteMaster\Core\DBTests\BaseTestDataInstaller;
@@ -20,7 +21,7 @@ class SchedulerDBTest extends DBTestCase
         $site = Site::getByBaseURL('http://www.test.com/');
         
         //Set up a spider that needs to be sent to the logger
-        $parser = new \Spider_Parser();
+        $parser = new HTML5();
         $spider = new \Spider(new \Spider_Downloader(), $parser, array(
             'respect_robots_txt'=>false,
             'use_effective_uris' => false)

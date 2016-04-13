@@ -2,6 +2,7 @@
 namespace SiteMaster\Plugins\Metric_links;
 
 use SiteMaster\Core\Auditor\Logger\Links;
+use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\DBTests\BaseTestDataInstaller;
@@ -28,7 +29,7 @@ class MetricDBTest extends DBTestCase
 
 
         //Set up a spider that needs to be sent to the logger
-        $parser = new \Spider_Parser();
+        $parser = new HTML5();
         $spider = new \Spider(new \Spider_Downloader(), $parser, array(
                 'respect_robots_txt'=>false,
                 'use_effective_uris' => false)
