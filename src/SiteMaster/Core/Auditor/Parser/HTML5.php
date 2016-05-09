@@ -13,8 +13,6 @@ class HTML5 extends \Spider_Parser
         $document = new \DOMDocument();
         $document->strictErrorChecking = false;
 
-        $content = html_entity_decode($content, ENT_HTML5);
-
         if (function_exists('mb_convert_encoding')) {
             //Ensure content is UTF-8, if it isn't, loadXML might not work.
             $content = mb_convert_encoding($content, 'UTF-8');
