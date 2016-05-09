@@ -527,8 +527,13 @@ class ScanDBTest extends DBTestCase
 
         //Get the hot spots
         $hot_spots = $scan->getHotSpots($metric->getMetricRecord()->id);
+        
+        $result = $hot_spots->getInnerIterator()->getArrayCopy();
+        
+        //Make sure it is in the right order for testing
+        sort($result);
 
-        $this->assertEquals(array(2, 3), $hot_spots->getInnerIterator()->getArrayCopy(), 'Only the newest page scans should be returned');
+        $this->assertEquals(array(2, 3), $result, 'Only the newest page scans should be returned');
         
         //Now, fix /test so it has 100%.  It should not show up in the hot spots
         //Now do the same for a new page, simulating a single page scan with an improvement (less marks)
