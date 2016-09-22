@@ -407,7 +407,7 @@ class Scan extends Record
 
         $sql = "SELECT count(*) as total
                 FROM (
-                    SELECT id
+                    SELECT ANY_VALUE(id)
                     FROM scanned_page
                     WHERE scanned_page.scans_id = " . (int)$this->id . "
                     GROUP BY uri_hash

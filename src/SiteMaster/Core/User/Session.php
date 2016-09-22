@@ -49,7 +49,9 @@ class Session
     public static function start()
     {
         $session = self::getSession();
-        return $session->start();
+        if (!$session->isStarted()) {
+            return $session->start();
+        }
     }
 
     public static function getSession()

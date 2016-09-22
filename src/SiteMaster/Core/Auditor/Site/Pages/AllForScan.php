@@ -18,11 +18,11 @@ class AllForScan extends All
     public function getSQL()
     {
         //Build the list
-        $sql = "SELECT max(id) as id
+        $sql = "SELECT max(id) as id, max(scanned_page.date_created) as sort_date
                     FROM scanned_page
                     WHERE scanned_page.scans_id = " . (int)$this->options['scans_id'] . "
                     GROUP BY uri_hash
-                    ORDER BY scanned_page.date_created DESC";
+                    ORDER BY sort_date DESC";
 
         return $sql;
     }
