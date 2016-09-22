@@ -45,7 +45,7 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
     $data['dates_long'][]  = $history->date_created;
     $data['total_pages'][] = $history->total_pages;
     $data['gpa'][]         = $history->gpa;
-    
+ 
     foreach ($new_data['metric_history'] as $metrics_id=>$gpa) {
         $data['metric_history'][$metrics_id]['rows'][] = $gpa;
     }
