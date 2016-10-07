@@ -41,6 +41,8 @@ class Metric extends MetricInterface
      * 4**, 5** and connection errors will cause the metric to fail
      */
     const GRADE_METHOD_PASS_FAIL = 3;
+    
+    const MARK_LINK_LIMIT_HIT = 'mark_link_limit_hit';
 
     /**
      * @param string $plugin_name
@@ -69,6 +71,7 @@ class Metric extends MetricInterface
                 'link_http_code_501' => 'Not Implemented (501)',
                 'link_http_code_502' => 'Bad Gateway (502)',
                 'link_http_code_503' => 'Service Unavailable (503)',
+                self::MARK_LINK_LIMIT_HIT => 'Link limit was hit, not all links were scanned',
             ),
             'help_text' => array(
                 'link_connection_error_3' => 'Ensure that the URL is correct',
@@ -84,6 +87,7 @@ class Metric extends MetricInterface
                 'link_http_code_501' => 'Not Implemented',
                 'link_http_code_502' => 'Bad Gateway',
                 'link_http_code_503' => 'This will usually get resolved without any need for action on your part.  If not, you will have to contact the server administrator or remove this link.',
+                self::MARK_LINK_LIMIT_HIT => 'The link limit was hit, so not all links on the page were scanned. You will have to manually check links on the page.',
             ),
         ), $options);
         
@@ -174,6 +178,16 @@ class Metric extends MetricInterface
             
             $page->addMark($mark, array(
                 'value_found' => $value_found
+            ));
+        }
+        
+        if (Page::LIMIT_LIMIT_HIT_YES == $page->link_limit_hit) {
+            //add a notice that we did not check all of the links on the page
+            $message = $this->getStatusMessage(self::MARK_LINK_LIMIT_HIT);
+            $help_text = $this->getStatusHelpText(self::MARK_LINK_LIMIT_HIT);
+            $mark = $this->getMark(self::MARK_LINK_LIMIT_HIT, $message, 0, null, $help_text);
+            $page->addMark($mark, array(
+                'value_found' => 'Link limit is: ' . Config::get('LINK_SCAN_LIMIT')
             ));
         }
     }

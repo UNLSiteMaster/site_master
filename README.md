@@ -23,6 +23,8 @@ SiteMaster is a web auditing and registry tool.  These are some of its features:
   * Authentication
   * Metrics
   * More!
+  
+  Take a look at our [Wiki](https://github.com/UNLSiteMaster/site_master/wiki/Installing-SiteMaster---demo-testing-site) for more details
 
 Current Plugins
 ---------------
@@ -38,6 +40,8 @@ Current Plugins
 
 Working with the vagrant development machine
 --------------------------------------------
+Note: vagrant machine is current broken, local install is recommended
+
 To install:
 ```
 cd vagrant/dev
@@ -71,6 +75,15 @@ To update a custom machine
 
 1. `php scripts/update.php`
 2. `php scripts/update_libs.php` update libraries if you need to
+
+Custom Install
+--------------
+See [https://github.com/UNLSiteMaster/site_master/wiki/Installing-SiteMaster---demo-testing-site](https://github.com/UNLSiteMaster/site_master/wiki/Installing-SiteMaster---demo-testing-site)
+
+Testing
+-------
+`vendor/bin/phpunit --testsuite core` for core tests
+`vendor/bin/phpunit` to run all tests (including plugins)
 
 Working with plugins
 ------------------
