@@ -1,0 +1,12 @@
+<phpunit bootstrap="tests/init.php">
+    <testsuites>
+        <testsuite name="all">
+            <directory>tests</directory>
+            <directory>plugins/*/tests</directory>
+        </testsuite>
+        <testsuite name="core">
+            <directory>tests</directory>
+            <directory>plugins/metric_links/tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

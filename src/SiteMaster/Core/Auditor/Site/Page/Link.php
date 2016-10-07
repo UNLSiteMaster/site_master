@@ -59,9 +59,10 @@ class Link extends Record
      * @param int $scanned_page_id the scanned page that this mark belongs to
      * @param string $original_url the absolute URL of the link
      * @param array $fields an associative array of fields names and values to insert
-     * @return bool|Mark
+     * @param bool $insert_only_if_cached prevent saving the link if we would have to check it again (useful for page limits)
+     * @return bool|Link
      */
-    public static function createNewPageLink($scanned_page_id, $original_url, array $fields = array())
+    public static function createNewPageLink($scanned_page_id, $original_url, array $fields = array(), $insert_only_if_cached = false)
     {
         $link = new self();
         
@@ -73,6 +74,11 @@ class Link extends Record
                 //The last result is expired, grab fresh data
                 $insert_new = true;
             }
+        }
+        
+        //Don't insert a new record flag is set (probably reached a page limit)
+        if ($insert_only_if_cached && $insert_new) {
+            return false;
         }
         
         if ($insert_new) {

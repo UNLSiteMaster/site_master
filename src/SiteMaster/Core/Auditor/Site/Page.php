@@ -43,6 +43,7 @@ class Page extends Record
     public $num_errors;            //INT, the number of errors found on this page
     public $num_notices;           //INT, the number of notices found on this page
     public $found_with;            //ENUM('SITE_MAP', 'CRAWL') NOT NULL
+    public $link_limit_hit;        //ENUM('NO', 'YES') NOT NULL
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';
@@ -62,6 +63,9 @@ class Page extends Record
     const FOUND_WITH_SITE_MAP = 'SITE_MAP';
     const FOUND_WITH_CRAWL    = 'CRAWL';
     const FOUND_WITH_MANUAL   = 'MANUAL';
+    
+    const LINK_LIMIT_HIT_NO = 'NO';
+    const LIMIT_LIMIT_HIT_YES = 'YES';
 
     public function keys()
     {
@@ -200,6 +204,7 @@ class Page extends Record
         $page->percent_grade    = 0;
         $page->point_grade      = 0;
         $page->points_available = 0;
+        $page->link_limit_hit   = self::LINK_LIMIT_HIT_NO;
         $page->priority         = self::PRI_AUTO_SITE_SCAN;
         $page->date_created     = Util::epochToDateTime();
         
