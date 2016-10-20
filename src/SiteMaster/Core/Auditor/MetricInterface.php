@@ -9,6 +9,8 @@ use SiteMaster\Core\Util;
 
 abstract class MetricInterface
 {
+    const PHANTOMJS_SCRIPT_NAME = 'phantomjs.js.php';
+    
     public $options;
     public $plugin_name;
 
@@ -376,5 +378,23 @@ abstract class MetricInterface
     function formatValueFound($machine_name, $value_found)
     {
         return $value_found;
+    }
+
+    /**
+     * Get the phantomjs script name
+     * 
+     * If this metric does not implement it, return false
+     * 
+     * @return bool|string
+     */
+    public function getPhantomjsScript()
+    {
+        $file = $this->getPlugin()->getRootDirectory() . '/' . self::PHANTOMJS_SCRIPT_NAME;
+        
+        if (file_exists($file)) {
+            return $file;
+        }
+        
+        return false;
     }
 }

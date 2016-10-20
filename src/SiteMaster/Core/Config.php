@@ -50,6 +50,10 @@ class Config
         'PAGE_LINK_TTL'       => '+1 hour',  //strtotime notation for the length of time that a link is to be considered 'fresh'.
 
         'SECONDS_BETWEEN_REQUESTS' => 1,
+        
+        //paths
+        'PATH_PHP'       => 'php',
+        'PATH_PHANTOMJS' => 'phantomjs',
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',
