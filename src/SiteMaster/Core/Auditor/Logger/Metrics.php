@@ -28,12 +28,19 @@ class Metrics extends \Spider_LoggerAbstract
      */
     protected $page = false;
 
-    function __construct(\Spider $spider, Scan $scan, Site $site, Page $page)
+    /**
+     * 
+     * @var array
+     */
+    protected $phantomjsResults = [];
+
+    function __construct(\Spider $spider, Scan $scan, Site $site, Page $page, $phantomjsResults)
     {
         $this->spider = $spider;
         $this->scan = $scan;
         $this->site = $site;
         $this->page = $page;
+        $this->phantomjsResults = $phantomjsResults;
     }
 
     public function log($uri, $depth, DOMXPath $xpath)
@@ -41,7 +48,19 @@ class Metrics extends \Spider_LoggerAbstract
         $metrics = new \SiteMaster\Core\Auditor\Metrics();
         
         foreach ($metrics as $metric) {
-            $metric->performScan($uri, $xpath, $depth, $this->page, $this);
+            /**
+             * @var \SiteMaster\Core\Auditor\MetricInterface $metric
+             */
+            
+            $metricPhantomResults = [];
+            
+            $plugin = $metric->getPlugin();
+            
+            if (isset($this->phantomjsResults[$plugin->getMachineName()])) {
+                $metricPhantomResults = $this->phantomjsResults[$plugin->getMachineName()];
+            }
+            
+            $metric->performScan($uri, $xpath, $depth, $this->page, $this, $metricPhantomResults);
         }
     }
 

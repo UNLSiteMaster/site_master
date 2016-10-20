@@ -85,6 +85,13 @@ class Metric extends MetricInterface
         $mark = $this->getMark('test2', 'Just a test', 5);
 
         $page->addMark($mark);
+        
+        if (isset($this->phantomjsResults['page_title'])) {
+            $mark = $this->getMark('example_page_title', 'Page title test', 0);
+            $page->addMark($mark, [
+                'value_found' => $this->phantomjsResults['page_title']
+            ]);
+        }
 
         return true;
     }

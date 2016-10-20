@@ -13,6 +13,7 @@ abstract class MetricInterface
     
     public $options;
     public $plugin_name;
+    protected $phantomjsResults = [];
 
     /**
      * @param string $plugin_name (The plugin machine name for this metric)
@@ -114,11 +115,13 @@ abstract class MetricInterface
      * @param int $depth - the current depth of the scan
      * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
      * @param Logger\Metrics $logger
+     * @param array $phantomjsResults
      */
-    public function performScan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger)
+    public function performScan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger, $phantomjsResults)
     {
         try {
             //scan
+            $this->phantomjsResults = $phantomjsResults;
             $completed = $this->scan($uri, $xpath, $depth, $page, $logger);
         } catch (\Exception $exception) {
             //Some sort of error occurred.  Mark this metric as incomplete
