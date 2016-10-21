@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use Monolog\Logger;
 use SiteMaster\Core\Config;
+use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Util;
 
 class PhantomjsRunner
@@ -20,6 +21,13 @@ class PhantomjsRunner
      */
     public function run($url)
     {
+        //Do we need to run phantomjs? (do any metrics use it?)
+        $pluginManager = PluginManager::getManager();
+        
+        if (!$pluginManager->phantomJsTestsExist()) {
+            return false;
+        }
+        
         $script = $this->getCompiledScriptLocation();
         
         if (!file_exists($script)) {

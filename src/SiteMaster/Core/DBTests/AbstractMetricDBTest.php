@@ -49,6 +49,8 @@ abstract class AbstractMetricDBTest extends DBTestCase
                 true //force re-initialize
             );
         }
+
+        PluginManager::getManager()->initializeMetrics();
     }
 
     protected function runScan()

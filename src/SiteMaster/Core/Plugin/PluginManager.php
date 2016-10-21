@@ -18,6 +18,8 @@ class PluginManager
     protected $metrics = array();
 
     protected static $singleton = false;
+    
+    protected $has_phantomjs_tests = false;
 
     /**
      * Initialize the singleton
@@ -60,6 +62,11 @@ class PluginManager
         $this->initializePlugins($this->getInstalledPlugins());
         
         $this->initializeMetrics();
+    }
+    
+    public function phantomJsTestsExist()
+    {
+        return $this->has_phantomjs_tests;
     }
 
     /**
@@ -152,11 +159,16 @@ class PluginManager
     
     public function initializeMetrics()
     {
+        $this->metrics = [];
         foreach ($this->getAllPlugins() as $plugin_name) {
             $plugin = $this->getPluginInfo($plugin_name);
             
             if ($metric = $plugin->getMetric()) {
                 $this->metrics[$metric->getMachineName()] = $metric;
+                
+                if (!$this->has_phantomjs_tests && $metric->getMachineName()) {
+                    $this->has_phantomjs_tests = true;
+                }
             }
         }
     }

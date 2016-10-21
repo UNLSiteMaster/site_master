@@ -26,6 +26,8 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
             $plugin = $pluginManager->getPluginInfo($plugin_name);
             $plugin->performUpdate();
         }
+        
+        $pluginManager->initializeMetrics();
     }
 
     public function cleanDB()
