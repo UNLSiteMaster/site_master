@@ -56,8 +56,7 @@ class PhantomjsRunner
      */
     protected function generateCompliedScript()
     {
-        $command = Config::get('PATH_PHP') . ' ' . Util::getRootDir() . '/scripts/compilePhantomjsScript.js.php';
-        return shell_exec($command);
+        include Util::getRootDir() . '/data/compilePhantomjsScript.js.php';
     }
 
     /**
@@ -67,7 +66,11 @@ class PhantomjsRunner
      */
     public function getCompiledScriptLocation()
     {
-        return Util::getRootDir() . '/scripts/sitemaster_phantom_complied.js';
+        if (Config::get('ENVIRONMENT') == Config::ENVIRONMENT_TESTING) {
+            return Util::getRootDir() . '/sitemaster_phantom_complied_test.js';
+        }
+        
+        return Util::getRootDir() . '/data/sitemaster_phantom_complied.js';
     }
 
     /**
@@ -75,6 +78,6 @@ class PhantomjsRunner
      */
     public function deleteCompliedScript()
     {
-        unlink($this->getCompiledScriptLocation());
+        @unlink($this->getCompiledScriptLocation());
     }
 }
