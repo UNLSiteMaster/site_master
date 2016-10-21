@@ -67,10 +67,10 @@ class PhantomjsRunner
     public function getCompiledScriptLocation()
     {
         if (Config::get('ENVIRONMENT') == Config::ENVIRONMENT_TESTING) {
-            return Util::getRootDir() . '/sitemaster_phantom_complied_test.js';
+            return Util::getRootDir() . '/scripts/sitemaster_phantom_complied_test.js';
         }
         
-        return Util::getRootDir() . '/data/sitemaster_phantom_complied.js';
+        return Util::getRootDir() . '/scripts/sitemaster_phantom_complied.js';
     }
 
     /**

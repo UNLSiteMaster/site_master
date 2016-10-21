@@ -14,6 +14,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 abstract class AbstractMetricDBTest extends DBTestCase
 {
     const INTEGRATION_TESTING_URL = 'http://unlsitemaster.github.io/test_site/';
+    
+    protected $originalPlugins = '[]';
 
     public function installBaseDB()
     {
@@ -82,4 +84,18 @@ abstract class AbstractMetricDBTest extends DBTestCase
      * @return \SiteMaster\Core\Plugin\PluginInterface
      */
     abstract function getPlugin();
+    
+    protected function setUp()
+    {
+        parent::setUp();
+        //Store the original plugins so that we can revert back to them
+        $this->originalPlugins = Config::get('PLUGINS');
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        //Reset to the original plugins
+        Config::set('PLUGINS', $this->originalPlugins);
+    }
 }

@@ -104,7 +104,6 @@ abstract class PluginInterface
         $plugins[$this->getMachineName()] = $this->getVersion();
 
         PluginManager::getManager()->updateInstalledPlugins($plugins);
-        
         if ($metric = $this->getMetric()) {
             //Create a metric record if we don't have one yet.
             $metric_record = $metric->getMetricRecord();
@@ -199,6 +198,11 @@ abstract class PluginInterface
     public function performUpdate()
     {
         $method = $this->getUpdateMethod();
+        
+        if (!$method) {
+            return false; //No updates required
+        }
+        
         return $this->$method();
     }
 
