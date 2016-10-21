@@ -100,6 +100,13 @@ class Metric extends MetricInterface
             ]);
         }
 
+        if (isset($this->phantomjsResults['async_page_title'])) {
+            $mark = $this->getMark('example_async_page_title', 'Async page title test', 0);
+            $page->addMark($mark, [
+                'value_found' => $this->phantomjsResults['async_page_title']
+            ]);
+        }
+        
         return true;
     }
 

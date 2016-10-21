@@ -27,6 +27,7 @@ page.open(args[1], function (status) {
     }
 
     var results = {};
+    var async_metrics = [];
 
     <?php
     $metrics = \SiteMaster\Core\Plugin\PluginManager::getManager()->getMetrics();
@@ -52,9 +53,38 @@ page.open(args[1], function (status) {
     }
     ?>
 
-    console.log(JSON.stringify(results, null, '  '));
+    if (async_metrics.length) {
+        page.onCallback = function (msg) {
+            var index = async_metrics.indexOf(msg.metric);
 
-    phantom.exit();
+            if (-1 == index) {
+                return;
+            }
+            
+            //Remove the index from the array because we are no longer waiting on it
+            async_metrics.splice(index, 1);
+            
+            if (typeof results[msg.metric] !== 'undefined') {
+                //Both sync and async were used. Merge em
+                for (var attr in msg.results) {
+                    results[msg.metric][attr] = msg.results[attr];
+                }
+            } else {
+                results[msg.metric] = msg.results;
+            }
+            
+            if (async_metrics.length == 0) {
+                //We are no longer waiting on any metrics... exit
+                
+                console.log(JSON.stringify(results, null, '  '));
+                phantom.exit();
+            }
+        };
+    } else {
+        console.log(JSON.stringify(results, null, '  '));
+
+        phantom.exit();
+    }
 });
 
 <?php

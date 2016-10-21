@@ -110,7 +110,7 @@ class ScanDBTest extends DBTestCase
             $this->assertEquals('B', $page->letter_grade);
             
             $this->assertEquals(2, $page->num_errors);
-            $this->assertEquals(1, $page->num_notices);
+            $this->assertEquals(2, $page->num_notices);
             
             $marks = $page->getMarks($example_metric->id);
             
@@ -118,7 +118,9 @@ class ScanDBTest extends DBTestCase
             foreach($marks as $mark) {
                 $mark_machine_names[] = $mark->getMark()->machine_name;
             }
-            $this->assertContains('example_page_title', $mark_machine_names, 'phanomjs integration should work');
+            
+            $this->assertContains('example_page_title', $mark_machine_names, 'phanomjs sync integration should work');
+            $this->assertContains('example_async_page_title', $mark_machine_names, 'phanomjs async integration should work');
         }
     }
 
