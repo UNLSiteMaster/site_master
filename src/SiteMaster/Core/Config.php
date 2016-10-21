@@ -54,6 +54,8 @@ class Config
         //paths
         'PATH_PHP'       => 'php',
         'PATH_PHANTOMJS' => 'phantomjs',
+        'PHANTOMJS_WIDTH' => 480,
+        'PHANTOMJS_HEIGHT' => 800,
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',

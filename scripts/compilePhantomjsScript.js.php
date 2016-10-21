@@ -17,6 +17,13 @@ var args = require('system').args;
 var fs = require('fs');
 var page = require('webpage').create();
 
+page.settings.userAgent = '<?php echo SiteMaster\Core\Config::get('USER_AGENT') ?>/phantom';
+
+page.viewportSize = {
+    width: <?php echo SiteMaster\Core\Config::get('PHANTOMJS_WIDTH') ?>,
+    height: <?php echo SiteMaster\Core\Config::get('PHANTOMJS_HEIGHT') ?>,
+};
+
 page.open(args[1], function (status) {
     // Check for page load success
     if (status !== 'success') {
