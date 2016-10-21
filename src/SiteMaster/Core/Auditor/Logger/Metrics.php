@@ -56,10 +56,8 @@ class Metrics extends \Spider_LoggerAbstract
 
             $metric_phantom_results = false;
             
-            $plugin = $metric->getPlugin();
-            
-            if (isset($this->phantomjs_results[$plugin->getMachineName()])) {
-                $metric_phantom_results = $this->phantomjs_results[$plugin->getMachineName()];
+            if (isset($this->phantomjs_results[$metric->getMachineName()])) {
+                $metric_phantom_results = $this->phantomjs_results[$metric->getMachineName()];
                 if (isset($metricPhantomResults['exception'])) {
                     Util::log(Logger::ERROR, 'phantomjs metric exception', array(
                         'result' => $metricPhantomResults,
