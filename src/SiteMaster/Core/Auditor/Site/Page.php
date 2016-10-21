@@ -331,8 +331,8 @@ class Page extends Record
         }
         
         //Run phantomjs tests against the page (we need to do this here so we can pass the results to the metrics)
-        $phantomRunner = new PhantomjsRunner();
-        $phantomjs_results = $phantomRunner->run($this->uri);
+        $phantom_runner = new PhantomjsRunner();
+        $phantomjs_results = $phantom_runner->run($this->uri);
         
         $spider->addLogger(new Links($spider, $this));
         $spider->addLogger($page_title_logger);
