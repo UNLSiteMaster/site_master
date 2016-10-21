@@ -3,9 +3,11 @@ namespace SiteMaster\Plugins\Example;
 
 use SiteMaster\Core\Auditor\Logger\Metrics;
 use SiteMaster\Core\Auditor\MetricInterface;
+use SiteMaster\Core\Exception;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\RuntimeException;
 
 class Metric extends MetricInterface
 {
@@ -85,6 +87,11 @@ class Metric extends MetricInterface
         $mark = $this->getMark('test2', 'Just a test', 5);
 
         $page->addMark($mark);
+        
+        if (!$this->phantomjsResults || isset($this->phantomjsResults['exception'])) {
+            //mark this metric as incomplete
+            throw new RuntimeException('phantomjs results are required for the example program');
+        }
         
         if (isset($this->phantomjsResults['page_title'])) {
             $mark = $this->getMark('example_page_title', 'Page title test', 0);

@@ -2,9 +2,11 @@
 namespace SiteMaster\Core\Auditor\Logger;
 
 use DOMXPath;
+use Monolog\Logger;
 use SiteMaster\Core\Registry\Site;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Auditor\Site\Page;
+use SiteMaster\Core\Util;
 
 class Metrics extends \Spider_LoggerAbstract
 {
@@ -52,12 +54,17 @@ class Metrics extends \Spider_LoggerAbstract
              * @var \SiteMaster\Core\Auditor\MetricInterface $metric
              */
             
-            $metricPhantomResults = [];
+            $metricPhantomResults = false;
             
             $plugin = $metric->getPlugin();
             
             if (isset($this->phantomjsResults[$plugin->getMachineName()])) {
                 $metricPhantomResults = $this->phantomjsResults[$plugin->getMachineName()];
+                if (isset($metricPhantomResults['exception'])) {
+                    Util::log(Logger::ERROR, 'phantomjs metric exception', array(
+                        'result' => $metricPhantomResults,
+                    ));
+                }
             }
             
             $metric->performScan($uri, $xpath, $depth, $this->page, $this, $metricPhantomResults);

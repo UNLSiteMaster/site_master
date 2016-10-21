@@ -42,6 +42,7 @@ page.open(args[1], function (status) {
                 <?php include $metric_phantom_js_file; ?>
             } catch (e) {
                 //There was an error...
+                metric_results.exception = e;
             }
             results.<?php echo $metric->getMachineName() ?> = metric_results;
             <?php

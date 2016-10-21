@@ -13,7 +13,7 @@ abstract class MetricInterface
     
     public $options;
     public $plugin_name;
-    protected $phantomjsResults = [];
+    protected $phantomjsResults = false;
 
     /**
      * @param string $plugin_name (The plugin machine name for this metric)

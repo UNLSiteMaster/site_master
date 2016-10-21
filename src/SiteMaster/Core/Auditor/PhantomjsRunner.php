@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
+use Monolog\Logger;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Util;
 
@@ -31,12 +32,21 @@ class PhantomjsRunner
         $result = shell_exec($command);
         
         if (!$result) {
-            return [];
+            return false;
         }
         
-        $result = json_decode($result, true);
+        $json = json_decode($result, true);
         
-        return $result;
+        if (!$json) {
+            //Log the error
+            Util::log(Logger::ERROR, 'Error parsing phantomjs', array(
+                'result' => $result,
+            ));
+            
+            return false;
+        }
+        
+        return $json;
     }
 
     /**
