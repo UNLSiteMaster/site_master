@@ -56,6 +56,7 @@ class Config
         'PATH_PHANTOMJS' => 'phantomjs',
         'PHANTOMJS_WIDTH' => 480,
         'PHANTOMJS_HEIGHT' => 800,
+        'PHANTOMJS_WAIT' => 100, //milliseconds before test execution (let the page run just a little bit first)
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',

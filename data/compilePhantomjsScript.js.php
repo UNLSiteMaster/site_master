@@ -29,62 +29,66 @@ page.open(args[1], function (status) {
     var results = {};
     var async_metrics = [];
 
-    <?php
-    $metrics = \SiteMaster\Core\Plugin\PluginManager::getManager()->getMetrics();
-    foreach ($metrics as $metric) {
-        /**
-         * @var \SiteMaster\Core\Auditor\MetricInterface $metric
-         */
-    
-        $metric_phantom_js_file = $metric->getPhantomjsScript();
-    
-        if (file_exists($metric_phantom_js_file)) {
-            ?>
-            var metric_results = {};
-            try {
-                <?php include $metric_phantom_js_file; ?>
-            } catch (e) {
-                //There was an error...
-                metric_results.exception = e;
-            }
-            results.<?php echo $metric->getMachineName() ?> = metric_results;
-            <?php
-        }
-    }
-    ?>
-
-    if (async_metrics.length) {
-        page.onCallback = function (msg) {
-            var index = async_metrics.indexOf(msg.metric);
-
-            if (-1 == index) {
-                return;
-            }
-            
-            //Remove the index from the array because we are no longer waiting on it
-            async_metrics.splice(index, 1);
-            
-            if (typeof results[msg.metric] !== 'undefined') {
-                //Both sync and async were used. Merge em
-                for (var attr in msg.results) {
-                    results[msg.metric][attr] = msg.results[attr];
+    window.setTimeout(function () {
+        // Change timeout as required to allow sufficient time
+        
+        <?php
+        $metrics = \SiteMaster\Core\Plugin\PluginManager::getManager()->getMetrics();
+        foreach ($metrics as $metric) {
+            /**
+             * @var \SiteMaster\Core\Auditor\MetricInterface $metric
+             */
+        
+            $metric_phantom_js_file = $metric->getPhantomjsScript();
+        
+            if (file_exists($metric_phantom_js_file)) {
+                ?>
+                var metric_results = {};
+                try {
+                    <?php include $metric_phantom_js_file; ?>
+                } catch (e) {
+                    //There was an error...
+                    metric_results.exception = e;
                 }
-            } else {
-                results[msg.metric] = msg.results;
+                results.<?php echo $metric->getMachineName() ?> = metric_results;
+                <?php
             }
-            
-            if (async_metrics.length == 0) {
-                //We are no longer waiting on any metrics... exit
-                
-                console.log(JSON.stringify(results, null, '  '));
-                phantom.exit();
-            }
-        };
-    } else {
-        console.log(JSON.stringify(results, null, '  '));
+        }
+        ?>
 
-        phantom.exit();
-    }
+        if (async_metrics.length) {
+            page.onCallback = function (msg) {
+                var index = async_metrics.indexOf(msg.metric);
+    
+                if (-1 == index) {
+                    return;
+                }
+                
+                //Remove the index from the array because we are no longer waiting on it
+                async_metrics.splice(index, 1);
+                
+                if (typeof results[msg.metric] !== 'undefined') {
+                    //Both sync and async were used. Merge em
+                    for (var attr in msg.results) {
+                        results[msg.metric][attr] = msg.results[attr];
+                    }
+                } else {
+                    results[msg.metric] = msg.results;
+                }
+                
+                if (async_metrics.length == 0) {
+                    //We are no longer waiting on any metrics... exit
+                    
+                    console.log(JSON.stringify(results, null, '  '));
+                    phantom.exit();
+                }
+            };
+        } else {
+            console.log(JSON.stringify(results, null, '  '));
+    
+            phantom.exit();
+        }
+    }, <?php echo (int)\SiteMaster\Core\Config::get('PHANTOMJS_WAIT') ?>);
 });
 
 <?php
