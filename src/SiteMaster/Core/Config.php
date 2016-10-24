@@ -52,7 +52,6 @@ class Config
         'SECONDS_BETWEEN_REQUESTS' => 1,
         
         //paths
-        'PATH_PHP'       => 'php',
         'PATH_PHANTOMJS' => 'phantomjs',
         'PHANTOMJS_WIDTH' => 480,
         'PHANTOMJS_HEIGHT' => 800,
