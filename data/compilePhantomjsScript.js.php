@@ -22,7 +22,8 @@ page.viewportSize = {
 page.open(args[1], function (status) {
     // Check for page load success
     if (status !== 'success') {
-        console.log('Unable to access network');
+        console.log('Unable to access network: ' + status);
+        phantom.exit();
         return;
     }
 
@@ -61,6 +62,7 @@ page.open(args[1], function (status) {
                 var index = async_metrics.indexOf(msg.metric);
     
                 if (-1 == index) {
+                    phantom.exit();
                     return;
                 }
                 
