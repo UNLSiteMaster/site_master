@@ -15,7 +15,7 @@ abstract class AbstractMetricDBTest extends DBTestCase
 {
     const INTEGRATION_TESTING_URL = 'http://unlsitemaster.github.io/test_site/';
     
-    protected $originalPlugins = '[]';
+    protected static $originalPlugins = '[]';
 
     public function installBaseDB()
     {
@@ -87,17 +87,17 @@ abstract class AbstractMetricDBTest extends DBTestCase
      */
     abstract function getPlugin();
     
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        parent::setUp();
+        parent::setUpBeforeClass();
         //Store the original plugins so that we can revert back to them
-        $this->originalPlugins = Config::get('PLUGINS');
+        self::$originalPlugins = Config::get('PLUGINS');
     }
 
-    protected function tearDown()
+    public static function tearDownAfterClass()
     {
-        parent::tearDown();
+        parent::tearDownAfterClass();
         //Reset to the original plugins
-        Config::set('PLUGINS', $this->originalPlugins);
+        Config::set('PLUGINS', self::$originalPlugins);
     }
 }
