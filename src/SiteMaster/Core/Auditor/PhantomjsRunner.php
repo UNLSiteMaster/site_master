@@ -42,8 +42,18 @@ class PhantomjsRunner
         if (!$result) {
             return false;
         }
+
+        //Output MAY contain many lines, but the json response is always on one line.
+        $output = explode(PHP_EOL, $result);
         
-        $json = json_decode($result, true);
+        $json = false;
+        foreach ($output as $line) {
+            //Loop over each line and find the json response
+            if ($json = json_decode($line, true)) {
+                //Found it... return the data.
+                break;
+            }
+        }
         
         if (!$json) {
             //Log the error

@@ -81,12 +81,12 @@ page.open(args[1], function (status) {
                 if (async_metrics.length == 0) {
                     //We are no longer waiting on any metrics... exit
                     
-                    console.log(JSON.stringify(results, null, '  '));
+                    console.log(JSON.stringify(results));
                     phantom.exit();
                 }
             };
         } else {
-            console.log(JSON.stringify(results, null, '  '));
+            console.log(JSON.stringify(results));
     
             phantom.exit();
         }
