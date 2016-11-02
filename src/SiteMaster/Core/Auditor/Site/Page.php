@@ -461,7 +461,7 @@ class Page extends Record
     public function computeLetterGrade(Page\MetricGrades\AllForPage $metric_grades, $percent_grade)
     {
         foreach ($metric_grades as $grade) {
-            if ($grade->isIncomplete()) {
+            if ($grade->isIncomplete() && $grade->weight > 0) {
                 return GradingHelper::GRADE_INCOMPLETE;
             }
         }
