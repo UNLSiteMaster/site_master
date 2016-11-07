@@ -15,6 +15,7 @@ class Mark extends Record
     public $line;                  //INT
     public $col;                   //INT
     public $value_found;           //TEXT (The incorrect value that was found)
+    public $help_text;             //TEXT (help text in markdown format)
 
     public function keys()
     {

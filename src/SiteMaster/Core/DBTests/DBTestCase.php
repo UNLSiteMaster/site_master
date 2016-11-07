@@ -19,6 +19,15 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             $this->markTestSkipped('Test database is not available, database tests were skipped: ' . $e->getMessage());
         }
+
+        $pluginManager = \SiteMaster\Core\Plugin\PluginManager::getManager();
+        foreach ($pluginManager->getAllPlugins() as $plugin_name) {
+            \SiteMaster\Core\Util::connectTestDB();
+            $plugin = $pluginManager->getPluginInfo($plugin_name);
+            $plugin->performUpdate();
+        }
+        
+        $pluginManager->initializeMetrics();
     }
 
     public function cleanDB()

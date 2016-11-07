@@ -8,6 +8,9 @@ if (file_exists(__DIR__ . '/../config.inc.php')) {
     $config_file = __DIR__ . '/../config.inc.php';
 }
 
+@unlink(__DIR__.'/../plugins_testing.json');
+@unlink(__DIR__.'/../scripts/sitemaster_phantom_complied_test.js');
+
 require_once $config_file;
 
 //Prevent tests from running on the production db

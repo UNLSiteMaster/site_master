@@ -1,0 +1,1 @@
+ALTER TABLE page_marks ADD help_text TEXT NULL DEFAULT NULL;

@@ -14,6 +14,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 abstract class AbstractMetricDBTest extends DBTestCase
 {
     const INTEGRATION_TESTING_URL = 'http://unlsitemaster.github.io/test_site/';
+    
+    protected static $originalPlugins = '[]';
 
     public function installBaseDB()
     {
@@ -47,6 +49,8 @@ abstract class AbstractMetricDBTest extends DBTestCase
                 true //force re-initialize
             );
         }
+
+        PluginManager::getManager()->initializeMetrics();
     }
 
     protected function runScan()
@@ -82,4 +86,18 @@ abstract class AbstractMetricDBTest extends DBTestCase
      * @return \SiteMaster\Core\Plugin\PluginInterface
      */
     abstract function getPlugin();
+    
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        //Store the original plugins so that we can revert back to them
+        self::$originalPlugins = Config::get('PLUGINS');
+    }
+
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+        //Reset to the original plugins
+        Config::set('PLUGINS', self::$originalPlugins);
+    }
 }

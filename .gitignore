@@ -10,3 +10,6 @@ data/database.mwb.bak
 /tests/report
 /.vagrant
 /beanstalk_console
+/wdn
+/scripts/sitemaster_phantom_complied.js
+/scripts/sitemaster_phantom_complied_test.js
