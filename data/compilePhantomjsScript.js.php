@@ -62,7 +62,7 @@ page.open(args[1], function (status) {
                 var index = async_metrics.indexOf(msg.metric);
     
                 if (-1 == index) {
-                    phantom.exit();
+                    //this probably means a timeout was hit
                     return;
                 }
                 
