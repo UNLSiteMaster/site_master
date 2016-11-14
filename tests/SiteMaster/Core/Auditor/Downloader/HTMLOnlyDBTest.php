@@ -9,6 +9,15 @@ use SiteMaster\Core\Registry\Site;
 
 class HTMLOnlyDBTest extends DBTestCase
 {
+    protected function setUp()
+    {
+        if ('checkIssue100' == $this->getName() && !defined('CURL_SSLVERSION_TLSv1_2')) {
+            $this->markTestSkipped('tls 1.2 is not supported, skipping marketplace test');
+        }
+        
+        parent::setUp();
+    }
+    
     /**
      * Check issue-82: https://github.com/UNLSiteMaster/site_master/issues/82
      * 
