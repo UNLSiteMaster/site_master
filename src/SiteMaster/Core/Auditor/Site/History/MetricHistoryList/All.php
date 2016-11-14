@@ -38,7 +38,7 @@ class All extends RecordList
                 FROM site_scan_metric_history
                 LEFT JOIN site_scan_history ON (site_scan_history.id = site_scan_metric_history.site_scan_history_id)
                 " . $this->getWhere() . "
-                ORDER BY site_scan_history.date_created ASC
+                ORDER BY site_scan_history.date_created DESC
                 " . $this->getLimit();
 
         return $sql;
