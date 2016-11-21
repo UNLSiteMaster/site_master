@@ -31,6 +31,10 @@
     <?php
     }
     ?>
+    <?php if (!empty($context->page_mark->help_text)): ?>
+    <dt>Help Text</dt>
+    <dd><?php  echo \Michelf\MarkdownExtra::defaultTransform($context->page_mark->help_text); ?></dd>
+    <?php endif; ?>
     <dt>Location on the Page</dt>
     <?php
     $location = 'Page';
