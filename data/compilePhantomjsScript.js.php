@@ -16,13 +16,15 @@ page.settings.userAgent = '<?php echo SiteMaster\Core\Config::get('USER_AGENT') 
 
 page.viewportSize = {
     width: <?php echo SiteMaster\Core\Config::get('PHANTOMJS_WIDTH') ?>,
-    height: <?php echo SiteMaster\Core\Config::get('PHANTOMJS_HEIGHT') ?>,
+    height: <?php echo SiteMaster\Core\Config::get('PHANTOMJS_HEIGHT') ?>
 };
 
 page.open(args[1], function (status) {
     // Check for page load success
     if (status !== 'success') {
-        console.log('Unable to access network: ' + status);
+        var result = {};
+        result.exception = 'Unable to access network: ' + status;
+        console.log(JSON.stringify(result));
         phantom.exit();
         return;
     }
