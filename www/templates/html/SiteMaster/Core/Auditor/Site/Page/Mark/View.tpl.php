@@ -42,7 +42,7 @@
         $location = 'Line ' . $context->page_mark->line . ', Column ' . $context->page_mark->col;
     }
     if (!empty($context->page_mark->context)) {
-        $location .= '<br />HTML Context: <pre><code>' . trim(strip_tags($context->page_mark->getRaw('context'))) . '</code></pre>';
+        $location .= '<br />HTML Context: <pre><code>' . trim(htmlentities($context->page_mark->getRaw('context'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)) . '</code></pre>';
     }
     ?>
     <dd><?php echo $location ?></dd>
