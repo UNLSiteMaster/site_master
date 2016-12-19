@@ -5,10 +5,10 @@ use DB\Record;
 use Monolog\Logger;
 use SiteMaster\Core\Auditor\Downloader\DownloadException;
 use SiteMaster\Core\Auditor\GradingHelper;
+use SiteMaster\Core\Auditor\HeadlessRunner;
 use SiteMaster\Core\Auditor\Logger\Links;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Parser\HTML5;
-use SiteMaster\Core\Auditor\PhantomjsRunner;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -330,13 +330,13 @@ class Page extends Record
             $spider->addLogger(new Scheduler($spider, $scan, $site));
         }
         
-        //Run phantomjs tests against the page (we need to do this here so we can pass the results to the metrics)
-        $phantom_runner = new PhantomjsRunner();
-        $phantomjs_results = $phantom_runner->run($this->uri);
+        //Run headless tests against the page (we need to do this here so we can pass the results to the metrics)
+        $headless_runner = new HeadlessRunner();
+        $headless_results = $headless_runner->run($this->uri);
         
         $spider->addLogger(new Links($spider, $this));
         $spider->addLogger($page_title_logger);
-        $spider->addLogger(new Metrics($spider, $scan, $site, $this, $phantomjs_results));
+        $spider->addLogger(new Metrics($spider, $scan, $site, $this, $headless_results));
 
         try {
             $spider->processPage($this->getSanitizedURI(), 1);

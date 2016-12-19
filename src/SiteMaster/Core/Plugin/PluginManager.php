@@ -19,7 +19,7 @@ class PluginManager
 
     protected static $singleton = false;
     
-    protected $has_phantomjs_tests = false;
+    protected $has_headless_tests = false;
 
     /**
      * Initialize the singleton
@@ -64,9 +64,9 @@ class PluginManager
         $this->initializeMetrics();
     }
     
-    public function phantomJsTestsExist()
+    public function headlessTestsExist()
     {
-        return $this->has_phantomjs_tests;
+        return $this->has_headless_tests;
     }
 
     /**
@@ -166,8 +166,8 @@ class PluginManager
             if ($metric = $plugin->getMetric()) {
                 $this->metrics[$metric->getMachineName()] = $metric;
                 
-                if (!$this->has_phantomjs_tests && $metric->getMachineName()) {
-                    $this->has_phantomjs_tests = true;
+                if (!$this->has_headless_tests && $metric->getMachineName()) {
+                    $this->has_headless_tests = true;
                 }
             }
         }
