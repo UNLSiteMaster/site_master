@@ -35,7 +35,10 @@ class HeadlessRunner
             $this->generateCompliedScript();
         }
         
-        $command = Config::get('PATH_HEADLESS') . ' ' . $this->getCompiledScriptLocation() . ' ' . escapeshellarg($url);
+        $command = Util::getRootDir() . '/node_modules/xvfb-maybe/src/xvfb-maybe.js'
+            . ' ' . Config::get('PATH_NODE')
+            . ' ' . $this->getCompiledScriptLocation()
+            . ' ' . escapeshellarg($url);
         
         $result = shell_exec($command);
         
