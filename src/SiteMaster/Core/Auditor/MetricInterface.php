@@ -9,7 +9,7 @@ use SiteMaster\Core\Util;
 
 abstract class MetricInterface
 {
-    const HEADLESS_SCRIPT_NAME = 'headless.js.php';
+    const HEADLESS_SCRIPT_NAME = 'headless.js';
     
     public $options;
     public $plugin_name;

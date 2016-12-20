@@ -74,7 +74,7 @@ class HeadlessRunner
      */
     protected function generateCompliedScript()
     {
-        include Util::getRootDir() . '/data/compileHeadlessScript.js.php';
+        include Util::getRootDir() . '/data/compileHeadless.js.php';
     }
 
     /**
