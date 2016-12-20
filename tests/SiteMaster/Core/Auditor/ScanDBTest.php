@@ -109,8 +109,8 @@ class ScanDBTest extends DBTestCase
             $this->assertEquals(28.16, $page->point_grade);
             $this->assertEquals('B', $page->letter_grade);
             
-            $this->assertEquals(2, $page->num_errors);
-            $this->assertEquals(2, $page->num_notices);
+            $this->assertEquals(2, $page->num_errors, 'should have two errors');
+            $this->assertEquals(1, $page->num_notices, 'should have two notices');
             
             $marks = $page->getMarks($example_metric->id);
             
