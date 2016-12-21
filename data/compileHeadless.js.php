@@ -33,6 +33,9 @@ var browser = Nightmare();
 var results = {};
 var metrics = <?php echo json_encode($metrics) ?>;
 
+browser.useragent('<?php echo SiteMaster\Core\Config::get('USER_AGENT') ?>/phantom');
+browser.viewport(<?php echo SiteMaster\Core\Config::get('HEADLESS_WIDTH') ?>, <?php echo SiteMaster\Core\Config::get('HEADLESS_HEIGHT') ?>);
+
 //Go to the page
 browser.goto(args[0]);
 
