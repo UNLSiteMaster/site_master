@@ -25,9 +25,9 @@ foreach ($running as $page) {
     $page->rescheduleScan();
 }
 
-//Regenerate the compiled phantomjs script to account for changes
-$phantomjs_runner = new \SiteMaster\Core\Auditor\PhantomjsRunner();
-$phantomjs_runner->deleteCompliedScript();
+//Regenerate the compiled headless script to account for changes
+$headless_runner = new \SiteMaster\Core\Auditor\HeadlessRunner();
+$headless_runner->deleteCompliedScript();
 
 $total_incomplete = 0;
 $total_checked    = 0;
