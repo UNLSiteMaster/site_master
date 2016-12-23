@@ -119,8 +119,7 @@ class ScanDBTest extends DBTestCase
                 $mark_machine_names[] = $mark->getMark()->machine_name;
             }
             
-            $this->assertContains('example_page_title', $mark_machine_names, 'phanomjs sync integration should work');
-            $this->assertContains('example_async_page_title', $mark_machine_names, 'phanomjs async integration should work');
+            $this->assertContains('example_page_title', $mark_machine_names, 'headless integration should work');
         }
     }
 
