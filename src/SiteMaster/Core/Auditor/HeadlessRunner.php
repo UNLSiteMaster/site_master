@@ -35,7 +35,7 @@ class HeadlessRunner
             $this->generateCompliedScript();
         }
         
-        $command = Util::getRootDir() . '/node_modules/xvfb-maybe/src/xvfb-maybe.js -a' //-a tells it to try to get a free server number
+        $command = Config::get('XVFB_COMMAND')
             . ' ' . Config::get('PATH_NODE')
             . ' ' . $this->getCompiledScriptLocation()
             . ' ' . escapeshellarg($url);
