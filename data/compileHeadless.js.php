@@ -19,6 +19,7 @@ foreach (\SiteMaster\Core\Plugin\PluginManager::getManager()->getMetrics() as $m
     
     //The root directory should be relative to the script's file
     $details['file'] = str_replace(\SiteMaster\Core\Util::getRootDir(), '..', $metric_headless_file);
+    $details['options'] = $metric->options;
     
     $metrics[] = $details;
 }
@@ -55,7 +56,7 @@ var metricHandler = function(result) {
         var plugin = require(metric.file);
 
         //Pass an empty options array (reserved for future use)
-        var newPromise = browser.use(plugin.evaluate([]));
+        var newPromise = browser.use(plugin.evaluate(metric.options || []));
 
         //We will do the same thing as this promise, so handle it the same way! (yay recursion)
         newPromise.then(metricHandler);
