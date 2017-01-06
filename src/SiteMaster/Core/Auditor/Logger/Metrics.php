@@ -34,15 +34,15 @@ class Metrics extends \Spider_LoggerAbstract
      * 
      * @var false|array
      */
-    protected $phantomjs_results = false;
+    protected $headless_results = false;
 
-    function __construct(\Spider $spider, Scan $scan, Site $site, Page $page, $phantomjs_results)
+    function __construct(\Spider $spider, Scan $scan, Site $site, Page $page, $headless_results)
     {
         $this->spider = $spider;
         $this->scan = $scan;
         $this->site = $site;
         $this->page = $page;
-        $this->phantomjs_results = $phantomjs_results;
+        $this->headless_results = $headless_results;
     }
 
     public function log($uri, $depth, DOMXPath $xpath)
@@ -56,10 +56,10 @@ class Metrics extends \Spider_LoggerAbstract
 
             $metric_phantom_results = false;
             
-            if (isset($this->phantomjs_results[$metric->getMachineName()])) {
-                $metric_phantom_results = $this->phantomjs_results[$metric->getMachineName()];
+            if (isset($this->headless_results[$metric->getMachineName()])) {
+                $metric_phantom_results = $this->headless_results[$metric->getMachineName()];
                 if (isset($metricPhantomResults['exception'])) {
-                    Util::log(Logger::ERROR, 'phantomjs metric exception', array(
+                    Util::log(Logger::ERROR, 'headless metric exception', array(
                         'result' => $metricPhantomResults,
                     ));
                 }

@@ -9,11 +9,11 @@ use SiteMaster\Core\Util;
 
 abstract class MetricInterface
 {
-    const PHANTOMJS_SCRIPT_NAME = 'phantomjs.js.php';
+    const HEADLESS_SCRIPT_NAME = 'headless.js';
     
     public $options;
     public $plugin_name;
-    protected $phantomjs_results = false;
+    protected $headless_results = false;
 
     /**
      * @param string $plugin_name (The plugin machine name for this metric)
@@ -115,13 +115,13 @@ abstract class MetricInterface
      * @param int $depth - the current depth of the scan
      * @param \SiteMaster\Core\Auditor\Site\Page $page - the current page record
      * @param Logger\Metrics $logger
-     * @param array $phantomjs_results
+     * @param array $headless_results
      */
-    public function performScan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger, $phantomjs_results)
+    public function performScan($uri, \DOMXPath $xpath, $depth, Page $page, Logger\Metrics $logger, $headless_results)
     {
         try {
             //scan
-            $this->phantomjs_results = $phantomjs_results;
+            $this->headless_results = $headless_results;
             $completed = $this->scan($uri, $xpath, $depth, $page, $logger);
         } catch (\Exception $exception) {
             //Some sort of error occurred.  Mark this metric as incomplete
@@ -384,15 +384,15 @@ abstract class MetricInterface
     }
 
     /**
-     * Get the phantomjs script name
+     * Get the headless script name
      * 
      * If this metric does not implement it, return false
      * 
      * @return bool|string
      */
-    public function getPhantomjsScript()
+    public function getHeadlessScript()
     {
-        $file = $this->getPlugin()->getRootDirectory() . '/' . self::PHANTOMJS_SCRIPT_NAME;
+        $file = $this->getPlugin()->getRootDirectory() . '/' . self::HEADLESS_SCRIPT_NAME;
         
         if (file_exists($file)) {
             return $file;

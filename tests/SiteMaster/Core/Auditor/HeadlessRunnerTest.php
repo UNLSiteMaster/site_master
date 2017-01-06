@@ -3,14 +3,14 @@ namespace SiteMaster\Core\Auditor;
 
 use SiteMaster\Core\Config;
 
-class phantomjsRunnerTest extends \PHPUnit_Framework_TestCase
+class HeadlessRunnerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
-    public function testRun()
+    public function testRunHeadless()
     {
-        $runner = new PhantomjsRunner();
+        $runner = new HeadlessRunner();
         
         $results = $runner->run(ScanDBTest::INTEGRATION_TESTING_URL);
         

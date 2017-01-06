@@ -6,7 +6,7 @@ use SiteMaster\Core\Config;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Util;
 
-class PhantomjsRunner
+class HeadlessRunner
 {
     public function __construct()
     {
@@ -14,17 +14,17 @@ class PhantomjsRunner
     }
 
     /**
-     * Run phantomjs script
+     * Run a headless script
      * 
      * @param $url
      * @return array|mixed|string
      */
     public function run($url)
     {
-        //Do we need to run phantomjs? (do any metrics use it?)
+        //Do we need to run headless? (do any metrics use it?)
         $pluginManager = PluginManager::getManager();
         
-        if (!$pluginManager->phantomJsTestsExist()) {
+        if (!$pluginManager->headlessTestsExist()) {
             return false;
         }
         
@@ -35,7 +35,10 @@ class PhantomjsRunner
             $this->generateCompliedScript();
         }
         
-        $command = Config::get('PATH_PHANTOMJS') . ' ' . $this->getCompiledScriptLocation() . ' ' . escapeshellarg($url);
+        $command = Util::getRootDir() . '/node_modules/xvfb-maybe/src/xvfb-maybe.js'
+            . ' ' . Config::get('PATH_NODE')
+            . ' ' . $this->getCompiledScriptLocation()
+            . ' ' . escapeshellarg($url);
         
         $result = shell_exec($command);
         
@@ -57,7 +60,7 @@ class PhantomjsRunner
         
         if (!$json) {
             //Log the error
-            Util::log(Logger::ERROR, 'Error parsing phantomjs', array(
+            Util::log(Logger::ERROR, 'Error parsing headless script', array(
                 'result' => $result,
             ));
             
@@ -68,31 +71,31 @@ class PhantomjsRunner
     }
 
     /**
-     * Compile (or recompile) the the phantomjs script
+     * Compile (or recompile) the the headless script
      * 
      * @return string
      */
     protected function generateCompliedScript()
     {
-        include Util::getRootDir() . '/data/compilePhantomjsScript.js.php';
+        include Util::getRootDir() . '/data/compileHeadless.js.php';
     }
 
     /**
-     * Get the compiled phantomjs script location
+     * Get the compiled headless script location
      * 
      * @return string
      */
     public function getCompiledScriptLocation()
     {
         if (Config::get('ENVIRONMENT') == Config::ENVIRONMENT_TESTING) {
-            return Util::getRootDir() . '/tmp/sitemaster_phantom_complied_test.js';
+            return Util::getRootDir() . '/tmp/sitemaster_headless_complied_test.js';
         }
         
-        return Util::getRootDir() . '/tmp/sitemaster_phantom_complied.js';
+        return Util::getRootDir() . '/tmp/sitemaster_headless_complied.js';
     }
 
     /**
-     * Delete the complied phantomjs script
+     * Delete the complied headless script
      */
     public function deleteCompliedScript()
     {
