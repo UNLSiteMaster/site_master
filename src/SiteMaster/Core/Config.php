@@ -56,6 +56,7 @@ class Config
         'HEADLESS_WIDTH' => 480,
         'HEADLESS_HEIGHT' => 800,
         'HEADLESS_WAIT' => 800, //milliseconds before test execution (let the page run just a little bit first)
+        'XVFB_COMMAND' => false,
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',
@@ -125,6 +126,10 @@ class Config
         //Alter the mysql host to be persistent
         if ($key == 'DB_HOST' && self::$data[$key] != false) {
             return 'p:' . self::$data[$key];
+        }
+
+        if ($key == 'XVFB_COMMAND' && self::$data[$key] == false) {
+            return Util::getRootDir() . '/node_modules/xvfb-maybe/src/xvfb-maybe.js';
         }
 
         return self::$data[$key];
