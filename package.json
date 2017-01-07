@@ -1,7 +1,8 @@
 {
   "name": "sitemaster",
   "dependencies": {
-    "nightmare": "^2.8.1",
+    "nightmare": "^2.9.1",
+    "nightmare-inline-download": "^0.2.2",
     "xvfb-maybe": "^0.1.3"
   }
 }
