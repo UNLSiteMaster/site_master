@@ -27,7 +27,7 @@ foreach ($running as $page) {
 
 //Regenerate the compiled headless script to account for changes
 $headless_runner = new \SiteMaster\Core\Auditor\HeadlessRunner();
-$headless_runner->deleteCompliedScript();
+$headless_runner->deleteCompiledScript();
 
 $total_incomplete = 0;
 $total_checked    = 0;

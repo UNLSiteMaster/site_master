@@ -32,7 +32,7 @@ class HeadlessRunner
         
         if (!file_exists($script)) {
             //we need to generate the script
-            $this->generateCompliedScript();
+            $this->generateCompiledScript();
         }
         
         $command = Config::get('XVFB_COMMAND')
@@ -75,7 +75,7 @@ class HeadlessRunner
      * 
      * @return string
      */
-    protected function generateCompliedScript()
+    protected function generateCompiledScript()
     {
         include Util::getRootDir() . '/data/compileHeadless.js.php';
     }
@@ -88,16 +88,16 @@ class HeadlessRunner
     public function getCompiledScriptLocation()
     {
         if (Config::get('ENVIRONMENT') == Config::ENVIRONMENT_TESTING) {
-            return Util::getRootDir() . '/tmp/sitemaster_headless_complied_test.js';
+            return Util::getRootDir() . '/tmp/sitemaster_headless_compiled_test.js';
         }
         
-        return Util::getRootDir() . '/tmp/sitemaster_headless_complied.js';
+        return Util::getRootDir() . '/tmp/sitemaster_headless_compiled.js';
     }
 
     /**
-     * Delete the complied headless script
+     * Delete the compiled headless script
      */
-    public function deleteCompliedScript()
+    public function deleteCompiledScript()
     {
         @unlink($this->getCompiledScriptLocation());
     }

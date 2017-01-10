@@ -9,7 +9,7 @@ if (file_exists(__DIR__ . '/../config.inc.php')) {
 }
 
 @unlink(__DIR__.'/../plugins_testing.json');
-@unlink(__DIR__.'/../scripts/sitemaster_phantom_complied_test.js');
+@unlink(__DIR__.'/../tmp/sitemaster_headless_compiled.js');
 
 require_once $config_file;
 
