@@ -43,14 +43,21 @@ browser.useragent('<?php echo SiteMaster\Core\Config::get('USER_AGENT') ?>/phant
 browser.viewport(<?php echo SiteMaster\Core\Config::get('HEADLESS_WIDTH') ?>, <?php echo SiteMaster\Core\Config::get('HEADLESS_HEIGHT') ?>);
 
 //Go to the page
-browser.goto(args[0]);
+var promise = browser.goto(args[0]);
+
+promise.catch(function(error) {
+    //This is likely an unrecoverable connection error...
+    results.exception = error;
+    console.log(JSON.stringify(results));
+    return browser.end();
+});
 
 //Wait until we are ready
-browser.wait(<?php echo (int)\SiteMaster\Core\Config::get('HEADLESS_WAIT') ?>);
+browser.wait(<?php echo (int) \SiteMaster\Core\Config::get('HEADLESS_WAIT') ?>);
 
 //Define a metric handler to process the .then() part of promises
 var metricHandler = function(result) {
-    if (result.name) {
+    if (result && result.name) {
         //Record the result
         results[result.name] = result.results;
     }
@@ -65,6 +72,11 @@ var metricHandler = function(result) {
 
         //We will do the same thing as this promise, so handle it the same way! (yay recursion)
         newPromise.then(metricHandler);
+        newPromise.catch(function() {
+            //TODO: what to do about this, eh?
+            //TODO: Also, PHP seems to have a bad day when you first generate the script via the daemon...
+        });
+
         return newPromise;
     } else {
         //We are done running metrics, return the results and exit
@@ -73,15 +85,10 @@ var metricHandler = function(result) {
     }
 };
 
-var promise = browser.evaluate(function() {
-    //This is just to get the chain rolling
-    return true;
-});
-
 //Now start our promise chain
 promise.then(metricHandler);
 
-browser.catch(function (error) {
+promise.catch(function (error) {
     var result = {};
     result.exception = 'Unable to access network: ' + status;
     console.log(JSON.stringify(result));
