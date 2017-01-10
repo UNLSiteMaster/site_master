@@ -72,9 +72,13 @@ var metricHandler = function(result) {
 
         //We will do the same thing as this promise, so handle it the same way! (yay recursion)
         newPromise.then(metricHandler);
-        newPromise.catch(function() {
-            //TODO: what to do about this, eh?
-            //TODO: Also, PHP seems to have a bad day when you first generate the script via the daemon...
+        newPromise.catch(function(error) {
+            //We shouldn't need to do anything here
+            //Nothing will be put in the results for the metric, which the metric handler should account for
+            //The name of the metric is also not available here, so tough luck I guess
+
+            //We can still console.log the error to help with debugging later
+            console.log(error);
         });
 
         return newPromise;
