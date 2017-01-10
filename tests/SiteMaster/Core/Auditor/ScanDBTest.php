@@ -554,6 +554,35 @@ class ScanDBTest extends DBTestCase
 
         $this->assertEquals(array(3), $hot_spots->getInnerIterator()->getArrayCopy(), 'Fixed pages should not show up in the list of hot sports');
     }
+    
+    public function testIssue115()
+    {
+        $this->setUpDB();
+
+        //Get the test site
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        //Start simulating a scan
+        $site->scheduleScan();
+
+        //get the new scan
+        $scan = $site->getLatestScan();
+        
+        $url = self::INTEGRATION_TESTING_URL;
+
+        //Create a super long url
+        for ($i = 1; $i <= 1000; $i++) {
+            $url .= 'testing/';
+        }
+
+        //insert the page
+        Page::createNewPage($scan->id, $site->id, $url, Page::FOUND_WITH_CRAWL, array(
+            'scan_type' => $scan->scan_type,
+        ));
+        
+        //now verify that we can detect that url was already scanned
+        $this->assertNotEquals(false, Page::getByScanIDAndURI($scan->id, $url));
+    }
 
     public function setUpDB()
     {
