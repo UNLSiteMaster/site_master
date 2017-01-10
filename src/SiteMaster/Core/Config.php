@@ -55,7 +55,7 @@ class Config
         'PATH_NODE' => 'node',
         'HEADLESS_WIDTH' => 480,
         'HEADLESS_HEIGHT' => 800,
-        'HEADLESS_WAIT' => 800, //milliseconds before test execution (let the page run just a little bit first)
+        'HEADLESS_WAIT' => 2500, //milliseconds before test execution (let the page run just a little bit first)
         'XVFB_COMMAND' => false,
     
         //Loggers
