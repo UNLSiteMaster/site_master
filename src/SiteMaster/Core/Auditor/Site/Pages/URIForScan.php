@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor\Site\Pages;
 
+use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\InvalidArgumentException;
 
 class URIForScan extends All
@@ -20,8 +21,10 @@ class URIForScan extends All
 
     public function getWhere()
     {
+        $sanitized_url = Page::sanitizeURI($this->options['uri']);
+        
         $where = "WHERE scans_id = " . (int)$this->options['scans_id'] . "
-            AND uri_hash = '" . self::escapeString(md5($this->options['uri'], true)) . "'";
+            AND uri_hash = '" . self::escapeString(md5($sanitized_url, true)) . "'";
         
         if (isset($this->options['not_id'])) {
             $where .= " AND scanned_page.id != " . (int)$this->options['not_id'];

@@ -87,14 +87,17 @@ class Page extends Record
      */
     public static function getByScanIDAndURI($scans_id, $uri)
     {
+        //Trim to the max length of the URL as stored in the database
+        $sanitized_uri = self::sanitizeURI($uri);
+            
         $pages = new Pages\URIForScan(array(
             'scans_id' => $scans_id,
-            'uri' => $uri,
+            'uri' => $sanitized_uri,
             'limit' => 1
         ));
         
         foreach ($pages as $page) {
-            if ($page->uri == $uri) {
+            if ($page->uri == $sanitized_uri) {
                 return $page;
             }
         }
@@ -199,6 +202,8 @@ class Page extends Record
      */
     public static function createNewPage($scans_id, $sites_id, $uri, $found_with, array $fields = array())
     {
+        $sanitized_uri = self::sanitizeURI($uri);
+        
         $page = new self();
         $page->status           = self::STATUS_CREATED;
         $page->scan_type        = self::SCAN_TYPE_AUTO;
@@ -212,8 +217,8 @@ class Page extends Record
         $page->synchronizeWithArray($fields);
         $page->scans_id  = $scans_id;
         $page->sites_id  = $sites_id;
-        $page->uri       = $uri;
-        $page->uri_hash  = md5($uri, true);
+        $page->uri       = $sanitized_uri;
+        $page->uri_hash  = md5($sanitized_uri, true);
         $page->found_with = $found_with;
 
         if (!$page->insert()) {
@@ -669,5 +674,17 @@ class Page extends Record
             'scans_id' => $this->scans_id,
             'url'      => $this->uri
         ));
+    }
+
+    /**
+     * Sanitize a given URL so that it is database safe
+     * 
+     * @param $uri
+     * @return string
+     */
+    public static function sanitizeURI($uri)
+    {
+        //Trim it to the max column length of the uri database field
+        return mb_substr($uri, 0, 2100);
     }
 }
