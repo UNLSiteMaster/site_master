@@ -56,6 +56,7 @@ class Config
         'HEADLESS_WIDTH' => 480,
         'HEADLESS_HEIGHT' => 800,
         'HEADLESS_WAIT' => 2500, //milliseconds before test execution (let the page run just a little bit first)
+        'HEADLESS_TIMEOUT' => '5m', //timeout of the headless process, parameter should work with the `timeout` linux command.
         'XVFB_COMMAND' => false,
     
         //Loggers
