@@ -4,34 +4,41 @@ namespace SiteMaster\Core\Plugin;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\RuntimeException;
+use SiteMaster\Core\UnexpectedValueException;
 use SiteMaster\Core\Util;
 
 class PluginManager
 {
     protected $eventsManager = false;
 
-    protected $options = array(
-        'internal_plugins' => array(),
-        'external_plugins' => array()
-    );
+    protected $options = [
+        'internal_plugins' => [],
+        'external_plugins' => [],
+    ];
     
-    protected $metrics = array();
+    protected $metrics = [];
+    
+    protected $group_metrics = [];
 
     protected static $singleton = false;
     
     protected $has_headless_tests = false;
+    
+    protected $groups = [];
 
     /**
      * Initialize the singleton
      *
      * @param $eventsManager
      * @param array $options
+     * @param array $groups
      */
-    protected function __construct($eventsManager, $options = array())
+    protected function __construct($eventsManager, $options = [], $groups = [])
     {
         $this->options = $options + $this->options;
 
         $this->eventsManager = $eventsManager;
+        $this->groups = $groups;
     }
 
     /**
@@ -76,13 +83,13 @@ class PluginManager
      * @param array $options
      * @param bool $force
      */
-    public static function initialize($eventsManager, $options = array(), $force = false)
+    public static function initialize($eventsManager, $options = [], $groups = [], $force = false)
     {
         if (self::$singleton && !$force) {
             throw new RuntimeException("Plugin Manager can only be initialized once", 500);
         }
 
-        self::$singleton = new self($eventsManager, $options);
+        self::$singleton = new self($eventsManager, $options, $groups);
         self::$singleton->load();
     }
 
@@ -167,14 +174,46 @@ class PluginManager
                 $this->metrics[$metric->getMachineName()] = $metric;
                 
                 if (!$this->has_headless_tests && $metric->getMachineName()) {
+                    //set a flag to tell SiteMaster to run headless tests
                     $this->has_headless_tests = true;
                 }
             }
         }
+        
+        //initialize the configuration for each group's metrics
+        foreach ($this->groups as $group_name=>$group_options) {
+            $this->group_metrics[$group_name] = [];
+            foreach ($group_options['METRICS'] as $plugin_name=>$metric_options) {
+                $plugin = $this->getPluginInfo($plugin_name);
+                    
+                if ($metric = $plugin->getMetric($metric_options)) {
+                    //we need to actually initialize the metric class
+                    $this->group_metrics[$group_name][$plugin_name] = $metric;
+                }
+                
+            }
+        }
+        
+        //TODO: test this
     }
-    
-    public function getMetrics()
+
+    /**
+     * Get metrics for the given group
+     *
+     * @param bool|string $group_name optional, the name of the group. Otherwise return all available metrics with their default configuration
+     * @return array
+     */
+    public function getMetrics($group_name = false)
     {
+        if ($group_name) {
+            if (isset($this->group_metrics[$group_name])) {
+                return $this->group_metrics[$group_name];
+            } else {
+                throw new UnexpectedValueException('configuration for the given group does not exist');
+            }
+        }
+        
+        //Otherwise, just return the default metrics
         return $this->metrics;
     }
 

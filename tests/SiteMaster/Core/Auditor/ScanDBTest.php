@@ -198,7 +198,9 @@ class ScanDBTest extends DBTestCase
     {
         $this->setUpDB();
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -207,8 +209,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();
@@ -250,7 +250,9 @@ class ScanDBTest extends DBTestCase
 
         Config::set('SITE_PASS_FAIL', true);
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -259,8 +261,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();
@@ -301,8 +301,10 @@ class ScanDBTest extends DBTestCase
     public function scanPointsAvailable()
     {
         $this->setUpDB();
+        
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
-        $metrics = new Metrics();
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -311,8 +313,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();
@@ -348,7 +348,9 @@ class ScanDBTest extends DBTestCase
     {
         $this->setUpDB();
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+        
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -357,8 +359,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();
@@ -427,7 +427,9 @@ class ScanDBTest extends DBTestCase
     {
         $this->setUpDB();
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+        
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -436,8 +438,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();

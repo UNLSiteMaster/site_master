@@ -30,6 +30,7 @@ class GroupHelperTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals(true, $group_1_config['METRICS']['example']['test'], 'metric config should be passed');
         $this->assertEquals(false, $group_2_config['METRICS']['example']['test'], 'metric config should be passed');
+        $this->assertEquals('33.33', $group_2_config['METRICS']['example']['weight'], 'metric weight should match');
         $this->assertTrue(!empty($default), 'the default config should not be empty');
         $this->assertEquals(Config::get('SITE_PASS_FAIL'), $default['SITE_PASS_FAIL'], 'should match the default config');
     }

@@ -6,8 +6,13 @@ use SiteMaster\Core\Registry\Site\Member;
 
 class Metrics extends \ArrayIterator
 {
-    public function __construct() {
-        $metrics = PluginManager::getManager()->getMetrics();
+    /**
+     * Metrics constructor.
+     * 
+     * @param array $group_name the group to get metrics for
+     */
+    public function __construct($group_name) {
+        $metrics = PluginManager::getManager()->getMetrics($group_name);
         
         parent::__construct($metrics);
     }

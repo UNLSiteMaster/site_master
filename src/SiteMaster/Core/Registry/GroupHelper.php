@@ -64,7 +64,7 @@ class GroupHelper
                 $default_metric_config = $metrics_config[$metric_key];
                 
                 //Update it
-                $groups_config[$key]['METRICS'][$metric_key] = array_merge_recursive($default_metric_config, $metric_value);
+                $groups_config[$key]['METRICS'][$metric_key] = array_replace_recursive($default_metric_config, $metric_value);
             }
         }
         

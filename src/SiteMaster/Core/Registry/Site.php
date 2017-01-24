@@ -82,6 +82,17 @@ class Site extends Record
     }
 
     /**
+     * Get the group name for this site
+     * 
+     * @return int|string
+     */
+    public function getPrimaryGroupName()
+    {
+        $groupHelper = new GroupHelper();
+        return $groupHelper->getPrimaryGroup($this->base_url);
+    }
+
+    /**
      * Get all members of this site
      * 
      * @return Site\Members\Approved

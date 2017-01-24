@@ -64,6 +64,7 @@ class DBTestCase extends \PHPUnit_Framework_TestCase
                         ),
                         'external_plugins' => Config::get('PLUGINS')
                     ),
+                    Config::get('GROUPS'),
                     true //force re-initialize
                 );
             }
