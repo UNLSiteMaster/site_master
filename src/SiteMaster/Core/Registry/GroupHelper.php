@@ -83,6 +83,6 @@ class GroupHelper
      */
     public static function generateDomainRegex($domain)
     {
-        return '/^(https?:\/\/)([a-z0-9-].?)*'.preg_quote($domain).'(:[0-9]+)?(\/.*)?$/i';
+        return '/^(https?:\/\/)([a-z0-9-]*\.?)*'.preg_quote($domain).'(:[0-9]+)?(\/.*)?$/i';
     }
 }
