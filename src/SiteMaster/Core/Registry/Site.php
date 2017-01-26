@@ -29,6 +29,8 @@ class Site extends Record
     public $source;                //varchar(45)
     public $site_map_url;          //TEXT
     public $crawl_method;          //ENUM('CRAWL_ONLY', 'SITE_MAP_ONLY', 'HYBRID') NOT NULL DEFAULT 'HYBRID'
+    public $group_name;            //varchar
+    public $group_is_overridden;   //ENUM('YES', 'NO')
     
     const PRODUCTION_STATUS_PRODUCTION  = 'PRODUCTION';
     const PRODUCTION_STATUS_DEVELOPMENT = 'DEVELOPMENT';
@@ -37,6 +39,9 @@ class Site extends Record
     const CRAWL_METHOD_CRAWL_ONLY    = 'CRAWL_ONLY';
     const CRAWL_METHOD_SITE_MAP_ONLY = 'SITE_MAP_ONLY';
     const CRAWL_METHOD_HYBRID        = 'HYBRID';
+    
+    const GROUP_IS_OVERRIDDEN_YES = 'YES';
+    const GROUP_IS_OVERRIDDEN_NO = 'NO';
 
     public function keys()
     {
@@ -88,8 +93,7 @@ class Site extends Record
      */
     public function getPrimaryGroupName()
     {
-        $groupHelper = new GroupHelper();
-        return $groupHelper->getPrimaryGroup($this->base_url);
+        return $this->group_name;
     }
 
     /**
