@@ -15,7 +15,7 @@ class GroupHelper
             $patterns = $details['MATCHING'];
             
             foreach($patterns as $pattern) {
-                if (fnmatch($pattern, $base_url)) {
+                if (preg_match($pattern, $base_url, $matches)) {
                     return $group_name;
                 }
             }
@@ -74,5 +74,15 @@ class GroupHelper
         }
 
         return $groups_config;
+    }
+
+    /**
+     *
+     * @param $domain
+     * @return string
+     */
+    public static function generateDomainRegex($domain)
+    {
+        return '/^(https?:\/\/)([a-z0-9-].?)*'.preg_quote($domain).'(:[0-9]+)?(\/.*)?$/i';
     }
 }

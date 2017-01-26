@@ -29,7 +29,7 @@ Config::set('PLUGINS', array(
 Config::set('GROUPS', [
     'group_1' => [
         'MATCHING' => [
-            '*//www.test.com/*'
+            SiteMaster\Core\Registry\GroupHelper::generateDomainRegex('test.com')
         ],
         'SITE_PASS_FAIL' => false,
         'METRICS' => [
@@ -41,7 +41,7 @@ Config::set('GROUPS', [
     ],
     'group_2' => [
         'MATCHING' => [
-            'http://unlsitemaster.github.io/test_site/'
+            SiteMaster\Core\Registry\GroupHelper::generateDomainRegex('unlsitemaster.github.io')
         ],
         'SITE_PASS_FAIL' => true,
         'METRICS' => [
