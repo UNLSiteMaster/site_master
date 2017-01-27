@@ -178,7 +178,7 @@ $site_pass_fail = $context->isPassFail();
                     </div>
                 </header>
                 <?php
-                foreach ($plugin_manager->getMetrics() as $metric) {
+                foreach ($plugin_manager->getMetrics($site->getPrimaryGroupName()) as $metric) {
                     $metric_record = $metric->getMetricRecord();
                     $grades = $context->getHotSpots($metric_record->id, 5);
                     ?>
