@@ -73,10 +73,16 @@ class Site extends Record
      */
     public static function createNewSite($base_url, array $details = array())
     {
+        $group_helper = new GroupHelper();
+        
         $site = new self();
-        $site->production_status = self::PRODUCTION_STATUS_PRODUCTION;
-        $site->crawl_method      = self::CRAWL_METHOD_HYBRID;
+        $site->production_status   = self::PRODUCTION_STATUS_PRODUCTION;
+        $site->crawl_method        = self::CRAWL_METHOD_HYBRID;
+        $site->group_name          = $group_helper->getPrimaryGroup($base_url);
+        $site->group_is_overridden = self::GROUP_IS_OVERRIDDEN_NO;
+        
         $site->synchronizeWithArray($details);
+        
         $site->base_url = $base_url;
         
         if (!$site->insert()) {
