@@ -26,7 +26,7 @@ class SchedulerDBTest extends DBTestCase
             'respect_robots_txt'=>false,
             'use_effective_uris' => false)
         );
-        $scan = Scan::createNewScan($site->id);
+        $scan = Scan::createNewScan($site);
         
         //Set up the logger to test
         $logger = new Logger\Scheduler($spider, $scan, $site);

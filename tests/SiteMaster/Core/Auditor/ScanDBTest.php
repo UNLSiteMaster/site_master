@@ -300,10 +300,18 @@ class ScanDBTest extends DBTestCase
      */
     public function scanPointsAvailable()
     {
-        $this->setUpDB();
+        //Change the metric config
+        $original_groups_config = Config::get('GROUPS');
+        $new_groups_config = $original_groups_config;
+        $new_groups_config['group_2']['SITE_PASS_FAIL'] = false;
         
+        Config::set('GROUPS', $new_groups_config);
+        
+        //set up the DB
+        $this->setUpDB();
         $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
+        
         $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
@@ -313,7 +321,7 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
+        
         //Schedule a scan
         $site->scheduleScan();
 
@@ -335,6 +343,9 @@ class ScanDBTest extends DBTestCase
             //The page should have an F grade because the only metric failed
             $this->assertEquals(GradingHelper::GRADE_D_PLUS, $page->letter_grade);
         }
+
+        //Reset the groups config
+        Config::set('GROUPS', $original_groups_config);
     }
 
     /**
