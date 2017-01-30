@@ -148,6 +148,23 @@ class Config
     }
 
     /**
+     * @param $group_name
+     * @param $key
+     * @return bool
+     */
+    public static function getForGroup($group_name, $key)
+    {
+        $group_helper = new GroupHelper();
+        $config = $group_helper->getConfigForGroup($group_name);
+        
+        if (!isset($config[$key])) {
+            return false;
+        }
+        
+        return $config[$key];
+    }
+
+    /**
      * @param $key
      * @param $value
      * @return string

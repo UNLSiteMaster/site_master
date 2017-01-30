@@ -252,7 +252,7 @@ class Site extends Record
             return false;
         }
         
-        $scan = Scan::createNewScan($this->id, array(
+        $scan = Scan::createNewScan($this, array(
             'scan_type' => $scan_type,
         ));
         

@@ -24,7 +24,11 @@ class GroupHelper
         //Nothing was found, so return the default group
         return self::DEFAULT_GROUP_NAME;
     }
-    
+
+    /**
+     * @param $group_name
+     * @return array
+     */
     public function getConfigForGroup($group_name)
     {
         $groups_config = Config::get('GROUPS');
@@ -47,6 +51,7 @@ class GroupHelper
         $default_config = [
             'MATCHING' => [],
             'SITE_PASS_FAIL' => Config::get('SITE_PASS_FAIL'),
+            'SCAN_PAGE_LIMIT' => Config::get('SCAN_PAGE_LIMIT'),
             'METRICS' => [],
         ];
         

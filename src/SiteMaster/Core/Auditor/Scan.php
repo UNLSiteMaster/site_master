@@ -51,11 +51,11 @@ class Scan extends Record
     /**
      * Create a new Scan
      *
-     * @param int $sites_id the site id
+     * @param Site $site the site record object
      * @param array $fields an associative array of field names and values to insert
      * @return bool|Scan
      */
-    public static function createNewScan($sites_id, array $fields = array())
+    public static function createNewScan(Site $site, array $fields = array())
     {
         $scan = new self();
         $scan->gpa        = 0;
@@ -64,12 +64,12 @@ class Scan extends Record
         $scan->date_created = Util::epochToDateTime();
         $scan->pass_fail  = 'NO';
         
-        if (Config::get('SITE_PASS_FAIL')) {
+        if (Config::getForGroup($site->getPrimaryGroupName(), 'SITE_PASS_FAIL')) {
             $scan->pass_fail = 'YES';
         }
         
         $scan->synchronizeWithArray($fields);
-        $scan->sites_id = $sites_id;
+        $scan->sites_id = $site->id;
 
         if (!$scan->insert()) {
             return false;
@@ -81,7 +81,7 @@ class Scan extends Record
     /**
      * Get the site for this scan
      * 
-     * @return bool|\SiteMaster\Core\Registry\Site
+     * @return bool|Site
      */
     public function getSite()
     {
@@ -534,7 +534,7 @@ class Scan extends Record
      */
     public function isAtMaxPages()
     {
-        if ($this->getDistinctPageCount() >= Config::get('SCAN_PAGE_LIMIT')) {
+        if ($this->getDistinctPageCount() >= Config::getForGroup($this->getSite()->getPrimaryGroupName(), 'SCAN_PAGE_LIMIT')) {
             return true;
         }
         
