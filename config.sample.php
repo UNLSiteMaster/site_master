@@ -35,6 +35,24 @@ Config::set('PLUGINS', array(
 ));
 
 /**********************************************************************************************************************
+ * group settings
+ */
+Config::set('GROUPS', [
+    //The key is the group's name (machine name). Each group config is its own array
+    'default' => [
+        //define custom metrics with with the 'METRICS' key, contents of this array match the 'PLUGINS' configuration option, but can only contain 'metric' plugins. Other plugins such as authentication or themes are applied to all groups.
+        'METRICS' => [
+            'example' => array(
+                'setting' => 'value',
+            ),
+        ],
+        //You can also set a few other settings on a group level
+        //'SITE_PASS_FAIL' => false,
+        //'SCAN_PAGE_LIMIT' => 5,
+    ],
+]);
+
+/**********************************************************************************************************************
  * unit test settings
  */
 Config::set('TEST_DB_HOST'     , 'localhost');
