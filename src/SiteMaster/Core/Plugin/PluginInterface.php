@@ -270,9 +270,10 @@ abstract class PluginInterface
     }
 
     /**
+     * @param false|array $group_options if false, default options will be returned 
      * @return bool|\SiteMaster\Core\Auditor\MetricInterface
      */
-    public function getMetric()
+    public function getMetric($group_options = false)
     {
         $class = PluginManager::getManager()->getPluginNamespaceFromName($this->getMachineName()) . 'Metric';
 
@@ -281,7 +282,13 @@ abstract class PluginInterface
         }
         
         //Metric was found.  add it to the list of metrics.
-        return new $class($this->getMachineName(), PluginManager::getManager()->getPluginOptions($this->getMachineName()));
+        if ($group_options) {
+            $options = $group_options;
+        } else {
+            $options = PluginManager::getManager()->getPluginOptions($this->getMachineName());
+        }
+        
+        return new $class($this->getMachineName(), $options);
     }
     
     public function initialize()

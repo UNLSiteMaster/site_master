@@ -55,6 +55,12 @@ class ScanDBTest extends DBTestCase
      */
     public function scanGraded()
     {
+        $original_groups_config = Config::get('GROUPS');
+        $new_groups_config = $original_groups_config;
+        $new_groups_config['group_2']['SITE_PASS_FAIL'] = false;
+
+        Config::set('GROUPS', $new_groups_config);
+        
         $this->setUpDB();
         
         $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
@@ -121,6 +127,8 @@ class ScanDBTest extends DBTestCase
             
             $this->assertContains('example_page_title', $mark_machine_names, 'headless integration should work');
         }
+
+        Config::set('GROUPS', $original_groups_config);
     }
 
     /**
@@ -196,9 +204,17 @@ class ScanDBTest extends DBTestCase
      */
     public function scanPassFail()
     {
+        $original_groups_config = Config::get('GROUPS');
+        $new_groups_config = $original_groups_config;
+        $new_groups_config['group_2']['SITE_PASS_FAIL'] = false;
+
+        Config::set('GROUPS', $new_groups_config);
+        
         $this->setUpDB();
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -207,8 +223,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();
@@ -235,6 +249,8 @@ class ScanDBTest extends DBTestCase
         $site_history = SiteHistory::getByID(1);
         
         $this->assertEquals($scan->gpa, $site_history->gpa, 'The GPA should be logged in history');
+        
+        Config::set('GROUPS', $original_groups_config);
     }
 
     /**
@@ -250,7 +266,9 @@ class ScanDBTest extends DBTestCase
 
         Config::set('SITE_PASS_FAIL', true);
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -259,8 +277,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();
@@ -300,9 +316,19 @@ class ScanDBTest extends DBTestCase
      */
     public function scanPointsAvailable()
     {
+        //Change the metric config
+        $original_groups_config = Config::get('GROUPS');
+        $new_groups_config = $original_groups_config;
+        $new_groups_config['group_2']['SITE_PASS_FAIL'] = false;
+        
+        Config::set('GROUPS', $new_groups_config);
+        
+        //set up the DB
         $this->setUpDB();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
-        $metrics = new Metrics();
+        
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -311,9 +337,7 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
-
+        
         //Schedule a scan
         $site->scheduleScan();
 
@@ -335,6 +359,9 @@ class ScanDBTest extends DBTestCase
             //The page should have an F grade because the only metric failed
             $this->assertEquals(GradingHelper::GRADE_D_PLUS, $page->letter_grade);
         }
+
+        //Reset the groups config
+        Config::set('GROUPS', $original_groups_config);
     }
 
     /**
@@ -348,7 +375,9 @@ class ScanDBTest extends DBTestCase
     {
         $this->setUpDB();
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+        
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -357,8 +386,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();
@@ -427,7 +454,9 @@ class ScanDBTest extends DBTestCase
     {
         $this->setUpDB();
 
-        $metrics = new Metrics();
+        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
+        
+        $metrics = new Metrics($site->getPrimaryGroupName());
         foreach ($metrics as $metric) {
             if ($metric instanceof \SiteMaster\Plugins\Example\Metric) {
                 $metric->setOptions(array(
@@ -436,8 +465,6 @@ class ScanDBTest extends DBTestCase
                 ));
             }
         }
-
-        $site = Site::getByBaseURL(self::INTEGRATION_TESTING_URL);
 
         //Schedule a scan
         $site->scheduleScan();

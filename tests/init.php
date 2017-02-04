@@ -25,6 +25,42 @@ Config::set('PLUGINS', array(
     'theme_foundation' => array('setting'=>'value'),
 ));
 
+//Test with these example groups
+Config::set('GROUPS', [
+    'group_1' => [
+        'MATCHING' => [
+            SiteMaster\Core\Registry\GroupHelper::generateDomainRegex('test.com')
+        ],
+        'SITE_PASS_FAIL' => false,
+        'METRICS' => [
+            'example' => [
+                'weight' => 33.33,
+                'test' => true,
+            ]
+        ],
+    ],
+    'group_2' => [
+        'MATCHING' => [
+            SiteMaster\Core\Registry\GroupHelper::generateDomainRegex('unlsitemaster.github.io')
+        ],
+        'SITE_PASS_FAIL' => true,
+        'METRICS' => [
+            'example' => [
+                'weight' => 33.33,
+                'test' => false,
+            ]
+        ],
+    ],
+    \SiteMaster\Core\Registry\GroupHelper::DEFAULT_GROUP_NAME => [
+        'SITE_PASS_FAIL' => false,
+        'METRICS' => [
+            'example' => [
+                'weight' => 33.33,
+            ]
+        ],
+    ],
+]);
+
 Config::set('ENVIRONMENT', Config::ENVIRONMENT_TESTING);
 
 //Ensure that SITE_PASS_FAIL is false by default.

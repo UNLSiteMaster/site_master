@@ -10,5 +10,6 @@ spl_autoload_register('\SiteMaster\Core\Plugin\PluginManager::autoload');
             'Core' => array(),
         ),
         'external_plugins' => \SiteMaster\Core\Config::get('PLUGINS')
-    )
+    ),
+    \SiteMaster\Core\Config::get('GROUPS')
 );

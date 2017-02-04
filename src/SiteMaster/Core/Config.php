@@ -2,6 +2,7 @@
 namespace SiteMaster\Core;
 
 use Monolog\Logger;
+use SiteMaster\Core\Registry\GroupHelper;
 
 class Config
 {
@@ -61,6 +62,8 @@ class Config
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',
+        
+        'GROUPS' => array(),
     );
 
     private function __construct()
@@ -132,12 +135,47 @@ class Config
         if ($key == 'XVFB_COMMAND' && self::$data[$key] == false) {
             return Util::getRootDir() . '/node_modules/xvfb-maybe/src/xvfb-maybe.js';
         }
+        
+        if ($key == 'GROUPS' && empty(self::$data[$key])) {
+            //Init and sanitize the groups config
+            self::set('GROUPS', []);
+            
+            //now return the sanitized config
+            return self::get($key);
+        }
 
         return self::$data[$key];
     }
 
+    /**
+     * @param $group_name
+     * @param $key
+     * @return bool
+     */
+    public static function getForGroup($group_name, $key)
+    {
+        $group_helper = new GroupHelper();
+        $config = $group_helper->getConfigForGroup($group_name);
+        
+        if (!isset($config[$key])) {
+            return false;
+        }
+        
+        return $config[$key];
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return string
+     */
     public static function set($key, $value)
     {
+        if ($key == 'GROUPS') {
+            $groupHelper = new GroupHelper();
+            return self::$data[$key] = $groupHelper->sanitizeGroupsConfig($value);
+        }
+        
         return self::$data[$key] = $value;
     }
 }

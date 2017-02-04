@@ -64,7 +64,7 @@ class Scheduler extends \Spider_LoggerAbstract
                 continue;
             }
             
-            if ($total_pages >= Config::get('SCAN_PAGE_LIMIT')) {
+            if ($total_pages >= Config::getForGroup($this->site->getPrimaryGroupName(), 'SCAN_PAGE_LIMIT')) {
                 //The page limit for the site was met.  Skip...
                 continue;
             }

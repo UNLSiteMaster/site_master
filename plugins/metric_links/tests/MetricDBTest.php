@@ -25,7 +25,7 @@ class MetricDBTest extends DBTestCase
         $metric = new Metric('metric_links');
         $metric_record = $metric->getMetricRecord();
         $site = Site::getByBaseURL($base_uri);
-        $scan = Scan::createNewScan($site->id);
+        $scan = Scan::createNewScan($site);
         $page = Page::createNewPage($scan->id, $site->id, $base_uri, Page::FOUND_WITH_CRAWL);
 
 
@@ -35,7 +35,7 @@ class MetricDBTest extends DBTestCase
                 'respect_robots_txt'=>false,
                 'use_effective_uris' => false)
         );
-        $scan = Scan::createNewScan($site->id);
+        $scan = Scan::createNewScan($site);
 
         //Set up the logger to test
         $logger = new Links($spider, $page);
@@ -79,7 +79,7 @@ class MetricDBTest extends DBTestCase
         $metric = new Metric('metric_links');
         $metric_record = $metric->getMetricRecord();
         $site = Site::getByBaseURL($base_uri);
-        $scan = Scan::createNewScan($site->id);
+        $scan = Scan::createNewScan($site);
         $page = Page::createNewPage($scan->id, $site->id, $base_uri, Page::FOUND_WITH_CRAWL);
         
         $limit_before = Config::get('LINK_SCAN_LIMIT');
@@ -91,7 +91,7 @@ class MetricDBTest extends DBTestCase
                 'respect_robots_txt'=>false,
                 'use_effective_uris' => false)
         );
-        $scan = Scan::createNewScan($site->id);
+        $scan = Scan::createNewScan($site);
 
         //Set up the logger to test
         $logger = new Links($spider, $page);

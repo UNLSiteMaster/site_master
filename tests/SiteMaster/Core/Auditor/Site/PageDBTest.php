@@ -29,7 +29,7 @@ class PageDBTest extends DBTestCase
         $site = Site::getByBaseURL('http://www.test.com/');
 
         //Create a scan
-        $scan1 = Scan::createNewScan($site->id);
+        $scan1 = Scan::createNewScan($site);
         $page = Page::createNewPage($scan1->id, $site->id, 'http://www.test.com/', Page::FOUND_WITH_CRAWL);
         //Add Marks
         $page->addMark($mark1, array(

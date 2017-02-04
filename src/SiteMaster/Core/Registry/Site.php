@@ -29,6 +29,8 @@ class Site extends Record
     public $source;                //varchar(45)
     public $site_map_url;          //TEXT
     public $crawl_method;          //ENUM('CRAWL_ONLY', 'SITE_MAP_ONLY', 'HYBRID') NOT NULL DEFAULT 'HYBRID'
+    public $group_name;            //varchar
+    public $group_is_overridden;   //ENUM('YES', 'NO')
     
     const PRODUCTION_STATUS_PRODUCTION  = 'PRODUCTION';
     const PRODUCTION_STATUS_DEVELOPMENT = 'DEVELOPMENT';
@@ -37,6 +39,9 @@ class Site extends Record
     const CRAWL_METHOD_CRAWL_ONLY    = 'CRAWL_ONLY';
     const CRAWL_METHOD_SITE_MAP_ONLY = 'SITE_MAP_ONLY';
     const CRAWL_METHOD_HYBRID        = 'HYBRID';
+    
+    const GROUP_IS_OVERRIDDEN_YES = 'YES';
+    const GROUP_IS_OVERRIDDEN_NO = 'NO';
 
     public function keys()
     {
@@ -68,10 +73,16 @@ class Site extends Record
      */
     public static function createNewSite($base_url, array $details = array())
     {
+        $group_helper = new GroupHelper();
+        
         $site = new self();
-        $site->production_status = self::PRODUCTION_STATUS_PRODUCTION;
-        $site->crawl_method      = self::CRAWL_METHOD_HYBRID;
+        $site->production_status   = self::PRODUCTION_STATUS_PRODUCTION;
+        $site->crawl_method        = self::CRAWL_METHOD_HYBRID;
+        $site->group_name          = $group_helper->getPrimaryGroup($base_url);
+        $site->group_is_overridden = self::GROUP_IS_OVERRIDDEN_NO;
+        
         $site->synchronizeWithArray($details);
+        
         $site->base_url = $base_url;
         
         if (!$site->insert()) {
@@ -79,6 +90,16 @@ class Site extends Record
         }
         
         return $site;
+    }
+
+    /**
+     * Get the group name for this site
+     * 
+     * @return int|string
+     */
+    public function getPrimaryGroupName()
+    {
+        return $this->group_name;
     }
 
     /**
@@ -231,7 +252,7 @@ class Site extends Record
             return false;
         }
         
-        $scan = Scan::createNewScan($this->id, array(
+        $scan = Scan::createNewScan($this, array(
             'scan_type' => $scan_type,
         ));
         

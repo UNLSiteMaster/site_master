@@ -47,7 +47,7 @@ class Metrics extends \Spider_LoggerAbstract
 
     public function log($uri, $depth, DOMXPath $xpath)
     {
-        $metrics = new \SiteMaster\Core\Auditor\Metrics();
+        $metrics = new \SiteMaster\Core\Auditor\Metrics($this->site->getPrimaryGroupName());
         
         foreach ($metrics as $metric) {
             /**

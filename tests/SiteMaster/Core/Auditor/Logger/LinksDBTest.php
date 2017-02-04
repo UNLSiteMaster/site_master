@@ -32,7 +32,7 @@ class LinksDBTest extends DBTestCase
                 'respect_robots_txt'=>false,
                 'use_effective_uris' => false)
         );
-        $scan = Scan::createNewScan($site->id);
+        $scan = Scan::createNewScan($site);
         
         //Create a new page scan for the base url
         $scan->scheduleScan();
