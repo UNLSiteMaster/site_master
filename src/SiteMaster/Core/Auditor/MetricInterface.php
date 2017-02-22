@@ -230,6 +230,11 @@ abstract class MetricInterface
         //Compute the grade
         $points = $grade->points_available;
         foreach ($marks as $mark) {
+            if ($mark->points_deducted < 0) {
+                //Skip points awarded, if you want to include the number of awarded points you can dynamically set the `points_available`
+                //See the example metric for details
+                continue;
+            }
             $points -= $mark->points_deducted;
         }
 
