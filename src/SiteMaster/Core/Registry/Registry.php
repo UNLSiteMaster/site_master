@@ -156,7 +156,7 @@ class Registry
             $sql .= ' base_url LIKE ? OR ' . PHP_EOL;
         }
 
-        $sql = substr($sql, 0, -5) . PHP_EOL . 'ORDER BY base_url DESC LIMIT 1';
+        $sql = substr($sql, 0, -5) . PHP_EOL . 'ORDER BY SUBSTRING_INDEX( base_url, \'://\', -1 ) DESC LIMIT 1';
         
         return $sql;
     }
