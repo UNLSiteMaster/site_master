@@ -98,7 +98,7 @@ WHERE
  base_url LIKE ? OR 
  base_url LIKE ? OR 
  base_url LIKE ?
-ORDER BY base_url DESC LIMIT 1', 
+ORDER BY SUBSTRING_INDEX( base_url, \'://\', -1 ) DESC LIMIT 1', 
             $registry->getClosestSiteSQL($registry->getPossibleSiteURIs('http://www.domain.com/path1/path2/path3/index')));
     }
 }
