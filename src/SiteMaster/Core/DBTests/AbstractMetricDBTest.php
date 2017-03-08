@@ -46,6 +46,7 @@ abstract class AbstractMetricDBTest extends DBTestCase
                     ),
                     'external_plugins' => Config::get('PLUGINS')
                 ),
+                Config::get('GROUPS'),
                 true //force re-initialize
             );
         }
