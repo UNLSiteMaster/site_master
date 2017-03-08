@@ -12,7 +12,23 @@ class ThemeHelper {
      */
     public function trimBaseURL($base_url, $url)
     {
+        //Make both agnostic to handle differences between http and https
+        $base_url = $this->makeAgnostic($base_url);
+        $url = $this->makeAgnostic($url);
+        
+        //Now trim off the base url
         return '/' . str_ireplace($base_url, '', $url);
+    }
+
+    /**
+     * Strip the http or https from a URL to make it agnostic
+     *
+     * @param $absolute_uri
+     * @return mixed
+     */
+    protected function makeAgnostic($absolute_uri)
+    {
+        return preg_replace('/^https?:\/\//', '//', $absolute_uri);
     }
 
     /**
