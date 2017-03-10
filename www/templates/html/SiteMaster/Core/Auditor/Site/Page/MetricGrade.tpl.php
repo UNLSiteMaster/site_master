@@ -127,16 +127,6 @@ $page = $context->getPage();
             </tbody>
         </table>
         
-        <?php if ($passing_marks->count()): ?>
-            <h4>Passing</h4>
-            <ul>
-                <?php foreach($passing_marks as $page_mark): ?>
-                    <?php $mark = $page_mark->getMark(); ?>
-                    <li><?php echo $mark->name ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-        
         <?php
     } else if ($context->letter_grade == \SiteMaster\Core\Auditor\GradingHelper::GRADE_INCOMPLETE) {
         ?>
@@ -150,6 +140,17 @@ $page = $context->getPage();
         <?php
     }
     ?>
+
+    <?php if ($passing_marks->count()): ?>
+        <h4>Passing</h4>
+        <ul>
+            <?php foreach($passing_marks as $page_mark): ?>
+                <?php $mark = $page_mark->getMark(); ?>
+                <li><?php echo $mark->name ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+        
     </div>
 </div>
 
