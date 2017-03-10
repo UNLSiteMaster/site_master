@@ -44,10 +44,16 @@ class AllForPageMetric extends RecordList
             if ($this->options['mark_type'] == 'errors') {
                 //Only show errors
                 $where .= ' AND page_marks.points_deducted > 0';
+            } else if ($this->options['mark_type'] == 'passes') {
+                //Only show passes
+                $where .= ' AND page_marks.points_deducted < 0';
             } else {
                 //Only show notices
                 $where .= ' AND page_marks.points_deducted = 0';
             }
+        } else {
+            //Default to only showing errors and notices
+            $where .= ' AND page_marks.points_deducted >= 0';
         }
         
         return $where;

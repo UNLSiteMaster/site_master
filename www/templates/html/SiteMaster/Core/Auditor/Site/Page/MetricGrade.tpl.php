@@ -2,12 +2,13 @@
 $metric = $context->getMetric();
 $metric_plugin = $metric->getMetricObject();
 $page_marks = $context->getMarks();
+$passing_marks = $context->getPasses();
 $page = $context->getPage();
 ?>
 <div class="metric-grade-details grade_<?php echo strtolower($context->letter_grade) ?>" id="metric_<?php echo $metric->id ?>">
     <header class="header">
         <div class="details">
-            <span class="title"><?php echo $metric_plugin->getName(); ?></span>
+            <h3 class="title"><?php echo $metric_plugin->getName(); ?></h3>
             <?php
             $changes = 0;
             if (!empty($context->changes_since_last_scan)) {
@@ -125,6 +126,17 @@ $page = $context->getPage();
             ?>
             </tbody>
         </table>
+        
+        <?php if ($passing_marks->count()): ?>
+            <h4>Passing</h4>
+            <ul>
+                <?php foreach($passing_marks as $page_mark): ?>
+                    <?php $mark = $page_mark->getMark(); ?>
+                    <li><?php echo $mark->name ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        
         <?php
     } else if ($context->letter_grade == \SiteMaster\Core\Auditor\GradingHelper::GRADE_INCOMPLETE) {
         ?>
