@@ -55,28 +55,6 @@ class User extends Record
     }
 
     /**
-     * Get the authentication plugin for this user's provider
-     * 
-     * @return bool | \SiteMaster\Plugin\AuthenticationInterface object
-     */
-    public function getAuthenticationPlugin()
-    {
-        $authPlugins = PluginManager::getManager()->dispatchEvent(
-            GetAuthenticationPlugins::EVENT_NAME,
-            new GetAuthenticationPlugins()
-        );
-
-        foreach ($authPlugins->getPlugins() as $plugin) {
-            if ($plugin->getProviderMachineName() == $this->provider) {
-
-                return $plugin;
-            }
-        }
-        
-        return false;
-    }
-
-    /**
      * Get approved sites for this user
      * 
      * @return ApprovedForUser
