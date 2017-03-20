@@ -1,18 +1,21 @@
 <?php
 namespace SiteMaster\Core\User;
 
+use SiteMaster\Core\Events\GetAuthenticationPlugins;
+use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\RequiredLoginException;
 
 class Session
 {
     protected static $session;
 
-    public static function logIn(User $user)
+    public static function logIn(User $user, $auth_plugin_provider_name)
     {
         $session = self::getSession();
         $session->start();
 
         $session->set('user.id', $user->id);
+        $session->set('user.auth_plugin_provider_name', $auth_plugin_provider_name);
     }
 
     public static function logOut()
@@ -59,5 +62,28 @@ class Session
         }
 
         return self::$session;
+    }
+
+    /**
+     * Get the provider name of the authentication plugin that was used to authenticate the current user
+     * 
+     * @return mixed
+     */
+    public static function getCurrentAuthProviderPlugin()
+    {
+        $session = self::getSession();
+
+        $authPlugins = PluginManager::getManager()->dispatchEvent(
+            GetAuthenticationPlugins::EVENT_NAME,
+            new GetAuthenticationPlugins()
+        );
+
+        $auth_provider = $session->get('user.auth_plugin_provider_name');
+
+        foreach ($authPlugins->getPlugins() as $plugin) {
+            if ($plugin->getProviderMachineName() == $auth_provider) {
+                return $plugin;
+            }
+        }
     }
 }
