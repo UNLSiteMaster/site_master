@@ -251,6 +251,14 @@ class Plugin extends PluginInterface
                 return false;
             }
         }
+
+        if ($previousVersion <= 2017012601) {
+            $sql = file_get_contents(Util::getRootDir() . "/data/update-2017040701.sql");
+
+            if (!Util::execMultiQuery($sql, true)) {
+                return false;
+            }
+        }
         
         return true;
     }
@@ -276,7 +284,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 2017012601;
+        return 2017040701;
     }
 
     /**
