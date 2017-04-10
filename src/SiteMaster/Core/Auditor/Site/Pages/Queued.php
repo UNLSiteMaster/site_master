@@ -21,7 +21,7 @@ class Queued extends All
                 //Cast to an int to prevent injection attacks
                 return (int)$val;
             }, $this->options['not_in_scans']);
-            $where .= " AND scans_id NOT IN (" . explode(',', $ids) . ")";
+            $where .= " AND scans_id NOT IN (" . implode(',', $ids) . ")";
         }
         
         return $where;
