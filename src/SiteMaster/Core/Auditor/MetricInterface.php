@@ -127,7 +127,7 @@ abstract class MetricInterface
             //Some sort of error occurred.  Mark this metric as incomplete
             $completed = false;
             Util::log(
-                \Monolog\Logger::ERROR,
+                \Monolog\Logger::NOTICE,
                 'Metric exception thrown for ' . $this->getMachineName(),
                 array(
                     'exception' => (string)$exception,
