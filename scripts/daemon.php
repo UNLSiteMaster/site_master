@@ -9,12 +9,15 @@ require_once(__DIR__ . "/../init.php");
 $config_file = __DIR__ . '/../config.inc.php';
 $last_modified = filemtime($config_file);
 
-if (!isset($argv[1])) {
-    echo "usage: php daemon.php id-of-daemon" . PHP_EOL;
-    exit();
+$daemon_name = 'default';
+if (isset($argv[1])) {
+    $daemon_name = $argv[1];
 }
 
-$daemon_name = $argv[1];
+if (!ctype_alnum($daemon_name)) {
+    echo 'daemon name must be alphanumeric' . PHP_EOL;
+    exit();
+}
 
 /**
  * TODO:

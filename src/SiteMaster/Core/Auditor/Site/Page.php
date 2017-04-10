@@ -303,7 +303,7 @@ class Page extends Record
      * @return bool false if the scan is not queued or ready to be scanned
      * @throws \Exception
      */
-    public function scan($daemon_name)
+    public function scan($daemon_name = 'default')
     {
         if ($this->status != self::STATUS_QUEUED) {
             //Looks like it has already been scanned (or has yet to be scheduled).  Don't continue.
@@ -514,7 +514,7 @@ class Page extends Record
      * @param string $daemon_name the name of the daemon performing the scan
      * @return null
      */
-    public function markAsRunning($daemon_name)
+    public function markAsRunning($daemon_name = 'default')
     {
         $scan = $this->getScan();
         if ($scan->status != Scan::STATUS_RUNNING) {
