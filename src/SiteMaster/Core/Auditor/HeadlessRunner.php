@@ -8,9 +8,22 @@ use SiteMaster\Core\Util;
 
 class HeadlessRunner
 {
-    public function __construct()
+    protected $daemon_name;
+
+    /**
+     * HeadlessRunner constructor.
+     * 
+     * This will generate and scope headless js for each daemon instance
+     * 
+     * @param $daemon_name
+     * @throws \Exception
+     */
+    public function __construct($daemon_name = 'default')
     {
-        
+        if (!ctype_alnum($daemon_name)) {
+            throw new \Exception('Invalid daemon_name, it must be alphanumeric');
+        }
+        $this->daemon_name = $daemon_name;
     }
 
     /**
@@ -89,10 +102,10 @@ class HeadlessRunner
     public function getCompiledScriptLocation()
     {
         if (Config::get('ENVIRONMENT') == Config::ENVIRONMENT_TESTING) {
-            return Util::getRootDir() . '/tmp/sitemaster_headless_compiled_test.js';
+            return Util::getRootDir() . '/tmp/sitemaster_headless_'.$this->daemon_name.'_compiled_test.js';
         }
         
-        return Util::getRootDir() . '/tmp/sitemaster_headless_compiled.js';
+        return Util::getRootDir() . '/tmp/sitemaster_headless_'.$this->daemon_name.'_compiled.js';
     }
 
     /**

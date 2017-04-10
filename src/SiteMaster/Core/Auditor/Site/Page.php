@@ -339,7 +339,7 @@ class Page extends Record
         }
         
         //Run headless tests against the page (we need to do this here so we can pass the results to the metrics)
-        $headless_runner = new HeadlessRunner();
+        $headless_runner = new HeadlessRunner($this->daemon_name);
         $headless_results = $headless_runner->run($this->uri);
         
         $spider->addLogger(new Links($spider, $this));
