@@ -19,15 +19,6 @@ if (!ctype_alnum($daemon_name)) {
     exit();
 }
 
-/**
- * TODO:
- * 1. [done] apply an ID to each daemon 'default', 'two', etc. As passed by a command line argument `php daemon.php this-is-the-id`
- * 2. [done] add a `daemon_name` to the scanned_page table
- * 3. [done] Running() should only look at jobs with the same daemon ID (only one worker at a time)
- * 4. [done] Queued() should not return any pages in which there is another page being scanned for the same site (to respect craw time limits)
- * 5. The generated headless files should be renamed to the current daemon worker to prevent concurrency issues
- */
-
 //There should only be one worker running at a time.  If there are running jobs, remove them and try again...
 $running = new SiteMaster\Core\Auditor\Site\Pages\Running([
     'daemon_name' => $daemon_name
