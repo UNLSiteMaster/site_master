@@ -38,7 +38,7 @@ foreach ($running as $page) {
 }
 
 //Regenerate the compiled headless script to account for changes
-$headless_runner = new \SiteMaster\Core\Auditor\HeadlessRunner();
+$headless_runner = new \SiteMaster\Core\Auditor\HeadlessRunner($daemon_name);
 $headless_runner->deleteCompiledScript();
 
 $total_incomplete = 0;
