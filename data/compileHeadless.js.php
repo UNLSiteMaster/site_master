@@ -1,7 +1,9 @@
 <?php
 
-$runner = new \SiteMaster\Core\Auditor\HeadlessRunner();
-$headless_file = $runner->getCompiledScriptLocation();
+/**
+ * @var $this \SiteMaster\Core\Auditor\HeadlessRunner
+ */
+$headless_file = $this->getCompiledScriptLocation();
     
 //Make an array of metrics to use
 $metrics = [];
