@@ -59,7 +59,7 @@ class Metrics extends \Spider_LoggerAbstract
             if (isset($this->headless_results[$metric->getMachineName()])) {
                 $metric_phantom_results = $this->headless_results[$metric->getMachineName()];
                 if (isset($metricPhantomResults['exception'])) {
-                    Util::log(Logger::ERROR, 'headless metric exception', array(
+                    Util::log(Logger::NOTICE, 'headless metric exception', array(
                         'result' => $metricPhantomResults,
                     ));
                 }

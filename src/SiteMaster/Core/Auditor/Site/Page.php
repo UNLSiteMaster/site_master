@@ -45,6 +45,7 @@ class Page extends Record
     public $num_notices;           //INT, the number of notices found on this page
     public $found_with;            //ENUM('SITE_MAP', 'CRAWL') NOT NULL
     public $link_limit_hit;        //ENUM('NO', 'YES') NOT NULL
+    public $daemon_name;           //VARCHAR(256) - the name of the daemon that performed the scan
 
     const STATUS_CREATED  = 'CREATED';
     const STATUS_QUEUED   = 'QUEUED';
@@ -297,17 +298,19 @@ class Page extends Record
 
     /**
      * Scan this page
-     * 
+     *
+     * @param string $daemon_name the name of the daemon that is performing the scan
      * @return bool false if the scan is not queued or ready to be scanned
+     * @throws \Exception
      */
-    public function scan()
+    public function scan($daemon_name = 'default')
     {
         if ($this->status != self::STATUS_QUEUED) {
             //Looks like it has already been scanned (or has yet to be scheduled).  Don't continue.
             return false;
         }
 
-        $this->markAsRunning();
+        $this->markAsRunning($daemon_name);
         
         $scan = $this->getScan();
         $site = $this->getSite();
@@ -336,7 +339,7 @@ class Page extends Record
         }
         
         //Run headless tests against the page (we need to do this here so we can pass the results to the metrics)
-        $headless_runner = new HeadlessRunner();
+        $headless_runner = new HeadlessRunner($daemon_name);
         $headless_results = $headless_runner->run($this->uri);
         
         $spider->addLogger(new Links($spider, $this));
@@ -507,10 +510,11 @@ class Page extends Record
 
     /**
      * Mark this page as running
-     * 
+     *
+     * @param string $daemon_name the name of the daemon performing the scan
      * @return null
      */
-    public function markAsRunning()
+    public function markAsRunning($daemon_name = 'default')
     {
         $scan = $this->getScan();
         if ($scan->status != Scan::STATUS_RUNNING) {
@@ -519,6 +523,7 @@ class Page extends Record
         
         $this->start_time = Util::epochToDateTime();
         $this->status     = self::STATUS_RUNNING;
+        $this->daemon_name = $daemon_name;
         $this->save();
     }
 

@@ -9,9 +9,21 @@ require_once(__DIR__ . "/../init.php");
 $config_file = __DIR__ . '/../config.inc.php';
 $last_modified = filemtime($config_file);
 
+$daemon_name = 'default';
+if (isset($argv[1])) {
+    $daemon_name = $argv[1];
+}
+
+if (!ctype_alnum($daemon_name)) {
+    echo 'daemon name must be alphanumeric' . PHP_EOL;
+    exit();
+}
 
 //There should only be one worker running at a time.  If there are running jobs, remove them and try again...
-$running = new SiteMaster\Core\Auditor\Site\Pages\Running();
+$running = new SiteMaster\Core\Auditor\Site\Pages\Running([
+    'daemon_name' => $daemon_name
+]);
+
 foreach ($running as $page) {
     //Log it
     SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'Re-scheduling running job: pages.id=' . $page->id);
@@ -26,7 +38,7 @@ foreach ($running as $page) {
 }
 
 //Regenerate the compiled headless script to account for changes
-$headless_runner = new \SiteMaster\Core\Auditor\HeadlessRunner();
+$headless_runner = new \SiteMaster\Core\Auditor\HeadlessRunner($daemon_name);
 $headless_runner->deleteCompiledScript();
 
 $total_incomplete = 0;
@@ -41,7 +53,15 @@ while (true) {
     }
     
     //Get the queue
-    $queue = new SiteMaster\Core\Auditor\Site\Pages\Queued();
+    $running = new SiteMaster\Core\Auditor\Site\Pages\Running();
+    $running_scan_ids = [];
+    foreach ($running as $page) {
+        $running_scan_ids[] = $page->scans_id;
+    }
+    
+    $queue = new SiteMaster\Core\Auditor\Site\Pages\Queued([
+        'not_in_scans' => $running_scan_ids
+    ]);
     
     if (!$queue->count()) {
         //Reset the cached robots.txt
@@ -70,6 +90,11 @@ while (true) {
     $scan = $page->getScan();
     $site = $scan->getSite();
     
+    if ($page->status == \SiteMaster\Core\Auditor\Site\Page::STATUS_RUNNING) {
+        //sanity check. This page should not already be running
+        continue;
+    }
+    
     if (($current_site !== false) && ($current_site != $scan->sites_id)) {
         //Restart the daemon before scanning a new site. (to help prevent errors and clear any variables such as robots.txt)
         SiteMaster\Core\Util::log(Monolog\Logger::NOTICE, 'Restarting before scanning a different site.');
@@ -80,7 +105,10 @@ while (true) {
     $total_checked++;
 
     echo date("Y-m-d H:i:s"). " - scanning page.id=" . $page->id . PHP_EOL;
-    $page->scan();
+    if (!$page->scan($daemon_name)) {
+        //Some sort of issue with scanning...
+        continue;
+    }
     
     //The page might have been removed after the scan, so we need to check for that.
     if (!$page = \SiteMaster\Core\Auditor\Site\Page::getById($page->id)) {

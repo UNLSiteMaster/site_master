@@ -5,7 +5,13 @@ class Running extends All
 {
     public function getWhere()
     {
-        return "WHERE status = 'RUNNING'";
+        $where = "WHERE status = 'RUNNING'";
+
+        if (isset($this->options['daemon_name'])) {
+            $where .= " AND daemon_name = '" . self::escapeString($this->options['daemon_name']). "'";
+        }
+        
+        return $where;
     }
 
     public function getLimit()
