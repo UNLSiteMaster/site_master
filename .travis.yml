@@ -16,5 +16,5 @@ before_script:
   - php scripts/install.php
   
 script:
-  - phpunit --verbose --bootstrap tests/init.php tests
-  - phpunit --verbose --bootstrap tests/init.php plugins/metric_links/tests
+  - ./vendor/bin/phpunit --verbose --testsuite core
+  - ./vendor/bin/phpunit --verbose plugins/metric_links/tests
