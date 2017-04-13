@@ -219,7 +219,9 @@ class Registry
 
         // This should return the closest site (most specific)
         if (!empty($possibilities)) {
-            return str_replace('http%://', 'http://', $possibilities[0]);
+            //Keep the same scheme
+            $scheme = parse_url($uri, PHP_URL_SCHEME);
+            return str_replace('http%://', $scheme.'://', $possibilities[0]);
         }
         
         return $uri . '/';
