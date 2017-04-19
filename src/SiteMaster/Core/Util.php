@@ -359,4 +359,15 @@ class Util
 
         return $uri;
     }
+
+    /**
+     * Make a URL agnostic (remove the scheme, but leave //).
+     * 
+     * @param $uri
+     * @return mixed
+     */
+    public static function makeAgnostic($uri)
+    {
+        return preg_replace('/^https?:\/\//', '//', $uri);
+    }
 }

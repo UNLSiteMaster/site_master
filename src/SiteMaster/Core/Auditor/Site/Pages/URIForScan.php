@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor\Site\Pages;
 
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\InvalidArgumentException;
+use SiteMaster\Core\Util;
 
 class URIForScan extends All
 {
@@ -23,7 +24,7 @@ class URIForScan extends All
     {
         $sanitized_url = Page::sanitizeURI($this->options['uri']);
         
-        $opposite_url = preg_replace('/^https?:\/\//', '//', $sanitized_url);
+        $opposite_url = Util::makeAgnostic($sanitized_url);
         $scheme = parse_url($sanitized_url, PHP_URL_SCHEME);
         
         if ($scheme == 'http') {

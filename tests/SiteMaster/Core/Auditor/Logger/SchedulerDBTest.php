@@ -41,7 +41,7 @@ class SchedulerDBTest extends DBTestCase
 
         $this->assertNotEquals(false, Page::getByScanIDAndURI($scan->id, 'http://www.test.com/page2.html'), 'we should find this page');
         $this->assertEquals(false, Page::getByScanIDAndURI($scan->id, 'http://www.test.com/test/page2.html'), 'this is a page of a sub-site and should not be scheduled');
-        $this->assertEquals(false, Page::getByScanIDAndURI($scan->id, 'https://www.test.com/page2.html'), 'The same page with (but with https) or vice versa should not be scheduled again');
+        $this->assertNotEquals(false, Page::getByScanIDAndURI($scan->id, 'https://www.test.com/page2.html'), 'The same page with (but with https) or vice versa should not be scheduled again');
     }
 
     public function setUpDB()

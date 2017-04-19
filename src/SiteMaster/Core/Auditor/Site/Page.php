@@ -98,7 +98,8 @@ class Page extends Record
         ));
         
         foreach ($pages as $page) {
-            if ($page->uri == $sanitized_uri) {
+            //Ignore the scheme (http vs https) - only scan the page once
+            if (Util::makeAgnostic($page->uri) == Util::makeAgnostic($sanitized_uri)) {
                 return $page;
             }
         }
