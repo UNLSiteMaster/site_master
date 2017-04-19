@@ -75,6 +75,7 @@ class HeadlessRunner
         if (!$json) {
             //Log the error
             Util::log(Logger::NOTICE, 'Error parsing headless script', array(
+                'url', $url,
                 'result' => $result,
             ));
             

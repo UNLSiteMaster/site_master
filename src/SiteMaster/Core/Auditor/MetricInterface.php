@@ -130,6 +130,7 @@ abstract class MetricInterface
                 \Monolog\Logger::NOTICE,
                 'Metric exception thrown for ' . $this->getMachineName(),
                 array(
+                    'uri', $uri,
                     'exception' => (string)$exception,
                 )
             );
