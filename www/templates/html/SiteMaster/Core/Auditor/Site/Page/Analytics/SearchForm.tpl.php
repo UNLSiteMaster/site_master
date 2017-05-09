@@ -1,4 +1,4 @@
-
+<p>This form allows site developers to search for HTML element or class usage across the sites that we scan. This can help inform design, development, and education decisions.</p>
 
 <form method="get">
     <fieldset>
