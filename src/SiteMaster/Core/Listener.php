@@ -132,6 +132,10 @@ class Listener extends PluginListener
             '/^qa-test\/$/',
             'SiteMaster\Core\Auditor\QATestController'
         );
+        $event->addRoute(
+            '/^analytics\/$/',
+            'SiteMaster\Core\Auditor\Site\Page\Analytics\SearchForm'
+        );
     }
 
     /**
