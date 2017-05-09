@@ -7,6 +7,13 @@ $headless_file = $this->getCompiledScriptLocation();
     
 //Make an array of metrics to use
 $metrics = [];
+
+//Page analytics in core
+$metrics[] = [
+	'file' => '../data/page_analytics.js',
+	'options' => [],
+];
+
 foreach (\SiteMaster\Core\Plugin\PluginManager::getManager()->getMetrics() as $metric) {
     /**
      * @var \SiteMaster\Core\Auditor\MetricInterface $metric
