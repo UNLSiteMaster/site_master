@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Page;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Util;
@@ -67,56 +68,10 @@ class Analytics extends Record
     }
 
     /**
-     * Determines if this record has expired
-     *
-     * @return bool
-     */
-    public function isExpired()
-    {
-        $created = new \DateTime($this->date_created);
-        $now = new \DateTime();
-
-        //Determine if the request is expired
-        if ($now > $created->modify(Config::get('PAGE_LINK_TTL'))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if this link was a redirect
-     *
-     * @return bool
-     */
-    public function isRedirect()
-    {
-        if (in_array($this->original_status_code, array(301, 302))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if this link resulted in a CURL error
-     *
-     * @return bool
-     */
-    public function isCurlError()
-    {
-        if ($this->original_curl_code && empty($this->original_status_code)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * @return mixed
      */
     public function getPage()
     {
-        return \SiteMaster\Core\Auditor\Site\Page::getByID($this->scanned_page_id);
+        return Page::getByID($this->scanned_page_id);
     }
 }
