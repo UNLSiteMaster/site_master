@@ -31,6 +31,7 @@
     <?php if ($results->count() == 0): ?>
         Sorry, I couldn't find anything for you.
     <?php else: ?>
+        Total Pages that Match: <?php echo $context->getTotal() ?>
         <table>
             <thead>
                 <tr>
@@ -48,5 +49,12 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <?php if ($previous_page = $context->getPreviousPageURL()): ?>
+            <a href="<?php echo $previous_page ?>" class="button wdn-button">Previous Page</a>
+        <?php endif; ?>
+        
+        <?php if ($next_page = $context->getNextPageURL()): ?>
+            <a href="<?php echo $next_page ?>" class="button wdn-button">Next Page</a>
+        <?php endif; ?>
     <?php endif ?>
 <?php endif; ?>

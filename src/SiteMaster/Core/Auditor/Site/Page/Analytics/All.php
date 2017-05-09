@@ -74,10 +74,10 @@ JOIN (SELECT MAX(scans.id) as id
      */
     public function getLimit()
     {
-        if (!isset($this->options['limit']) || $this->options['limit'] == -1) {
-            return '';
+        if (isset($this->options['limit_offset'], $this->options['limit_rows'])) {
+            return ' LIMIT ' . (int)$this->options['limit_offset'] . ', ' . (int)$this->options['limit_rows'];
         }
 
-        return ' LIMIT ' . (int)$this->options['limit'];
+        return '';
     }
 }
