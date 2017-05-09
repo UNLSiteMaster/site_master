@@ -92,6 +92,7 @@ class Plugin extends PluginInterface
                 drop table if exists scans;
                 drop table if exists site_scan_history;
                 drop table if exists site_scan_metric_history;
+                drop table if exists scanned_page_analytics;
                 SET FOREIGN_KEY_CHECKS = 1;";
 
         if (!Util::execMultiQuery($sql, true)) {
@@ -259,6 +260,14 @@ class Plugin extends PluginInterface
                 return false;
             }
         }
+
+        if ($previousVersion <= 2017040701) {
+            $sql = file_get_contents(Util::getRootDir() . "/data/update-2017050801.sql");
+
+            if (!Util::execMultiQuery($sql, true)) {
+                return false;
+            }
+        }
         
         return true;
     }
@@ -284,7 +293,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 2017040701;
+        return 2017050801;
     }
 
     /**
