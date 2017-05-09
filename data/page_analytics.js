@@ -13,9 +13,9 @@ exports.evaluate = function(options) {
 		nightmare.evaluate(function(options) {
 			//Now we need to return a result object
 			var results = {
-				elements: {},
-				classes: {},
-				attributes: {}
+				element: {},
+				class: {},
+				attribute: {}
 			};
 			
 			function bumpResult(type, key, value) {
@@ -35,7 +35,7 @@ exports.evaluate = function(options) {
 			var all = document.getElementsByTagName("*");
 			for (var i = 0; i < all.length; i++) {
 				// Record the element name
-				bumpResult('elements', all[i].nodeName, null);
+				bumpResult('element', all[i].nodeName, null);
 				
 				// Record classes
 				var classes = all[i].getAttribute('class');
@@ -43,14 +43,14 @@ exports.evaluate = function(options) {
 				if (null !== classes) {
 					classes = classes.split(' ');
 					for (var ii in classes) {
-						bumpResult('classes', classes[ii], null);
+						bumpResult('class', classes[ii], null);
 					}
 				}
 
 				//The following generates a lot of data. Lets pass on it until we know we really need it.
 				//var attrs = all[i].attributes;
 				//for(var ii = attrs.length - 1; ii >= 0; ii--) {
-				//	bumpResult('attributes', attrs[ii].name, attrs[ii].value);
+				//	bumpResult('attribute', attrs[ii].name, attrs[ii].value);
 				//}
 			}
 			

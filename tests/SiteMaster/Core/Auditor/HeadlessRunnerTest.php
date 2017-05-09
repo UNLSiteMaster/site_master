@@ -13,7 +13,8 @@ class HeadlessRunnerTest extends \PHPUnit_Framework_TestCase
         $runner = new HeadlessRunner();
         
         $results = $runner->run(ScanDBTest::INTEGRATION_TESTING_URL);
-        
+
         $this->assertArrayHasKey('page_title', $results['example']);
+        $this->assertArrayHasKey('core-page-analytics', $results);
     }
 }

@@ -47,7 +47,7 @@ class Analytics extends Record
      * @return bool|Analytics
      * @internal param string $original_url the absolute URL of the link
      */
-    public static function createNewPageLink($scanned_page_id, $data_type, $num_instances, $data_key, $data_value, array $fields = array())
+    public static function createNewRecord($scanned_page_id, $data_type, $num_instances, $data_key, $data_value, array $fields = array())
     {
         $record = new self();
 
