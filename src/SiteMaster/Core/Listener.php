@@ -134,7 +134,7 @@ class Listener extends PluginListener
         );
         $event->addRoute(
             '/^analytics\/$/',
-            'SiteMaster\Core\Auditor\Site\Page\Analytics\SearchForm'
+            'SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics\SearchForm'
         );
     }
 

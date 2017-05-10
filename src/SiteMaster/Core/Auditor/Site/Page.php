@@ -4,12 +4,14 @@ namespace SiteMaster\Core\Auditor\Site;
 use DB\Record;
 use Monolog\Logger;
 use SiteMaster\Core\Auditor\Downloader\DownloadException;
+use SiteMaster\Core\Auditor\FeatureAnalytics;
 use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\HeadlessRunner;
 use SiteMaster\Core\Auditor\Logger\Links;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Auditor\Site\Page\Analytics;
+use SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -413,7 +415,11 @@ class Page extends Record
                         $value = null;
                     }
                     
-                    Analytics::createNewRecord($this->id, strtoupper($type), $instances, strtolower($key), strtolower($value));
+                    if (!$feature = FeatureAnalytics::getByUniqueHash($type, $key, $value)) {
+                        $feature = FeatureAnalytics::createNewRecord($type, $key, $value);
+                    }
+                    
+                    PageHasFeatureAnalytics::createNewRecord($feature, $this->id, $instances);
                 }
             }
         }

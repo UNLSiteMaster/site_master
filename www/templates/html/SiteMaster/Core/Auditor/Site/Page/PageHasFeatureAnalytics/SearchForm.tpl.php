@@ -1,4 +1,4 @@
-<p>This form allows site developers to search for HTML element or class usage across the sites that we scan. This can help inform design, development, and education decisions.</p>
+<p>This form allows site developers to search for HTML element or class usage across the sites that we scan. This can help inform design, development, and education decisions. Only data from the most recent scan for each site will be processed.</p>
 
 <form method="get">
     <fieldset>
@@ -23,7 +23,7 @@
                 <label>
                     Specificity of match
                     <select name="data_specificity">
-                        <option value="begins_with">begins with</option>
+                        <option value="key_begins_with">begins with</option>
                         <option value="exact">exact match</option>
                     </select>
                 </label>

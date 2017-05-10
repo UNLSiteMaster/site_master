@@ -1,6 +1,7 @@
 <?php
-namespace SiteMaster\Core\Auditor\Site\Page\Analytics;
+namespace SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics;
 
+use SiteMaster\Core\Auditor\FeatureAnalytics;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\ViewableInterface;
 
@@ -22,32 +23,38 @@ class SearchForm implements ViewableInterface
             $query_options = [
                 'data_type' => $options['data_type'],
                 'data_key' => strtolower($options['data_key']),
-                'data_specificity' => strtolower($options['data_specificity']),
                 'limit_offset' => 0,
             ];
-            
-            //Get all the total of all records
-            $all_records = new All($query_options);
-            $this->total = $all_records->count();
-            unset($all_records);
-            
-            if (isset($options['page'])) {
-                if ($options['page'] == 1) {
-                    $query_options['limit_offset'] = 0;
-                } else {
-                    $query_options['limit_offset'] = $options['page'] * $this->rows_per_page - $this->rows_per_page;
-                }
-            }
-            
-            $query_options['limit_rows'] = $this->rows_per_page;
 
-            $this->results = new All($query_options);
+            $query_options['feature_ids'] = FeatureAnalytics::getFeatureIds($options['data_type'], $options['data_key'], null, $options['data_specificity']);
             
-            if (($query_options['limit_offset'] + $this->rows_per_page) <= $this->total) {
-                $this->pages_remain = true;
+            if (!empty($query_options['feature_ids'])) {
+                //Get all the total of all records
+                $all_records = new All($query_options);
+                $this->total = $all_records->count();
+                unset($all_records);
+
+                if (isset($options['page'])) {
+                    if ($options['page'] == 1) {
+                        $query_options['limit_offset'] = 0;
+                    } else {
+                        $query_options['limit_offset'] = $options['page'] * $this->rows_per_page - $this->rows_per_page;
+                    }
+                }
+
+                $query_options['limit_rows'] = $this->rows_per_page;
+
+                $this->results = new All($query_options);
+
+                if (($query_options['limit_offset'] + $this->rows_per_page) <= $this->total) {
+                    $this->pages_remain = true;
+                }
+            } else {
+                //Show that results failed.
+                $this->results = [];
             }
         }
-        
+
         $this->options = $options;
     }
 
@@ -58,7 +65,7 @@ class SearchForm implements ViewableInterface
 
     public function getPageTitle()
     {
-        return 'Analytics Search';
+        return 'Feature Analytics Search';
     }
     
     public function getResults()

@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Core\Auditor\Site\Page\Analytics;
+namespace SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics;
 
 use DB\RecordList;
 use InvalidArgumentException;
@@ -7,7 +7,14 @@ use InvalidArgumentException;
 class All extends RecordList
 {
     public function __construct(array $options = array())
-    {
+    {;
+        if (!isset($options['feature_ids'])) {
+            throw new InvalidArgumentException('Aa feature_ids must be set', 500);
+        }
+
+        //Sanitize for query
+        $options['feature_ids'] = array_map('intval', $options['feature_ids']);
+        
         $this->options = $options + $this->options;
 
         $options['array'] = self::getBySQL(array(
@@ -15,25 +22,13 @@ class All extends RecordList
             'returnArray' => true
         ));
 
-        if (!isset($options['data_type'])) {
-            throw new InvalidArgumentException('Aa data_type must be set', 500);
-        }
-
-        if (!isset($options['data_key'])) {
-            throw new InvalidArgumentException('Aa data_key must be set', 500);
-        }
-
-        if (!isset($options['data_specificity'])) {
-            throw new InvalidArgumentException('Aa data_specificity must be set', 500);
-        }
-
         parent::__construct($options);
     }
 
     public function getDefaultOptions()
     {
         $options = array();
-        $options['itemClass'] = '\SiteMaster\Core\Auditor\Site\Page\Analytics';
+        $options['itemClass'] = '\SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics';
         $options['listClass'] = __CLASS__;
 
         return $options;
@@ -43,9 +38,10 @@ class All extends RecordList
     {
         //Build the list
         $sql = "
-SELECT scanned_page_analytics.id
-FROM scanned_page_analytics
-JOIN scanned_page ON (scanned_page.id = scanned_page_analytics.scanned_page_id)
+SELECT scanned_page_has_feature_analytics.id
+FROM scanned_page_has_feature_analytics
+JOIN scanned_page ON (scanned_page.id = scanned_page_has_feature_analytics.scanned_page_id)
+JOIN feature_analytics ON (feature_analytics.id IN (".implode(',',$this->options['feature_ids']).") AND scanned_page_has_feature_analytics.feature_analytics_id = feature_analytics.id)
 JOIN (SELECT MAX(scans.id) as id
         FROM scanned_page
           JOIN scans on (scanned_page.scans_id = scans.id)
@@ -53,17 +49,7 @@ JOIN (SELECT MAX(scans.id) as id
         GROUP BY scans.sites_id
        ) as completed_scans ON completed_scans.id = scanned_page.scans_id";
 
-        $sql .= " WHERE scanned_page_analytics.data_type = '".self::escapeString($this->options['data_type'])."'";
-        
-        switch ($this->options['data_specificity']) {
-            case 'begins_with':
-                $sql .=  " AND scanned_page_analytics.data_key LIKE '".self::escapeString($this->options['data_key'])."%'";
-                break;
-            default:
-                $sql .=  " AND scanned_page_analytics.data_key = '".self::escapeString($this->options['data_key'])."'";
-        }
-
-        $sql .= " ORDER BY scanned_page_analytics.num_instances DESC";
+        $sql .= " ORDER BY scanned_page_has_feature_analytics.num_instances DESC";
         
         $sql .= $this->getLimit();
 
