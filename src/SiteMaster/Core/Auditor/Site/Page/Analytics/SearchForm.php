@@ -17,11 +17,12 @@ class SearchForm implements ViewableInterface
     
     function __construct($options = [])
     {
-        if (isset($options['data_type'], $options['data_key'])) {
+        if (isset($options['data_type'], $options['data_key'], $options['data_specificity'])) {
             //Try to get the data
             $query_options = [
                 'data_type' => $options['data_type'],
                 'data_key' => strtolower($options['data_key']),
+                'data_specificity' => strtolower($options['data_specificity']),
                 'limit_offset' => 0,
             ];
             

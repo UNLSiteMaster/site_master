@@ -20,6 +20,15 @@
                 </label>
             </li>
             <li>
+                <label>
+                    Specificity of match
+                    <select name="data_specificity">
+                        <option value="begins_with">begins with</option>
+                        <option value="exact">exact match</option>
+                    </select>
+                </label>
+            </li>
+            <li>
                 <button>Search</button>
             </li>
         </ul>

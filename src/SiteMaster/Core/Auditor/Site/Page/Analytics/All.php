@@ -23,6 +23,10 @@ class All extends RecordList
             throw new InvalidArgumentException('Aa data_key must be set', 500);
         }
 
+        if (!isset($options['data_specificity'])) {
+            throw new InvalidArgumentException('Aa data_specificity must be set', 500);
+        }
+
         parent::__construct($options);
     }
 
@@ -49,8 +53,15 @@ JOIN (SELECT MAX(scans.id) as id
         GROUP BY scans.sites_id
        ) as completed_scans ON completed_scans.id = scanned_page.scans_id";
 
-        $sql .= " WHERE scanned_page_analytics.data_type = '".self::escapeString($this->options['data_type'])."'
-                      AND scanned_page_analytics.data_key = '".self::escapeString($this->options['data_key'])."'";
+        $sql .= " WHERE scanned_page_analytics.data_type = '".self::escapeString($this->options['data_type'])."'";
+        
+        switch ($this->options['data_specificity']) {
+            case 'begins_with':
+                $sql .=  " AND scanned_page_analytics.data_key LIKE '".self::escapeString($this->options['data_key'])."%'";
+                break;
+            default:
+                $sql .=  " AND scanned_page_analytics.data_key = '".self::escapeString($this->options['data_key'])."'";
+        }
 
         $sql .= " ORDER BY scanned_page_analytics.num_instances DESC";
         
