@@ -4,11 +4,14 @@ namespace SiteMaster\Core\Auditor\Site;
 use DB\Record;
 use Monolog\Logger;
 use SiteMaster\Core\Auditor\Downloader\DownloadException;
+use SiteMaster\Core\Auditor\FeatureAnalytics;
 use SiteMaster\Core\Auditor\GradingHelper;
 use SiteMaster\Core\Auditor\HeadlessRunner;
 use SiteMaster\Core\Auditor\Logger\Links;
 use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Parser\HTML5;
+use SiteMaster\Core\Auditor\Site\Page\Analytics;
+use SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -346,6 +349,8 @@ class Page extends Record
         $spider->addLogger(new Links($spider, $this));
         $spider->addLogger($page_title_logger);
         $spider->addLogger(new Metrics($spider, $scan, $site, $this, $headless_results));
+        
+        $this->logPageAnalytics($headless_results['core-page-analytics']);
 
         try {
             $spider->processPage($this->getSanitizedURI(), 1);
@@ -394,6 +399,30 @@ class Page extends Record
         $this->markAsComplete();
         
         return true;
+    }
+
+    /**
+     * Log page analytics to database
+     * 
+     * @param array $page_analytics
+     */
+    function logPageAnalytics(array $page_analytics)
+    {
+        foreach ($page_analytics as $type=>$data) {
+            foreach ($data as $key=>$values) {
+                foreach ($values as $value=>$instances) {
+                    if ($value == 'null') {
+                        $value = null;
+                    }
+                    
+                    if (!$feature = FeatureAnalytics::getByUniqueHash($type, $key, $value)) {
+                        $feature = FeatureAnalytics::createNewRecord($type, $key, $value);
+                    }
+                    
+                    PageHasFeatureAnalytics::createNewRecord($feature, $this->id, $instances);
+                }
+            }
+        }
     }
 
     /**
