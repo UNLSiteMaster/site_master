@@ -22,10 +22,16 @@ class Auth implements ViewableInterface
     protected $options = array();
 
     /**
+     * @var \SiteMaster\Core\Plugin\PluginInterface
+     */
+    protected $plugin;
+
+    /**
      * @param array $options
      */
     function __construct($options = array())
     {
+        $this->plugin = PluginManager::getManager()->getPluginInfo('auth_google');
         $this->opauth = $this->getOpauth();
         $this->options += $options;
         
@@ -66,7 +72,7 @@ class Auth implements ViewableInterface
             $user = User::createUser($result->uid, $result->provider, $info);
         }
         
-        Session::logIn($user);
+        Session::logIn($user, $this->plugin->getProviderMachineName());
     }
 
     /**
@@ -76,15 +82,12 @@ class Auth implements ViewableInterface
      */
     public function getOpauth()
     {
-        $plugin = PluginManager::getManager()->getPluginInfo('auth_google');
-
-        
         $options = array(
             'path' => Util::getBaseURLPath() . 'auth/',
             'callback_url' => 'auth/google/'
         );
         
-        $options += $plugin->getOptions();
+        $options += $this->plugin->getOptions();
 
         return new Opauth($options);
     }
