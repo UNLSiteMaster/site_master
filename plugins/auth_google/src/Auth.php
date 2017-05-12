@@ -3,6 +3,7 @@ namespace SiteMaster\Plugins\Auth_Google;
 
 use Opauth\Opauth;
 use SiteMaster\Core\Config;
+use SiteMaster\Core\Controller;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\User\Session;
 use SiteMaster\Core\User\User;
@@ -73,6 +74,13 @@ class Auth implements ViewableInterface
         }
         
         Session::logIn($user, $this->plugin->getProviderMachineName());
+
+        if (isset($_GET['r'])) {
+            //redirect if we need to
+            Controller::redirect($_GET['r']);
+        } else {
+            Controller::redirect($user->getURL());
+        }
     }
 
     /**
