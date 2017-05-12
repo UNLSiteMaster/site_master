@@ -23,7 +23,7 @@
             <td><?php echo $result['uid'] ?></td>
             <td><?php echo $result['first_name'] ?></td>
             <td><?php echo $result['last_name'] ?></td>
-            <td><?php echo $result['email'] ?></td>
+            <td><?php //echo $result['email'] ?></td>
         </tr>
         <?php
     }
