@@ -11,13 +11,13 @@ class SiteMap
     {
         $this->site_map_url = $site_map_url;
     }
-    
+
     public function getURLs()
     {
         if (empty($this->site_map_url)) {
             return false;
         }
-        
+
         if (!$xml = @file_get_contents($this->site_map_url)) {
             return false;
         }
@@ -28,13 +28,13 @@ class SiteMap
             return false;
         }
 
-        $nodes = $xml->xpath('//*[local-name()="loc"]');
+        $nodes = $xml->xpath('//*[local-name()="url"] //*[local-name()="loc"]');
 
         $urls = array();
         foreach ($nodes as $node) {
             $urls[] = (string)$node;
         }
-        
+
         return array_unique($urls);
     }
 }
