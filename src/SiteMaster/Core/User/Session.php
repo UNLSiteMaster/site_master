@@ -4,6 +4,7 @@ namespace SiteMaster\Core\User;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\RequiredLoginException;
+use SiteMaster\Core\Util;
 
 class Session
 {
@@ -16,6 +17,12 @@ class Session
 
         $session->set('user.id', $user->id);
         $session->set('user.auth_plugin_provider_name', $auth_plugin_provider_name);
+        
+        //Update user data
+        $user->total_logins = $user->total_logins+1;
+        $user->last_login = Util::epochToDateTime();
+        
+        $user->save();
     }
 
     public static function logOut()

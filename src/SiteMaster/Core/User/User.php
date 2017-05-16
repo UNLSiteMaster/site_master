@@ -18,10 +18,30 @@ class User extends Record
     public $first_name;     //varchar
     public $last_name;      //varchar
     public $role;           //enum('ADMIN', 'USER') default 'USER' required
+    public $last_login;     //datetime()
+    public $total_logins;   //INT
     
     public function keys()
     {
         return array('id');
+    }
+    
+    public function insert()
+    {
+        if (null === $this->total_logins) {
+            $this->total_logins = 0;
+        }
+        
+        return parent::insert();
+    }
+    
+    public function update()
+    {
+        if (null === $this->total_logins) {
+            $this->total_logins = 0;
+        }
+        
+        return parent::update();
     }
     
     public static function getTable()
@@ -36,6 +56,8 @@ class User extends Record
         $user->synchronizeWithArray($info);
         $user->uid = $uid;
         $user->provider = $provider;
+        $user->last_login = null;
+        $user->total_logins = 0;
         
         if (!$user->save()) {
             return false;
