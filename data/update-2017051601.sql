@@ -1,0 +1,2 @@
+ALTER TABLE users ADD last_login DATETIME;
+ALTER TABLE users ADD total_logins INT NOT NULL DEFAULT 0;
