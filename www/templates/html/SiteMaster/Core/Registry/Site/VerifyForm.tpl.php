@@ -25,12 +25,13 @@ if ($context->verify_user->id != $context->current_user->id) {
         <p>
             To manually verify yourself, you will need to create this file on your site:
         </p>
-        <code>
-            <?php echo $context->getVerificationURL(); ?>
-        </code>
+        <pre><code><?php echo $context->getVerificationURL(); ?></code></pre>
         <p>
             The file does not have to contain anything.  The only requirement is that the file exists.
         </p>
+        
+        <p>You may also add the following meta tag to your home page. Once verification is completed, you can remove it.</p>
+        <pre><code><?php echo htmlentities('<meta name="sitemaster-verification-code" content='.$context->verify_user_membership->verification_code.'">') ?></code></pre>
     </div>
     <input type="hidden" name="type" value="manual" />
     <input type="submit" value="Verify Now" />
