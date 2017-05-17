@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\AccessDeniedException;
+use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\FlashBagMessage;
@@ -204,12 +205,35 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
         $notice = new FlashBagMessage(FlashBagMessage::TYPE_SUCCESS, $this->verify_user->getName() . ' has been verified');
         Controller::redirect($this->site->getURL() . 'members/', $notice);
     }
+
+    /**
+     * Perform verifications
+     * 
+     * @return bool
+     */
+    protected function checkVerification()
+    {
+        $result = Util::getHTTPInfo($this->getVerificationURL());
+
+        if ($result['okay']) {
+            return true;
+        }
+        
+        //result failed, so try to find it via the meta tag
+        $helper = new VerificationHelper();
+        $html = @file_get_contents($this->site->base_url);
+        $found_codes = $helper->verifyByMetaTag($html);
+        if (in_array($this->verify_user_membership->verification_code, $found_codes)) {
+            return true;
+        }
+        
+        return false;
+    }
     
     protected function manuallyVerify()
     {
-        $result = Util::getHTTPInfo($this->getVerificationURL());
-        if (!$result['okay']) {
-            throw new RuntimeException('Unable to find the verification file.  Please make sure it is present and try again.', 400);
+        if (!($this->checkVerification())) {
+            throw new RuntimeException('Unable to find the verification file or meta tag.  Please make sure it is present and try again.', 400);
         }
         
         $this->verify_user_membership->verify();
