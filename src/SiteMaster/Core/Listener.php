@@ -49,6 +49,14 @@ class Listener extends PluginListener
             'SiteMaster\Core\Auditor\Site\ScanForm'
         );
         $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/overrides\/$/',
+            'SiteMaster\Core\Auditor\Site\Overrides\ViewOverrides'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/overrides\/add\/$/',
+            'SiteMaster\Core\Auditor\Site\Overrides\AddOverrideForm'
+        );
+        $event->addRoute(
             '/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',
             'SiteMaster\Core\Auditor\Site\Page\ScanForm'
         );

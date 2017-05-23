@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Page;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Override;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Registry\Site\Member;
 
@@ -64,10 +65,18 @@ class Mark extends Record
     /**
      * Get the page for this mark
      * 
-     * @return mixed
+     * @return false|Page
      */
     public function getPage()
     {
         return Page::getByID($this->scanned_page_id);
+    }
+
+    /**
+     * @return false|Override
+     */
+    public function hasOverride()
+    {
+        return Override::getMatchingRecord($this);
     }
 }
