@@ -47,6 +47,10 @@ class Override extends Record
     {
         $page = $page_mark->getPage();
         
+        if ($page_mark->points_deducted !== '0.00') {
+            throw new InvalidArgumentException('Overrides can only be created for notices');
+        }
+        
         if (self::getMatchingRecord($page_mark)) {
             throw new InvalidArgumentException('An override already exists that matches this page mark');
         }
@@ -74,8 +78,6 @@ class Override extends Record
     }
 
     /**
-     * //TODO - test this
-     * 
      * @param Mark $page_mark
      * @return false|Override
      */

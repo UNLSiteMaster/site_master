@@ -93,6 +93,7 @@ class Plugin extends PluginInterface
                 drop table if exists site_scan_history;
                 drop table if exists site_scan_metric_history;
                 drop table if exists scanned_page_analytics;
+                drop table if exists overrides;
                 SET FOREIGN_KEY_CHECKS = 1;";
 
         if (!Util::execMultiQuery($sql, true)) {
