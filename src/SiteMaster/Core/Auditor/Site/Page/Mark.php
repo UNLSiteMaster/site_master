@@ -54,6 +54,11 @@ class Mark extends Record
         $mark->marks_id        = $marks_id;
         $mark->scanned_page_id = $scanned_page_id;
         $mark->points_deducted = $points_deducted;
+        
+        if ($mark->points_deducted === '0.00' && Override::getMatchingRecord($mark)) {
+            //Skip this mark because it is overridden
+            return false;
+        }
 
         if (!$mark->insert()) {
             return false;
