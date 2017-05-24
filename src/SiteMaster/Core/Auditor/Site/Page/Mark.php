@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Auditor\Site\Page;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Override;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Registry\Site\Member;
 
@@ -53,6 +54,11 @@ class Mark extends Record
         $mark->marks_id        = $marks_id;
         $mark->scanned_page_id = $scanned_page_id;
         $mark->points_deducted = $points_deducted;
+        
+        if ($mark->points_deducted === '0.00' && Override::getMatchingRecord($mark)) {
+            //Skip this mark because it is overridden
+            return false;
+        }
 
         if (!$mark->insert()) {
             return false;
@@ -64,10 +70,18 @@ class Mark extends Record
     /**
      * Get the page for this mark
      * 
-     * @return mixed
+     * @return false|Page
      */
     public function getPage()
     {
         return Page::getByID($this->scanned_page_id);
+    }
+
+    /**
+     * @return false|Override
+     */
+    public function hasOverride()
+    {
+        return Override::getMatchingRecord($this);
     }
 }

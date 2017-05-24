@@ -49,6 +49,14 @@ class Listener extends PluginListener
             'SiteMaster\Core\Auditor\Site\ScanForm'
         );
         $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/overrides\/$/',
+            'SiteMaster\Core\Auditor\Site\Overrides\ViewOverrides'
+        );
+        $event->addRoute(
+            '/^sites\/(?P<site_id>(\d*))\/overrides\/add\/$/',
+            'SiteMaster\Core\Auditor\Site\Overrides\AddOverrideForm'
+        );
+        $event->addRoute(
             '/^sites\/(?P<site_id>(\d*))\/scan\/page\/$/',
             'SiteMaster\Core\Auditor\Site\Page\ScanForm'
         );
@@ -212,11 +220,17 @@ class Listener extends PluginListener
 
             if ($is_verified || $user->isAdmin()) {
                 $event->addNavigationItem($site->getURL() . 'edit/', 'Edit Site Info');
-                $event->addNavigationItem($site->getURL() . 'reviews/', 'Manual Reviews');
             }
         } else {
             $event->addNavigationItem($site->getURL() . 'members/', 'Members');
         }
+
+        $overrides = $site->getOverrides();
+        $title = 'Overrides';
+        if (count($overrides)) {
+            $title .= ' ('.count($overrides).')';
+        }
+        $event->addNavigationItem($site->getURL() . 'overrides/', $title);
     }
 
     /**

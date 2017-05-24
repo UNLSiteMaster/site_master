@@ -329,21 +329,29 @@ abstract class MetricInterface
     /**
      * Get a mark record for a machine name.  This method will create the record if it isn't found.
      * It will also update the record if it needs to
-     * 
+     *
      * @param string $machine_name the machine name of the mark
      * @param string $name the human readable name of the mark
      * @param double $point_deduction the point deduction
      * @param string $description the description of the mark
      * @param string $help_text the help text for the mark
+     * @param bool $allows_perm_overrides
      * @return bool|Metric\Mark the mark
      */
-    public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '')
+    public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '', $allows_perm_overrides = false)
     {
+        if ($allows_perm_overrides) {
+            $allows_perm_overrides = Metric\Mark::ALLOW_PERM_OVERRIDE_YES;
+        } else {
+            $allows_perm_overrides = Metric\Mark::ALLOW_PERM_OVERRIDE_NO;
+        }
+        
         if (!$mark = Metric\Mark::getByMachineNameAndMetricID($machine_name, $this->getMetricRecord()->id)) {
             return Metric\Mark::createNewMark($this->getMetricRecord()->id, $machine_name, $name, array(
                 'point_deduction' => $point_deduction,
                 'description' => $description,
-                'help_text' => $help_text
+                'help_text' => $help_text,
+                'allow_perm_override' => $allows_perm_overrides,
             ));
         }
         
@@ -367,6 +375,11 @@ abstract class MetricInterface
         
         if ($mark->help_text != $help_text) {
             $mark->help_text = $help_text;
+            $update = true;
+        }
+        
+        if ($mark->allow_perm_override != $allows_perm_overrides) {
+            $mark->allow_perm_override = $allows_perm_overrides;
             $update = true;
         }
         
