@@ -407,4 +407,12 @@ class Site extends Record
         
         return new ForSite($options);
     }
+
+    /**
+     * @return \SiteMaster\Core\Auditor\Site\Overrides\AllForSite
+     */
+    public function getOverrides()
+    {
+        return new \SiteMaster\Core\Auditor\Site\Overrides\AllForSite(['sites_id'=>$this->id]);
+    }
 }
