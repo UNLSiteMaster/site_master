@@ -329,12 +329,13 @@ abstract class MetricInterface
     /**
      * Get a mark record for a machine name.  This method will create the record if it isn't found.
      * It will also update the record if it needs to
-     * 
+     *
      * @param string $machine_name the machine name of the mark
      * @param string $name the human readable name of the mark
      * @param double $point_deduction the point deduction
      * @param string $description the description of the mark
      * @param string $help_text the help text for the mark
+     * @param bool $allows_perm_overrides
      * @return bool|Metric\Mark the mark
      */
     public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '', $allows_perm_overrides = false)
@@ -350,7 +351,7 @@ abstract class MetricInterface
                 'point_deduction' => $point_deduction,
                 'description' => $description,
                 'help_text' => $help_text,
-                'allows_perm_override' => $allows_perm_overrides,
+                'allow_perm_override' => $allows_perm_overrides,
             ));
         }
         

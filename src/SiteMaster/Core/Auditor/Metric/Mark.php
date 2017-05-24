@@ -43,7 +43,7 @@ class Mark extends Record
     }
 
     /**
-     * Create a new Scan
+     * Create a new Mark
      *
      * @param int $metric_id the metric id that this mark belongs to
      * @param string $machine_name the machine name of this mark
@@ -53,18 +53,19 @@ class Mark extends Record
      */
     public static function createNewMark($metric_id, $machine_name, $name, array $fields = array())
     {
-        $scan = new self();
-        $scan->point_deduction = 0;
-        $scan->synchronizeWithArray($fields);
-        $scan->metrics_id    = $metric_id;
-        $scan->machine_name = $machine_name;
-        $scan->name         = $name;
+        $mark = new self();
+        $mark->point_deduction = 0;
+        $mark->allow_perm_override = self::ALLOW_PERM_OVERRIDE_NO;
+        $mark->synchronizeWithArray($fields);
+        $mark->metrics_id    = $metric_id;
+        $mark->machine_name = $machine_name;
+        $mark->name         = $name;
 
-        if (!$scan->insert()) {
+        if (!$mark->insert()) {
             return false;
         }
         
-        return $scan;
+        return $mark;
     }
 
     /**
