@@ -34,6 +34,14 @@ class Override extends Record
     }
 
     /**
+     * @return false|Metric\Mark
+     */
+    public function getMark()
+    {
+        return Metric\Mark::getByID($this->marks_id);
+    }
+
+    /**
      * Create a new Override
      *
      * @param $url
