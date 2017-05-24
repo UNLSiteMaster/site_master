@@ -1,4 +1,4 @@
-<p>By adding an override, you will prevent a specific mark from appearing on future scans. <strong>Overrides must only be added if you have manually verified that it is not a problem.</strong></p>
+<p>By adding an override, you will prevent a specific notice from appearing on future scans. <strong>Overrides must only be added if you have manually verified that it is not in fact a problem.</strong></p>
 
 <h2>Mark Details</h2>
 <p>This override will match the following values, unless otherwise noted.</p>
@@ -30,17 +30,17 @@
         <legend>(required) Scope</legend>
         <label>
             <input type="radio" name="scope" value="ELEMENT" required checked>
-            Just this element on this page (matching the mark, value, and context, if any exist)
+            Just this element on this page (matching the mark, value, page, and HTML context)
         </label>
         <br />
         <label>
             <input type="radio" name="scope" value="PAGE">
-            Just this page (only matches this mark and value on this url)
+            Just this page (only matches this mark, value, and page)
         </label>
         <br />
         <label>
             <input type="radio" name="scope" value="SITE" required>
-            Entire site (matches this mark and value wherever it is found on the entire site)
+            Entire site (matches the mark and value on the entire site)
         </label>
     </fieldset>
     <label for="reason">(required) The reason for this override (describe how you determined that this is not an error)</label>
