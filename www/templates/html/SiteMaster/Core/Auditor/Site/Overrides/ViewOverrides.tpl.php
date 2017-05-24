@@ -7,24 +7,15 @@
         <?php $mark = $override->getMark(); ?>
         <?php $metric = $mark->getMetric(); ?>
 
-        <h2><?php echo $mark->name ?></h2>
+        <h2><?php echo ucfirst(strtolower($override->scope)) ?> override for '<?php echo $mark->name ?>' notices from the '<?php echo $metric->getName() ?>' metric</h2>
         <dl>
-            <dt>Metric</dt>
-            <dd><?php echo $metric->getName() ?></dd>
-
-            <dt>Value</dt>
+            <dt>Matches this value</dt>
             <dd><?php echo (empty($override->value_found)?'(empty)':$override->value_found) ?></dd>
-
-            <dt>Scope</dt>
-            <dd><?php echo $override->scope ?></dd>
             
             <?php if ($override->scope !== 'SITE'): ?>
                 <dt>Page</dt>
                 <dd><?php echo (empty($override->url)?'site':'Only on page: ' . $override->url) ?></dd>
             <?php endif; ?>
-
-            <dt>Date created</dt>
-            <dd><?php echo $override->date_created ?></dd>
 
             <dt>Expires</dt>
             <dd><?php echo (empty($override->expires)?'never':$override->expires) ?></dd>
