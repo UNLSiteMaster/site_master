@@ -15,6 +15,10 @@ class Mark extends Record
     public $point_deduction;       //DECIMAL(5,2) NOT NULL default=0, points to take off for the mark
     public $description;           //TEXT, a description of the error
     public $help_text;             //TEXT, a how-to-fix text (will be editable by admin)
+    public $allow_perm_override;   //ENUM('YES', 'NO') NOT NULL, DEFAULT 'NO'
+    
+    const ALLOW_PERM_OVERRIDE_YES = 'YES';
+    const ALLOW_PERM_OVERRIDE_NO = 'NO';
 
     public function keys()
     {
@@ -99,5 +103,13 @@ class Mark extends Record
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function allowsPermanentOverrides()
+    {
+        return $this->allow_perm_override === self::ALLOW_PERM_OVERRIDE_YES;
     }
 }

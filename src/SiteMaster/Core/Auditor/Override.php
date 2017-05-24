@@ -15,6 +15,7 @@ class Override extends Record
     public $sites_id; // INT NOT NULL,
     public $users_id; // INT NOT NULL,
     public $date_created; // DATETIME NOT NULL,
+    public $expires; //DATETIME NULL,
     public $marks_id; // INT NOT NULL,
     public $url; //VARCHAR(2100) null
     public $context; // TEXT NULL,
@@ -23,6 +24,7 @@ class Override extends Record
     public $value_found; // TEXT NULL,
     public $reason; // TEXT NOT NULL,
     public $scope; // ENUM('SITE', 'PAGE', 'ELEMENT') NOT NULL, default 'ELEMENT'
+    
     
     const SCOPE_SITE = 'SITE';
     const SCOPE_PAGE = 'PAGE';
@@ -59,8 +61,9 @@ class Override extends Record
     public static function createNewOverride($scope, $users_id, $reason, Mark $page_mark)
     {
         $page = $page_mark->getPage();
+        $mark = $page_mark->getMark();
         
-        if ($page_mark->getMark()->point_deduction !== '0.00') {
+        if ($mark->point_deduction !== '0.00') {
             throw new InvalidArgumentException('Overrides can only be created for notices');
         }
         
@@ -77,6 +80,14 @@ class Override extends Record
         $record->url = $page->uri;
         $record->reason = $reason;
         $record->date_created = Util::epochToDateTime();
+        
+        //set the expires
+        if ($mark->allowsPermanentOverrides()) {
+            //It never expires
+            $record->expires = null;
+        } else {
+            $record->expires = Util::epochToDateTime(strtotime('+1 year'));
+        }
         
         if (!empty($url)) {
             $record->context = $page_mark->context;

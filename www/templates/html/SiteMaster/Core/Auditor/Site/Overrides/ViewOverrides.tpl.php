@@ -25,6 +25,9 @@
 
             <dt>Date created</dt>
             <dd><?php echo $override->date_created ?></dd>
+
+            <dt>Expires</dt>
+            <dd><?php echo (empty($override->expires)?'never':$override->expires) ?></dd>
             
             <?php if ($override->scope === 'ELEMENT'): ?>
                 <?php if (!empty($override->context)): ?>
@@ -48,6 +51,9 @@
                     </dd>
                 <?php endif; ?>
             <?php endif; ?>
+
+            <dt>Reason for override</dt>
+            <dd><?php echo $override->reason ?></dd>
             
             <dt>Options</dt>
             <dd>

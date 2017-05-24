@@ -337,13 +337,20 @@ abstract class MetricInterface
      * @param string $help_text the help text for the mark
      * @return bool|Metric\Mark the mark
      */
-    public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '')
+    public function getMark($machine_name, $name, $point_deduction, $description = '', $help_text = '', $allows_perm_overrides = false)
     {
+        if ($allows_perm_overrides) {
+            $allows_perm_overrides = Metric\Mark::ALLOW_PERM_OVERRIDE_YES;
+        } else {
+            $allows_perm_overrides = Metric\Mark::ALLOW_PERM_OVERRIDE_NO;
+        }
+        
         if (!$mark = Metric\Mark::getByMachineNameAndMetricID($machine_name, $this->getMetricRecord()->id)) {
             return Metric\Mark::createNewMark($this->getMetricRecord()->id, $machine_name, $name, array(
                 'point_deduction' => $point_deduction,
                 'description' => $description,
-                'help_text' => $help_text
+                'help_text' => $help_text,
+                'allows_perm_override' => $allows_perm_overrides,
             ));
         }
         
@@ -367,6 +374,11 @@ abstract class MetricInterface
         
         if ($mark->help_text != $help_text) {
             $mark->help_text = $help_text;
+            $update = true;
+        }
+        
+        if ($mark->allow_perm_override != $allows_perm_overrides) {
+            $mark->allow_perm_override = $allows_perm_overrides;
             $update = true;
         }
         

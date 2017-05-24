@@ -1,5 +1,3 @@
-<h1>Add an override</h1>
-
 <p>By adding an override, you will prevent a specific mark from appearing on future scans. <strong>Overrides must only be added if you have manually verified that it is not a problem.</strong></p>
 
 <h2>Mark Details</h2>
@@ -42,7 +40,7 @@
         </label>
         <br />
         <label>
-            <input type="radio" name="scope" value="PAGE" required checked>
+            <input type="radio" name="scope" value="PAGE">
             Just this page (only matches this mark and value on this url)
         </label>
         <br />

@@ -169,7 +169,12 @@ class Metric extends MetricInterface
             $help_text    = $this->getStatusHelpText($machine_name);
             $points       = $this->getPointDeduction($link->original_status_code);
 
-            $mark = $this->getMark($machine_name, $message, $points, null, $help_text);
+            $allows_perm_override = false;
+            if ($points === 0) {
+                //Allow notices for this metric to be permanently overridden, because they likely do not need to be reviewed again.
+                $allows_perm_override = true;
+            }
+            $mark = $this->getMark($machine_name, $message, $points, null, $help_text, $allows_perm_override);
 
             $value_found = $link->original_url;
             if ($link->isRedirect()) {

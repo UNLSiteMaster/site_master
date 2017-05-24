@@ -13,9 +13,10 @@ CREATE TABLE IF NOT EXISTS `overrides` (
   `line` INT NULL,
   `col` INT NULL,
   `value_found` TEXT NULL,
+  `expires` DATETIME NULL,
   `reason` TEXT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `indx_overrides` (`sites_id` ASC, `marks_id` ASC),
+  INDEX `indx_overrides` (`sites_id` ASC, `marks_id` ASC, `expires` ASC),
   CONSTRAINT `fk_overrides_sites`
   FOREIGN KEY (`sites_id`)
   REFERENCES `sites` (`id`)
@@ -32,3 +33,5 @@ CREATE TABLE IF NOT EXISTS `overrides` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+ALTER TABLE marks ADD allow_perm_override ENUM('YES', 'NO') NOT NULL DEFAULT 'NO';
