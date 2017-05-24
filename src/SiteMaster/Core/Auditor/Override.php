@@ -118,16 +118,6 @@ class Override extends Record
         } else {
             $element_scope_sql .= "AND `context` = '".RecordList::escapeString($page_mark->context)."'\n";
         }
-        if (empty($page_mark->line)) {
-            $element_scope_sql .= "AND line IS NULL \n";
-        } else {
-            $element_scope_sql .= "AND line = ".(int)$page_mark->line."\n";
-        }
-        if (empty($page_mark->col)) {
-            $element_scope_sql .= "AND col IS NULL \n";
-        } else {
-            $element_scope_sql .= "AND col = ".(int)$page_mark->col."\n";
-        }
 
         $sql = "SELECT id
                 FROM overrides

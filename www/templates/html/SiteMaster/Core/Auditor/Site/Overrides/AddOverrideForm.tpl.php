@@ -13,12 +13,6 @@
     
     <dt>Value Found</dt>
     <dd><?php echo ($context->page_mark->value_found === null)?'(empty)':$context->page_mark->value_found ?></dd>
-
-    <dt>HTML Line Number</dt>
-    <dd><?php echo ($context->page_mark->line === null)?'(empty)':$context->page_mark->line ?></dd>
-
-    <dt>HTML Column Number</dt>
-    <dd><?php echo ($context->page_mark->col === null)?'(empty)':$context->page_mark->col ?></dd>
     
     <dt>HTML Context</dt>
     <dd>
@@ -36,7 +30,7 @@
         <legend>(required) Scope</legend>
         <label>
             <input type="radio" name="scope" value="ELEMENT" required checked>
-            Just this element on this page (matching the mark, value, html line/column, and context, if any exist)
+            Just this element on this page (matching the mark, value, and context, if any exist)
         </label>
         <br />
         <label>

@@ -29,20 +29,6 @@
                         <pre><code><?php echo trim(htmlentities($override->getRaw('context'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false))?></code></pre>
                     </dd>
                 <?php endif; ?>
-
-                <?php if (!empty($override->line)): ?>
-                    <dt>HTML line number</dt>
-                    <dd>
-                        <?php echo $override->line ?>
-                    </dd>
-                <?php endif; ?>
-
-                <?php if (!empty($override->col)): ?>
-                    <dt>HTML column number</dt>
-                    <dd>
-                        <?php echo $override->col ?>
-                    </dd>
-                <?php endif; ?>
             <?php endif; ?>
 
             <dt>Reason for override</dt>
