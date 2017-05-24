@@ -89,7 +89,7 @@ class Override extends Record
             $record->expires = Util::epochToDateTime(strtotime('+1 year'));
         }
         
-        if (!empty($url)) {
+        if ($scope === self::SCOPE_ELEMENT) {
             $record->context = $page_mark->context;
             $record->line = $page_mark->line;
             $record->col = $page_mark->col;
