@@ -20,6 +20,10 @@ class User extends Record
     public $role;           //enum('ADMIN', 'USER') default 'USER' required
     public $last_login;     //datetime()
     public $total_logins;   //INT
+    public $is_private; //enum('YES', 'NO') NOT NULL DEFAULT 'YES'
+    
+    const PRIVATE_NO = 'NO';
+    const PRIVATE_YES = 'YES';
     
     public function keys()
     {
@@ -53,6 +57,7 @@ class User extends Record
     {
         $user = new self();
         $user->role = 'USER';
+        $user->is_private = self::PRIVATE_YES;
         $user->synchronizeWithArray($info);
         $user->uid = $uid;
         $user->provider = $provider;

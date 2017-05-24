@@ -259,7 +259,7 @@ class Listener extends PluginListener
     
     public function onUserSearch(Events\User\Search $event)
     {
-        $search = new User\Search(array('term' => $event->getSearchTerm()));
+        $search = new User\Search(array('term' => $event->getSearchTerm(), 'provider' => $event->getProvider()));
         
         foreach ($search as $result) {
             $event->addResult($result->provider, $result->uid, $result->email, $result->first_name, $result->last_name);

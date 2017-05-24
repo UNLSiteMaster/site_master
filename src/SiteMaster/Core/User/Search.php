@@ -11,9 +11,13 @@ class Search extends RecordList
         if (!isset($options['term'])) {
             throw new InvalidArgumentException('term was not provided', 500);
         }
+
+        if (!isset($options['provider'])) {
+            throw new InvalidArgumentException('provider was not provided', 500);
+        }
         
         $options['array'] = self::getBySQL(array(
-            'sql'         => $this->getSQL($options['term']),
+            'sql'         => $this->getSQL($options['term'], $options['provider']),
             'returnArray' => true
         ));
 
@@ -29,17 +33,22 @@ class Search extends RecordList
         return $options;
     }
 
-    public function getSQL($term)
+    public function getSQL($term, $provider)
     {
         $term = self::escapeString($term);
+        $provider = self::escapeString($provider);
         //Build the list
         $sql = "SELECT users.id
                 FROM users
-                WHERE users.uid = '" . $term . "'
-                    OR users.email = '" . $term . "'
-                    OR users.first_name LIKE '" . $term . "'
-                    OR users.last_name LIKE '" . $term . "'
-                    OR concat(users.first_name, ' ', users.last_name) LIKE '" . $term . "'
+                WHERE 
+                    (
+                      users.uid = '%" . $term . "%'
+                      OR users.first_name LIKE '%" . $term . "%'
+                      OR users.last_name LIKE '%" . $term . "%'
+                      OR concat(users.first_name, ' ', users.last_name) LIKE '%" . $term . "%'
+                    )
+                    AND users.provider = '".$provider."'
+                    AND users.is_private = 'NO'
                 ORDER BY users.last_name ASC";
 
         return $sql;
