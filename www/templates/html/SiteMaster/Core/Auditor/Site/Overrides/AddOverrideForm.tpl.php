@@ -37,13 +37,18 @@
     <fieldset>
         <legend>(required) Scope</legend>
         <label>
-            <input type="radio" name="scope" value="page" required checked>
-            Just this page
+            <input type="radio" name="scope" value="ELEMENT" required checked>
+            Just this element on this page (matching the mark, value, html line/column, and context, if any exist)
         </label>
         <br />
         <label>
-            <input type="radio" name="scope" value="site" required>
-            Entire site (page, line, column, and html context will be ignored)
+            <input type="radio" name="scope" value="PAGE" required checked>
+            Just this page (only matches this mark and value on this url)
+        </label>
+        <br />
+        <label>
+            <input type="radio" name="scope" value="SITE" required>
+            Entire site (matches this mark and value wherever it is found on the entire site)
         </label>
     </fieldset>
     <label for="reason">(required) The reason for this override (describe how you determined that this is not an error)</label>

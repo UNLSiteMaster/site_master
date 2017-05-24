@@ -55,7 +55,7 @@ class OverrideDBTest extends DBTestCase
         $this->assertNotEquals(false, $page_mark_notice, 'A notice should be found');
         
         //Test creating an override where scope = page
-        $override = Override::createNewOverride($page->uri, 1, 'test', $page_mark_notice);
+        $override = Override::createNewOverride(Override::SCOPE_ELEMENT, 1, 'test', $page_mark_notice);
         
         $this->assertNotEquals(false, $override, 'the override should have been created');
         
@@ -63,10 +63,21 @@ class OverrideDBTest extends DBTestCase
         
         $this->assertEquals($override, $matching, 'A matching override should have been found');
         
+        //Now... test scope = page
+        $override->delete();
+
+        $override = Override::createNewOverride(Override::SCOPE_PAGE, 1, 'test', $page_mark_notice);
+
+        $this->assertNotEquals(false, $override, 'the override should have been created');
+
+        $matching = Override::getMatchingRecord($page_mark_notice);
+
+        $this->assertEquals($override, $matching, 'A matching override should have been found');
+
         //Now... test scope = site
         $override->delete();
 
-        $override = Override::createNewOverride(null, 1, 'test', $page_mark_notice);
+        $override = Override::createNewOverride(Override::SCOPE_SITE, 1, 'test', $page_mark_notice);
 
         $this->assertNotEquals(false, $override, 'the override should have been created');
 

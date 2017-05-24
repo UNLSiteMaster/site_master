@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `overrides` (
   `users_id` INT NOT NULL,
   `date_created` DATETIME NOT NULL,
   `marks_id` INT NOT NULL,
+  `scope` ENUM('SITE', 'PAGE', 'ELEMENT') NOT NULL DEFAULT 'ELEMENT',
   `url` VARCHAR(2100) NULL,
   `context` TEXT NULL,
   `line` INT NULL,

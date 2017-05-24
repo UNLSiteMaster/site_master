@@ -16,12 +16,17 @@
             <dd><?php echo (empty($override->value_found)?'(empty)':$override->value_found) ?></dd>
 
             <dt>Scope</dt>
-            <dd><?php echo (empty($override->url)?'site':'Only on page: ' . $override->url) ?></dd>
+            <dd><?php echo $override->scope ?></dd>
+            
+            <?php if ($override->scope !== 'SITE'): ?>
+                <dt>Page</dt>
+                <dd><?php echo (empty($override->url)?'site':'Only on page: ' . $override->url) ?></dd>
+            <?php endif; ?>
 
             <dt>Date created</dt>
             <dd><?php echo $override->date_created ?></dd>
             
-            <?php if (empty($override->url)): ?>
+            <?php if ($override->scope === 'ELEMENT'): ?>
                 <?php if (!empty($override->context)): ?>
                     <dt>HTML Context</dt>
                     <dd>
@@ -43,6 +48,7 @@
                     </dd>
                 <?php endif; ?>
             <?php endif; ?>
+            
             <dt>Options</dt>
             <dd>
                 <form method="post">

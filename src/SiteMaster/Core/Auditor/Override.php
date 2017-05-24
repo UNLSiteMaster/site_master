@@ -22,6 +22,11 @@ class Override extends Record
     public $col; // INT NULL,
     public $value_found; // TEXT NULL,
     public $reason; // TEXT NOT NULL,
+    public $scope; // ENUM('SITE', 'PAGE', 'ELEMENT') NOT NULL, default 'ELEMENT'
+    
+    const SCOPE_SITE = 'SITE';
+    const SCOPE_PAGE = 'PAGE';
+    const SCOPE_ELEMENT = 'ELEMENT';
 
     public function keys()
     {
@@ -44,18 +49,18 @@ class Override extends Record
     /**
      * Create a new Override
      *
-     * @param $url
+     * @param $scope
      * @param $users_id
      * @param $reason
      *
      * @param Mark $page_mark
      * @return bool|Override
      */
-    public static function createNewOverride($url, $users_id, $reason, Mark $page_mark)
+    public static function createNewOverride($scope, $users_id, $reason, Mark $page_mark)
     {
         $page = $page_mark->getPage();
         
-        if ($page_mark->points_deducted !== '0.00') {
+        if ($page_mark->getMark()->point_deduction !== '0.00') {
             throw new InvalidArgumentException('Overrides can only be created for notices');
         }
         
@@ -64,11 +69,12 @@ class Override extends Record
         }
         
         $record = new self();
+        $record->scope = $scope;
         $record->sites_id = $page->sites_id;
         $record->users_id = $users_id;
         $record->marks_id = $page_mark->marks_id;
         $record->value_found = $page_mark->value_found;
-        $record->url = $url;
+        $record->url = $page->uri;
         $record->reason = $reason;
         $record->date_created = Util::epochToDateTime();
         
@@ -95,21 +101,21 @@ class Override extends Record
         
         $page = $page_mark->getPage();
         
-        $page_scope_sql = "";
+        $element_scope_sql = "";
         if (empty($page_mark->context)) {
-            $page_scope_sql .= "AND `context` IS NULL \n";
+            $element_scope_sql .= "AND `context` IS NULL \n";
         } else {
-            $page_scope_sql .= "AND `context` = '".RecordList::escapeString($page_mark->context)."'\n";
+            $element_scope_sql .= "AND `context` = '".RecordList::escapeString($page_mark->context)."'\n";
         }
         if (empty($page_mark->line)) {
-            $page_scope_sql .= "AND line IS NULL \n";
+            $element_scope_sql .= "AND line IS NULL \n";
         } else {
-            $page_scope_sql .= "AND line = ".(int)$page_mark->line."\n";
+            $element_scope_sql .= "AND line = ".(int)$page_mark->line."\n";
         }
         if (empty($page_mark->col)) {
-            $page_scope_sql .= "AND col IS NULL \n";
+            $element_scope_sql .= "AND col IS NULL \n";
         } else {
-            $page_scope_sql .= "AND col = ".(int)$page_mark->col."\n";
+            $element_scope_sql .= "AND col = ".(int)$page_mark->col."\n";
         }
 
         $sql = "SELECT id
@@ -120,12 +126,16 @@ class Override extends Record
                   AND marks_id = ".(int)$page_mark->marks_id."
                   AND 
                   ((
-                    #page scope
-                    url = '".RecordList::escapeString($page->uri)."'
-                    ".$page_scope_sql."
+                    #element scope
+                    scope = 'ELEMENT'
+                    AND url = '".RecordList::escapeString($page->uri)."'
+                    ".$element_scope_sql."
+                  ) OR (
+                    scope = 'PAGE'
+                    AND url = '".RecordList::escapeString($page->uri)."'
                   ) OR (
                     #site scope
-                    url IS NULL
+                    scope = 'SITE'
                   ))
                 LIMIT 1";
 

@@ -160,13 +160,7 @@ class AddOverrideForm implements ViewableInterface, PostHandlerInterface
             throw new InvalidArgumentException('a reason must be specified', 400);
         }
 
-        switch ($post['scope']) {
-            case 'page':
-                $override = Override::createNewOverride($this->page->uri, $this->current_user->id, $post['reason'],$this->page_mark);
-                break;
-            default:
-                $override = Override::createNewOverride(null, $this->current_user->id, $post['reason'],$this->page_mark);
-        }
+        $override = Override::createNewOverride($post['scope'], $this->current_user->id, $post['reason'],$this->page_mark);
         
         if ($override) {
             Controller::redirect(
