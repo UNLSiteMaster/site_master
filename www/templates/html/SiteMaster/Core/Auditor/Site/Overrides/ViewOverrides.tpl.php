@@ -1,4 +1,5 @@
 <?php $overrides = $context->getOverrides() ?>
+<?php $canEdit = $context->canEdit() ?>
 
 <p>Notices can be overridden to help you focus on actual problems. When notices are overridden, they will not be reported on future scans. By default, overrides will expire after one year, and metrics can customize that. To create an override, click 'fix' next to the notice and follow the instructions.</p>
 
@@ -34,6 +35,7 @@
             <dt>Reason for override</dt>
             <dd><?php echo $override->reason ?></dd>
             
+            <?php if ($canEdit): ?>
             <dt>Options</dt>
             <dd>
                 <form method="post">
@@ -41,6 +43,7 @@
                     <button>Delete this override</button>
                 </form>
             </dd>
+            <?php endif; ?>
         </dl>
     <?php endforeach; ?>
 <?php endif; ?>
