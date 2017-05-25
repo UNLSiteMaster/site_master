@@ -41,6 +41,10 @@ class Listener extends PluginListener
             'SiteMaster\Core\User\View'
         );
         $event->addRoute(
+            '/^user\/edit\/$/',
+            'SiteMaster\Core\User\EditForm'
+        );
+        $event->addRoute(
             '/^sites\/(?P<site_id>(\d*))\/$/',
             'SiteMaster\Core\Registry\Site\View'
         );
@@ -164,6 +168,10 @@ class Listener extends PluginListener
         }
 
         $event->addNavigationItem(Config::get('URL') . 'metrics/', 'Metrics');
+        
+        if ($user) {
+            $event->addNavigationItem(Config::get('URL') . 'user/edit/', 'Your Settings');
+        }
     }
 
     /**
@@ -259,7 +267,7 @@ class Listener extends PluginListener
     
     public function onUserSearch(Events\User\Search $event)
     {
-        $search = new User\Search(array('term' => $event->getSearchTerm()));
+        $search = new User\Search(array('term' => $event->getSearchTerm(), 'provider' => $event->getProvider()));
         
         foreach ($search as $result) {
             $event->addResult($result->provider, $result->uid, $result->email, $result->first_name, $result->last_name);

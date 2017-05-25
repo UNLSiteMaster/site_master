@@ -11,14 +11,22 @@ class Search extends Event
     
     protected $term = '';
     
-    public function __construct($term)
+    protected $provider = '';
+    
+    public function __construct($term, $provider)
     {
         $this->term = $term;
+        $this->provider = $provider;
     }
     
     public function getSearchTerm()
     {
         return $this->term;
+    }
+    
+    public function getProvider()
+    {
+        return $this->provider;
     }
 
     public function getResults()

@@ -114,7 +114,7 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
 
         $event = PluginManager::getManager()->dispatchEvent(
             Search::EVENT_NAME,
-            new Search($post['term'])
+            new Search($post['term'], $this->user->provider)
         );
         
         $this->results = $event->getResults();
@@ -134,10 +134,10 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
         }
         
         if (!$user = User::getByUIDAndProvider($user_details[0], $user_details[1])) {
-            //Get user details
+            //User was not found, so ask our plugins if they can provide one
             $event = PluginManager::getManager()->dispatchEvent(
                 Search::EVENT_NAME,
-                new Search($user_details[1])
+                new Search($user_details[1], $user_details[0])
             );
             
             $fields = array();

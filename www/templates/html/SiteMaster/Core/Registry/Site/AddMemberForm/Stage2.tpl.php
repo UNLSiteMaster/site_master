@@ -6,7 +6,6 @@
             <th>UID</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Email</th>
         </tr>
     <?php
     foreach ($context->results as $key=>$result) {
@@ -23,7 +22,6 @@
             <td><?php echo $result['uid'] ?></td>
             <td><?php echo $result['first_name'] ?></td>
             <td><?php echo $result['last_name'] ?></td>
-            <td><?php //echo $result['email'] ?></td>
         </tr>
         <?php
     }

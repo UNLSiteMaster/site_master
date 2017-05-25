@@ -8,7 +8,7 @@
 
     <div class="panel">
         <p>
-            The search term can be any string.  Examples include email addresses, UIDs, names, etc
+            The search term can be any string. Only users with the same identity provider as you, and have public information will be included in the result. Examples include email addresses, UIDs, names, etc
         </p>
     </div>
 
