@@ -109,6 +109,11 @@ class User extends Record
      */
     public function getName()
     {
+        if ($this->is_private == self::PRIVATE_YES) {
+            //Only show the username instead
+            return $this->uid;
+        }
+        
         if ($this->first_name || $this->last_name) {
             return $this->first_name . ' ' . $this->last_name;
         }

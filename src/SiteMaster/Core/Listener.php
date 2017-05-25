@@ -41,6 +41,10 @@ class Listener extends PluginListener
             'SiteMaster\Core\User\View'
         );
         $event->addRoute(
+            '/^user\/edit\/$/',
+            'SiteMaster\Core\User\EditForm'
+        );
+        $event->addRoute(
             '/^sites\/(?P<site_id>(\d*))\/$/',
             'SiteMaster\Core\Registry\Site\View'
         );
@@ -164,6 +168,10 @@ class Listener extends PluginListener
         }
 
         $event->addNavigationItem(Config::get('URL') . 'metrics/', 'Metrics');
+        
+        if ($user) {
+            $event->addNavigationItem(Config::get('URL') . 'user/edit/', 'Your Settings');
+        }
     }
 
     /**
