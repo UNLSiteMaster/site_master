@@ -23,7 +23,7 @@ class ChangedEmailDBTest extends DBTestCase
         
         $email = new ChangedEmail($scan);
         
-        $this->assertEquals(array('test1@test.com' => 'test1 test1'), $email->getTo());
+        $this->assertEquals(array('test1@test.com' => '1'), $email->getTo());
     }
 
     public function setUpDB()
