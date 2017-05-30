@@ -64,17 +64,25 @@ promise.catch(function(error) {
 //Wait until we are ready
 browser.wait(<?php echo (int) \SiteMaster\Core\Config::get('HEADLESS_WAIT') ?>);
 
+//Larger scope for plugin so that we have access to the last plugin that was ran
+var plugin;
+
 //Define a metric handler to process the .then() part of promises
 var metricHandler = function(result) {
     if (result && result.name) {
         //Record the result
+        
+        if (plugin && typeof plugin.postProcess !== 'undefined') {
+            result.results = plugin.postProcess(result.results);
+        }
+        
         results[result.name] = result.results;
     }
 
     var metric = metrics.shift();
     if (metric) {
         //We have another metric to run
-        var plugin = require(metric.file);
+        plugin = require(metric.file);
 
         //Pass an empty options array (reserved for future use)
         var newPromise = browser.use(plugin.evaluate(metric.options || []));
