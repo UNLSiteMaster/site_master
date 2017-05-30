@@ -126,7 +126,7 @@ class Override extends Record
      * @param $value_found
      * @return bool
      */
-    public function createGlobalOverride($marks_id, $value_found)
+    public static function createGlobalOverride($marks_id, $value_found)
     {
         if (self::getGlobalOverride($marks_id, $value_found)) {
             //Override already exists
