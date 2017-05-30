@@ -6,6 +6,7 @@ $data['dates'] = array();
 $data['metric_history'] = array();
 $last_data = array();
 
+$i=0;
 foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
     $date = date('Y-m-d', strtotime($history->date_created));
     
@@ -47,9 +48,20 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
     $data['gpa'][]         = $history->gpa;
     
     foreach ($new_data['metric_history'] as $metrics_id=>$gpa) {
+        if ($i > 0 && !isset($data['metric_history'][$metrics_id]['rows'])) {
+            for ($ii = 0; $ii < $i; $ii++) {
+                //Fill in missing data points, this is likely a new metric.
+                $data['metric_history'][$metrics_id]['rows'][] = null;
+            }
+        }
+        
         $data['metric_history'][$metrics_id]['rows'][] = $gpa;
     }
+    
+    $i++;
 }
+
+
 ?>
 <?php if (count($data['dates']) > 1): ?>
     <div class="graph-container">
