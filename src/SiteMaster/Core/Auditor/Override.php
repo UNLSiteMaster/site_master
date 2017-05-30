@@ -99,8 +99,70 @@ class Override extends Record
         if (!$record->insert()) {
             return false;
         }
+        
+        $metric = $mark->getMetric();
+        
+        if ($metric && $record->getNumOfSiteOverrides() >= 3 && $metric->allowGlobalOverrides()) {
+            self::createGlobalOverride($mark->id, $page_mark->value_found);
+        }
 
         return $record;
+    }
+
+    /**
+     * @param $marks_id
+     * @param $value_found
+     * @return Override|False
+     */
+    public static function getGlobalOverride($marks_id, $value_found)
+    {
+        return self::getByAnyField(__CLASS__, 'value_found', $value_found, 'marks_id = ' . (int) $marks_id);
+    }
+
+    /**
+     * Create a global override
+     * 
+     * @param $marks_id
+     * @param $value_found
+     * @return bool
+     */
+    public function createGlobalOverride($marks_id, $value_found)
+    {
+        if (self::getGlobalOverride($marks_id, $value_found)) {
+            //Override already exists
+            return false;
+        }
+        
+        $record = new self();
+        $record->scope = self::SCOPE_GLOBAL;
+        $record->marks_id = $marks_id;
+        $record->value_found = $value_found;
+        $record->date_created = Util::epochToDateTime();
+        
+        return $record->insert();
+    }
+    
+    public function getNumOfSiteOverrides()
+    {
+        $db = Util::getDB();
+        
+        $sql = "SELECT count(id) as total
+                FROM overrides
+                WHERE 
+                  value_found = '".RecordList::escapeString($this->value_found)."'
+                  AND marks_id = ".(int)$this->marks_id;
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        if ($result->num_rows === 0) {
+            return false;
+        }
+
+        $row = $result->fetch_assoc();
+        
+        return $row['total'];
     }
 
     /**
@@ -123,22 +185,29 @@ class Override extends Record
         $sql = "SELECT id
                 FROM overrides
                 WHERE
-                  sites_id = ".(int)$page->sites_id."
-                  AND value_found = '".RecordList::escapeString($page_mark->value_found)."'
-                  AND marks_id = ".(int)$page_mark->marks_id."
-                  AND 
-                  ((
-                    #element scope
-                    scope = 'ELEMENT'
-                    AND url = '".RecordList::escapeString($page->uri)."'
-                    ".$element_scope_sql."
+                  (
+                      #global scope (across all sites)
+                      scope = 'GLOBAL'
+                      AND value_found = '" . RecordList::escapeString($page_mark->value_found) . "'
+                      AND marks_id = " . (int)$page_mark->marks_id . "
                   ) OR (
-                    scope = 'PAGE'
-                    AND url = '".RecordList::escapeString($page->uri)."'
-                  ) OR (
-                    #site scope
-                    scope = 'SITE'
-                  ))
+                      sites_id = " . (int)$page->sites_id . "
+                      AND value_found = '" . RecordList::escapeString($page_mark->value_found) . "'
+                      AND marks_id = " . (int)$page_mark->marks_id . "
+                      AND 
+                      ((
+                        #element scope
+                        scope = 'ELEMENT'
+                        AND url = '" . RecordList::escapeString($page->uri) . "'
+                        " . $element_scope_sql . "
+                      ) OR (
+                        scope = 'PAGE'
+                        AND url = '" . RecordList::escapeString($page->uri) . "'
+                      ) OR (
+                        #site scope
+                        scope = 'SITE'
+                      ))
+                  )
                 LIMIT 1";
 
         if (!$result = $db->query($sql)) {

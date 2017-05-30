@@ -434,4 +434,15 @@ abstract class MetricInterface
     {
         return false;
     }
+
+    /**
+     * Whether or not this metric supports global overrides. When true, a global overrides for all sites will be created 
+     * once 3 sites have made site wide overrides for the same mark (identified by the mark id and value_found).
+     * 
+     * @return bool
+     */
+    public function allowGlobalOverrides()
+    {
+        return false;
+    }
 }
