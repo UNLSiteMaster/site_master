@@ -85,7 +85,10 @@ class Mark extends Record
         }
         
         $mark = $this->getMark();
-        $metric = $mark->getMetric();
+        if (!$metric = $mark->getMetric()) {
+            //We can't find the metric object, so exit early
+            return false;
+        }
         
         return $metric->allowOverridingErrors();
     }
