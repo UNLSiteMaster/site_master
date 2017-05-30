@@ -419,4 +419,19 @@ abstract class MetricInterface
         
         return false;
     }
+
+    /**
+     * Whether or not this metric supports overriding the errors it creates.
+     * By default, only notices can be overridden, to discourage people from overriding actual errors.
+     * 
+     * However, there might be situations where it makes sense to override an error. For example, a spelling metric
+     * might want surface its marks as errors rather than notices so that people pay attention to them. But, not all 
+     * spelling errors are actually errors.
+     * 
+     * @return bool
+     */
+    public function allowOverridingErrors()
+    {
+        return false;
+    }
 }

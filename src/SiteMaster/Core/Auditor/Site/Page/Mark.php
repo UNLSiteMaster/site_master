@@ -55,7 +55,7 @@ class Mark extends Record
         $mark->scanned_page_id = $scanned_page_id;
         $mark->points_deducted = $points_deducted;
         
-        if ($mark->points_deducted === '0.00' && Override::getMatchingRecord($mark)) {
+        if ($mark->canBeOverridden() && Override::getMatchingRecord($mark)) {
             //Skip this mark because it is overridden
             return false;
         }
@@ -75,6 +75,19 @@ class Mark extends Record
     public function getPage()
     {
         return Page::getByID($this->scanned_page_id);
+    }
+    
+    public function canBeOverridden()
+    {
+        if ($this->points_deducted === '0.00') {
+            //Notices can always be overridden
+            return true;
+        }
+        
+        $mark = $this->getMark();
+        $metric = $mark->getMetric();
+        
+        return $metric->allowOverridingErrors();
     }
 
     /**

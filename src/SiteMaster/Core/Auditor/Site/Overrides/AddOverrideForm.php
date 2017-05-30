@@ -72,8 +72,8 @@ class AddOverrideForm implements ViewableInterface, PostHandlerInterface
             throw new InvalidArgumentException('Could not find that page_mark', 400);
         }
         
-        if ($this->page_mark->points_deducted !== '0.00') {
-            throw new InvalidArgumentException('Sorry, only notices can be overridden.', 400);
+        if (!$this->page_mark->canBeOverridden()) {
+            throw new InvalidArgumentException('Sorry, overrides can only be created for notices or if the metric allows overriding errors. This mark does not meet that criteria.', 400);
         }
 
         if (!$this->page = $this->page_mark->getPage()) {

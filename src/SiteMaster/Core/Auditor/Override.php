@@ -63,8 +63,8 @@ class Override extends Record
         $page = $page_mark->getPage();
         $mark = $page_mark->getMark();
         
-        if ($mark->point_deduction !== '0.00') {
-            throw new InvalidArgumentException('Overrides can only be created for notices');
+        if (!$page_mark->canBeOverridden()) {
+            throw new InvalidArgumentException('Overrides can only be created for notices or if the metric allows overriding errors');
         }
         
         if (self::getMatchingRecord($page_mark)) {

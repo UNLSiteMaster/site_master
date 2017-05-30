@@ -1,7 +1,7 @@
 <?php $overrides = $context->getOverrides() ?>
 <?php $canEdit = $context->canEdit() ?>
 
-<p>Notices can be overridden to help you focus on actual problems. When notices are overridden, they will not be reported on future scans. By default, overrides will expire after one year, and metrics can customize that. To create an override, click 'fix' next to the notice and follow the instructions.</p>
+<p>Errors and notices can be overridden to help you focus on actual problems. When errors or notices are overridden, they will not be reported on future scans. By default, overrides will expire after one year, and metrics can customize that. To create an override, click 'fix' next to the notice and follow the instructions. Note that most metrics only allow overriding notices.</p>
 
 <?php if (count($overrides) === 0): ?>
     <p>There are no overrides for this site.</p>
