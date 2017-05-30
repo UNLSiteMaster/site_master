@@ -29,6 +29,7 @@ class Override extends Record
     const SCOPE_SITE = 'SITE';
     const SCOPE_PAGE = 'PAGE';
     const SCOPE_ELEMENT = 'ELEMENT';
+    const SCOPE_GLOBAL = 'GLOBAL';
 
     public function keys()
     {
