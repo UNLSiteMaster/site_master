@@ -167,4 +167,15 @@ class GradingHelper
 
         return round($total_pass / $total, 2) * 100;
     }
+
+    /**
+     * Average an array of GPAs
+     *
+     * @param array $grades
+     * @return float
+     */
+    public function averageGPAs(array $grades)
+    {
+        return round(array_sum($grades) / count($grades), 2);
+    }
 }
