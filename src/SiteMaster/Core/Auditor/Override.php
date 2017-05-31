@@ -4,9 +4,8 @@ namespace SiteMaster\Core\Auditor;
 use DB\Record;
 use DB\RecordList;
 use SiteMaster\Core\Auditor\Site\Page\Mark;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\InvalidArgumentException;
-use SiteMaster\Core\Plugin\PluginManager;
-use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Util;
 
 class Override extends Record
@@ -102,7 +101,7 @@ class Override extends Record
         
         $metric = $mark->getMetric();
         
-        if ($metric && $record->getNumOfSiteOverrides() >= 3 && $metric->allowGlobalOverrides()) {
+        if ($metric && $record->getNumOfSiteOverrides() >= Config::get('NUM_SITES_FOR_GLOBAL_OVERRIDE') && $metric->allowGlobalOverrides()) {
             self::createGlobalOverride($mark->id, $page_mark->value_found);
         }
 
@@ -139,7 +138,11 @@ class Override extends Record
         $record->value_found = $value_found;
         $record->date_created = Util::epochToDateTime();
         
-        return $record->insert();
+        if (!$record->insert()) {
+            return false;
+        }
+        
+        return $record;
     }
     
     public function getNumOfSiteOverrides()
