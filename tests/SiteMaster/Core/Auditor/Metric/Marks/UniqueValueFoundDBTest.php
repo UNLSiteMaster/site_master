@@ -18,7 +18,7 @@ class UniqueValueFoundDBTest extends DBTestCase
     {
         $this->setUpDB();
 
-        $metric = \SiteMaster\Core\Auditor\Metric::createNewMetric('test');
+        $metric = \SiteMaster\Core\Auditor\Metric::getByMachineName('example');
         $mark1 = Mark::createNewMark($metric->id, 'test1', 'test1');
         $mark2 = Mark::createNewMark($metric->id, 'test2', 'test2');
         $mark3 = Mark::createNewMark($metric->id, 'test3', 'test3');

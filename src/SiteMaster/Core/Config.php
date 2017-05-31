@@ -59,6 +59,9 @@ class Config
         'HEADLESS_WAIT' => 2500, //milliseconds before test execution (let the page run just a little bit first)
         'HEADLESS_TIMEOUT' => '5m', //timeout of the headless process, parameter should work with the `timeout` linux command.
         'XVFB_COMMAND' => false,
+        
+        //overrides
+        'NUM_SITES_FOR_GLOBAL_OVERRIDE' => 3,
     
         //Loggers
         'PAGE_TITLE_LOGGER' => '\\SiteMaster\\Core\\Auditor\\Logger\\PageTitle',

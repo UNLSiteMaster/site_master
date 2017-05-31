@@ -114,4 +114,9 @@ class Metric extends MetricInterface
     {
         $this->options = $options;
     }
+    
+    public function allowGlobalOverrides()
+    {
+        return true;
+    }
 }

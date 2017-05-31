@@ -50,11 +50,17 @@
 
 <a href="<?php echo $context->page->getURL() ?>">Go back to the page report</a>
 
-<?php if ($context->mark->point_deduction === '0.00' && !$context->page_mark->hasOverride()): ?>
-    <h2>Override</h2>
-    <p>
-        If you have manually reviewed this and determined that it is not in fact an error, you can <a href="<?php echo $context->site->getURL() ?>overrides/add/?page_mark=<?php echo $context->page_mark->id ?>" class="button wdn-button">create an override for this notice</a> to prevent it from showing up on future scans.
-    </p>
+<h2>Override</h2>
+<?php if ($context->page_mark->canBeOverridden()): ?>
+    <?php if (!$context->page_mark->hasOverride()): ?>
+        <p>
+            If you have manually reviewed this and determined that it is not in fact an error, you can <a href="<?php echo $context->site->getURL() ?>overrides/add/?page_mark=<?php echo $context->page_mark->id ?>" class="button wdn-button">create an override for this notice</a> to prevent it from showing up on future scans.
+        </p>
+    <?php else: ?>
+        <p>This mark has already been overridden.</p>
+    <?php endif; ?>
+<?php else: ?>
+    <p>This mark can not be overridden.</p>
 <?php endif; ?>
 
 <div class="pull-right wdn-pull-right">

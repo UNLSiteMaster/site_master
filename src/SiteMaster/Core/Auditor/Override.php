@@ -4,9 +4,8 @@ namespace SiteMaster\Core\Auditor;
 use DB\Record;
 use DB\RecordList;
 use SiteMaster\Core\Auditor\Site\Page\Mark;
+use SiteMaster\Core\Config;
 use SiteMaster\Core\InvalidArgumentException;
-use SiteMaster\Core\Plugin\PluginManager;
-use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Util;
 
 class Override extends Record
@@ -29,6 +28,7 @@ class Override extends Record
     const SCOPE_SITE = 'SITE';
     const SCOPE_PAGE = 'PAGE';
     const SCOPE_ELEMENT = 'ELEMENT';
+    const SCOPE_GLOBAL = 'GLOBAL';
 
     public function keys()
     {
@@ -63,8 +63,8 @@ class Override extends Record
         $page = $page_mark->getPage();
         $mark = $page_mark->getMark();
         
-        if ($mark->point_deduction !== '0.00') {
-            throw new InvalidArgumentException('Overrides can only be created for notices');
+        if (!$page_mark->canBeOverridden()) {
+            throw new InvalidArgumentException('Overrides can only be created for notices or if the metric allows overriding errors');
         }
         
         if (self::getMatchingRecord($page_mark)) {
@@ -98,8 +98,74 @@ class Override extends Record
         if (!$record->insert()) {
             return false;
         }
+        
+        $metric = $mark->getMetric();
+        
+        if ($metric && $record->getNumOfSiteOverrides() >= Config::get('NUM_SITES_FOR_GLOBAL_OVERRIDE') && $metric->allowGlobalOverrides()) {
+            self::createGlobalOverride($mark->id, $page_mark->value_found);
+        }
 
         return $record;
+    }
+
+    /**
+     * @param $marks_id
+     * @param $value_found
+     * @return Override|False
+     */
+    public static function getGlobalOverride($marks_id, $value_found)
+    {
+        return self::getByAnyField(__CLASS__, 'value_found', $value_found, 'marks_id = ' . (int) $marks_id);
+    }
+
+    /**
+     * Create a global override
+     * 
+     * @param $marks_id
+     * @param $value_found
+     * @return bool
+     */
+    public static function createGlobalOverride($marks_id, $value_found)
+    {
+        if (self::getGlobalOverride($marks_id, $value_found)) {
+            //Override already exists
+            return false;
+        }
+        
+        $record = new self();
+        $record->scope = self::SCOPE_GLOBAL;
+        $record->marks_id = $marks_id;
+        $record->value_found = $value_found;
+        $record->date_created = Util::epochToDateTime();
+        
+        if (!$record->insert()) {
+            return false;
+        }
+        
+        return $record;
+    }
+    
+    public function getNumOfSiteOverrides()
+    {
+        $db = Util::getDB();
+        
+        $sql = "SELECT count(id) as total
+                FROM overrides
+                WHERE 
+                  value_found = '".RecordList::escapeString($this->value_found)."'
+                  AND marks_id = ".(int)$this->marks_id;
+
+        if (!$result = $db->query($sql)) {
+            return false;
+        }
+
+        if ($result->num_rows === 0) {
+            return false;
+        }
+
+        $row = $result->fetch_assoc();
+        
+        return $row['total'];
     }
 
     /**
@@ -122,22 +188,29 @@ class Override extends Record
         $sql = "SELECT id
                 FROM overrides
                 WHERE
-                  sites_id = ".(int)$page->sites_id."
-                  AND value_found = '".RecordList::escapeString($page_mark->value_found)."'
-                  AND marks_id = ".(int)$page_mark->marks_id."
-                  AND 
-                  ((
-                    #element scope
-                    scope = 'ELEMENT'
-                    AND url = '".RecordList::escapeString($page->uri)."'
-                    ".$element_scope_sql."
+                  (
+                      #global scope (across all sites)
+                      scope = 'GLOBAL'
+                      AND value_found = '" . RecordList::escapeString($page_mark->value_found) . "'
+                      AND marks_id = " . (int)$page_mark->marks_id . "
                   ) OR (
-                    scope = 'PAGE'
-                    AND url = '".RecordList::escapeString($page->uri)."'
-                  ) OR (
-                    #site scope
-                    scope = 'SITE'
-                  ))
+                      sites_id = " . (int)$page->sites_id . "
+                      AND value_found = '" . RecordList::escapeString($page_mark->value_found) . "'
+                      AND marks_id = " . (int)$page_mark->marks_id . "
+                      AND 
+                      ((
+                        #element scope
+                        scope = 'ELEMENT'
+                        AND url = '" . RecordList::escapeString($page->uri) . "'
+                        " . $element_scope_sql . "
+                      ) OR (
+                        scope = 'PAGE'
+                        AND url = '" . RecordList::escapeString($page->uri) . "'
+                      ) OR (
+                        #site scope
+                        scope = 'SITE'
+                      ))
+                  )
                 LIMIT 1";
 
         if (!$result = $db->query($sql)) {

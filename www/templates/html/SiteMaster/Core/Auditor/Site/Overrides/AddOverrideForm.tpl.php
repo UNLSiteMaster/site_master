@@ -1,4 +1,4 @@
-<p>By adding an override, you will prevent a specific notice from appearing on future scans. <strong>Overrides must only be added if you have manually verified that it is not in fact a problem.</strong></p>
+<p>By adding an override, you will prevent a specific error or notice from appearing on future scans. <strong>Overrides must only be added if you have manually verified that it is not in fact a problem</strong>. Most metrics only allow overrides for notices.</p>
 
 <h2>Mark Details</h2>
 <p>This override will match the following values, unless otherwise noted.</p>

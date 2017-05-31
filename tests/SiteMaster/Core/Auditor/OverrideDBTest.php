@@ -84,6 +84,30 @@ class OverrideDBTest extends DBTestCase
         $matching = Override::getMatchingRecord($page_mark_notice);
 
         $this->assertEquals($override, $matching, 'A matching override should have been found');
+
+        $this->assertEquals(1, $override->getNumOfSiteOverrides(), 'Verify that we can get the number of matching site overrides');
+
+        //Now... test scope = global
+        $override->delete();
+
+        $override = Override::createGlobalOverride($page_mark_notice->marks_id, $page_mark_notice->value_found);
+        
+        $this->assertNotEquals(false, $override, 'the override should have been created');
+
+        $matching = Override::getMatchingRecord($page_mark_notice);
+
+        $this->assertNotEquals(false, $matching, 'A matching override should have been found');
+        
+        //Test the auto global
+        $override->delete();
+        $old_value = Config::get('NUM_SITES_FOR_GLOBAL_OVERRIDE');
+        Config::set('NUM_SITES_FOR_GLOBAL_OVERRIDE', 1);
+        
+
+        $override = Override::createNewOverride(Override::SCOPE_SITE, 1, 'test', $page_mark_notice);
+        $this->assertNotEquals(false, Override::getGlobalOverride($page_mark->marks_id, $page_mark->value_found), 'an auto-override should have been created');
+        Config::set('NUM_SITES_FOR_GLOBAL_OVERRIDE', $old_value);
+        
     }
 
     protected function runScan()
