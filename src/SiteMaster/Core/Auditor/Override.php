@@ -125,7 +125,7 @@ class Override extends Record
      * @param $value_found
      * @return bool
      */
-    public static function createGlobalOverride($marks_id, $value_found)
+    public static function createGlobalOverride($marks_id, $value_found, $reason = null)
     {
         if (self::getGlobalOverride($marks_id, $value_found)) {
             //Override already exists
@@ -137,6 +137,7 @@ class Override extends Record
         $record->marks_id = $marks_id;
         $record->value_found = $value_found;
         $record->date_created = Util::epochToDateTime();
+        $record->reason = $reason;
         
         if (!$record->insert()) {
             return false;
