@@ -79,5 +79,5 @@
 
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
     <input type="hidden" name="action" value="delete" />
-    <button type="submit" id="delete-site">Remove this site from Web Audit</button>
+    <button type="submit" id="delete-site">Remove this site from <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?></button>
 </form>
