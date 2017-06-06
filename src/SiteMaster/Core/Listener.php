@@ -25,6 +25,10 @@ class Listener extends PluginListener
             'SiteMaster\Core\User\Logout'
         );
         $event->addRoute(
+            '/^terms\-of\-use\/$/',
+            'SiteMaster\Core\TermsOfUse'
+        );
+        $event->addRoute(
             '/^metrics\/$/',
             'SiteMaster\Core\Auditor\Metrics\View'
         );
