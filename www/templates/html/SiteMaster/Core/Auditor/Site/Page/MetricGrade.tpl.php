@@ -38,7 +38,11 @@ $page = $context->getPage();
                 <?php
             }
             ?>
-            <span class="weight"><?php echo $context->weight?> points of total score</span>
+            <?php if ($context->weight === '0.00'): ?>
+                <span class="weight">Does not affect the page grade</span>
+            <?php else: ?>
+                <span class="weight"><?php echo $context->weight ?> points of total score</span>
+            <?php endif; ?>
         </div>
         <div class="letter-grade-container">
             <span class="letter-grade unknown"><?php echo $context->letter_grade?></span>

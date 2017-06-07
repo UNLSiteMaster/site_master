@@ -57,7 +57,7 @@ $metric_grades = $context->page->getMetricGrades();
         </div>
 
         <div class="page-scan-scoring">
-            Scoring
+            <h2>Scoring</h2>
             <table>
                 <thead>
                 <tr>
@@ -68,6 +68,10 @@ $metric_grades = $context->page->getMetricGrades();
                 <tbody>
                     <?php
                     foreach ($metric_grades as $metric_grade) {
+                        if ('0.00' === $metric_grade->weight) {
+                            continue;
+                        }
+                        
                         $name = 'unknown';
                         $metric_record = $metric_grade->getMetric();
                         if ($metric_record && $metric_object = $metric_record->getMetricObject()) {
@@ -76,7 +80,14 @@ $metric_grades = $context->page->getMetricGrades();
                         ?>
                         <tr>
                             <td><?php echo $name ?></td>
-                            <td><?php echo $metric_grade->weighted_grade ?></td>
+                            <td>
+                                <?php if ('0.00' === $metric_grade->weight): ?>
+                                    Does not count toward the page grade
+                                <?php else: ?>
+                                    <?php echo $metric_grade->weighted_grade ?>
+                                <?php endif; ?>
+
+                            </td>
                         </tr>
                         <?php
                     }
