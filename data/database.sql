@@ -243,6 +243,7 @@ CREATE TABLE IF NOT EXISTS `page_marks` (
     REFERENCES `scanned_page` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
+CHARACTER SET utf8 COLLATE utf8_bin
 ENGINE = InnoDB;
 
 

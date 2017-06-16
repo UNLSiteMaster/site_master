@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `overrides` (
     REFERENCES `marks` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
+CHARACTER SET utf8 COLLATE utf8_bin
 ENGINE = InnoDB;
 
 ALTER TABLE marks ADD allow_perm_override ENUM('YES', 'NO') NOT NULL DEFAULT 'NO';
