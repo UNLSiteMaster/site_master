@@ -18,7 +18,7 @@ if (!$context->members->count()) {
             $roles = $member->getRoles();
             ?>
                 <li>
-                    <span class="member-name"><?php echo $user->getName() ?></span>
+                    <span class="member-name"><?php echo $user->getName($can_edit) ?></span>
                     <div class="options">
                         <?php
                         if ($can_edit) {
@@ -71,7 +71,7 @@ if ($can_edit) {
                     <li>
                         <label>
                             <input type="checkbox" name="approve[]" value="<?php echo $member_role->id; ?>">
-                            <?php echo $user->getName() . ' - ' . $role->role_name ?>
+                            <?php echo $user->getName(true) . ' - ' . $role->role_name ?>
                         </label>
                     </li>
                     <?php

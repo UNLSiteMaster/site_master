@@ -112,7 +112,16 @@ class User extends Record
     {
         if ($this->is_private == self::PRIVATE_YES && false === $ignore_privacy) {
             //Only show 'Anonymous' instead
-            return 'Anonymous';
+            
+            $current_user = Session::getCurrentUser();
+            
+            $name = 'Anonymous User';
+            
+            if ($current_user == $this) {
+                $name .= ' (you)';
+            }
+            
+            return $name;
         }
         
         if ($this->first_name || $this->last_name) {
