@@ -72,6 +72,16 @@ class Session
     }
 
     /**
+     * Determine if the session has been started
+     * 
+     * @return bool
+     */
+    public static function isSessionStarted()
+    {
+        return self::$session !== null;
+    }
+
+    /**
      * Get the provider name of the authentication plugin that was used to authenticate the current user
      * 
      * @return mixed
