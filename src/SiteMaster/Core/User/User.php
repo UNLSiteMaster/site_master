@@ -111,8 +111,8 @@ class User extends Record
     public function getName($ignore_privacy = false)
     {
         if ($this->is_private == self::PRIVATE_YES && false === $ignore_privacy) {
-            //Only show the username instead
-            return $this->uid;
+            //Only show 'Anonymous' instead
+            return 'Anonymous';
         }
         
         if ($this->first_name || $this->last_name) {
