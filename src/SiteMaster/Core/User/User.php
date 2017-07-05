@@ -104,12 +104,13 @@ class User extends Record
 
     /**
      * Get the full name of this user
-     * 
+     *
+     * @param bool $ignore_privacy
      * @return string
      */
-    public function getName()
+    public function getName($ignore_privacy = false)
     {
-        if ($this->is_private == self::PRIVATE_YES) {
+        if ($this->is_private == self::PRIVATE_YES && false === $ignore_privacy) {
             //Only show the username instead
             return $this->uid;
         }
