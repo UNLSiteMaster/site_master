@@ -2,6 +2,7 @@
 namespace SiteMaster\Core\Registry;
 
 use DB\Record;
+use SiteMaster\Core\Auditor\Site\History\SiteHistoryList\ForGroup;
 use SiteMaster\Core\Auditor\Site\History\SiteHistoryList\ForSite;
 use SiteMaster\Core\Auditor\Site\ScanForm;
 use SiteMaster\Core\Registry\Site\Role;
