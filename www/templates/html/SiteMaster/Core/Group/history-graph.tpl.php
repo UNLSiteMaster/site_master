@@ -65,7 +65,7 @@ foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
 ?>
 <?php if (count($data['dates']) > 1): ?>
     <div class="graph-container">
-        <h2>Group History</h2>
+        <h2>Group Metric History</h2>
         <canvas id="history_chart"></canvas>
         <div class="legend-container">
             <div id="history_legend"></div>
