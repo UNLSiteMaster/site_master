@@ -70,6 +70,22 @@ class View implements ViewableInterface
 
         return 'Group: ' . $this->group_name;
     }
+    
+    public function getTotalPages()
+    {
+        $options = ['group_name'=>$this->group_name, 'limit'=>1];
+
+        $list = new ForGroup($options);
+        
+        if (0 == $list->count()) {
+            return 'unknown';
+        }
+        
+        $list->rewind();
+        $group_history = $list->current();
+        
+        return $group_history->total_pages;
+    }
 
     /**
      * @param $options
@@ -93,6 +109,11 @@ class View implements ViewableInterface
         );
         
         return $nav->getNavigation();
+    }
+    
+    public function getMetrics()
+    {
+        return PluginManager::getManager()->getMetrics($this->group_name);
     }
 
     /**
