@@ -99,7 +99,7 @@ foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
     </div>
     <script>
 		var data = {
-			labels: <?php echo json_encode($data['dates_long']) ?>,
+			labels: <?php echo json_encode(array_reverse($data['dates_long'])) ?>,
 			datasets: [
 				{
 					label: "Site GPA",
@@ -110,7 +110,7 @@ foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
 					pointHighlightFill: "#fff",
 					pointHighlightStroke: "#D00000",
 					lineThickness: 5,
-					data: <?php echo json_encode($data['gpa']) ?>
+					data: <?php echo json_encode(array_reverse($data['gpa'])) ?>
 				}
 			]
 		};
@@ -153,7 +153,7 @@ foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
 			pointStrokeColor: "#fff",
 			pointHighlightFill: "#fff",
 			pointHighlightStroke: "<?php echo $color ?>",
-			data: <?php echo json_encode($metric_history['rows']) ?>
+			data: <?php echo json_encode(array_reverse($metric_history['rows'])) ?>
 		}
         <?php
         $i++;
