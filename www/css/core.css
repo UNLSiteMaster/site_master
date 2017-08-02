@@ -23,7 +23,7 @@
     padding: 5px;
 }
 
-.site-list .site a {
+.site-list .site .url a {
     color: black;
 }
 
