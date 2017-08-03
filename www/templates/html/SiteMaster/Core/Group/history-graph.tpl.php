@@ -5,9 +5,19 @@ $data = array();
 $data['dates'] = array();
 $data['metric_history'] = array();
 $last_data = array();
+$previous_history = false;
 
 $i=0;
 foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
+    if ($previous_history) {
+        $difference = strtotime($previous_history->date_created) - strtotime($history->date_created);
+        $difference = floor($difference / (60 * 60 * 24)); //number of days
+        if ($difference < 7) {
+            //Only report one per week
+            continue;
+        }
+    }
+    
     $date = date('Y-m-d', strtotime($history->date_created));
     
     $new_data = array(
@@ -59,6 +69,7 @@ foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
         $data['metric_history'][$metrics_id]['rows'][] = $gpa;
     }
 
+    $previous_history = $history;
     $i++;
 }
 
