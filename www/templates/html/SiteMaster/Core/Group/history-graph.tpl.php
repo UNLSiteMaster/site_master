@@ -6,6 +6,7 @@ $data['dates'] = array();
 $data['metric_history'] = array();
 $last_data = array();
 $previous_history = false;
+$max_rows = 0;
 
 $i=0;
 foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
@@ -67,10 +68,16 @@ foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
         }
 
         $data['metric_history'][$metrics_id]['rows'][] = $gpa;
+        $max_rows = count($data['metric_history'][$metrics_id]['rows']);
     }
 
     $previous_history = $history;
     $i++;
+}
+
+foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
+    //Make sure all metric rows are the same length (pad to the end with null)
+    $data['metric_history'][$metrics_id]['rows'] = array_pad($data['metric_history'][$metrics_id]['rows'], $max_rows, null);
 }
 
 ?>
