@@ -22,6 +22,11 @@ foreach (Config::get('GROUPS') as $group_name=>$group) {
          * @var $site \SiteMaster\Core\Registry\Site
          */
         
+        if ($site->production_status == \SiteMaster\Core\Registry\Site::PRODUCTION_STATUS_ARCHIVED) {
+            //exclude archived
+            continue;
+        }
+        
         if (!$scan = $site->getLatestScan(true)) {
             continue;
         }
