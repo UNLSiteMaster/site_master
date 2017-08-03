@@ -45,6 +45,12 @@ foreach (Config::get('GROUPS') as $group_name=>$group) {
             /**
              * @var $metric_history \SiteMaster\Core\Auditor\Site\History\MetricHistory
              */
+            $record = $metric_history->getMetric();
+            if (!$record->getMetricObject()) {
+                //Don't include removed metrics
+                continue;
+            }
+            
             if (!isset($metric_gpa[$metric_history->metrics_id])) {
                 $metric_gpa[$metric_history->metrics_id] = [];
             }

@@ -49,7 +49,10 @@ class MetricHistory extends Record
 
         return $history;
     }
-    
+
+    /**
+     * @return Metric
+     */
     public function getMetric()
     {
         return Metric::getByID($this->metrics_id);
