@@ -7,10 +7,11 @@ $data['metric_history'] = array();
 $last_data = array();
 $previous_history = false;
 $max_rows = 0;
+$history_list = $context->getHistory(array('limit'=>100));
 
 $i=0;
-foreach ($context->getHistory(array('limit'=>100)) as $index=>$history) {
-    if ($previous_history) {
+foreach ($history_list as $index=>$history) {
+    if (count($history_list) > 21 && $previous_history) {
         $difference = strtotime($previous_history->date_created) - strtotime($history->date_created);
         $difference = floor($difference / (60 * 60 * 24)); //number of days
         if ($difference < 7) {
