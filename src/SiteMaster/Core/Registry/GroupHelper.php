@@ -90,4 +90,17 @@ class GroupHelper
     {
         return '/^(https?:\/\/)([a-z0-9-]*\.)*'.preg_quote($domain).'(:[0-9]+)?(\/.*)?$/i';
     }
+
+    /**
+     * Determine if a group exists
+     *
+     * A group exists if it has an entry in the GROUPS configuration
+     *
+     * @param $group_name
+     * @return bool
+     */
+    public function groupExists($group_name)
+    {
+        return (bool)Config::getForGroup($group_name, 'MATCHING');
+    }
 }

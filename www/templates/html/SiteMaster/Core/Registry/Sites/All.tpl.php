@@ -13,14 +13,16 @@ if (!$context->count()) {
             ?>
             <li class="site clear-fix">
                 <div class="panel clear-fix">
-                    <a href="<?php echo $site->getURL(); ?>">
                         <div class="general-details">
                             <div class="url">
-                                <?php echo $site->base_url ?>
+                                <a href="<?php echo $site->getURL(); ?>"><?php echo $site->base_url ?></a>
                             </div>
+                            <?php if ($site->base_url != $site->getTitle()): ?>
                             <div class="title">
                                 <?php echo $site->getTitle() ?>
                             </div>
+                            <?php endif ?>
+                            <div class="group">In the group: <a href="<?php echo $base_url . 'groups/'.$site->getPrimaryGroupName().'/' ?>"><?php echo $site->getPrimaryGroupName() ?></a></div>
                         </div>
                         <?php
                         if ($scan) {
@@ -46,7 +48,6 @@ if (!$context->count()) {
                             <?php
                         }
                         ?>
-                    </a>
                 </div>
             </li>
         <?php

@@ -152,6 +152,10 @@ class Listener extends PluginListener
             '/^analytics\/$/',
             'SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics\SearchForm'
         );
+        $event->addRoute(
+            '/^groups\/(?P<group_name>(.*))\/$/',
+            'SiteMaster\Core\Group\View'
+        );
     }
 
     /**

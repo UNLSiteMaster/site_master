@@ -47,4 +47,12 @@ class GroupHistory extends Record
 
         return $history;
     }
+
+    /**
+     * @return MetricHistoryList\ForGroupHistory
+     */
+    public function getMetricHistory()
+    {
+        return new MetricHistoryList\ForGroupHistory(array('group_scan_history_id'=>$this->id));
+    }
 }
