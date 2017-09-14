@@ -691,12 +691,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/saltybeagle/Spider.git",
-                "reference": "2de8bd1e069d4421d687cab6b8dd95c0a2643326"
+                "reference": "daad541957c710869692e1442254095125e73fb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/2de8bd1e069d4421d687cab6b8dd95c0a2643326",
-                "reference": "2de8bd1e069d4421d687cab6b8dd95c0a2643326",
+                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/daad541957c710869692e1442254095125e73fb2",
+                "reference": "daad541957c710869692e1442254095125e73fb2",
                 "shasum": ""
             },
             "type": "library",
@@ -709,7 +709,7 @@
                 "source": "https://github.com/saltybeagle/Spider/tree/master",
                 "issues": "https://github.com/saltybeagle/Spider/issues"
             },
-            "time": "2017-08-02 14:49:30"
+            "time": "2017-09-14 16:16:46"
         },
         {
             "name": "saltybeagle/savvy",
