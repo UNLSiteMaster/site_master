@@ -17,7 +17,7 @@
             <input type="url" id="site_map_url" name="site_map_url" value="<?php echo $context->site->site_map_url ?>" />
             <div class="help-text">
                 <p>
-                    See <a href="http://www.sitemaps.org/protocol.html">sitemaps.org</a> for details about the site map protocol.  There are three scanning methos for your site:</p>
+                    See <a href="http://www.sitemaps.org/protocol.html">sitemaps.org</a> for details about the site map protocol.  There are three scanning methods for your site:</p>
                 <ul>
                     <li><?php echo \SiteMaster\Core\Registry\Site::CRAWL_METHOD_CRAWL_ONLY ?> - only crawl the site to discover pages</li>
                     <li><?php echo \SiteMaster\Core\Registry\Site::CRAWL_METHOD_SITE_MAP_ONLY ?> - only use the site map to discover pages</li>
