@@ -157,9 +157,11 @@ class HTMLOnly extends \Spider_Downloader
                 //Break this scan
                 throw new DownloadException('The baseURL has changed to https and has been updated ' . $this->site->base_url);
             }
+
+            $is_upgrade_to_sub_url = str_replace('https://', 'http://', $effective_url) === $uri;
             
-            //Check if this page already exists for this scan.
-            if (Page::getByScanIDAndURI($this->scan->id, $effective_url)) {
+            //Check if this page already exists for this scan, unless it is just an https upgrade
+            if (!$is_upgrade_to_sub_url && Page::getByScanIDAndURI($this->scan->id, $effective_url)) {
                 throw new DownloadException('This effective URI was already found.');
             }
             
