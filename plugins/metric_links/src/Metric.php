@@ -23,7 +23,6 @@ class Metric extends MetricInterface
      * Start with 100 points.
      * Subtract 20 for every 4**, or 5** (exuding 401 errors)
      * Subtract 15 for every connection error
-     * Subtract 0 for every 301
      */
     const GRADE_METHOD_DEFAULT = 1;
 
@@ -32,7 +31,6 @@ class Metric extends MetricInterface
      * points available = 2*total number of links on the page
      * grading method:
      * Subtract 2 points for every 4**, 5** or connection error
-     * Subtract 0 point for every 301
      */
     const GRADE_METHOD_NUMBER_OF_LINKS = 2;
 
@@ -52,8 +50,7 @@ class Metric extends MetricInterface
     {
         $options = array_replace_recursive(array(
             'grading_method' => self::GRADE_METHOD_DEFAULT,
-            'http_error_codes' => array( 
-                301,
+            'http_error_codes' => array(
                 400, 402, 403, 404,
                 500, 501, 502, 503 //500 level errors are included because they impose a bad user experience, and appear 'broken' to end users 
             ),
@@ -62,7 +59,6 @@ class Metric extends MetricInterface
                 'link_connection_error_6' => 'Could not resolve host',
                 'link_connection_error_7' => 'Failed to connect to host or proxy',
                 'link_connection_error_28' => 'Connecting to this link timed out',
-                'link_http_code_301' => 'Moved Permanently (301)',
                 'link_http_code_400' => 'Bad Request (400)',
                 'link_http_code_402' => 'Payment Required (402)',
                 'link_http_code_403' => 'Forbidden (403)',
@@ -78,7 +74,6 @@ class Metric extends MetricInterface
                 'link_connection_error_6' => 'The link my contain typos.',
                 'link_connection_error_7' => 'Failed to connect to host or proxy',
                 'link_connection_error_28' => 'Please make sure that the link still works.  You may need to contact the server administrator to fix the problem.',
-                'link_http_code_301' => 'The content that this link points to has moved.  It is a best practice to update your links to the new URL, as the old one might stop working.  You can find the new URL by clicking the link (your browser should redirect you to the new URL)',
                 'link_http_code_400' => 'The remote server did not understand the link.  Either fix the link or remove it.',
                 'link_http_code_402' => 'Payment Required',
                 'link_http_code_403' => 'The content that this link points to requires authorization to access.  Please ensure that this is not a mistake and that there is enough context to help the user gain access if they need to.',
@@ -281,11 +276,7 @@ class Metric extends MetricInterface
                     //error
                     return 20;
                 }
-
-                if ($http_code == 301) {
-                    //Redirect
-                    return 0;
-                }
+                
 
                 //Connection problems (zero points because it is probably our fault)
                 return 0;
@@ -300,11 +291,6 @@ class Metric extends MetricInterface
                     return 2;
                 }
 
-                if ($http_code == 301) {
-                    //Redirect
-                    return 0;
-                }
-
                 if ($http_code == 0) {
                     //Connection problems (zero points because it is probably our fault)
                     return 0;
@@ -315,11 +301,6 @@ class Metric extends MetricInterface
             case self::GRADE_METHOD_PASS_FAIL:
                 if ($http_code == 403) {
                     //These can be legitimate, show them as a notice
-                    return 0;
-                }
-                
-                if ($http_code == 301) {
-                    //Redirect
                     return 0;
                 }
                 
