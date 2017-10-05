@@ -28,7 +28,9 @@ if (!$user) {
     exit();
 }
 
-$user->$argv[3] = $argv[4];
+$key = $argv[3];
+$user->$key = $argv[4];
+
 $user->save();
 
 echo 'User updated' . PHP_EOL;
