@@ -142,11 +142,13 @@ class HTMLOnly extends \Spider_Downloader
                 $this->site->base_url = $effective_url;
                 $this->site->save();
 
+                $previous_scan_type = $this->scan->scan_type;
+                
                 //Delete this scan
                 $this->scan->delete();
 
-                //and start fresh
-                $this->site->scheduleScan();
+                //and start fresh with the same priority
+                $this->site->scheduleScan($previous_scan_type);
 
                 //Log this
                 Util::log(
