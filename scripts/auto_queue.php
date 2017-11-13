@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../init.php");
 $queued = new \SiteMaster\Core\Auditor\Scans\Queued();
 //var_dump($queued);exit();
 if (count($queued) > 10) {
-    echo 'Too many queued sites ('.count($queued).')... waiting to queue more.';
+    echo 'Too many queued sites ('.count($queued).')... waiting to queue more.' . PHP_EOL;
     exit();
 }
 
