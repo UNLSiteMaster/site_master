@@ -58,7 +58,6 @@ class MetricDBTest extends DBTestCase
         $expected =  array(
             'link_http_code_404',
             'link_http_code_404',
-            'link_http_code_301'
         );
 
         sort($expected);

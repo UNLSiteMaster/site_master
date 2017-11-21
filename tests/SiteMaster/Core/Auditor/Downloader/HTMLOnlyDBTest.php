@@ -30,7 +30,7 @@ class HTMLOnlyDBTest extends DBTestCase
     public function checkIssue82() {
         $this->setUpDB();
 
-        $site_url     = 'http://unlcms.unl.edu/university-communications/sitemaster/';
+        $site_url     = 'https://unlcms.unl.edu/university-communications/sitemaster/';
         $redirect_url = $site_url . 'issue-82';
 
         //Make sure that the site exists

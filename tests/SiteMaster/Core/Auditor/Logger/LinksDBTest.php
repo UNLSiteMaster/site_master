@@ -19,9 +19,9 @@ class LinksDBTest extends DBTestCase
         $this->setUpDB();
 
         $base_uri      = 'http://www.test.com/';
-        $redirect_url  = 'http://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301';
-        $not_found_url = 'http://unlcms.unl.edu/university-communications/sitemaster/example-404';
-        $okay_url      = 'http://unlcms.unl.edu/university-communications/sitemaster/';
+        $redirect_url  = 'https://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301';
+        $not_found_url = 'https://unlcms.unl.edu/university-communications/sitemaster/example-404';
+        $okay_url      = 'https://unlcms.unl.edu/university-communications/sitemaster/';
 
         //Get a test site
         $site = Site::getByBaseURL($base_uri);

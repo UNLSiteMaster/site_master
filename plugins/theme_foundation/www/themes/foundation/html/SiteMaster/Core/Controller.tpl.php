@@ -59,7 +59,7 @@ $site_title = \SiteMaster\Core\Config::get('SITE_TITLE');
                 <?php
                 if ($user = \SiteMaster\Core\User\Session::getCurrentUser()) {
                     $logoutURL = \SiteMaster\Core\Config::get('URL') . 'logout/';
-                    if ($authPlugin = $user->getAuthenticationPlugin()) {
+                    if ($authPlugin = \SiteMaster\Core\User\Session::getCurrentAuthProviderPlugin()) {
                         $logoutURL = $authPlugin->getLogoutURL();
                     }
                     ?>

@@ -13,16 +13,13 @@ class MetricTest extends \PHPUnit_Framework_TestCase
         $metric->options['grading_method'] = Metric::GRADE_METHOD_DEFAULT;
         $this->assertEquals(20, $metric->getPointDeduction(404));
         $this->assertEquals(0, $metric->getPointDeduction(''));
-        $this->assertEquals(0, $metric->getPointDeduction(301));
         
         $metric->options['grading_method'] = Metric::GRADE_METHOD_NUMBER_OF_LINKS;
         $this->assertEquals(2, $metric->getPointDeduction(404));
         $this->assertEquals(0, $metric->getPointDeduction(''));
-        $this->assertEquals(0, $metric->getPointDeduction(301));
         
         $metric->options['grading_method'] = Metric::GRADE_METHOD_PASS_FAIL;
         $this->assertEquals(1, $metric->getPointDeduction(404));
         $this->assertEquals(0, $metric->getPointDeduction(''));
-        $this->assertEquals(0, $metric->getPointDeduction(301));
     }
 }
