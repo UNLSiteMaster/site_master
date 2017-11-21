@@ -38,55 +38,17 @@ Current Plugins
 * Auth: [UNL Auth](https://github.com/unl/sitemaster_plugin_auth_unl)
 * Auth: Google - included [readme](https://github.com/UNLSiteMaster/site_master/tree/master/plugins/auth_google)
 
-Working with the vagrant development machine
---------------------------------------------
-Note: vagrant machine is current broken, local install is recommended
 
-To install:
-```
-cd vagrant/dev
-vagrant up
-```
+## Install
+See [our documentation on installing](https://github.com/UNLSiteMaster/site_master/wiki/Manual-Install-Process)
 
-To update:
-```
-cd vagrant/dev
-vagrant provision
-```
+## Testing
 
-To run tests:
-```
-cd vagrant/dev
-vagrant ssh
-php /var/www/html/vendor/bin/phpunit --bootstrap /var/www/html/tests/init.php tests
-```
-
-Working with a custom machine
------------------------------
-If you are working with a vagrant box, you can simply run `vagrant provision`
-
-To install on a custom machine:
-
-1. `cp config.sample.php config.inc.php` and edit the configuration to match your set up
-2. `cp sample.htaccess .htaccess` and edit the new file to match your set up
-3. `php scripts/install.php`
-
-To update a custom machine
-
-1. `php scripts/update.php`
-2. `php scripts/update_libs.php` update libraries if you need to
-
-Custom Install
---------------
-See [https://github.com/UNLSiteMaster/site_master/wiki/Installing-SiteMaster---demo-testing-site](https://github.com/UNLSiteMaster/site_master/wiki/Installing-SiteMaster---demo-testing-site)
-
-Testing
--------
 `vendor/bin/phpunit --testsuite core` for core tests
 `vendor/bin/phpunit` to run all tests (including plugins)
 
-Working with plugins
-------------------
+## Working with plugins
+
 To install a plugin:
 
 1. Add the plugin machine name and options to your `config.inc.php` file (see config.inc.php for examples)
