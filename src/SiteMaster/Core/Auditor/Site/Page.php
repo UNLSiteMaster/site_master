@@ -12,6 +12,7 @@ use SiteMaster\Core\Auditor\Metric\Mark;
 use SiteMaster\Core\Auditor\Parser\HTML5;
 use SiteMaster\Core\Auditor\Site\Page\Analytics;
 use SiteMaster\Core\Auditor\Site\Page\PageHasFeatureAnalytics;
+use SiteMaster\Core\Auditor\Spider;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Registry\Site;
@@ -319,7 +320,7 @@ class Page extends Record
         $scan = $this->getScan();
         $site = $this->getSite();
         
-        $spider = new \Spider(
+        $spider = new Spider(
             new HTMLOnly($site, $this, $scan),
             new HTML5(),
             array(
@@ -327,6 +328,12 @@ class Page extends Record
                 'user_agent'         => Config::get('USER_AGENT')
             )
         );
+
+        //Run headless tests against the page (we need to do this here so we can pass the results to the metrics)
+        $headless_runner = new HeadlessRunner($daemon_name);
+        $headless_results = $headless_runner->run($this->uri);
+
+        Spider::setURIs($headless_results['core-links']);
         
         $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
         
@@ -341,10 +348,6 @@ class Page extends Record
             //Don't schedule new pages to be scanned if this is a single page scan.
             $spider->addLogger(new Scheduler($spider, $scan, $site));
         }
-        
-        //Run headless tests against the page (we need to do this here so we can pass the results to the metrics)
-        $headless_runner = new HeadlessRunner($daemon_name);
-        $headless_results = $headless_runner->run($this->uri);
         
         $spider->addLogger(new Links($spider, $this));
         $spider->addLogger($page_title_logger);

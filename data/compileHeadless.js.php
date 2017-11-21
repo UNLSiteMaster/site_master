@@ -8,6 +8,11 @@ $headless_file = $this->getCompiledScriptLocation();
 //Make an array of metrics to use
 $metrics = [];
 
+$metrics[] = [
+    'file' => '../data/page_links.js',
+    'options' => [],
+];
+
 //Page analytics in core
 $metrics[] = [
 	'file' => '../data/page_analytics.js',

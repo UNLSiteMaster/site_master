@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Auditor\Logger;
 
 use DOMXPath;
 use Monolog\Logger;
+use SiteMaster\Core\Auditor\Spider;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Registry;
 use SiteMaster\Core\Registry\Site;
@@ -27,7 +28,7 @@ class Scheduler extends \Spider_LoggerAbstract
      */
     protected $site = false;
 
-    function __construct(\Spider $spider, Scan $scan, Site $site)
+    function __construct(Spider $spider, Scan $scan, Site $site)
     {
         $this->spider = $spider;
         $this->scan = $scan;

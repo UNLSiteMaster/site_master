@@ -22,10 +22,18 @@ class SchedulerDBTest extends DBTestCase
         
         //Set up a spider that needs to be sent to the logger
         $parser = new HTML5();
-        $spider = new \Spider(new \Spider_Downloader(), $parser, array(
+        $spider = new Spider(new \Spider_Downloader(), $parser, array(
             'respect_robots_txt'=>false,
             'use_effective_uris' => false)
         );
+        
+        //Simulate the headless result of links
+        Spider::setURIs([
+            'http://www.test.com/page2.html',
+            'https://www.test.com/page2.html',
+            'http://www.test.com/test/page2.html',
+        ]);
+        
         $scan = Scan::createNewScan($site);
         
         //Set up the logger to test

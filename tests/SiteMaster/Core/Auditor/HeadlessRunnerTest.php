@@ -16,5 +16,7 @@ class HeadlessRunnerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('page_title', $results['example']);
         $this->assertArrayHasKey('core-page-analytics', $results);
+        $this->assertArrayHasKey('core-links', $results);
+        $this->assertTrue(in_array('http://example.org/generated-by-js', $results['core-links']), 'JS generated links should be included');
     }
 }

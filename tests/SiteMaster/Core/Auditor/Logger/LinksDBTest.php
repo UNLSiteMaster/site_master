@@ -26,20 +26,28 @@ class LinksDBTest extends DBTestCase
         //Get a test site
         $site = Site::getByBaseURL($base_uri);
 
-        //Set up a spider that needs to be sent to the logger
-        $parser = new HTML5();
-        $spider = new \Spider(new \Spider_Downloader(), $parser, array(
-                'respect_robots_txt'=>false,
-                'use_effective_uris' => false)
-        );
         $scan = Scan::createNewScan($site);
-        
+
         //Create a new page scan for the base url
         $scan->scheduleScan();
 
         //Get that page scan
         $page = Page::getByScanIDAndURI($scan->id, $base_uri);
 
+        //Set up a spider that needs to be sent to the logger
+        $parser = new HTML5();
+        $spider = new Spider(new Downloader\HTMLOnly($site, $page, $scan), $parser, array(
+                'respect_robots_txt'=>false,
+                'use_effective_uris' => false)
+        );
+        
+        Spider::setURIs([
+            'http://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301',
+            'http://unlcms.unl.edu/university-communications/sitemaster/example-404',
+            'http://unlcms.unl.edu/university-communications/sitemaster/example-404',
+            'http://unlcms.unl.edu/university-communications/sitemaster/',
+        ]);
+        
         //Set up the logger to test
         $logger = new Logger\Links($spider, $page);
 
