@@ -37,7 +37,7 @@ class All extends RecordList
         $sql = "SELECT site_scan_history.id
                 FROM site_scan_history
                 " . $this->getWhere() . "
-                ORDER BY site_scan_history.date_created ASC
+                ORDER BY site_scan_history.date_created DESC
                 " . $this->getLimit();
 
         return $sql;

@@ -5,9 +5,21 @@ $data = array();
 $data['dates'] = array();
 $data['metric_history'] = array();
 $last_data = array();
+$previous_history = false;
+$max_rows = 0;
+$history_list = $context->site->getHistory(array('limit'=>100));
 
 $i=0;
-foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
+foreach ($history_list as $index=>$history) {
+    if (count($history_list) > 21 && $previous_history) {
+        $difference = strtotime($previous_history->date_created) - strtotime($history->date_created);
+        $difference = floor($difference / (60 * 60 * 24)); //number of days
+        if ($difference < 7) {
+            //Only report one per week
+            continue;
+        }
+    }
+    
     $date = date('Y-m-d', strtotime($history->date_created));
     
     $new_data = array(
@@ -56,9 +68,16 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
         }
         
         $data['metric_history'][$metrics_id]['rows'][] = $gpa;
+        $max_rows = count($data['metric_history'][$metrics_id]['rows']);
     }
-    
+
+    $previous_history = $history;
     $i++;
+}
+
+foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
+    //Make sure all metric rows are the same length (pad to the end with null)
+    $data['metric_history'][$metrics_id]['rows'] = array_pad($data['metric_history'][$metrics_id]['rows'], $max_rows, null);
 }
 
 
@@ -99,7 +118,7 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
     </div>
     <script>
         var data = {
-            labels: <?php echo json_encode($data['dates_long']) ?>,
+            labels: <?php echo json_encode(array_reverse($data['dates_long'])) ?>,
             datasets: [
                 {
                     label: "Site GPA",
@@ -110,7 +129,7 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "#D00000",
                     lineThickness: 5,
-                    data: <?php echo json_encode($data['gpa']) ?>
+                    data: <?php echo json_encode(array_reverse($data['gpa'])) ?>
                 }
             ]
         };
@@ -153,8 +172,8 @@ foreach ($context->site->getHistory(array('limit'=>100)) as $index=>$history) {
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "<?php echo $color ?>",
-                data: <?php echo json_encode($metric_history['rows']) ?>
-            }
+                data: <?php echo json_encode(array_reverse($metric_history['rows'])) ?>
+            };
             <?php
             $i++;
         }
