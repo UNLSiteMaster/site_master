@@ -492,3 +492,8 @@ ul.line-legend li {
     height: 15em !important;
     width: 100% !important;
 }
+
+button.display-history-table {
+    padding: .75em;
+    font-size: .5em;
+}
