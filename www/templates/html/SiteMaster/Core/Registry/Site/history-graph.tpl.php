@@ -89,8 +89,10 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
         <div class="legend-container">
             <div id="history_legend"></div>
         </div>
+        
         <div class="table">
-            <table class="wdn-text-hidden show-for-sr">
+            <button aria-expanded="false" class="button wdn-button display-history-table wdn-pull-right">Show History Table</button>
+            <table style="display:none;">
                 <thead>
                 <tr>
                     <th>Date</th>
@@ -117,6 +119,21 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
         </div>
     </div>
     <script>
+        $('.display-history-table').click(function() {
+            var $button = $(this);
+            console.log($button);
+            var $table = $button.next('table');
+            if ($table.is(':hidden')) {
+                $table.show();
+                $button.text('Hide history table');
+                $button.attr('aria-expanded', 'true');
+            } else {
+                $table.hide();
+                $button.text('Show history table');
+                $button.attr('aria-expanded', 'false');
+            }
+        });
+        
         var data = {
             labels: <?php echo json_encode(array_reverse($data['dates_long'])) ?>,
             datasets: [
