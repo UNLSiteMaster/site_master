@@ -115,7 +115,7 @@ class Override extends Record
      */
     public static function getGlobalOverride($marks_id, $value_found)
     {
-        return self::getByAnyField(__CLASS__, 'value_found', $value_found, 'marks_id = ' . (int) $marks_id);
+        return self::getByAnyField(__CLASS__, 'value_found', $value_found, 'marks_id = ' . (int) $marks_id . ' AND scope = "GLOBAL"');
     }
 
     /**
