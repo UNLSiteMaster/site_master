@@ -85,6 +85,7 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
 <?php if (count($data['dates']) > 1): ?>
     <div class="graph-container">
         <h2>Group Metric History</h2>
+        <p>The following is the group metric history over time. These numbers represent the percent of all pages in the group that pass the given metric. Note that only production sites are included in the calculation. Archived or in-development sites are excluded.</p>
         <canvas id="history_chart"></canvas>
         <div class="legend-container">
             <div id="history_legend"></div>
