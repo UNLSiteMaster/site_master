@@ -26,6 +26,11 @@ foreach (Config::get('GROUPS') as $group_name=>$group) {
             //exclude archived
             continue;
         }
+
+        if ($site->production_status == \SiteMaster\Core\Registry\Site::PRODUCTION_STATUS_DEVELOPMENT) {
+            //exclude sites that are in development
+            continue;
+        }
         
         if (!$scan = $site->getLatestScan(true)) {
             continue;
