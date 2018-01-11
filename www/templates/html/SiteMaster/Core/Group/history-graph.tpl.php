@@ -7,7 +7,7 @@ $data['metric_history'] = array();
 $last_data = array();
 $previous_history = false;
 $max_rows = 0;
-$history_list = $context->getHistory(array('limit'=>100));
+$history_list = $context->getHistory(array('limit'=>360));
 
 $i=0;
 foreach ($history_list as $index=>$history) {
