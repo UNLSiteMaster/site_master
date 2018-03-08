@@ -59,6 +59,15 @@ class Controller
             if ($this->options['format'] == 'partial') {
                 \Savvy_ClassToTemplateMapper::$output_template[__CLASS__] = 'SiteMaster/Core/Controller-partial';
             }
+            
+            if ('SiteMaster\Core\Registry\Search' === $this->options['model']) {
+                //Ask the client to cache results for one day
+                $seconds_to_cache = 60*60*24;
+                $ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+                header("Expires: $ts");
+                header("Pragma: cache");
+                header("Cache-Control: max-age=$seconds_to_cache");
+            }
 
             $this->output = new $this->options['model']($this->options);
             
