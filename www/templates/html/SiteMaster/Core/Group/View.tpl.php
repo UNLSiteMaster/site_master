@@ -29,9 +29,10 @@ $names[count($names)-1] = 'and ' . $names[count($names)-1];
 
 <h3>Sites with a score of 100%</h3>
 
+<?php $sites = $context->getHonorRoll100() ?>
+
 <p>These sites have 100% of their pages passing all graded metrics. There are <?php $sites->count() ?> sites on this list.</p>
 
-<?php $sites = $context->getHonorRoll100() ?>
 <ul>
     <?php foreach ($sites as $site): ?>
         <?php $scan = $site->getLatestScan(true); ?>
