@@ -31,7 +31,7 @@ $names[count($names)-1] = 'and ' . $names[count($names)-1];
 
 <?php $sites = $context->getHonorRoll100() ?>
 
-<p>These sites have 100% of their pages passing all graded metrics. There are <?php $sites->count() ?> sites on this list.</p>
+<p>These sites have 100% of their pages passing all graded metrics. There are <?php echo $sites->count() ?> sites on this list.</p>
 
 <ul>
     <?php foreach ($sites as $site): ?>
@@ -45,7 +45,7 @@ $names[count($names)-1] = 'and ' . $names[count($names)-1];
 <h3>Sites with a score of 90%</h3>
 <?php $sites = $context->getHonorRoll90() ?>
 
-<p>These sites have at least 90% of their pages passing all graded metrics. There are <?php $sites->count() ?> sites on this list.</p>
+<p>These sites have at least 90% of their pages passing all graded metrics. There are <?php echo $sites->count() ?> sites on this list.</p>
 
 <table>
     <thead>
