@@ -25,7 +25,7 @@ $names[count($names)-1] = 'and ' . $names[count($names)-1];
 
 <h2>Honor Roll</h2>
 
-<p>These sites are doing exceptionally well. Making quality websites is time intensive and requires a lot of still. It is hard work, but your users appreciate it. Congratulations to all of the sites on these lists.</p>
+<p>These sites are doing exceptionally well. Making quality websites can be time intensive and requires a lot of skill. It is hard work, but your users appreciate it. Congratulations to all of the sites on these lists.</p>
 
 <h3>Sites with a score of 100%</h3>
 
