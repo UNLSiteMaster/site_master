@@ -22,3 +22,44 @@ $names[count($names)-1] = 'and ' . $names[count($names)-1];
 <?php endif; ?>
 
 <?php echo $savvy->render($context, 'SiteMaster/Core/Group/history-graph.tpl.php'); ?>
+
+<h2>Honor Roll</h2>
+
+<p>These sites are doing exceptionally well. Making quality websites is time intensive and requires a lot of still. It is hard work, but your users appreciate it. Congratulations to all of the sites on these lists.</p>
+
+<h3>Sites with a score of 100%</h3>
+
+<?php $sites = $context->getHonorRoll100() ?>
+<ul>
+    <?php foreach ($sites as $site): ?>
+        <?php $scan = $site->getLatestScan(true); ?>
+        <li>
+            <a href="<?php echo $site->getURL(); ?>"><?php echo $site->base_url ?></a>
+        </li>
+    <?php endforeach; ?>
+</ul>
+
+<p>These sites have 100% of their pages passing all graded metrics. There are <?php $sites->count() ?> sites on this list.</p>
+
+<h3>Sites with a score of 90%</h3>
+<?php $sites = $context->getHonorRoll90() ?>
+
+<p>These sites have at least 90% of their pages passing all graded metrics. There are <?php $sites->count() ?> sites on this list.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Site</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($sites as $site): ?>
+            <?php $scan = $site->getLatestScan(true); ?>
+            <tr>
+                <td><a href="<?php echo $site->getURL(); ?>"><?php echo $site->base_url ?></a></td>
+                <td><?php echo $scan->gpa ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

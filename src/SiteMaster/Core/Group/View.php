@@ -7,6 +7,8 @@ use SiteMaster\Core\Events\Navigation\GroupCompile;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\Registry\GroupHelper;
+use SiteMaster\Core\Registry\Site;
+use SiteMaster\Core\Registry\Sites\HonorRoll;
 use SiteMaster\Core\Registry\Sites\WithGroup;
 use SiteMaster\Core\UnexpectedValueException;
 use SiteMaster\Core\ViewableInterface;
@@ -130,5 +132,21 @@ class View implements ViewableInterface
     public function getSites()
     {
         return new WithGroup(['group_name'=>$this->group_name, 'limit'=>90]);
+    }
+
+    public function getHonorRoll100()
+    {
+        return new HonorRoll([
+            'group_name' => $this->group_name,
+            'honor_type' => 100
+        ]);
+    }
+    
+    public function getHonorRoll90()
+    {
+        return new HonorRoll([
+            'group_name' => $this->group_name,
+            'honor_type' => 90
+        ]);
     }
 }
