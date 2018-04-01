@@ -60,7 +60,9 @@ class Controller
                 \Savvy_ClassToTemplateMapper::$output_template[__CLASS__] = 'SiteMaster/Core/Controller-partial';
             }
             
-            if ('SiteMaster\Core\Registry\Search' === $this->options['model']) {
+            $cached_models = array('SiteMaster\Core\Registry\Search', 'SiteMaster\Core\Registry\SearchClosest');
+            
+            if (in_array($this->options['model'], $cached_models)) {
                 //Ask the client to cache results for one day
                 $seconds_to_cache = 60*60*24;
                 $ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
