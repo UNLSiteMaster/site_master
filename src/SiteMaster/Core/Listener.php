@@ -21,6 +21,10 @@ class Listener extends PluginListener
             'SiteMaster\Core\Registry\Search'
         );
         $event->addRoute(
+            '/^registry\/closest\/$/',
+            'SiteMaster\Core\Registry\SearchClosest'
+        );
+        $event->addRoute(
             '/^logout\/$/',
             'SiteMaster\Core\User\Logout'
         );
