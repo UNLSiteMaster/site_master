@@ -34,6 +34,6 @@
             </li>
         </ul>
     </fieldset>
-    
+    <?php $csrf_helper->insertToken() ?>
     <button>Save</button>
 </form>

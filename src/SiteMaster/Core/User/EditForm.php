@@ -4,6 +4,7 @@ namespace SiteMaster\Core\User;
 use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Core\PostHandlerInterface;
@@ -54,6 +55,9 @@ class EditForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
+        }
 
         if (isset($post['is_private']) && $post['is_private'] === '1') {
             $this->current_user->is_private = User::PRIVATE_YES;

@@ -2,8 +2,10 @@
 namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\AbstractPostHandler;
+use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\PathRequiredException;
@@ -65,6 +67,10 @@ class AddSiteForm extends AbstractPostHandler implements ViewableInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
+        }
+        
         if (!isset($post['base_url'])) {
             throw new UnexpectedValueException('the base url was not provided', 400);
         }

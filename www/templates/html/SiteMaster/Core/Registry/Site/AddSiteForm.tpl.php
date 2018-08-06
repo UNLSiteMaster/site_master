@@ -27,6 +27,7 @@
             Once the site is created, you can choose your role.  We will walk you though that process after you submit this form.
         </p>
     </div>
-    
+
+    <?php $csrf_helper->insertToken() ?>
     <input type="submit" value="Add my site" />
 </form>

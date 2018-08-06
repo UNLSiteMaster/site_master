@@ -33,6 +33,7 @@ if ($context->verify_user->id != $context->current_user->id) {
         <p>You may also add the following meta tag to your home page. Once verification is completed, you can remove it.</p>
         <pre><code><?php echo htmlentities('<meta name="sitemaster-verification-code" content="'.$context->verify_user_membership->verification_code.'">') ?></code></pre>
     </div>
+    <?php $csrf_helper->insertToken() ?>
     <input type="hidden" name="type" value="manual" />
     <input type="submit" value="Verify Now" />
     <a href="<?php echo $context->site->getURL() ?>members/" class="button wdn-button">Skip</a>

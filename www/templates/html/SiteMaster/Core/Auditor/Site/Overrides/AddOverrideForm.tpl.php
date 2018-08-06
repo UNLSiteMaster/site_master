@@ -45,5 +45,6 @@
     </fieldset>
     <label for="reason">(required) The reason for this override (describe how you determined that this is not an error)</label>
     <textarea id="reason" name="reason" required></textarea>
+    <?php $csrf_helper->insertToken() ?>
     <button>Submit</button>
 </form>

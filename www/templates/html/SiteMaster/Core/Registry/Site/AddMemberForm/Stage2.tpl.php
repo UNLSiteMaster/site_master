@@ -34,6 +34,7 @@
         </p>
     </div>
 
+    <?php $csrf_helper->insertToken() ?>
     <input type="hidden" name="stage" value="2" />
     <a href="<?php echo $context->getURL()?>" class="button wdn-button">Back</a>
     <input type="submit" value="add selected" />

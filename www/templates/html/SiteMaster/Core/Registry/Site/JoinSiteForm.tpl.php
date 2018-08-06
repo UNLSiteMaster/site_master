@@ -54,6 +54,7 @@
         }
         ?>
     </div>
-
+    
+    <?php $csrf_helper->insertToken() ?>
     <input type="submit" value="Update roles" />
 </form>

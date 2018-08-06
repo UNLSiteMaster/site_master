@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Core;
 
+use ParagonIE\AntiCSRF\AntiCSRF;
 use RegExpRouter\Router;
 use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Plugin\PluginManager;
@@ -149,5 +150,41 @@ class Controller
             && false !== $exit) {
             exit($exit);
         }
+    }
+
+    /**
+     * Wrapper function to help with CSRF tokens
+     * 
+     * @return AntiCSRF
+     */
+    public static function getCSRFHelper()
+    {
+        static $csrf;
+        
+        if (!$csrf) {
+            $csrf = new AntiCSRF();
+        }
+        
+        return $csrf;
+    }
+
+    /**
+     * Converts an absolute URL to conform to its request_uri equiv
+     */
+    public static function urlToRequestURI($url)
+    {
+        $parts = parse_url($url);
+        
+        if (!isset($parts['path'])) {
+            return null;
+        }
+        
+        $request_uri = $parts['path'];
+        
+        if (isset($parts['query'])) {
+            $request_uri .= '?' . $parts['query'];
+        }
+        
+        return $request_uri;
     }
 }

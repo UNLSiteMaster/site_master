@@ -5,6 +5,7 @@ use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Auditor\Site\Page;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Registry;
@@ -141,6 +142,10 @@ class ScanForm implements ViewableInterface, PostHandlerInterface
     {
         if (!$this->canEdit()) {
             throw new AccessDeniedException('You do not have permission to schedule a scan.  Please make sure that you are logged in and are a member of this site.', 403);
+        }
+
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
         }
 
         if (!isset($post['action'])) {
