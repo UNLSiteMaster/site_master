@@ -122,7 +122,7 @@ $page = $context->getPage();
                         ?>
                     </td>
                     <td>
-                        <a href="<?php echo $page->getURL() . 'marks/' . $page_mark->id ?>/" target="_blank">Fix</a>
+                        <a href="<?php echo $page->getURL() . 'marks/' . $page_mark->id ?>/">Fix</a>
                     </td>
                 </tr>
             <?php
