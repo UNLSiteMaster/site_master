@@ -440,7 +440,7 @@ class ScanDBTest extends DBTestCase
         
         $this->assertNotContains('http://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301', $found_uris, 'Should not have recoded the redirect');
         
-        $this->assertEquals(1, count($found_uris), 'Should have only found one URI');
+        $this->assertEquals(2, count($found_uris), 'Should have only found one URI');
     }
 
     /**
