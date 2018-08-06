@@ -3,7 +3,7 @@ namespace SiteMaster\Core\Auditor\Parser;
 
 use SiteMaster\Core\Util;
 
-class HTML5Test extends \PHPUnit_Framework_TestCase
+class HTML5Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

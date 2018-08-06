@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor\Site\Page;
 
-class MetricGradeTest extends \PHPUnit_Framework_TestCase
+class MetricGradeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

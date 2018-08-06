@@ -25,7 +25,7 @@
         }
     ],
     "require": {
-        "phpunit/phpunit": "3.7.*",
+        "phpunit/phpunit": "^7",
         "saltybeagle/savvy": "0.8.1",
         "symfony/event-dispatcher": "2.2.*",
         "symfony/http-foundation": "2.2.*",

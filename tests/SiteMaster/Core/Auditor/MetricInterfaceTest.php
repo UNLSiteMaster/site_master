@@ -3,7 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use SiteMaster\Core\Config;
 
-class MetricInterfaceTest extends \PHPUnit_Framework_TestCase
+class MetricInterfaceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

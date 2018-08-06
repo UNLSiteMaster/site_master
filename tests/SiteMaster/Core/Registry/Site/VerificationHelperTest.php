@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core\Registry\Site;
 
-class VerificationHelperTest extends \PHPUnit_Framework_TestCase
+class VerificationHelperTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

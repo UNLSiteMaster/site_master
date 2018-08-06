@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core\Auditor;
 
-class SiteMapTest extends \PHPUnit_Framework_TestCase
+class SiteMapTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

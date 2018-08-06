@@ -12,15 +12,6 @@ use SiteMaster\Core\Registry\Site;
 class ScanDBTest extends DBTestCase
 {
     const INTEGRATION_TESTING_URL = 'http://unlsitemaster.github.io/test_site/';
-    /**
-     * Test the scheduleScan method
-     * 
-     * @test
-     */
-    public function scheduleScan()
-    {
-        $this->setUpDB();
-    }
 
     /**
      * @test
@@ -420,7 +411,7 @@ class ScanDBTest extends DBTestCase
     {
         $this->setUpDB();
 
-        $site = Site::createNewSite('http://unlcms.unl.edu/university-communications/sitemaster/');
+        $site = Site::createNewSite('https://unlcms.unl.edu/university-communications/sitemaster/');
 
         //Schedule a scan
         $site->scheduleScan();
@@ -438,7 +429,7 @@ class ScanDBTest extends DBTestCase
             $found_uris[] = $page->uri;
         }
         
-        $this->assertNotContains('http://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301', $found_uris, 'Should not have recoded the redirect');
+        $this->assertNotContains('https://unlcms.unl.edu/university-communications/sitemaster/example-redirect-301', $found_uris, 'Should not have recoded the redirect');
         
         $this->assertEquals(1, count($found_uris), 'Should have only found one URI');
     }
