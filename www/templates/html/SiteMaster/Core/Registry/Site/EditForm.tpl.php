@@ -74,10 +74,12 @@
     </ol>
 
     <input type="hidden" name="action" value="edit" />
+    <?php $csrf_helper->insertToken() ?>
     <button type="submit">Save</button>
 </form>
 
 <form action="<?php echo $context->getEditURL(); ?>" method="POST">
     <input type="hidden" name="action" value="delete" />
+    <?php $csrf_helper->insertToken() ?>
     <button type="submit" id="delete-site">Remove this site from <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?></button>
 </form>

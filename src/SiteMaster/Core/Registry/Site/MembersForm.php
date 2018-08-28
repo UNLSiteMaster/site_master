@@ -1,8 +1,10 @@
 <?php
 namespace SiteMaster\Core\Registry\Site;
 
+use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
@@ -90,6 +92,10 @@ class MembersForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
+        }
+        
         if (!$this->canEdit()) {
             throw new RuntimeException('You are not allowed to edit this form', 401);
         }

@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\Events\User\Search;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
@@ -92,6 +93,10 @@ class AddMemberForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
+        }
+        
         if (!isset($post['stage'])) {
             throw new InvalidArgumentException('You must pass a stage', 400);
         }

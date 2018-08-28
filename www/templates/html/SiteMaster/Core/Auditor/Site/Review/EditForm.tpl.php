@@ -73,5 +73,6 @@ use \SiteMaster\Core\Auditor\Site\Review;
         </li>
     </ul>
     <input type="hidden" name="action" value="edit" />
+    <?php $csrf_helper->insertToken() ?>
     <button type="submit">Save</button>
 </form>

@@ -7,6 +7,7 @@ use SiteMaster\Core\Auditor\Override;
 use SiteMaster\Core\Auditor\Scan;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
@@ -116,6 +117,10 @@ class ViewOverrides implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
+        }
+        
         if (!isset($post['delete_id'])) {
             throw new MissingArgumentException('No override id was given to delete', 400);
         }

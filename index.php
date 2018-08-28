@@ -31,6 +31,7 @@ $savvy->addGlobal('user', \SiteMaster\Core\User\Session::getCurrentUser());
 $savvy->addGlobal('grading_helper', new \SiteMaster\Core\Auditor\GradingHelper());
 $savvy->addGlobal('base_url', \SiteMaster\Core\Util::getAbsoluteBaseURL());
 $savvy->addGlobal('theme_helper', new \SiteMaster\Core\ThemeHelper());
+$savvy->addGlobal('csrf_helper', \SiteMaster\Core\Controller::getCSRFHelper());
 
 $savvy->addGlobal('scan', false);
 if (isset($app->options['scans_id']) && $scan = \SiteMaster\Core\Auditor\Scan::getById($app->options['scans_id'])) {

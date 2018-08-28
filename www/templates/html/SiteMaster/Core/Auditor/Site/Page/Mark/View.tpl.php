@@ -3,7 +3,7 @@
 <dl class="fix-mark-details">
     <dt>Found on page</dt>
     <dd>
-        <?php echo $context->page->uri ?> (<a href="<?php echo $context->page->getURL() ?>">view page report</a> or <a href="<?php echo $context->page->uri ?>" target="_blank">View Page</a>)
+        <?php echo $context->page->uri ?> (<a href="<?php echo $context->page->getURL() ?>">view page report</a> or <a href="<?php echo $context->page->uri ?>">View Page</a>)
     </dd>
     <dt>Points Deducted from the Metric Grade</dt>
     <dd>

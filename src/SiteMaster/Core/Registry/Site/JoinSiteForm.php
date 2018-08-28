@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Controller;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\FlashBagMessage;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Registry\Site;
@@ -182,6 +183,10 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
+        }
+        
         $role_ids = array();
         if (isset($post['role_ids'])) {
             $role_ids = $post['role_ids'];

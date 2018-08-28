@@ -3,6 +3,7 @@ namespace SiteMaster\Core\Registry\Site;
 
 use SiteMaster\Core\AccessDeniedException;
 use SiteMaster\Core\Auditor\Parser\HTML5;
+use SiteMaster\Core\CSRFValidationException;
 use SiteMaster\Core\InvalidArgumentException;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\FlashBagMessage;
@@ -190,6 +191,10 @@ class VerifyForm implements ViewableInterface, PostHandlerInterface
 
     public function handlePost($get, $post, $files)
     {
+        if (!Controller::getCSRFHelper()->validateRequest()) {
+            throw new CSRFValidationException();
+        }
+        
         if (!isset($post['type'])) {
             throw new InvalidArgumentException('a verification type must be provided', 400);
         }
