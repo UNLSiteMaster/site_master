@@ -3,7 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use SiteMaster\Core\Config;
 
-class GradingHelperTest extends \PHPUnit_Framework_TestCase
+class GradingHelperTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Plugins\Metric_links;
 
-class MetricTest extends \PHPUnit_Framework_TestCase
+class MetricTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

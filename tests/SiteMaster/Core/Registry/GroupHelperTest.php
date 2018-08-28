@@ -3,7 +3,7 @@ namespace SiteMaster\Core\Registry;
 
 use SiteMaster\Core\Config;
 
-class GroupHelperTest extends \PHPUnit_Framework_TestCase
+class GroupHelperTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

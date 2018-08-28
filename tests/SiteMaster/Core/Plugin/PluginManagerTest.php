@@ -3,7 +3,7 @@ namespace SiteMaster\Plugin;
 
 use SiteMaster\Core\Plugin\PluginManager;
 
-class PluginManagerTest extends \PHPUnit_Framework_TestCase
+class PluginManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

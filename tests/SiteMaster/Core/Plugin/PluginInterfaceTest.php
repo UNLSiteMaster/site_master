@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core\Plugin;
 
-class PluginInterfaceTest extends \PHPUnit_Framework_TestCase
+class PluginInterfaceTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetMachineName()
     {

@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * Class DBTestCase
  * @package SiteMaster
  */
-class DBTestCase extends \PHPUnit_Framework_TestCase
+class DBTestCase extends \PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {

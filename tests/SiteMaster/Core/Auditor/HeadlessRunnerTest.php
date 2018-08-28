@@ -3,7 +3,7 @@ namespace SiteMaster\Core\Auditor;
 
 use SiteMaster\Core\Config;
 
-class HeadlessRunnerTest extends \PHPUnit_Framework_TestCase
+class HeadlessRunnerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

@@ -1,7 +1,7 @@
 <?php
 namespace SiteMaster\Core\Registry;
 
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
