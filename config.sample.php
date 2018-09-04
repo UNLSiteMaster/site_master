@@ -31,7 +31,15 @@ Config::set('THEME', 'foundation');
 Config::set('PLUGINS', array(
     'example' => array('setting'=>'value'),
     'theme_foundation' => array('setting'=>'value'),
-    'auth_google' => array('setting'=>'value'),
+    'auth_google' => array(
+        'security_salt' => 'enter random string here',
+            'Strategy' => array(
+                'Google' => array(
+                    'client_id' => 'enter client id here',
+                    'client_secret' => 'enter client secret here'
+                )
+            )
+    )
 ));
 
 /**********************************************************************************************************************
