@@ -25,7 +25,7 @@ Config::set('PLUGINS', array(
     'metric_w3c_html' => array('setting' => 'value'),
     'theme_foundation' => array('setting' => 'value'),
     'auth_google' => array(
-        'security_salt' => 'taco',
+        'security_salt' => 'some random string',
         'Strategy' => array(
             'Google' => array(
                 'client_id' => '',
