@@ -21,11 +21,16 @@ Config::set('THEME', 'foundation');
  * Plugin related settings
  */
 Config::set('PLUGINS', array(
-    'metric_axe' => array('setting' => 'value'),
-    'metric_w3c_html' => array('setting' => 'value'),
+    'metric_axe' => [
+        // 'weight' => 20, // Adjust weight if desired
+    ],
+    'metric_w3c_html' => [
+        // 'weight' => 20, // Adjust weight if desired
+        // 'service_url' => 'https://validator.unl.edu/', // adjust the service URL if desired
+    ],
     'theme_foundation' => array('setting' => 'value'),
     'auth_google' => array(
-        'security_salt' => 'some random string',
+        'security_salt' => '',
         'Strategy' => array(
             'Google' => array(
                 'client_id' => '',
@@ -42,11 +47,13 @@ Config::set('GROUPS', [
     'default' => [
         //define custom metrics with with the 'METRICS' key, contents of this array match the 'PLUGINS' configuration option, but can only contain 'metric' plugins. Other plugins such as authentication or themes are applied to all groups.
         'METRICS' => [
-            'example' => array(
-                'setting' => 'value',
-            ),
-            'metric_axe' => [],
-            'metric_w3c_html' => [],
+            'metric_axe' => [
+                // 'weight' => 20, // Adjust weight if desired
+            ],
+            'metric_w3c_html' => [
+                // 'weight' => 20, // Adjust weight if desired
+                // 'service_url' => 'https://validator.unl.edu/', // adjust the service URL if desired
+            ],
         ],
         //You can also set a few other settings on a group level
         //'SITE_PASS_FAIL' => false,
