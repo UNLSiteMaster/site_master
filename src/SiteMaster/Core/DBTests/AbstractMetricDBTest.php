@@ -32,6 +32,14 @@ abstract class AbstractMetricDBTest extends DBTestCase
             )
         );
 
+        Config::set('GROUPS', [
+            'default' => [
+                'METRICS' => [
+                    $plugin->getMachineName() => [],
+                ],
+            ],
+        ]);
+
         Config::set('PLUGINS', $plugins);
 
         //Install this metric
