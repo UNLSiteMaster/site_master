@@ -1,7 +1,7 @@
 site_master
 ===========
 
-[![Build Status](https://travis-ci.org/UNLSiteMaster/site_master.svg?branch=master)](https://travis-ci.org/UNLSiteMaster/site_master)
+[![Build Status](https://travis-ci.org/CuBoulder/site_master.svg?branch=master)](https://travis-ci.org/CuBoulder/site_master)
 
 About
 -----
