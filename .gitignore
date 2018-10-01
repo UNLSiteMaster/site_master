@@ -2,7 +2,7 @@
 /config.inc.php
 /.buildpath
 data/database.mwb.bak
-*.idea
+*.idea/
 /plugins.json
 /xhprof
 /phpmyadmin
