@@ -2,7 +2,7 @@
 /config.inc.php
 /.buildpath
 data/database.mwb.bak
-/.idea/
+*.idea/
 /plugins.json
 /xhprof
 /phpmyadmin
@@ -13,5 +13,6 @@ data/database.mwb.bak
 /wdn
 /scripts/sitemaster_phantom_complied.js
 /scripts/sitemaster_phantom_complied_test.js
+.vscode/
 /plugins/
 /node_modules/
