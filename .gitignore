@@ -13,3 +13,5 @@ data/database.mwb.bak
 /wdn
 /scripts/sitemaster_phantom_complied.js
 /scripts/sitemaster_phantom_complied_test.js
+/node_modules
+/package-lock.json
