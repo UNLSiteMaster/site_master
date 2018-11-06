@@ -14,3 +14,4 @@ data/database.mwb.bak
 /scripts/sitemaster_phantom_complied.js
 /scripts/sitemaster_phantom_complied_test.js
 /node_modules
+/plugins
