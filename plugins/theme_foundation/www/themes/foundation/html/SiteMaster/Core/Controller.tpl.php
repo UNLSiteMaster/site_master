@@ -145,7 +145,7 @@ $site_title = \SiteMaster\Core\Config::get('SITE_TITLE');
     </div>
 </div>
 
-<div id="footer">
+<div id="dcf-footer">
     
 </div>
 
