@@ -14,4 +14,6 @@ data/database.mwb.bak
 /scripts/sitemaster_phantom_complied.js
 /scripts/sitemaster_phantom_complied_test.js
 /node_modules
-/plugins
+/plugins/theme_unl
+/plugins/metric_axe
+/plugins/metric_w3c_html
