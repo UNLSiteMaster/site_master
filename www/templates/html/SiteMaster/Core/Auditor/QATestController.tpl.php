@@ -25,7 +25,7 @@
 <?php elseif (!$context->site): ?>
     <p>
         We don't know about this site.  Please add it and we will scan it!
-        <a href="<?php \SiteMaster\Core\Config::get('URL') ?>/sites/add/?recommended=<?php echo urlencode($context->getRecommendedSiteURL()) ?>" class="button wdn-button">Register the site now</a>
+        <a href="<?php \SiteMaster\Core\Config::get('URL') ?>/sites/add/?recommended=<?php echo urlencode($context->getRecommendedSiteURL()) ?>" class="button dcf-btn">Register the site now</a>
     </p>
 <?php elseif (!$context->scan): ?>
     <p>

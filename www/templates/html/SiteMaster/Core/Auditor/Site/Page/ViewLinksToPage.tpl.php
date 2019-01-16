@@ -13,5 +13,5 @@
             </li>
         <?php endforeach; ?>
     </ul>
-    <a href="<?php echo $context->page->getURL() ?>" class="button wdn-button">Go back to the page scan</a>
+    <a href="<?php echo $context->page->getURL() ?>" class="button dcf-btn">Go back to the page scan</a>
 </div>

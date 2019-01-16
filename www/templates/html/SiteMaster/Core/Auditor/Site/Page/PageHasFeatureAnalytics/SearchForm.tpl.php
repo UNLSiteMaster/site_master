@@ -59,11 +59,11 @@
             </tbody>
         </table>
         <?php if ($previous_page = $context->getPreviousPageURL()): ?>
-            <a href="<?php echo $previous_page ?>" class="button wdn-button">Previous Page</a>
+            <a href="<?php echo $previous_page ?>" class="button dcf-btn">Previous Page</a>
         <?php endif; ?>
         
         <?php if ($next_page = $context->getNextPageURL()): ?>
-            <a href="<?php echo $next_page ?>" class="button wdn-button">Next Page</a>
+            <a href="<?php echo $next_page ?>" class="button dcf-btn">Next Page</a>
         <?php endif; ?>
     <?php endif ?>
 <?php endif; ?>

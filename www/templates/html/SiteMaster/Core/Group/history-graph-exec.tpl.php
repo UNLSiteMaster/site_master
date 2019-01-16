@@ -1,8 +1,8 @@
-<script src="<?php use SiteMaster\Core\Config;
-
-echo Config::get('URL') . 'www/js/vendor/chart.min.js' ?>"></script>
-<script>
-	var ctx = document.getElementById("history_chart").getContext("2d");
+<?php
+  use SiteMaster\Core\Config;
+  $savvy->loadScript(Config::get('URL') . 'www/js/vendor/chart.min.js');
+  $savvy->loadScriptDeclaration('
+    var ctx = document.getElementById("history_chart").getContext("2d");
 	var chart = new Chart(ctx).Line(data, {
 		responsive: false,
 		maintainAspectRatio: false,
@@ -14,4 +14,6 @@ echo Config::get('URL') . 'www/js/vendor/chart.min.js' ?>"></script>
 	});
 
 	$("#history_legend").html(chart.generateLegend());
-</script>
+  ');
+
+?>

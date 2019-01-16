@@ -32,6 +32,13 @@ $site_title = \SiteMaster\Core\Config::get('SITE_TITLE');
         <script src="<?php echo $url?>" type="<?php echo $type ?>"></script>
         <?php
     }
+
+    // Render any dynamic src scripts loaded for page
+    $savvy->renderScripts($savvy->getScripts($savvy::SCRIPT_LOCATION_HEAD));
+
+    // Render any dynamic head script declarartions loaded for page
+    $savvy->renderScriptDeclarations($savvy->getScriptDeclarations($savvy::SCRIPT_LOCATION_HEAD));
+
     ?>
 </head>
 <body>
@@ -153,5 +160,13 @@ $site_title = \SiteMaster\Core\Config::get('SITE_TITLE');
 <script>
     $(document).foundation();
 </script>
+<?php
+
+  // Render any dynamic body src scripts loaded for page
+  $savvy->renderScripts($savvy->getScripts($savvy::SCRIPT_LOCATION_BODY));
+
+  // Render any dynamic body script declarartions loaded for page
+  $savvy->renderScriptDeclarations($savvy->getScriptDeclarations($savvy::SCRIPT_LOCATION_BODY));
+?>
 </body>
 </html>

@@ -19,9 +19,9 @@ foreach ($history_list as $index=>$history) {
             continue;
         }
     }
-    
+
     $date = date('Y-m-d', strtotime($history->date_created));
-    
+
     $new_data = array(
         'date' => $date,
         'total_pages' => $history->total_pages,
@@ -44,13 +44,13 @@ foreach ($history_list as $index=>$history) {
 
         $new_data['metric_history'][$metric_history->metrics_id] = $metric_history->gpa;
     }
-    
+
     if ($new_data == $last_data) {
         //Remove duplicates (no change in data) as long as they are on the same day
         //This will hopefully help to un-clutter the graph
         continue;
     }
-    
+
     $last_data = $new_data;
 
     //Add data to the graph array
@@ -58,7 +58,7 @@ foreach ($history_list as $index=>$history) {
     $data['dates_long'][]  = $history->date_created;
     $data['total_pages'][] = $history->total_pages;
     $data['gpa'][]         = $history->gpa;
-    
+
     foreach ($new_data['metric_history'] as $metrics_id=>$gpa) {
         if ($i > 0 && !isset($data['metric_history'][$metrics_id]['rows'])) {
             for ($ii = 0; $ii < $i; $ii++) {
@@ -66,7 +66,7 @@ foreach ($history_list as $index=>$history) {
                 $data['metric_history'][$metrics_id]['rows'][] = null;
             }
         }
-        
+
         $data['metric_history'][$metrics_id]['rows'][] = $gpa;
         $max_rows = count($data['metric_history'][$metrics_id]['rows']);
     }
@@ -83,119 +83,126 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
 
 ?>
 <?php if (count($data['dates']) > 1): ?>
-    <div class="graph-container">
-        <h2>Site History</h2>
-        <canvas id="history_chart"></canvas>
-        <div class="legend-container">
-            <div id="history_legend"></div>
-        </div>
-        
-        <div class="table">
-            <button aria-expanded="false" class="button wdn-button display-history-table wdn-pull-right">Show History Table</button>
-            <table style="display:none;">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Site GPA</th>
-                    <?php
-                    foreach ($data['metric_history'] as $metric) {
-                        echo '<th>' . $metric['title'] . '</th>';
-                    }
-                    ?>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($data['dates'] as $key=>$details): ?>
-                    <tr>
-                        <td><?php echo $data['dates_long'][$key] ?></td>
-                        <td><?php echo (isset($data['gpa'][$key]))?$data['gpa'][$key]:'' ?></td>
-                        <?php foreach ($data['metric_history'] as $metric): ?>
-                            <td><?php echo (isset($metric['rows'][$key]))?$metric['rows'][$key]:'' ?></td>
-                        <?php endforeach; ?>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+  <div class="graph-container">
+    <h2>Site History</h2>
+    <canvas id="history_chart"></canvas>
+    <div class="legend-container">
+      <div id="history_legend"></div>
     </div>
-    <script>
+
+    <div class="table">
+      <button aria-expanded="false" class="button dcf-btn display-history-table dcf-float-right">Show History Table</button>
+      <table style="display:none;">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Site GPA</th>
+            <?php
+            foreach ($data['metric_history'] as $metric) {
+                echo '<th>' . $metric['title'] . '</th>';
+            }
+            ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($data['dates'] as $key=>$details): ?>
+          <tr>
+            <td><?php echo $data['dates_long'][$key] ?></td>
+            <td><?php echo (isset($data['gpa'][$key]))?$data['gpa'][$key]:'' ?></td>
+              <?php foreach ($data['metric_history'] as $metric): ?>
+                <td><?php echo (isset($metric['rows'][$key]))?$metric['rows'][$key]:'' ?></td>
+              <?php endforeach; ?>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <?php
+    $savvy->loadScriptDeclaration("
         $('.display-history-table').click(function() {
-            var $button = $(this);
-            console.log($button);
-            var $table = $button.next('table');
-            if ($table.is(':hidden')) {
-                $table.show();
-                $button.text('Hide history table');
-                $button.attr('aria-expanded', 'true');
+            var \$button = \$(this);
+            var \$table = \$button.next('table');
+            if (\$table.is(':hidden')) {
+                \$table.show();
+                \$button.text('Hide history table');
+                \$button.attr('aria-expanded', 'true');
             } else {
-                $table.hide();
-                $button.text('Show history table');
-                $button.attr('aria-expanded', 'false');
+                \$table.hide();
+                \$button.text('Show history table');
+                \$button.attr('aria-expanded', 'false');
             }
         });
-        
+
         var data = {
-            labels: <?php echo json_encode(array_reverse($data['dates_long'])) ?>,
+            labels: " . json_encode(array_reverse($data['dates_long'])) . ",
             datasets: [
                 {
-                    label: "Site GPA",
-                    fillColor: "#D00000",
-                    strokeColor: "#D00000",
-                    pointColor: "#D00000",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "#D00000",
+                    label: \"Site GPA\",
+                    fillColor: \"#D00000\",
+                    strokeColor: \"#D00000\",
+                    pointColor: \"#D00000\",
+                    pointStrokeColor: \"#fff\",
+                    pointHighlightFill: \"#fff\",
+                    pointHighlightStroke: \"#D00000\",
                     lineThickness: 5,
-                    data: <?php echo json_encode(array_reverse($data['gpa'])) ?>
+                    data: " . json_encode(array_reverse($data['gpa'])) . "
                 }
             ]
         };
+      "  . renderHistoryJS($data['metric_history']));
 
-        <?php 
-        $i = 1;
-        foreach ($data['metric_history'] as $metric_history) {
-        
-            switch ($i) {
-                case 1:
-                    $color = '#34A7FF';
-                    break;
-                case 2:
-                    $color = '#36C700';
-                    break;
-                case 3:
-                    $color = '#595959';
-                    break;
-                case 4:
-                    $color = '#1b6300';
-                    break;
-                case 5:
-                    $color = '#005596';
-                    break;
-                case 6:
-                    $color = '#496D89';
-                    break;
-                case 7:
-                    $color = '#9CD4FF';
-                    break;
-                default:
-                    $color = '#e9B800';
-            }
-            ?>
-            data.datasets[<?php echo $i?>] = {
-                label: "<?php echo $metric_history['title'] ?>",
-                fillColor: "<?php echo $color ?>",
-                strokeColor: "<?php echo $color ?>",
-                pointColor: "<?php echo $color ?>",
+    echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph-exec.tpl.php');
+    ?>
+<?php endif; ?>
+
+<?php
+function renderHistoryJS($history_data)
+{
+    $content = "";
+    $i = 1;
+    foreach ($history_data as $metric_history) {
+
+        switch ($i) {
+            case 1:
+                $color = '#34A7FF';
+                break;
+            case 2:
+                $color = '#36C700';
+                break;
+            case 3:
+                $color = '#595959';
+                break;
+            case 4:
+                $color = '#1b6300';
+                break;
+            case 5:
+                $color = '#005596';
+                break;
+            case 6:
+                $color = '#496D89';
+                break;
+            case 7:
+                $color = '#9CD4FF';
+                break;
+            default:
+                $color = '#e9B800';
+        }
+
+        $content .= 'data.datasets[' . $i . '] = {
+                label: "' . $metric_history['title'] . '",
+                fillColor: "' . $color . '",
+                strokeColor: "' . $color . '",
+                pointColor: "' . $color . '",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "<?php echo $color ?>",
-                data: <?php echo json_encode(array_reverse($metric_history['rows'])) ?>
+                pointHighlightStroke: "' . $color . '",
+                data: ' . json_encode(array_reverse($metric_history['rows'])) . '
             };
-            <?php
-            $i++;
-        }
-        ?>
-    </script>
-
-    <?php echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph-exec.tpl.php'); ?>
-<?php endif; ?>
+      ';
+        $i++;
+    }
+    return $content;
+}
+?>

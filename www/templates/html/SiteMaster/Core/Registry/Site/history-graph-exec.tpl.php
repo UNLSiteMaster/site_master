@@ -1,7 +1,7 @@
-<script src="<?php use SiteMaster\Core\Config;
-
-echo Config::get('URL') . 'www/js/vendor/chart.min.js' ?>"></script>
-<script>
+<?php
+use SiteMaster\Core\Config;
+$savvy->loadScript(Config::get('URL') . 'www/js/vendor/chart.min.js');
+$savvy->loadScriptDeclaration('
     var ctx = document.getElementById("history_chart").getContext("2d");
     var chart = new Chart(ctx).Line(data, {
         responsive: false,
@@ -13,5 +13,5 @@ echo Config::get('URL') . 'www/js/vendor/chart.min.js' ?>"></script>
         multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
     });
 
-    $("#history_legend").html(chart.generateLegend());
-</script>
+    $("#history_legend").html(chart.generateLegend());');
+?>
