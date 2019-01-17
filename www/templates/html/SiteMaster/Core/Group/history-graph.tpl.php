@@ -91,7 +91,7 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
             <div id="history_legend"></div>
         </div>
         <div class="table">
-            <button aria-expanded="false" class="button wdn-button display-history-table">Show History Table</button>
+            <button aria-expanded="false" class="button dcf-btn display-history-table">Show History Table</button>
             <table style="display:none">
                 <thead>
                 <tr>
@@ -118,42 +118,49 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
             </table>
         </div>
     </div>
-    <script>
-		$('.display-history-table').click(function() {
-			var $button = $(this);
-			console.log($button);
-			var $table = $button.next('table');
-			if ($table.is(':hidden')) {
-				$table.show();
-				$button.text('Hide history table');
-				$button.attr('aria-expanded', 'true');
+    <?php
+    $savvy->loadScriptDeclaration("
+      $('.display-history-table').click(function() {
+			var \$button = \$(this);
+			var \$table = \$button.next('table');
+			if (\$table.is(':hidden')) {
+				\$table.show();
+				\$button.text('Hide history table');
+				\$button.attr('aria-expanded', 'true');
 			} else {
-				$table.hide();
-				$button.text('Show history table');
-				$button.attr('aria-expanded', 'false');
+				\$table.hide();
+				\$button.text('Show history table');
+				\$button.attr('aria-expanded', 'false');
 			}
 		});
 		
 		var data = {
-			labels: <?php echo json_encode(array_reverse($data['dates_long'])) ?>,
+			labels: " . json_encode(array_reverse($data['dates_long'])) .",
 			datasets: [
 				{
-					label: "Site GPA",
-					fillColor: "#D00000",
-					strokeColor: "#D00000",
-					pointColor: "#D00000",
-					pointStrokeColor: "#fff",
-					pointHighlightFill: "#fff",
-					pointHighlightStroke: "#D00000",
+					label: \"Site GPA\",
+					fillColor: \"#D00000\",
+					strokeColor: \"#D00000\",
+					pointColor: \"#D00000\",
+					pointStrokeColor: \"#fff\",
+					pointHighlightFill: \"#fff\",
+					pointHighlightStroke: \"#D00000\",
 					lineThickness: 5,
-					data: <?php echo json_encode(array_reverse($data['gpa'])) ?>
+					data: " . json_encode(array_reverse($data['gpa'])) . "
 				}
 			]
 		};
+    " . renderHistoryJS($data['metric_history']));
+    ?>
 
-        <?php
-        $i = 1;
-        foreach ($data['metric_history'] as $metric_history) {
+    <?php echo $savvy->render($context, 'SiteMaster/Core/Group/history-graph-exec.tpl.php'); ?>
+<?php endif; ?>
+
+<?php
+function renderHistoryJS($history_data) {
+    $content = "";
+    $i = 1;
+    foreach ($history_data as $metric_history) {
 
         switch ($i) {
             case 1:
@@ -180,22 +187,20 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
             default:
                 $color = '#e9B800';
         }
-        ?>
-		data.datasets[<?php echo $i?>] = {
-			label: "<?php echo $metric_history['title'] ?>",
-			fillColor: "<?php echo $color ?>",
-			strokeColor: "<?php echo $color ?>",
-			pointColor: "<?php echo $color ?>",
-			pointStrokeColor: "#fff",
-			pointHighlightFill: "#fff",
-			pointHighlightStroke: "<?php echo $color ?>",
-			data: <?php echo json_encode(array_reverse($metric_history['rows'])) ?>
-		}
-        <?php
-        $i++;
-        }
-        ?>
-    </script>
 
-    <?php echo $savvy->render($context, 'SiteMaster/Core/Group/history-graph-exec.tpl.php'); ?>
-<?php endif; ?>
+        $content .= 'data.datasets[' . $i . '] = {
+                label: "' . $metric_history['title'] . '",
+                fillColor: "' . $color . '",
+                strokeColor: "' . $color . '",
+                pointColor: "' . $color . '",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "' . $color . '",
+                data: ' . json_encode(array_reverse($metric_history['rows'])) . '
+            };
+        ';
+        $i++;
+    }
+    return $content;
+}
+?>

@@ -24,7 +24,7 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
                 <?php
                 if ($needs_verification): ?>
                     You need to verify yourself or ask another member with the 'admin' role to approve your membership.
-                    <a href="<?php echo $context->site->getURL() . 'verify/' ?>" class="button wdn-button">Verify Me Now</a>
+                    <a href="<?php echo $context->site->getURL() . 'verify/' ?>" class="button dcf-btn">Verify Me Now</a>
                 <?php endif; ?>
                 <?php if ($unapproved): ?>
                     You will need to ask a member with the 'admin' role to approve your pending role(s).
@@ -55,9 +55,9 @@ echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.p
 <div class="scan-include">
     <?php
     if ($scan = $context->getScan()) {
-        ?>
-        <script type="text/javascript">
-            var request = $.ajax("<?php echo $scan->getURL() ?>?format=partial");
+
+      $savvy->loadScriptDeclaration('
+            var request = $.ajax("' . $scan->getURL() . '?format=partial");
             request.done(function(html) {
                 $("#scan_ajax").html(html);
                 sitemaster.initAnchors();
@@ -67,7 +67,8 @@ echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.p
             request.fail(function(jqXHR, textStatus) {
                 $("#scan_ajax").html("Request failed... please reload the page");
             });
-        </script>
+      ');
+        ?>
         <div id="scan_ajax">
             <img alt="loading..." src="<?php echo $base_url . 'www/images/loading.gif' ?>" />
             <p>

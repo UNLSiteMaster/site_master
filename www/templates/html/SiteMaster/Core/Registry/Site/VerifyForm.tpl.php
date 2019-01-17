@@ -11,7 +11,7 @@ if ($context->verify_user->id != $context->current_user->id) {
             As a verified administrator, <?php echo $different_user?$context->verify_user->getName():'you' ?> will be able to add/remove and approve memberships, and edit site details for this site.  <strong>You do not need to verify this membership if <?php echo $different_user?$context->verify_user->getName().' does':' you do' ?> not need the admin role.</strong>
         </p>
         <p>
-            <a href="<?php echo $context->site->getURL() ?>members/" class="button wdn-button">The admin role is not needed, Skip Verification</a>
+            <a href="<?php echo $context->site->getURL() ?>members/" class="button dcf-btn">The admin role is not needed, Skip Verification</a>
         </p>
         <p>
             You have a few options to verify the admin role for this membership:
@@ -36,5 +36,5 @@ if ($context->verify_user->id != $context->current_user->id) {
     <?php $csrf_helper->insertToken() ?>
     <input type="hidden" name="type" value="manual" />
     <input type="submit" value="Verify Now" />
-    <a href="<?php echo $context->site->getURL() ?>members/" class="button wdn-button">Skip</a>
+    <a href="<?php echo $context->site->getURL() ?>members/" class="button dcf-btn">Skip</a>
 </form>

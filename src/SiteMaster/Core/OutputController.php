@@ -11,6 +11,13 @@ class OutputController extends \Savvy_Turbo
     protected $theme = 'bootstrap';
     protected $webDir = '';
 
+    private $scriptDeclarations = array();
+    private $scripts = array();
+
+    const SCRIPT_LOCATION_ANY = 'SCRIPT_LOCATION_ANY';
+    const SCRIPT_LOCATION_HEAD = 'SCRIPT_LOCATION_HEAD';
+    const SCRIPT_LOCATION_BODY = 'SCRIPT_LOCATION_BODY';
+
     public function __construct($options = array())
     {
         parent::__construct();
@@ -209,5 +216,144 @@ class OutputController extends \Savvy_Turbo
         $file .=  implode(DIRECTORY_SEPARATOR, $parts);
 
         return parent::findTemplateFile($file);
+    }
+
+    /**
+     *  Load a script tag declaration to be applied to page later
+     *
+     * @param string $content Content of script tag
+     * @param string $type Type of script tag
+     * @param boolean $appendToHead whether to append tag to head
+     *
+     * @return void
+     */
+    public function loadScriptDeclaration($content, $type = '', $appendToHead = FALSE) {
+        $this->scriptDeclarations[] = new ScriptDeclaration($content, $type, $appendToHead);
+    }
+
+    /**
+     *  Get loaded script declaration tags
+     *
+     * @return void
+     */
+    public function getScriptDeclarations($location = self::SCRIPT_LOCATION_ANY) {
+        if ($location == self::SCRIPT_LOCATION_ANY) {
+            return $this->scriptDeclarations;
+        }
+        $appendHeadCheck = FALSE;
+        if ($location == self::SCRIPT_LOCATION_HEAD) {
+            $appendHeadCheck = TRUE;
+        }
+
+        $scriptDeclarations = array();
+        foreach ($this->scriptDeclarations as $scriptDeclaration) {
+            if ($scriptDeclaration->appendToHead() === $appendHeadCheck) {
+                $scriptDeclarations[] = $scriptDeclaration;
+            }
+        }
+        return $scriptDeclarations;
+    }
+
+    public function renderScriptDeclarations(Array $scriptDeclarations) {
+        foreach($scriptDeclarations as $scriptDeclaration) {
+            if ($scriptDeclaration instanceof ScriptDeclaration) {
+                echo '<script type="' . $scriptDeclaration->type() . '" >' . $scriptDeclaration->content() . '</script>';
+            }
+        }
+
+    }
+
+    /**
+     *  Load a script src tag to be applied to page later
+     *
+     * @param string $url Content of script tag
+     * @param string $type Type of script tag
+     * @param boolean $appendToHead whether to append tag to head
+     *
+     * @return void
+     */
+    public function loadScript($url, $type = '', $appendToHead = FALSE) {
+        $this->scripts[] = new Script($url, $type, $appendToHead);
+    }
+
+    /**
+     *  Get loaded script src tags
+     *
+     * @return void
+     */
+    public function getScripts($location = self::SCRIPT_LOCATION_ANY) {
+        if ($location == self::SCRIPT_LOCATION_ANY) {
+            return $this->scripts;
+        }
+        $appendHeadCheck = FALSE;
+        if ($location == self::SCRIPT_LOCATION_HEAD) {
+            $appendHeadCheck = TRUE;
+        }
+
+        $scripts = array();
+        foreach ($this->scripts as $script) {
+            if ($script->appendToHead() === $appendHeadCheck) {
+                $scripts[] = $script;
+            }
+        }
+        return $scripts;
+    }
+
+    public function renderScripts(Array $scripts) {
+        foreach($scripts as $script) {
+            if ($script instanceof Script) {
+                echo '<script src="' . $script->url() . '" type="' . $script->type() . '" ></script>';
+            }
+        }
+    }
+}
+
+class ScriptDeclaration {
+    private $content;
+    private $type;
+    private $appendToHead;
+
+    public function __construct($content, $type = 'text/javascript', $appendToHead = FALSE)
+    {
+        $this->content = $content;
+        $this->type = !empty($type) ? $type : 'text/javascript';
+        $this->appendToHead = ($appendToHead === TRUE);
+    }
+
+    public function content() {
+        return $this->content;
+    }
+
+    public function type() {
+        return $this->type;
+    }
+
+    public function appendToHead() {
+        return $this->appendToHead;
+    }
+}
+
+class Script {
+    private $url;
+    private $type;
+    private $appendToHead;
+
+    public function __construct($url, $type = 'text/javascript', $appendToHead = FALSE)
+    {
+        $this->url = $url;
+        $this->type = !empty($type) ? $type : 'text/javascript';
+        $this->appendToHead = ($appendToHead === TRUE);
+    }
+
+    public function url() {
+        return $this->url;
+    }
+
+    public function type() {
+        return $this->type;
+    }
+
+    public function appendToHead() {
+        return $this->appendToHead;
     }
 }
