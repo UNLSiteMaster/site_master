@@ -436,6 +436,18 @@ abstract class MetricInterface
     }
 
     /**
+     * Similiar to allowOverridingErrors except wont allow creating overrides via admin but will allow
+     * checking of overrides.  This will allow custom overrides manually defined in overrides table
+     * to be honored.
+     *
+     * @return bool
+     */
+    public function allowCustomOverridingErrors()
+    {
+        return false;
+    }
+
+    /**
      * Whether or not this metric supports global overrides. When true, a global overrides for all sites will be created 
      * once 3 sites have made site wide overrides for the same mark (identified by the mark id and value_found).
      * 
