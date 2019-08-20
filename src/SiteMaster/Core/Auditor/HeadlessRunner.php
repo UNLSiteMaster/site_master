@@ -48,7 +48,8 @@ class HeadlessRunner
             $this->generateCompiledScript();
         }
         
-        $command = Config::get('XVFB_COMMAND')
+        $command = 'timeout ' . escapeshellarg(Config::get('HEADLESS_TIMEOUT')) //Prevent excessively long runs
+            . ' ' . Config::get('XVFB_COMMAND')
             . ' ' . Config::get('PATH_NODE')
             . ' ' . $this->getCompiledScriptLocation()
             . ' ' . escapeshellarg($url);
