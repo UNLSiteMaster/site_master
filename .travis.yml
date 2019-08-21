@@ -2,6 +2,7 @@ language: php
 
 services:
   - mysql
+  - xvfb
 
 php:
   - 7.2
