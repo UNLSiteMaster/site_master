@@ -18,9 +18,6 @@ install:
   - npm install
   
 before_script:
-  - sleep 3 # give xvfb some time to start
-  - rackup  # start a Web server
-  - sleep 3 # give Web server some time to bind to sockets, etc
   - mysql -e 'create database sitemaster_test;'
   - php scripts/install.php
   
