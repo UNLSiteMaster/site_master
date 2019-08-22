@@ -2,7 +2,6 @@ language: php
 
 services:
   - mysql
-  - xvfb
 
 php:
   - 7.2
@@ -10,14 +9,13 @@ php:
 env:
   - TRAVIS_NODE_VERSION="6"
 
-before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1024x768x24"
-
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
   - npm install
   
 before_script:
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
   - mysql -e 'create database sitemaster_test;'
   - php scripts/install.php
   
