@@ -13,3 +13,10 @@ data/database.mwb.bak
 /wdn
 /scripts/sitemaster_phantom_complied.js
 /scripts/sitemaster_phantom_complied_test.js
+/www/wdn
+/node_modules
+/plugins
+!/plugins/auth_google
+!/plugins/example
+!/plugins/metric_links
+!/plugins/theme_foundation
