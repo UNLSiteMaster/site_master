@@ -61,7 +61,8 @@ if ($can_edit) {
         if (!$context->pending->count()) {
             echo "There are no pending roles.";
         } else {
-            ?>
+            $csrf_helper->insertToken();
+        ?>
             <ul>
                 <?php
                 foreach ($context->pending as $member_role) {
