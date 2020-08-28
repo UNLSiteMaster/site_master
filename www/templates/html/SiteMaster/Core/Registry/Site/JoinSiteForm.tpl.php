@@ -55,6 +55,6 @@
         ?>
     </div>
     
-    <?php $csrf_helper->insertToken() ?>
+    <?php $csrf_helper->insertToken(\SiteMaster\Core\Controller::urlToRequestURI($context->getEditURL())) ?>
     <input type="submit" value="Update roles" />
 </form>
