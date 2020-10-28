@@ -32,6 +32,9 @@ $metric_grades = $context->page->getMetricGrades();
                 </header>
                 <ul>
                     <li><span class="scan-status">Status: <?php echo $context->page->status ?></span></li>
+                    <?php if ($context->page->status === 'ERROR' && !empty($context->page->error)) { ?>
+                        <li><span class="scan-status">Error: <?php echo $context->page->error ?></span></li>
+                    <?php } ?>
                     <li><span class="scanned-date">Scanned on: <?php echo $context->page->start_time ?></span></li>
                 </ul>
             </div>

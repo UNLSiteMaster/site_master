@@ -333,6 +333,13 @@ class Page extends Record
         $headless_runner = new HeadlessRunner($daemon_name);
         $headless_results = $headless_runner->run($this->uri);
 
+        if (!array_key_exists('core-links', $headless_results)) {
+            // Cannot process so set error message and exit
+            $errorMessage = "Bad Headless Runner: Missing 'core_links'";
+            $this->setErrorMessage($errorMessage);
+            return true;
+        }
+
         Spider::setURIs($headless_results['core-links']);
         
         $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
@@ -387,8 +394,9 @@ class Page extends Record
                 //Return early because $this was deleted
                 return true;
             } else {
-                //Don't actually catch this exception...
-                throw $e;
+                // Cannot process so set error message and throw error
+                $this->setErrorMessage($e->getMessage());
+                return true;
             }
         }
         
@@ -607,6 +615,32 @@ class Page extends Record
         if (!$scan->getNextQueuedPage()) {
             //Could not find any more queued pages to scan.  The scan must be finished.
             $scan->markAsComplete();
+        }
+    }
+
+    /**
+     * Set the error message for this
+     *
+     * @param string $errorMessage the error text to save
+     * @return null
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        if ($this->tries >= 3) {
+            //Give up, and mark it as an error
+            $this->markAsError($errorMessage);
+        } else {
+            $this->end_time = Util::epochToDateTime();
+            $this->error = $errorMessage;
+            $this->rescheduleScan();
+
+            $scan = $this->getScan();
+
+            //Figure out we the site scan is finished.
+            if (!$scan->getNextQueuedPage()) {
+                //Could not find any more queued pages to scan.  The scan must be finished.
+                $scan->markAsComplete();
+            }
         }
     }
 
