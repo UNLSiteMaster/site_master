@@ -334,7 +334,7 @@ class Page extends Record
         $headless_results = $headless_runner->run($this->uri);
 
         if (!array_key_exists('core-links', $headless_results)) {
-            // Cannot process so set error message and exit
+            // Cannot process so set error message and return early
             $errorMessage = "Bad Headless Runner: Missing 'core_links'";
             $this->setErrorMessage($errorMessage);
             return true;
@@ -394,7 +394,7 @@ class Page extends Record
                 //Return early because $this was deleted
                 return true;
             } else {
-                // Cannot process so set error message and throw error
+                // Cannot process so set error message and return early
                 $this->setErrorMessage($e->getMessage());
                 return true;
             }
