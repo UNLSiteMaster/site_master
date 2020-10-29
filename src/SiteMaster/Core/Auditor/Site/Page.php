@@ -335,8 +335,8 @@ class Page extends Record
 
         if (!array_key_exists('core-links', $headless_results)) {
             // Cannot process so set error message and return early
-            $errorMessage = "Bad Headless Runner: Missing 'core_links'";
-            $this->setErrorMessage($errorMessage);
+            $exception = new \Exception("Bad Headless Runner: Missing 'core_links'");
+            $this->setErrorMessage($exception);
             return true;
         }
 
@@ -394,8 +394,8 @@ class Page extends Record
                 //Return early because $this was deleted
                 return true;
             } else {
-                // Cannot process so set error message and return early
-                $this->setErrorMessage($e->getMessage());
+                // Cannot process so set error message from exception and return early
+                $this->setErrorMessage($e);
                 return true;
             }
         }
@@ -624,11 +624,20 @@ class Page extends Record
      * @param string $errorMessage the error text to save
      * @return null
      */
-    public function setErrorMessage($errorMessage)
+    public function setErrorMessage(\Exception $exception)
     {
+        $errorMessage = substr($exception->getMessage(), 0, 256);
         if ($this->tries >= 3) {
             //Give up, and mark it as an error
             $this->markAsError($errorMessage);
+
+            Util::log(
+                Logger::NOTICE,
+                'Page errored three times: ' . $this->id .  ' - ' . $this->uri,
+                array(
+                    'exception' => (string)$exception,
+                )
+            );
         } else {
             $this->end_time = Util::epochToDateTime();
             $this->error = $errorMessage;
