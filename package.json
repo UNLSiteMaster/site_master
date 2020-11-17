@@ -2,10 +2,10 @@
   "name": "sitemaster",
   "dependencies": {
     "minimist": "^1.2.5",
-    "nightmare": "^2.5.2",
+    "nightmare": "^3.0.2",
     "nightmare-inline-download": "^0.2.2",
     "nspell": "^2.1.4",
-    "puppeteer": "^0.9.0",
+    "puppeteer": "^5.4.0",
     "xregexp": "^4.4.0",
     "xvfb-maybe": "^0.2.1"
   }
