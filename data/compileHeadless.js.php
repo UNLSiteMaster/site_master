@@ -44,6 +44,7 @@ ob_start();
 var args = process.argv.slice(2);
 
 var Nightmare = require('nightmare');
+require('nightmare-inline-download')(Nightmare);
 var options = {
     //We need to prevent download promts, which would otherwise cause the browser to wait for input
     ignoreDownloads: true
