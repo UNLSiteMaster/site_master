@@ -27,7 +27,7 @@
     "require": {
         "saltybeagle/savvy": "0.8.1",
         "symfony/event-dispatcher": "2.2.*",
-        "symfony/http-foundation": "2.2.*",
+        "symfony/http-foundation": "2.8.*",
         "saltybeagle/spider": "dev-master",
         "saltybeagle/savvy_turbo": "0.1.*",
         "unl/unl_cache_lite": "0.1.*",
