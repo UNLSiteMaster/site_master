@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "febea67ffc86b0c2dfc5773f512c96ad",
+    "content-hash": "720fc2e8ba6ba4c492471cab49ff6d47",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -484,32 +484,6 @@
             "time": "2012-12-21T11:40:51+00:00"
         },
         {
-            "name": "saltybeagle/Spider",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/saltybeagle/Spider.git",
-                "reference": "daad541957c710869692e1442254095125e73fb2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/daad541957c710869692e1442254095125e73fb2",
-                "reference": "daad541957c710869692e1442254095125e73fb2",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Spider": "src/"
-                }
-            },
-            "support": {
-                "source": "https://github.com/saltybeagle/Spider/tree/master",
-                "issues": "https://github.com/saltybeagle/Spider/issues"
-            },
-            "time": "2017-09-14T16:16:46+00:00"
-        },
-        {
             "name": "saltybeagle/savvy",
             "version": "v0.8.1",
             "source": {
@@ -562,6 +536,33 @@
                 "issues": "https://github.com/saltybeagle/Savvy_Turbo/issues"
             },
             "time": "2014-04-30T21:38:24+00:00"
+        },
+        {
+            "name": "saltybeagle/spider",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saltybeagle/Spider.git",
+                "reference": "bb36e353efea198d4fa293cd3feda73cf4766cdd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saltybeagle/Spider/zipball/bb36e353efea198d4fa293cd3feda73cf4766cdd",
+                "reference": "bb36e353efea198d4fa293cd3feda73cf4766cdd",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Spider": "src/"
+                }
+            },
+            "support": {
+                "source": "https://github.com/saltybeagle/Spider/tree/master",
+                "issues": "https://github.com/saltybeagle/Spider/issues"
+            },
+            "time": "2020-05-27T18:14:59+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2167,5 +2168,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
