@@ -219,6 +219,7 @@ class Util
         switch(strtolower($urlParts['host'])) {
             case 'twitter.com':
                 $options[CURLOPT_USERAGENT] = self::CHROME_44_USER_AGENT;
+                break;
         }
     }
 
