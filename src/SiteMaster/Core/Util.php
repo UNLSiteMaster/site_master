@@ -10,6 +10,9 @@ class Util
 {
     protected static $db = false;
 
+    const DEFAULT_USER_AGENT = 'UNL_SITEMASTER/1.0';
+    const CHROME_44_USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36';
+
     public static function setDB($host, $user, $password, $database)
     {
         self::$db = new \mysqli($host, $user, $password, $database);
@@ -208,6 +211,18 @@ class Util
         return $base_url;
     }
 
+    public static function overrideUserAgent($url, &$options) {
+        $urlParts = parse_url($url);
+        if (!isset($urlParts['host'])) {
+            return;
+        }
+        switch(strtolower($urlParts['host'])) {
+            case 'twitter.com':
+                $options[CURLOPT_USERAGENT] = self::CHROME_44_USER_AGENT;
+                break;
+        }
+    }
+
     /**
      * @param $url
      * @param array $options array of CURL options used in curl_setop_array
@@ -216,6 +231,8 @@ class Util
      */
     public static function getHTTPInfo($url, $options = array())
     {
+        $urlInfo = parse_url($url);
+
         $curl = curl_init($url);
         
         $default_options = array(
@@ -224,11 +241,13 @@ class Util
             CURLOPT_MAXREDIRS      => 5,
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_USERAGENT      => 'UNL_SITEMASTER/1.0',
+            CURLOPT_USERAGENT      => self::DEFAULT_USER_AGENT,
             CURLOPT_FILE           => fopen('/dev/null', 'w+')
         );
         
         $options = $options + $default_options;
+
+        self::overrideUserAgent($url, $options);
 
         curl_setopt_array($curl, $options);
         
