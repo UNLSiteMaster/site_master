@@ -1,12 +1,28 @@
 {
   "name": "sitemaster",
+  "version": "2.0.0",
+  "description": "SiteMaster is a web auditing and registry tool.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:UNLSiteMaster/site_master.git"
+  },
+  "license": "BSD-3-Clause",
   "dependencies": {
     "minimist": "^1.2.5",
     "nightmare": "^2.10.0",
-    "nightmare-inline-download": "^0.2.2",
-    "nspell": "^2.1.4",
+    "nightmare-download-manager": "^0.2.5",
+    "nspell": "^2.1.5",
     "puppeteer": "^5.4.0",
-    "xregexp": "^4.4.0",
+    "xregexp": "^5.0.2",
     "xvfb-maybe": "^0.2.1"
+  },
+  "engines": {
+    "node": ">= 14.17.0"
+  },
+  "resolutions": {
+    "trim-newlines": "^4.0.1"
+  },
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions"
   }
 }

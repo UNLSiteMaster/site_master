@@ -333,6 +333,10 @@ class Page extends Record
         $headless_runner = new HeadlessRunner($daemon_name);
         $headless_results = $headless_runner->run($this->uri);
 
+        if (!isset($headless_results['core-links']) || !is_array($headless_results['core-links'])) {
+	        $headless_results['core-links'] = array();
+        }
+
         Spider::setURIs($headless_results['core-links']);
         
         $spider->addUriFilter('\\SiteMaster\\Core\\Auditor\\Filter\\FileExtension');
@@ -352,8 +356,10 @@ class Page extends Record
         $spider->addLogger(new Links($spider, $this));
         $spider->addLogger($page_title_logger);
         $spider->addLogger(new Metrics($spider, $scan, $site, $this, $headless_results));
-        
-        $this->logPageAnalytics($headless_results['core-page-analytics']);
+
+        if (isset($headless_results['core-page-analytics'])) {
+	        $this->logPageAnalytics($headless_results['core-page-analytics']);
+        }
 
         try {
             $spider->processPage($this->getSanitizedURI(), 1);
