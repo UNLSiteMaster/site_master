@@ -24,7 +24,7 @@
 }
 
 .site-list .site .url a {
-    color: black;
+    color: var(--link);
 }
 
 .site .general-details {
@@ -51,10 +51,10 @@
 .panel {
     border-style: solid;
     border-width: 1px;
-    border-color: #d9d9d9;
+    border-color: var(--b);
     margin-bottom: 1.25rem;
     padding: 1.25rem;
-    background: #f2f2f2;
+    background: var(--bg-dialog);
 }
 
 /**
@@ -81,14 +81,10 @@ GPA
 Site Nav
 **/
 .site-nav {
-    background-color: #c4c7ce;
-    color: black;
+    background-color: var(--bg-lighter-gray);
+    color: var(--body);
     padding: 5px;
     margin-bottom: 10px;
-}
-
-.site-nav nav {
-    background-color: #eaedeb;
 }
 
 .site-nav nav ul {
@@ -109,8 +105,10 @@ Site Nav
     text-align: center;
 }
 
-.site-nav .flexnav li {
-    width: 16.6666%;
+@media (min-width: 800px) {
+    .site-nav .flexnav li {
+        width: 16.6666%;
+    }
 }
 
 .results .site-header {
@@ -158,14 +156,10 @@ Dashboard
 **/
 
 .visual-island {
-    background-color:rgba(222, 222, 222, 0.7);
-    border:3px solid rgba(222, 222, 222, 0.9);
+    background-color: var(--bg-dialog);
+    border:3px solid var(--b);
     border-radius:3px;
     margin-bottom:1em;min-height:9.2em
-}
-
-.dashboard {
-    color: #585857;
 }
 
 .dashboard .section-title {
@@ -191,14 +185,38 @@ Dashboard
 .dashboard-metrics {text-transform:uppercase;font-weight:bold;letter-spacing:-0.05em}
 .dashboard-metrics [class*=dashboard-]{display:block;text-align:center}
 .dashboard-metrics .visual-island{margin-bottom:1em;min-height:7.2em}
-.dashboard-metrics .visual-island.invalid{background-color:#C00;border:3px solid #900;color:#fff;}
-.dashboard-metrics .visual-island.valid{background-color:rgba(111,191,77,0.5);border:3px solid rgba(96,166,66,0.2);border-radius:3px;color:#234912;text-shadow:-1px 0 1px #fff;}
+.dashboard-metrics .visual-island.invalid{
+    background-color:#C00;
+    border:3px solid #900;
+    color:#fff;
+}
+.dashboard-metrics .visual-island.valid{
+    background-color: #00784e;
+    border:3px solid #026140;
+    border-radius:3px;
+    color:#fff;
+}
 .dashboard-metrics .dashboard-metric{font-size:.8em}
 .dashboard-metrics .sub{font-size:.75em;display:block}
 .dashboard-value{font-size:2.75em;line-height:1}
 .dashboard-value.date{font-size:1.8em;line-height:1.8}
 .dashboard-value .secondary{font-size:.3em}
-.more-info{background:rgba(0,0,0,0.3);border-radius:50%;color:rgba(255,255,255,0.8);float:right;text-shadow:-1px 0 1px rgba(0,0,0,0.3);width:1.5em;height:1.5em;line-height:1;text-align:center;cursor:help;position:absolute;top:8px;right:8px;padding-top:.3em}
+.more-info{
+    background:rgba(0,0,0,0.3);
+    border-radius:50%;
+    color:rgba(255,255,255,0.8);
+    float:right;
+    text-shadow:-1px 0 1px rgba(0,0,0,0.3);
+    width:1.5em;
+    height:1.5em;
+    line-height:1;
+    text-align:center;
+    cursor:help;
+    position:absolute;
+    top:8px;
+    right:8px;
+    padding-top:.3em
+}
 .more-info:hover:before{content:attr(data-helper-text);background:rgba(0,0,0,0.7);width:125px;display:block;position:absolute;bottom:100%;right:-100%;z-index:11;padding:.5em;border-radius:3px;text-transform:none}
 
 .site-pass-fail-status > span {
@@ -209,7 +227,7 @@ Dashboard
 Scan Summary
 **/
 .scan header {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--b);
     margin-bottom: 1em;
 }
 
@@ -229,7 +247,7 @@ Scanned Page
 **/
 .metric-grade-details {
     margin-bottom: 2em;
-    background-color: #fff;
+    background-color: var(--bg-dialog);
     padding: 1em;
 }
 
@@ -238,7 +256,7 @@ Scanned Page
     display: table;
     height: 7em;
     margin-bottom: 2em;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--b);
 }
 .page-scan-header .details {
     width:90%;
@@ -272,7 +290,7 @@ Metric Grades
 **/
 .metric-grade-details {
     margin-bottom: 2em;
-    background-color: #fff;
+    background-color: var(--bg-dialog);
     padding: 1em;
 }
 
@@ -280,7 +298,7 @@ Metric Grades
     width: 100%;
     display: table;
     height: 7em;
-    border-bottom: 1px solid #d3d3d3;
+    border-bottom: 1px solid var(--b);
 }
 .details {
     width:70%;
@@ -355,12 +373,16 @@ Info headers
 Notices
 **/
 .notice {
-    background: #e3f7fc;
+    background: var(--bg-lightest-gray);
     padding: 1em;
 }
 
+.notice img {
+    background-color: #f6f6f5;
+}
+
 .info-section {
-    background-color: #fff;
+    background-color: var(--bg-dialog);
     padding: 1em;
     margin-bottom: 1em;
 }
@@ -441,7 +463,6 @@ pre, code {
 }
 
 .read-more {
-    background-color: rgb(242, 242, 242);
     text-align: center;
 }
 
@@ -475,7 +496,7 @@ ul.line-legend {
 }
 
 ul.line-legend li {
-    display: inline;
+    display: inline-block;
     margin-right: 1em;
 }
 

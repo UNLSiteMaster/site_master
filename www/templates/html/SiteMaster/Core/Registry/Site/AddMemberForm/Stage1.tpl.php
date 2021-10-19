@@ -1,7 +1,7 @@
-<form action="<?php echo $context->getEditURL(); ?>" method="POST">
+<form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
     <ul>
         <li>
-            <label for="term"><span class="required">(required)</span> Enter your search term</label>
+            <label for="term"><span class="dcf-required">(required)</span> Enter your search term</label>
             <input type="text" id="term" name="term" autofocus required />
         </li>
     </ul>

@@ -1,4 +1,4 @@
-<div class="results">
+<div class="dcf-mt-6 results">
     <?php
         if ($context->getInnerIterator()->count() == 0) {
             ?>

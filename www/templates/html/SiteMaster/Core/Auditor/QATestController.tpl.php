@@ -1,9 +1,9 @@
-<form>
+<form class="dcf-form">
     <label>
         Please enter a URL to test:
         <input type="url" name="url" required value="<?php echo $context->url ?>" />
     </label>
-    <input type="submit" value="Find the report for this page" />
+    <input type="submit" class="dcf-btn dcf-btn-primary" value="Find the report for this page" />
 </form>
 
 <?php if (NULL != $context->url): ?>

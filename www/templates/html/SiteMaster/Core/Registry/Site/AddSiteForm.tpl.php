@@ -1,6 +1,6 @@
-<form action="<?php echo $context->getEditURL(); ?>" method="POST">
+<form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
     <ul>
-        <li>
+        <li class="dcf-form-group">
             <?php
             
             $value = '';
@@ -17,7 +17,7 @@
                 $invalid = 'aria-invalid="true"';
             }
             ?>
-            <label for="base_url"><span class="required">(required)</span> The base URL of the site (must end in a trailing slash)</label>
+            <label for="base_url">The base URL of the site (must end in a trailing slash) <span class="dcf-required">required</span></label>
             <input type="url" id="base_url" name="base_url" placeholder="http://www.yoursite.edu/" autofocus required <?php echo $value ?> <?php echo $invalid ?>/>
         </li>
     </ul>

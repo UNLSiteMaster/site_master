@@ -38,10 +38,10 @@
             <?php if ($canEdit): ?>
             <dt>Options</dt>
             <dd>
-                <form method="post">
+                <form class="dcf-form" method="post">
                     <input type="hidden" name="delete_id" value="<?php echo $override->id ?>" />
                     <?php $csrf_helper->insertToken() ?>
-                    <button>Delete this override</button>
+                    <button class="dcf-btn dcf-btn-secondary">Delete this override</button>
                 </form>
             </dd>
             <?php endif; ?>

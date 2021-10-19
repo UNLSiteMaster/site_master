@@ -1,6 +1,6 @@
-<form action="<?php echo $context->getEditURL(); ?>" method="POST">
+<form class="dcf-form dcf-mb-6" action="<?php echo $context->getEditURL(); ?>" method="POST">
     <fieldset>
-        <legend><span class="required">(required)</span> Select roles for this site</legend>
+        <legend><span class="dcf-required">(required)</span> Select roles for this site</legend>
         <ul>
         <?php
         foreach ($context->all_roles as $role) {
@@ -14,7 +14,7 @@
                 }
             }
             ?>
-            <li>
+            <li class="dcf-input-checkbox">
                 <input type="checkbox" id="role_<?php echo $role->id ?>" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked ?>>
                 <label for="role_<?php echo $role->id ?>">
                     <?php echo $role->role_name ?> - <?php echo $pending . ' ' . $role->description ?>
