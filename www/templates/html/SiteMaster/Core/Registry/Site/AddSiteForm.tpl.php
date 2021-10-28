@@ -17,7 +17,7 @@
                 $invalid = 'aria-invalid="true"';
             }
             ?>
-            <label for="base_url">The base URL of the site (must end in a trailing slash) <span class="dcf-required">required</span></label>
+            <label for="base_url">The base URL of the site (must end in a trailing slash) <small class="dcf-required">Required</small></label>
             <input type="url" id="base_url" name="base_url" placeholder="http://www.yoursite.edu/" autofocus required <?php echo $value ?> <?php echo $invalid ?>/>
         </li>
     </ul>

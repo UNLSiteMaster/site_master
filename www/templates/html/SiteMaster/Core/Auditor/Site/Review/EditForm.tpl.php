@@ -15,7 +15,7 @@ use \SiteMaster\Core\Auditor\Site\Review;
                 $date_scheduled = $context->review->getDateScheduled()->format('Y-m-d');
             }
             ?>
-            <label for="date_scheduled"><span class="dcf-required">(required)</span> The review will be started on:</label>
+            <label for="date_scheduled"><small class="dcf-required">Required</small> The review will be started on:</label>
             <input id="date_scheduled" name="date_scheduled" type="date" value="<?php echo $date_scheduled ?>" />
         </li>
         <li>

@@ -27,7 +27,7 @@
 
 <form class="dcf-form" method="post">
     <fieldset>
-        <legend>Scope <span class="dcf-required">required</span></legend>
+        <legend>Scope <small class="dcf-required">Required</small></legend>
         <div class="dcf-input-radio">
             <input id="scope-element" type="radio" name="scope" value="ELEMENT" required checked>
             <label for="scope-element">Just this element on this page (matching the mark, value, page, and HTML context)</label>
@@ -41,7 +41,7 @@
             <label for="scope-site">Entire site (matches the mark and value on the entire site)</label>
         </div>
     </fieldset>
-    <label for="reason">The reason for this override (describe how you determined that this is not an error) <span class="dcf-required">required</span></label>
+    <label for="reason">The reason for this override (describe how you determined that this is not an error) <small class="dcf-required">Required</small></label>
     <textarea id="reason" name="reason" required></textarea>
     <?php $csrf_helper->insertToken() ?>
     <button class="dcf-mt-6 dcf-btn dcf-btn-primary">Submit</button>
