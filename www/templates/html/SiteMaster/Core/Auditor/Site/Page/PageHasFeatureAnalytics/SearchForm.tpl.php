@@ -3,7 +3,7 @@
 <form class="dcf-form" method="get">
     <fieldset>
         <legend>Search for usage</legend>
-        <ul>
+        <ul class="dcf-list-bare">
             <li>
                 <label>
                     Data Type

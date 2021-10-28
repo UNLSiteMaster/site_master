@@ -1,7 +1,7 @@
 <form class="dcf-form dcf-mb-6" action="<?php echo $context->getEditURL(); ?>" method="POST">
     <fieldset>
         <legend>Select roles for this site <small class="dcf-required">Required</small></legend>
-        <ul>
+        <ul class="dcf-list-bare">
         <?php
         foreach ($context->all_roles as $role) {
             $checked = '';

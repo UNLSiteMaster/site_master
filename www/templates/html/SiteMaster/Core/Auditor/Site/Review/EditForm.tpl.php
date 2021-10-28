@@ -7,7 +7,7 @@ use \SiteMaster\Core\Auditor\Site\Review;
 ?>
 
 <form class="dcf-form" method="POST">
-    <ul>
+    <ul class="dcf-list-bare">
         <li>
             <?php
             $date_scheduled = '';

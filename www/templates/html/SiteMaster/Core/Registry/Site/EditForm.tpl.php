@@ -1,5 +1,5 @@
 <form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
-    <ol>
+    <ol class="dcf-list-bare">
         <li>
             <label for="site_title">Site Title</label>
             <input type="text" id="site_title" name="title" value="<?php echo $context->site->title ?>" autofocus />
@@ -37,7 +37,7 @@
                 $archived    = \SiteMaster\Core\Registry\Site::PRODUCTION_STATUS_ARCHIVED;
                 ?>
                 <legend>Production Status (the production status that the site is currently in)</legend>
-                <ul>
+                <ul class="dcf-list-bare">
                     <li class="dcf-input-radio">
                         <input
                             id="production_status_production"

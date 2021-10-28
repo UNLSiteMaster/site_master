@@ -1,5 +1,5 @@
 <form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
-    <ul>
+    <ul class="dcf-list-bare">
         <li class="dcf-form-group">
             <?php
             

@@ -16,7 +16,7 @@
     
     <fieldset>
         <legend>Privacy Settings</legend>
-        <ul>
+        <ul class="dcf-list-bare">
             <li class="dcf-input-checkbox">
                 <input
                     id="is-private"
