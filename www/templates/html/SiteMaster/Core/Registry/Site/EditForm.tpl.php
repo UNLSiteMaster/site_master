@@ -1,5 +1,5 @@
-<form action="<?php echo $context->getEditURL(); ?>" method="POST">
-    <ol>
+<form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
+    <ol class="dcf-list-bare">
         <li>
             <label for="site_title">Site Title</label>
             <input type="text" id="site_title" name="title" value="<?php echo $context->site->title ?>" autofocus />
@@ -37,8 +37,8 @@
                 $archived    = \SiteMaster\Core\Registry\Site::PRODUCTION_STATUS_ARCHIVED;
                 ?>
                 <legend>Production Status (the production status that the site is currently in)</legend>
-                <ul>
-                    <li>
+                <ul class="dcf-list-bare">
+                    <li class="dcf-input-radio">
                         <input
                             id="production_status_production"
                             type="radio"
@@ -48,7 +48,7 @@
                             />
                         <label for="production_status_production">Production - this site is in production and will be scanned more often than development sites.</label>
                     </li>
-                    <li>
+                    <li class="dcf-input-radio">
                         <input
                             id="production_status_development"
                             type="radio"
@@ -58,7 +58,7 @@
                             />
                         <label for="production_status_development">Development - this site is in development.  It is expected that manual scans will be started by developers, so we will not auto-scan this site as often as production sites.</label>
                     </li>
-                    <li>
+                    <li class="dcf-input-radio">
                         <input
                             id="production_status_archived"
                             type="radio"
@@ -78,7 +78,7 @@
     <button type="submit">Save</button>
 </form>
 
-<form action="<?php echo $context->getEditURL(); ?>" method="POST">
+<form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
     <input type="hidden" name="action" value="delete" />
     <?php $csrf_helper->insertToken() ?>
     <button type="submit" id="delete-site">Remove this site from <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?></button>

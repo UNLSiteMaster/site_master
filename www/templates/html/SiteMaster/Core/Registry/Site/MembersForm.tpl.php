@@ -55,7 +55,7 @@ if (!$context->members->count()) {
 <?php
 if ($can_edit) {
     ?>
-    <form action="<?php echo $context->getEditURL(); ?>" method="POST">
+    <form class="dcf-form dcf-mb-6" action="<?php echo $context->getEditURL(); ?>" method="POST">
         <h2>Approve Pending Roles</h2>
         <?php
         if (!$context->pending->count()) {
@@ -69,11 +69,9 @@ if ($can_edit) {
                     $role = $member_role->getRole();
                     $user = $member_role->getUser();
                     ?>
-                    <li>
-                        <label>
-                            <input type="checkbox" name="approve[]" value="<?php echo $member_role->id; ?>">
-                            <?php echo $user->getName(true) . ' - ' . $role->role_name ?>
-                        </label>
+                    <li class="dcf-input-checkbox">
+                        <input id="approve-<?php echo $member_role->id; ?>" type="checkbox" name="approve[]" value="<?php echo $member_role->id; ?>">
+                        <label for="approve-<?php echo $member_role->id; ?>"><?php echo $user->getName(true) . ' - ' . $role->role_name ?>label>
                     </li>
                     <?php
                 }

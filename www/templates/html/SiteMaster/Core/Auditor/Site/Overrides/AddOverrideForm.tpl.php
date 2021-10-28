@@ -25,26 +25,24 @@
     </dd>
 </dl>
 
-<form method="post">
+<form class="dcf-form" method="post">
     <fieldset>
-        <legend>(required) Scope</legend>
-        <label>
-            <input type="radio" name="scope" value="ELEMENT" required checked>
-            Just this element on this page (matching the mark, value, page, and HTML context)
-        </label>
-        <br />
-        <label>
-            <input type="radio" name="scope" value="PAGE">
-            Just this page (only matches this mark, value, and page)
-        </label>
-        <br />
-        <label>
-            <input type="radio" name="scope" value="SITE" required>
-            Entire site (matches the mark and value on the entire site)
-        </label>
+        <legend>Scope <small class="dcf-required">Required</small></legend>
+        <div class="dcf-input-radio">
+            <input id="scope-element" type="radio" name="scope" value="ELEMENT" required checked>
+            <label for="scope-element">Just this element on this page (matching the mark, value, page, and HTML context)</label>
+        </div>
+        <div class="dcf-input-radio">
+            <input id="scope-page" type="radio" name="scope" value="PAGE">
+            <label for="scope-page">Just this page (only matches this mark, value, and page)</label>
+        </div>
+        <div class="dcf-input-radio">
+            <input id="scope-site" type="radio" name="scope" value="SITE" required>
+            <label for="scope-site">Entire site (matches the mark and value on the entire site)</label>
+        </div>
     </fieldset>
-    <label for="reason">(required) The reason for this override (describe how you determined that this is not an error)</label>
+    <label for="reason">The reason for this override (describe how you determined that this is not an error) <small class="dcf-required">Required</small></label>
     <textarea id="reason" name="reason" required></textarea>
     <?php $csrf_helper->insertToken() ?>
-    <button>Submit</button>
+    <button class="dcf-mt-6 dcf-btn dcf-btn-primary">Submit</button>
 </form>

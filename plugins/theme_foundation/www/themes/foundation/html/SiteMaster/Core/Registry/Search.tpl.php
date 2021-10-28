@@ -8,7 +8,7 @@ foreach ($authPlugins as $plugin) {
 ?>
 
     <div class="panel">
-        <form action="<?php echo $context->getURL();?>" method="GET">
+        <form class="dcf-form" action="<?php echo $context->getURL();?>" method="GET">
             <label for="query">Enter Query</label>
             <input type="text" id="query" name="query" placeholder="http://wwww.domain.com/" />
             <div class="row">
@@ -22,7 +22,7 @@ foreach ($authPlugins as $plugin) {
                     </ul>
                 </div>
                 <div class="small-6 columns">
-                    <button type="submit" class="pull-right right">Query</button>
+                    <button type="submit" class="dcf-btn dcf-btn-primary dcf-float-right">Query</button>
                 </div>
             </div>
         </form>

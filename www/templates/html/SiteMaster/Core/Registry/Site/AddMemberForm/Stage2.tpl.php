@@ -1,5 +1,5 @@
-<form action="<?php echo $context->getEditURL(); ?>" method="POST">
-    <table>
+<form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
+    <table class="dcf-table dcf-table-bordered">
         <tr>
             <th>Select</th>
             <th>Provider</th>
@@ -12,11 +12,10 @@
         ?>
         <tr>
             <td>
-                <label>
-                    <input name="user" type="radio" value="<?php echo $key; ?>" required />
-                    <span class="hide wdn-hide">Select <?php echo $result['first_name'] . ' ' . $result['last_name']?></span>
-                </label>
-                
+                <div class="dcf-input-radio">
+                    <input id="user-<?php echo $key; ?>" name="user" type="radio" value="<?php echo $key; ?>" required />
+                    <label for="user-<?php echo $key; ?>"><span class="dcf-sr-only">Select <?php echo $result['first_name'] . ' ' . $result['last_name']?></span></label>
+                </div>
             </td>
             <td><?php echo $result['provider'] ?></td>
             <td><?php echo $result['uid'] ?></td>

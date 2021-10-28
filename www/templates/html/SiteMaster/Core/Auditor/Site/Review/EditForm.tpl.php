@@ -6,8 +6,8 @@ use \SiteMaster\Core\Auditor\Site\Review;
  */
 ?>
 
-<form method="POST">
-    <ul>
+<form class="dcf-form" method="POST">
+    <ul class="dcf-list-bare">
         <li>
             <?php
             $date_scheduled = '';
@@ -15,7 +15,7 @@ use \SiteMaster\Core\Auditor\Site\Review;
                 $date_scheduled = $context->review->getDateScheduled()->format('Y-m-d');
             }
             ?>
-            <label for="date_scheduled"><span class="required">(required)</span> The review will be started on:</label>
+            <label for="date_scheduled"><small class="dcf-required">Required</small> The review will be started on:</label>
             <input id="date_scheduled" name="date_scheduled" type="date" value="<?php echo $date_scheduled ?>" />
         </li>
         <li>
@@ -74,5 +74,5 @@ use \SiteMaster\Core\Auditor\Site\Review;
     </ul>
     <input type="hidden" name="action" value="edit" />
     <?php $csrf_helper->insertToken() ?>
-    <button type="submit">Save</button>
+    <button type="submit"  class="dcf-btn dcf-btn-primary">Save</button>
 </form>

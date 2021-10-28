@@ -5,7 +5,7 @@ if ($context->verify_user->id != $context->current_user->id) {
 }
 ?>
 
-<form action="<?php echo $context->getEditURL(); ?>" method="POST">
+<form class="dcf-form" action="<?php echo $context->getEditURL(); ?>" method="POST">
     <div class="panel">
         <p>
             As a verified administrator, <?php echo $different_user?$context->verify_user->getName():'you' ?> will be able to add/remove and approve memberships, and edit site details for this site.  <strong>You do not need to verify this membership if <?php echo $different_user?$context->verify_user->getName().' does':' you do' ?> not need the admin role.</strong>

@@ -1,9 +1,9 @@
 <p>This form allows site developers to search for HTML element or class usage across the sites that we scan. This can help inform design, development, and education decisions. Only data from the most recent scan for each site will be processed.</p>
 
-<form method="get">
+<form class="dcf-form" method="get">
     <fieldset>
         <legend>Search for usage</legend>
-        <ul>
+        <ul class="dcf-list-bare">
             <li>
                 <label>
                     Data Type
@@ -29,7 +29,7 @@
                 </label>
             </li>
             <li>
-                <button>Search</button>
+                <button class="dcf-btn dcf-btn-primary">Search</button>
             </li>
         </ul>
     </fieldset>
