@@ -65,7 +65,7 @@ $(document).ready(function() {
     });
 
     $(".scan-page").click(function(e) {
-        return confirm('Scanning a page may take a long time, do you wish to continue?');
+        return confirm('Scanning a page may take a long time, do you wish to continue?\n\nNote: An email will NOT be sent when page rescan completes.');
     });
     
     sitemaster.initAnchors();
