@@ -41,7 +41,7 @@
         Sorry, I couldn't find anything for you.
     <?php else: ?>
         Total Pages that Match: <?php echo $context->getTotal() ?>
-        <table>
+        <table class="dcf-table">
             <thead>
                 <tr>
                     <th>Page</th>

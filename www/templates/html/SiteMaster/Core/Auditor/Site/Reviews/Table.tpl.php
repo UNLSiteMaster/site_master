@@ -2,7 +2,7 @@
     <?php if ($context->count() == 0): ?>
         Sorry, no reviews were found.
     <?php else: ?>
-        <table data-sortlist="[[0,0],[2,0]]">
+        <table class="dcf-table" data-sortlist="[[0,0],[2,0]]">
             <thead>
             <tr>
                 <th>Date Scheduled</th>

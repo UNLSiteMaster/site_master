@@ -14,7 +14,7 @@ $site = $scan->getSite();
 <?php
 if ($context->count()) {
     ?>
-    <table data-sortlist="[[0,0],[2,0]]">
+    <table class="dcf-table" data-sortlist="[[0,0],[2,0]]">
         <thead>
         <tr>
             <th>Page</th>

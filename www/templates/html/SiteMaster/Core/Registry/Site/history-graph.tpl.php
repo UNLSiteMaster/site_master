@@ -91,8 +91,8 @@ foreach ($data['metric_history'] as $metrics_id=>$metrics_data) {
     </div>
 
     <div class="table">
-      <button aria-expanded="false" class="button dcf-btn display-history-table dcf-float-right">Show History Table</button>
-      <table style="display:none;">
+      <button aria-expanded="false" class="button dcf-btn dcf-btn-secondary display-history-table dcf-float-right">Show History Table</button>
+      <table class="dcf-table" style="display:none;">
         <thead>
         <tr>
           <th>Date</th>

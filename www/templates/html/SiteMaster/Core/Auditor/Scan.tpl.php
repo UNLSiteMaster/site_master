@@ -182,7 +182,7 @@ $site_pass_fail = $context->isPassFail();
                     $metric_record = $metric->getMetricRecord();
                     $grades = $context->getHotSpots($metric_record->id, 5);
                     ?>
-                    <h4><?php echo $metric->getName()?></h4>
+                    <h4 class="dcf-mt-3"><?php echo $metric->getName()?></h4>
                     <?php
                     echo $savvy->render($grades);
 

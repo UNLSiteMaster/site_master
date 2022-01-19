@@ -68,7 +68,7 @@ $page = $context->getPage();
     <?php
     if ($page_marks->count()) {
         ?>
-        <table>
+        <table class="dcf-table">
             <thead>
             <tr>
                 <th>

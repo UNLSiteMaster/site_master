@@ -4,7 +4,7 @@
  */
 ?>
 
-<table data-sortlist="[[0,0],[2,0]]">
+<table class="dcf-table" data-sortlist="[[0,0],[2,0]]">
     <thead>
         <tr>
             <th>Date Scanned</th>

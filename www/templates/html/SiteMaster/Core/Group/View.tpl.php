@@ -47,7 +47,7 @@ $names[count($names)-1] = 'and ' . $names[count($names)-1];
 
 <p>These sites have at least 90% of their pages passing all graded metrics. There are <?php echo $sites->count() ?> sites on this list.</p>
 
-<table>
+<table class="dcf-table">
     <thead>
         <tr>
             <th>Site</th>

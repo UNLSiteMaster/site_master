@@ -32,7 +32,7 @@ if ($previous_scan) {
 <?php
 if ($site_pass_fail) {
     ?>
-    <table cellpadding="5" width="100%" style="border:1px solid #dddddd; margin-bottom: 1em;">
+    <table class="dcf-table" cellpadding="5" width="100%" style="border:1px solid #dddddd; margin-bottom: 1em;">
         <tr style="border-bottom:1px solid #dddddd">
             <th align="center">Current Site Status</th>
         </tr>
@@ -52,7 +52,7 @@ if ($site_pass_fail) {
 }
 ?>
 
-<table cellpadding="5" width="100%" style="border:1px solid #dddddd">
+<table class="dcf-table" cellpadding="5" width="100%" style="border:1px solid #dddddd">
     <tr style="border-bottom:1px solid #dddddd">
         <?php 
         if ($site_pass_fail) {
