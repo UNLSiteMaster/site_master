@@ -1,4 +1,4 @@
-<table data-sortlist="[[0,0],[2,0]]">
+<table class="dcf-table" data-sortlist="[[0,0],[2,0]]">
     <caption>Marks</caption>
     <thead>
         <tr>

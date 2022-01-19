@@ -5,7 +5,7 @@ $site_pass_fail = $scan->isPassFail();
 
 if ($context->count()) {
     ?>
-    <table>
+    <table class="dcf-table">
         <thead>
         <tr>
             <th>Page</th>

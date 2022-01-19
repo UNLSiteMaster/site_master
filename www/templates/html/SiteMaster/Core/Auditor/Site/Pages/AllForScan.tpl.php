@@ -11,7 +11,7 @@ $site_pass_fail = $scan->isPassFail();
             This is a list of all pages that we found on your site.
         </div>
     </header>
-    <table data-sortlist="[[0,0],[2,0]]">
+    <table class="dcf-table" data-sortlist="[[0,0],[2,0]]">
         <thead>
         <tr>
             <th class="path">Path</th>

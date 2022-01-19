@@ -2,7 +2,7 @@
     There are a total of <?php echo $context->sites->count(); ?> in the system.
 </p>
 
-<table class="sortable">
+<table class="dcf-table sortable">
     <thead>
     <tr>
         <th>

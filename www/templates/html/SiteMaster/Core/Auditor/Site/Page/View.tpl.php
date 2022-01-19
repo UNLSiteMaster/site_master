@@ -58,7 +58,7 @@ $metric_grades = $context->page->getMetricGrades();
 
         <div class="page-scan-scoring">
             <h2>Scoring</h2>
-            <table>
+            <table class="dcf-table">
                 <thead>
                 <tr>
                     <th>Metric</th>
