@@ -82,6 +82,10 @@ table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-ca
     background-color: var(--bg-table-stripe)
 }
 
+.unl div+h1,.unl div+h2,.unl div+h3,.unl div+h4,.unl div+h5,.unl div+h6,.unl img+h1,.unl img+h2,.unl img+h3,.unl img+h4,.unl img+h5,.unl img+h6,.unl li+h1,.unl li+h2,.unl li+h3,.unl li+h4,.unl li+h5,.unl li+h6,.unl p+h1,.unl p+h2,.unl p+h3,.unl p+h4,.unl p+h5,.unl p+h6,.unl section+h1,.unl section+h2,.unl section+h3,.unl section+h4,.unl section+h5,.unl section+h6,.unl span+h1,.unl span+h2,.unl span+h3,.unl span+h4,.unl span+h5,.unl span+h6,.unl ul+h1,.unl ul+h2,.unl ul+h3,.unl ul+h4,.unl ul+h5,.unl ul+h6 {
+    margin-top: 1em
+}
+
 .hide {
     position: absolute !important;
     top: -9999px !important;
