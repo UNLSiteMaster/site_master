@@ -1,3 +1,87 @@
+form input[type=email],form input[type=number],form input[type=password],form input[type=search],form input[type=tel],form input[type=text],form input[type=url],form textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bg-input);
+    border: 1px solid var(--b-input);
+    border-radius: 3px;
+    color: inherit;
+    font-family: inherit;
+    padding: .56em .75em;
+    -webkit-transition: border-color .4s ease-out,-webkit-box-shadow .4s ease-out;
+    transition: border-color .4s ease-out,-webkit-box-shadow .4s ease-out;
+    transition: border-color .4s ease-out,box-shadow .4s ease-out;
+    transition: border-color .4s ease-out,box-shadow .4s ease-out,-webkit-box-shadow .4s ease-out;
+    width: 100%
+}
+
+form input[type=email]:hover,form input[type=number]:hover,form input[type=password]:hover,form input[type=search]:hover,form input[type=tel]:hover,form input[type=text]:hover,form input[type=url]:hover,form textarea:hover {
+    border-color: var(--b-input-hover);
+    -webkit-transition: border-color .2s ease-out;
+    transition: border-color .2s ease-out
+}
+
+form input[type=email]:focus,form input[type=number]:focus,form input[type=password]:focus,form input[type=search]:focus,form input[type=tel]:focus,form input[type=text]:focus,form input[type=url]:focus,form textarea:focus {
+    border-color: var(--b-input-focus);
+    -webkit-box-shadow: 0 0 0 3px var(--bg-body),0 0 0 5px var(--b-input-focus);
+    box-shadow: 0 0 0 3px var(--bg-body),0 0 0 5px var(--b-input-focus);
+    outline: none;
+    -webkit-transition: -webkit-box-shadow .2s ease-out;
+    transition: -webkit-box-shadow .2s ease-out;
+    transition: box-shadow .2s ease-out;
+    transition: box-shadow .2s ease-out,-webkit-box-shadow .2s ease-out
+}
+
+.centered {
+    float: none!important;
+    margin: 0 auto!important
+}
+
+.clear {
+    clear: both
+}
+
+.clear-top {
+    margin-top: 0!important
+}
+
+.hidden {
+    display: none
+}
+
+table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) {
+    background-color: transparent;
+    border-bottom: 1px solid var(--b-table);
+    max-width: 100%;
+    width: 100%
+}
+
+table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) tbody,table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) thead {
+    font-size: .84em
+}
+
+table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) td,table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) th {
+    border: 1px solid var(--b-table);
+    padding-left: 1em;
+    padding-right: 1em
+}
+
+table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) thead td,table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) thead th {
+    padding-bottom: .75em;
+    padding-top: 1.33em;
+    vertical-align: bottom
+}
+
+table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) tbody td,table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) tbody th {
+    padding-bottom: .75em;
+    padding-top: .75em;
+    vertical-align: top
+}
+
+table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-calendar) tbody tr:nth-of-type(2n) {
+    background-color: var(--bg-table-stripe)
+}
+
 .hide {
     position: absolute !important;
     top: -9999px !important;
