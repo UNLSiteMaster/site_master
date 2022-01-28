@@ -35,6 +35,6 @@
 
     <?php $csrf_helper->insertToken() ?>
     <input type="hidden" name="stage" value="2" />
-    <a href="<?php echo $context->getURL()?>" class="button dcf-btn">Back</a>
-    <input type="submit" value="add selected" />
+    <a href="<?php echo $context->getURL()?>" class="button dcf-btn dcf-btn-secondary">Back</a>
+    <input class="dcf-btn dcf-btn-primary" type="submit" value="Add Selected" />
 </form>

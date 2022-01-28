@@ -14,5 +14,5 @@
 
     <?php $csrf_helper->insertToken() ?>
     <input type="hidden" name="stage" value="1" />
-    <input type="submit" value="Search" />
+    <input class="dcf-btn dcf-btn-primary" type="submit" value="Search" />
 </form>
