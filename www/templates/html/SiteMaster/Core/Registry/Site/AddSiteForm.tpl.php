@@ -29,5 +29,5 @@
     </div>
 
     <?php $csrf_helper->insertToken() ?>
-    <input type="submit" value="Add my site" />
+    <input class="dcf-btn dcf-btn-primary" type="submit" value="Add My Site" />
 </form>

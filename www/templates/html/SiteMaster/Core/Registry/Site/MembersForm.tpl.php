@@ -77,14 +77,14 @@ if ($can_edit) {
                 }
                 ?>
             </ul>
-            <input type="submit" value="approve selected" />
+            <input class="dcf-btn dcf-btn-primary" type="submit" value="Approve Selected" />
             <?php
         }
         ?>
         
         <h2>Other Options</h2>
 
-        <a href="<?php echo $context->site->getURL()?>members/add/" class="dcf-btn button">Add a member</a>
+        <a href="<?php echo $context->site->getURL()?>members/add/" class="dcf-btn button">Add A Member</a>
     </form>
     <?php
 }

@@ -35,6 +35,6 @@ if ($context->verify_user->id != $context->current_user->id) {
     </div>
     <?php $csrf_helper->insertToken() ?>
     <input type="hidden" name="type" value="manual" />
-    <input type="submit" value="Verify Now" />
-    <a href="<?php echo $context->site->getURL() ?>members/" class="button dcf-btn">Skip</a>
+    <input class="dcf-btn dcf-btn-primary" type="submit" value="Verify Now" />
+    <a href="<?php echo $context->site->getURL() ?>members/" class="button dcf-btn dcf-btn-secondary">Skip</a>
 </form>

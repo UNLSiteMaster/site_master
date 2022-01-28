@@ -56,5 +56,5 @@
     </div>
     
     <?php $csrf_helper->insertToken(\SiteMaster\Core\Controller::urlToRequestURI($context->getEditURL())) ?>
-    <input type="submit" value="Update roles" />
+    <input class="dcf-btn dcf-btn-primary" type="submit" value="Update Roles" />
 </form>
