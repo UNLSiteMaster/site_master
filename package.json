@@ -11,7 +11,7 @@
     "clean": "^4.0.2",
     "minimist": "^1.2.5",
     "nightmare": "^2.10.0",
-    "nightmare-download-manager": "^0.2.4",
+    "nightmare-download-manager": "^0.2.5",
     "nspell": "^2.1.5",
     "puppeteer": "^5.4.0",
     "xregexp": "^5.0.2",
