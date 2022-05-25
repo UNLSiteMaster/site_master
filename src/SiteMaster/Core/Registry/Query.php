@@ -54,7 +54,7 @@ class Query extends \IteratorIterator
                 return 'getByUser';
             case self::QUERY_TYPE_ALL:
                 return 'getByALL';
-            case self::QUERY_TYPE_USER:
+            case self::QUERY_TYPE_URL:
                 return 'getByURL';
             default:
                 return 'getByURLContains';
