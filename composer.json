@@ -35,7 +35,7 @@
         "swiftmailer/swiftmailer": "@stable",
         "michelf/php-markdown": "1.4.*@dev",
         "masterminds/html5": "2.*",
-        "guzzlehttp/guzzle": "~3.7",
+        "guzzlehttp/guzzle": "~6.5",
         "paragonie/anti-csrf": "^1"
     },
     "require-dev": {
