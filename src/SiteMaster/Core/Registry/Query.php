@@ -13,7 +13,6 @@ class Query extends \IteratorIterator
     const QUERY_TYPE_ALL  = 1;
     const QUERY_TYPE_URL  = 2;
     const QUERY_TYPE_USER = 3;
-    const QUERY_TYPE_URL_CONTAINS = 4;
 
     function __construct($options = array())
     {
@@ -54,10 +53,9 @@ class Query extends \IteratorIterator
                 return 'getByUser';
             case self::QUERY_TYPE_ALL:
                 return 'getByALL';
-            case self::QUERY_TYPE_URL_CONTAINS:
-                return 'getByURLContains';
             default:
-                return 'getByURL';
+                return 'getByURLContains';
+                // return 'getByURL';
         }
     }
 
@@ -71,9 +69,6 @@ class Query extends \IteratorIterator
      */
     public function getQueryType($query)
     {
-        if(filter_var(substr($query, 0, -1), FILTER_VALIDATE_URL) == substr($query, 0, -1) && substr($query, -1) == '*'){
-            return self::QUERY_TYPE_URL_CONTAINS;
-        }
         //Determine the type of query and get the sites associated with it.
         switch ($query) {
             case filter_var($query, FILTER_VALIDATE_URL): //Get a site and it's parents.
