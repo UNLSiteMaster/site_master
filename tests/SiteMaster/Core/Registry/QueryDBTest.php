@@ -70,6 +70,29 @@ class QueryDBTest extends DBTestCase
     /**
      * @test
      */
+    public function getByURLContains()
+    {
+        $this->setUpDB();
+
+        $query = new Query();
+        $result = $query->query('http://www.test.com/*');
+        $sites = array();
+
+        foreach ($result as $site) {
+            $sites[] = $site->base_url;
+        }
+
+        $expected = array(
+            'http://www.test.com/',
+            'http://www.test.com/test/',
+        );
+
+        $this->assertEquals($expected, $sites, 'This should return two sites, with the matching site first');
+    }
+
+    /**
+     * @test
+     */
     public function getByAll()
     {
         $this->setUpDB();

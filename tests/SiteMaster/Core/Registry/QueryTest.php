@@ -9,6 +9,11 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function getQueryType()
     {
         $query = new Query();
+
+        $this->assertEquals(Query::QUERY_TYPE_URL_CONTAINS, $query->getQueryType('http://www.domain.com/*'));
+        $this->assertEquals(Query::QUERY_TYPE_URL_CONTAINS, $query->getQueryType('http://www.domain.com/test/*'));
+        $this->assertEquals(Query::QUERY_TYPE_URL_CONTAINS, $query->getQueryType('http://www.domain.com/test/test.php?query#fragment*'));
+        $this->assertEquals(Query::QUERY_TYPE_URL_CONTAINS, $query->getQueryType('http://www.domain.com*'));
         
         $this->assertEquals(Query::QUERY_TYPE_URL, $query->getQueryType('http://www.domain.com/'));
         $this->assertEquals(Query::QUERY_TYPE_URL, $query->getQueryType('http://www.domain.com/test/'));
