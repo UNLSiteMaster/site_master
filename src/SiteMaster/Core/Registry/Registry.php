@@ -162,6 +162,29 @@ class Registry
     }
 
     /**
+     * Get the sql to get the any site containing that URIs
+     * This method generates a prepared statement for mysqli
+     * 
+     * Note, this method exists mostly for testing
+     * 
+     * @param $possible_uris
+     * @return string
+     */
+    public function getSiteContainingSQL($possible_uris)
+    {
+        $sql = "SELECT id FROM " . Site::getTable() . PHP_EOL;
+        $sql .= "WHERE" . PHP_EOL;
+        
+        foreach ($possible_uris as $uri) {
+            $sql .= ' base_url LIKE ?% OR' . PHP_EOL;
+        }
+
+        $sql = substr($sql, 0, -5) . PHP_EOL . 'ORDER BY SUBSTRING_INDEX( base_url, \'://\', -1 ) DESC LIMIT 1';
+        
+        return $sql;
+    }
+
+    /**
      * Get the closest site for a given uri
      *
      * @param $uri
@@ -173,6 +196,51 @@ class Registry
         $possible_uris = $this->getPossibleSiteURIs($uri);
         
         $sql = $this->getClosestSiteSQL($possible_uris);
+        
+        $mysqli = Util::getDB();
+        
+        $stmt = $mysqli->prepare($sql);
+
+        $values = array();
+        $values[0] = '';
+        foreach ($possible_uris as $key=>$uri) {
+            $values[0] .= 's';
+            $values[] = &$possible_uris[$key];
+        }
+
+        call_user_func_array(array($stmt, 'bind_param'), $values);
+
+        $stmt->bind_result($id);
+
+        if (!$stmt->execute()) {
+            throw new RuntimeException('Error executing mysqli statement ' . $stmt->error);
+        }
+        
+        if (!$stmt->fetch()) {
+            return false;
+        }
+        
+        if (is_null($id)) {
+            return false;
+        }
+
+        $stmt->close();
+        
+        return Site::getByID($id);
+    }
+
+    /**
+     * Get the site containing a given uri
+     *
+     * @param $uri
+     * @throws \SiteMaster\Plugins\Auth_Unl\RuntimeException
+     * @return bool|Site
+     */
+    public function getSitesContaining($uri)
+    {
+        $possible_uris = $this->getPossibleSiteURIs($uri);
+        
+        $sql = $this->getSiteContainingSQL($possible_uris);
         
         $mysqli = Util::getDB();
         

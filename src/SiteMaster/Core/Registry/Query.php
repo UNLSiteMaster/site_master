@@ -54,7 +54,8 @@ class Query extends \IteratorIterator
             case self::QUERY_TYPE_ALL:
                 return 'getByALL';
             default:
-                return 'getByURL';
+                return 'getByURLContains';
+                // return 'getByURL';
         }
     }
 
@@ -142,4 +143,32 @@ class Query extends \IteratorIterator
         
         return $sites;
     }
+
+    /**
+     * Get all sites containing a URL
+     * 
+     * @param $query
+     * @return array
+     */
+    public function getByURLContains($query)
+    {
+        $sites = array();
+        
+        if (!$site = $this->registry->getSitesContaining($query)) {
+            return $sites;
+        }
+        
+        do {
+            //Handle aliases
+            if (isset(Registry::$aliases[$site->base_url])
+                && $alias = Site::getByBaseURL(Registry::$aliases[$site->base_url])) {
+                $site = $alias;
+            }
+            
+            $sites[] = $site;
+        } while ($site = $site->getParentSite());
+        
+        return $sites;
+    }
+
 }
