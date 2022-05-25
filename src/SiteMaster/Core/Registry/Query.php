@@ -72,7 +72,7 @@ class Query extends \IteratorIterator
     public function getQueryType($query)
     {
         // will be a url with a * at the end
-        if(filter_var(substr($query, 0 , -1)) == substr($query, 0, -1) && substr($query, -1) == '*'){
+        if(filter_var(substr($query, 0 , -1), FILTER_VALIDATE_URL) == substr($query, 0, -1) && substr($query, -1) == '*'){
             return self::QUERY_TYPE_URL_CONTAINS;
         }
 
