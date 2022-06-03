@@ -259,7 +259,7 @@ class Registry
         // we get all the ids
         // we can not get the site since the $stmt connection is still open
         $fetched_ids = array();
-        while($stmt->fetch()){
+        while ($stmt->fetch()) {
             if (is_null($id)) {
                 continue;
             }
@@ -271,9 +271,9 @@ class Registry
 
         // we do this loop to get the site and validate it
         $fetched_sites = array();
-        foreach($fetched_ids as $id){
+        foreach ($fetched_ids as $id) {
             $site = Site::getByID($id);
-            if($site === false){
+            if ($site === false) {
                 continue;
             }
             $fetched_sites[] = $site;

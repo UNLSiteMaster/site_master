@@ -74,7 +74,10 @@ class Query extends \IteratorIterator
     {
 
         // will be a url with a * at the end
-        if(filter_var(substr($query, 0 , -1), FILTER_VALIDATE_URL) == substr($query, 0, -1) && substr($query, -1) == '*' && strlen($query) != 1){
+        if (filter_var(substr($query, 0 , -1), FILTER_VALIDATE_URL) == substr($query, 0, -1) 
+            && substr($query, -1) == '*' 
+            && strlen($query) != 1) {
+        
             return self::QUERY_TYPE_URL_CONTAINS;
         }
 
@@ -170,10 +173,11 @@ class Query extends \IteratorIterator
         $queried_sites = $this->registry->getSitesContaining($queryStripped);
 
         // loops through those sites and checks for aliases
-        foreach($queried_sites as $site){
+        foreach ($queried_sites as $site) {
             
             //check for aliases
-            if (isset(Registry::$aliases[$site->base_url]) && $alias = Site::getByBaseURL(Registry::$aliases[$site->base_url])) {
+            if (isset(Registry::$aliases[$site->base_url]) 
+                && $alias = Site::getByBaseURL(Registry::$aliases[$site->base_url])) {
                 $site = $alias;
             }
             $sites[] = $site;
