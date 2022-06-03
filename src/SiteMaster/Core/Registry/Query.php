@@ -37,7 +37,7 @@ class Query extends \IteratorIterator
             //Make sure it is traversable
             $result = new \ArrayIterator($result);
         }
-        
+
         return new Result(array('result' => $result));
     }
 
@@ -49,6 +49,7 @@ class Query extends \IteratorIterator
      */
     public function getQueryFunction($type)
     {
+
         switch ($type) {
             case self::QUERY_TYPE_USER:
                 return 'getByUser';
@@ -71,8 +72,9 @@ class Query extends \IteratorIterator
      */
     public function getQueryType($query)
     {
+
         // will be a url with a * at the end
-        if(filter_var(substr($query, 0 , -1), FILTER_VALIDATE_URL) == substr($query, 0, -1) && substr($query, -1) == '*'){
+        if(filter_var(substr($query, 0 , -1), FILTER_VALIDATE_URL) == substr($query, 0, -1) && substr($query, -1) == '*' && strlen($query) != 1){
             return self::QUERY_TYPE_URL_CONTAINS;
         }
 
@@ -133,11 +135,11 @@ class Query extends \IteratorIterator
     public function getByURL($query)
     {
         $sites = array();
-        
+
         if (!$site = $this->registry->getClosestSite($query)) {
             return $sites;
         }
-        
+
         do {
             //Handle aliases
             if (isset(Registry::$aliases[$site->base_url])
@@ -147,38 +149,36 @@ class Query extends \IteratorIterator
             
             $sites[] = $site;
         } while ($site = $site->getParentSite());
-        
+
         return $sites;
     }
 
     /**
-     * Get all sites containing a URL
-     * 
-     * @param $query
-     * @return array
-     */
+    * Get all sites containing a URL
+    * 
+    * @param $query
+    * @return array
+    */
     public function getByURLContains($query)
     {
         $sites = array();
 
-        // removes * from end
+        // removed the * at the end
         $queryStripped = substr($query, 0, -1);
         
-        if (!$site = $this->registry->getSitesContaining($queryStripped)) {
-            return $sites;
-        }
-        
-        do {
-            //Handle aliases
-            if (isset(Registry::$aliases[$site->base_url])
-                && $alias = Site::getByBaseURL(Registry::$aliases[$site->base_url])) {
+        // gets all the sites that start with that URI
+        $queried_sites = $this->registry->getSitesContaining($queryStripped);
+
+        // loops through those sites and checks for aliases
+        foreach($queried_sites as $site){
+            
+            //check for aliases
+            if (isset(Registry::$aliases[$site->base_url]) && $alias = Site::getByBaseURL(Registry::$aliases[$site->base_url])) {
                 $site = $alias;
             }
-            
             $sites[] = $site;
-        } while ($site = $site->getParentSite());
-        
+        }
+
         return $sites;
     }
-
 }

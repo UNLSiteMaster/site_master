@@ -162,29 +162,6 @@ class Registry
     }
 
     /**
-     * Get the sql to get the any site containing that URIs
-     * This method generates a prepared statement for mysqli
-     * 
-     * Note, this method exists mostly for testing
-     * 
-     * @param $possible_uris
-     * @return string
-     */
-    public function getSiteContainingSQL($possible_uris)
-    {
-        $sql = "SELECT id FROM " . Site::getTable() . PHP_EOL;
-        $sql .= "WHERE" . PHP_EOL;
-        
-        foreach ($possible_uris as $uri) {
-            $sql .= ' base_url LIKE ?% OR' . PHP_EOL;
-        }
-
-        $sql = substr($sql, 0, -5) . PHP_EOL . 'ORDER BY SUBSTRING_INDEX( base_url, \'://\', -1 ) DESC LIMIT 1';
-        
-        return $sql;
-    }
-
-    /**
      * Get the closest site for a given uri
      *
      * @param $uri
@@ -230,48 +207,79 @@ class Registry
     }
 
     /**
-     * Get the site containing a given uri
-     *
-     * @param $uri
-     * @throws \SiteMaster\Plugins\Auth_Unl\RuntimeException
-     * @return bool|Site
-     */
+    * Get the sql to get the any site containing that URIs
+    * This method generates a prepared statement for mysqli
+    * 
+    * Note, this method exists mostly for testing
+    * 
+    * @param $possible_uris
+    * @return string
+    */
+    public function getSiteContainingSQL()
+    {
+        $sql = "SELECT id FROM " . Site::getTable() . PHP_EOL;
+        $sql .= "WHERE" . PHP_EOL;
+
+        $sql .= ' base_url LIKE ? ' . PHP_EOL;
+
+        $sql .= 'ORDER BY SUBSTRING_INDEX( base_url, \'://\', -1 ) DESC';
+        
+        return $sql;
+    }
+
+    /**
+    * Get the site containing a given URI
+    *
+    * @param $uri
+    * @throws \SiteMaster\Plugins\Auth_Unl\RuntimeException
+    * @return array
+    */
     public function getSitesContaining($uri)
     {
+        // uses the getPossibleSiteURIs and takes the first one to be used
+        // the first one will be the original URI
+        // this function will format the http part nicely 
         $possible_uris = $this->getPossibleSiteURIs($uri);
+
+        // we will add the wild card at the end to get any children sites
+        $formatted_uri = $possible_uris[0] . "%";
         
-        $sql = $this->getSiteContainingSQL($possible_uris);
-        
+        // creates the SQL
+        $sql = $this->getSiteContainingSQL();
+
         $mysqli = Util::getDB();
-        
         $stmt = $mysqli->prepare($sql);
-
-        $values = array();
-        $values[0] = '';
-        foreach ($possible_uris as $key=>$uri) {
-            $values[0] .= 's';
-            $values[] = &$possible_uris[$key];
-        }
-
-        call_user_func_array(array($stmt, 'bind_param'), $values);
-
+        $stmt->bind_param('s', $formatted_uri);
         $stmt->bind_result($id);
 
         if (!$stmt->execute()) {
             throw new RuntimeException('Error executing mysqli statement ' . $stmt->error);
         }
-        
-        if (!$stmt->fetch()) {
-            return false;
-        }
-        
-        if (is_null($id)) {
-            return false;
+
+        // we get all the ids
+        // we can not get the site since the $stmt connection is still open
+        $fetched_ids = array();
+        while($stmt->fetch()){
+            if (is_null($id)) {
+                continue;
+            }
+
+            $fetched_ids[] = $id;
         }
 
         $stmt->close();
-        
-        return Site::getByID($id);
+
+        // we do this loop to get the site and validate it
+        $fetched_sites = array();
+        foreach($fetched_ids as $id){
+            $site = Site::getByID($id);
+            if($site === false){
+                continue;
+            }
+            $fetched_sites[] = $site;
+        }
+
+        return $fetched_sites;
     }
 
     /**
