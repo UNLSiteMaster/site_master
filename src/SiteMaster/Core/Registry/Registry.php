@@ -207,6 +207,82 @@ class Registry
     }
 
     /**
+    * Get the sql to get the any site containing that URIs
+    * This method generates a prepared statement for mysqli
+    * 
+    * Note, this method exists mostly for testing
+    * 
+    * @param $possible_uris
+    * @return string
+    */
+    public function getSiteContainingSQL()
+    {
+        $sql = "SELECT id FROM " . Site::getTable() . PHP_EOL;
+        $sql .= "WHERE" . PHP_EOL;
+
+        $sql .= ' base_url LIKE ? ' . PHP_EOL;
+
+        $sql .= 'ORDER BY SUBSTRING_INDEX( base_url, \'://\', -1 ) DESC';
+        
+        return $sql;
+    }
+
+    /**
+    * Get the site containing a given URI
+    *
+    * @param $uri
+    * @throws \SiteMaster\Plugins\Auth_Unl\RuntimeException
+    * @return array
+    */
+    public function getSitesContaining($uri)
+    {
+        // uses the getPossibleSiteURIs and takes the first one to be used
+        // the first one will be the original URI
+        // this function will format the http part nicely 
+        $possible_uris = $this->getPossibleSiteURIs($uri);
+
+        // we will add the wild card at the end to get any children sites
+        $formatted_uri = $possible_uris[0] . "%";
+        
+        // creates the SQL
+        $sql = $this->getSiteContainingSQL();
+
+        $mysqli = Util::getDB();
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param('s', $formatted_uri);
+        $stmt->bind_result($id);
+
+        if (!$stmt->execute()) {
+            throw new RuntimeException('Error executing mysqli statement ' . $stmt->error);
+        }
+
+        // we get all the ids
+        // we can not get the site since the $stmt connection is still open
+        $fetched_ids = array();
+        while ($stmt->fetch()) {
+            if (is_null($id)) {
+                continue;
+            }
+
+            $fetched_ids[] = $id;
+        }
+
+        $stmt->close();
+
+        // we do this loop to get the site and validate it
+        $fetched_sites = array();
+        foreach ($fetched_ids as $id) {
+            $site = Site::getByID($id);
+            if ($site === false) {
+                continue;
+            }
+            $fetched_sites[] = $site;
+        }
+
+        return $fetched_sites;
+    }
+
+    /**
      * return the recommended base URL, which is usually the closest folder
      *
      * @param string $uri the absolute url
