@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  app:
+    hostname: app
+
+    # this is the URL to go to
+    domainname: localhost.unl.edu
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Update 'VARIANT' to pick a version of PHP version: 8, 8.1, 8.0, 7, 7.4
+        VARIANT: "7.4"
+        # Optional Node.js version
+        NODE_VERSION: "14"
+
+        # DIRROOT is where the files will be copied to in the docker container
+        DIRROOT: "/var/www/html"
+
+        # DOCROOT is where the index.php is located typically the /www directory
+        DOCROOT: ""
+
+    volumes:
+      - .:/var/www/html/:cached
+
+    # this port on the left is also used in /www/.htaccess and config.inc.php
+    # Make sure all are the same
+    ports:
+      - "5505:80"
+
+    stdin_open: true
+    tty: true
+
+    command: sh -c "git submodule init && git submodule update && composer install && npm install && php scripts/update.php && apachectl -D FOREGROUND"
+
+  db:
+    image: mariadb:10.4
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    #   - ./init.sql:/data/application/init.sql
+    # command: --init-file /data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: sitemaster
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+    
+    ports:
+      - "9906:3306"
+
+volumes:
+  mariadb-data: null
