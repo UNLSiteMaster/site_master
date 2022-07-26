@@ -29,6 +29,9 @@ services:
     ports:
       - "5502:80"
 
+    depends_on:
+      - db
+
     stdin_open: true
     tty: true
 
