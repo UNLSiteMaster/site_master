@@ -27,7 +27,7 @@ services:
     # this port on the left is also used in /www/.htaccess and config.inc.php
     # Make sure all are the same
     ports:
-      - "5505:80"
+      - "5502:80"
 
     stdin_open: true
     tty: true
@@ -39,8 +39,8 @@ services:
     restart: unless-stopped
     volumes:
       - mariadb-data:/var/lib/mysql
-    #   - ./init.sql:/data/application/init.sql
-    # command: --init-file /data/application/init.sql
+      - ./init.sql:/data/application/init.sql
+    command: --init-file /data/application/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: mariadb
       MYSQL_DATABASE: sitemaster
