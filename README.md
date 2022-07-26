@@ -65,8 +65,8 @@ To uninstall a plugin:
 1. Copy `config.sample.php` to `config.inc.php` and use recommended docker configs
 2. Copy `www/sample.htaccess` to `www/.htaccess` and use recommended docker configs
 3. Add `127.0.0.1 localhost.unl.edu` to `/etc/hosts` on your host machine
-3. Run `docker-compose up` in the root directory to build and run the docker containers
-4. Open Maps in the browser using the URL [http://localhost.unl.edu:5502/](http://localhost.unl.edu:5502/)
+4. Run `docker-compose up` in the root directory to build and run the docker containers
+5. Open Maps in the browser using the URL [http://localhost.unl.edu:5502/](http://localhost.unl.edu:5502/)
 
 Docker will create two containers called app and db. App holds the contents of the root directory as well as any running program. DB only holds mariadb. 
 
