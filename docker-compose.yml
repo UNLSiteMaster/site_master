@@ -32,7 +32,7 @@ services:
     stdin_open: true
     tty: true
 
-    command: sh -c "git submodule init && git submodule update && composer install && npm install && php scripts/update.php && apachectl -D FOREGROUND"
+    command: sh -c "git submodule init && git submodule update && composer install && npm install && php scripts/install.php && apachectl -D FOREGROUND"
 
   db:
     image: mariadb:10.4
