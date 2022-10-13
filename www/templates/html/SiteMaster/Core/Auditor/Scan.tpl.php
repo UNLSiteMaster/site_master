@@ -130,9 +130,9 @@ $site_pass_fail = $context->isPassFail();
         </div>
     </section>
 
-    <div class="row">
-        <div class="large-4 columns">
-            <section class="in-page-nav info-section">
+    <div class="web-audit-grid-full web-audit-grid-1-2@large">
+        <div>
+            <section class="in-page-nav info-section web-audit-sticky">
                 <header>
                     <h3>Report Navigation</h3>
                 </header>
@@ -145,7 +145,7 @@ $site_pass_fail = $context->isPassFail();
             </section>
         </div>
 
-        <div class="large-8 columns">
+        <div>
             <section id="changes">
                 <?php 
                 if ($previous_scan) {

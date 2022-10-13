@@ -61,7 +61,6 @@ echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.p
             request.done(function(html) {
                 $("#scan_ajax").html(html);
                 sitemaster.initAnchors();
-                sitemaster.initInPageNav();
                 sitemaster.initTables();
             });
             request.fail(function(jqXHR, textStatus) {

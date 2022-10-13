@@ -23,9 +23,9 @@ $metric_grades = $context->page->getMetricGrades();
     }
 ?>
 
-<div class="row">
-    <div class="large-4 columns">
-        <section class="in-page-nav info-section">
+<div class="web-audit-grid-full web-audit-grid-1-2@large">
+    <div>
+        <section class="in-page-nav info-section web-audit-sticky">
             <div>
                 <header>
                     <h2>Scan Information</h2>
@@ -49,7 +49,7 @@ $metric_grades = $context->page->getMetricGrades();
         </section>
     </div>
 
-    <div class="large-8 columns">
+    <div>
         <div class="page-scan-content">
             <?php
             echo $savvy->render($metric_grades);
