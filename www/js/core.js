@@ -36,17 +36,6 @@ var sitemaster = {
             }
         });
     },
-    
-    initInPageNav : function() {
-        $(".in-page-nav").scrollToFixed({
-            marginTop: 50,
-            minWidth: 1000,
-            limit: $("#dcf-footer").offset().top - $(".in-page-nav").outerHeight(true) - 150,
-            dontSetWidth: true,
-            zIndex: 10
-        });
-    },
-    
     initTables : function() {
         $(".scan table, .hot-spot table, .metric-grade-details table, table.sortable").tablesorter();
     }
@@ -69,6 +58,5 @@ $(document).ready(function() {
     });
     
     sitemaster.initAnchors();
-    sitemaster.initInPageNav();
     sitemaster.initTables();
 });

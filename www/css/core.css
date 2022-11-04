@@ -518,9 +518,24 @@ Notices
     margin-bottom: 1em;
 }
 
-.info-section.scroll-to-fixed-fixed {
-    width: 260px;
+.web-audit-sticky{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 2em;
 }
+.web-audit-grid-full{
+    display:grid;
+    grid-template-columns: 1fr;
+}
+
+@media only screen and (min-width: 64.063em){
+    .web-audit-grid-1-2\@large{
+        display:grid;
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+
 
 code {
     background-color: #fff;
