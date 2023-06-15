@@ -24,9 +24,25 @@ if (!$context->count()) {
                             <?php endif ?>
                             <div class="group">In the group: <a href="<?php echo $base_url . 'groups/'.$site->getPrimaryGroupName().'/' ?>"><?php echo $site->getPrimaryGroupName() ?></a></div>
                         </div>
+                        <?php $page_count = $site->getPageCount(); ?>
+                        <?php if ($page_count !== false): ?>
+                            <div class="page_count">
+                                <div class="value">
+                                    <?php echo $page_count; ?>
+                                </div>
+                                <div class="metric">
+                                    <?php if ($page_count == 1): ?>
+                                        Page
+                                    <?php else: ?>
+                                        Pages
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                         <?php
                         if ($scan) {
                             ?>
+                            
                             <div class="gpa">
                                 <div class="value">
                                     <?php echo $scan->gpa; ?>

@@ -115,10 +115,10 @@ table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-ca
     color: var(--link);
 }
 
-.site .general-details {
+/* .site .general-details {
     float: left;
     width: 75%;
-}
+} */
 
 .site .general-details .url {
     font-weight: bold;
@@ -130,11 +130,11 @@ table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-ca
     font-size: .8em;
 }
 
-.site .gpa {
+/* .site .gpa {
     float: left;
     width: 25%;
     text-align: center;
-}
+} */
 
 .panel {
     border-style: solid;
@@ -143,6 +143,26 @@ table:not(.dcf-table):not(.ui-datepicker-calendar):not(.dcf-datepicker-dialog-ca
     margin-bottom: 1.25rem;
     padding: 1.25rem;
     background: var(--bg-dialog);
+
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    column-gap: 3em;
+}
+
+/**
+Page Count
+**/
+
+.page_count {
+    text-align: center;
+}
+
+.page_count .value {
+    font-size: 2em;
+}
+
+.page_count .metric {
+    font-size: .8em;
 }
 
 /**
