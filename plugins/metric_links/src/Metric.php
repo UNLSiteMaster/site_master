@@ -90,6 +90,16 @@ class Metric extends MetricInterface
     }
 
     /**
+     *  This will allow custom overrides manually defined in overrides table to be honored.
+     *
+     * @return bool
+     */
+    public function allowCustomOverridingErrors()
+    {
+        return true;
+    }
+
+    /**
      * Get the human readable name of this metric
      *
      * @return string The human readable name of the metric
