@@ -146,8 +146,11 @@ class Member extends Record
                 continue;
             }
 
+            // Check if we have hit the limit yet
             if (isset($role->max_number_per_site)) {
                 $members_with_role = $this->countNumberOfUsersWithRole($role->id);
+
+                // If we hit the limit do not let them add the role
                 if ($members_with_role >= intval($role->max_number_per_site)) {
                     throw new RuntimeException('The maximum number of users with that role have already been assigned.', 400);
                 }
