@@ -333,14 +333,21 @@ class Plugin extends PluginInterface
 
             if (!Role::getByRoleName('Primary Site Manager')) {
                 Role::createRole('Primary Site Manager', array(
-                    'description' => 'The Primary Site Manager. Only 1 per site.',
+                    'description' => 'The primary site manager. Only 1 per site.',
                     'max_number_per_site' => 1
                 ));
             }
     
             if (!Role::getByRoleName('Backup Site Manager')) {
                 Role::createRole('Backup Site Manager', array(
-                    'description' => 'The Backup Site Manager. Only 1 per site.',
+                    'description' => 'The backup site manager. Only 1 per site.',
+                    'max_number_per_site' => 1
+                ));
+            }
+
+            if (!Role::getByRoleName('Owner')) {
+                Role::createRole('Owner', array(
+                    'description' => 'The owner of site. Only 1 per site.',
                     'max_number_per_site' => 1
                 ));
             }
