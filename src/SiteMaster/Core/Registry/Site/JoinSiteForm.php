@@ -335,4 +335,16 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
 
         return in_array($role_id, $this->user_role_ids);
     }
+
+    /**
+     * Counts the number of users with that role on this site
+     * 
+     * @param int $role_id The role to count the users by
+     * @return int
+     */
+    public function countNumberOfUsersWithRole(int $role_id):int
+    {
+        $members_with_role = new Members\WithRole(array('site_id' => $this->site->id, 'role_id' => $role_id));
+        return count($members_with_role);
+    }
 }
