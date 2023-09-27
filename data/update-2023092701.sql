@@ -1,0 +1,1 @@
+ALTER TABLE `roles` ADD COLUMN `max_number_per_site` INT DEFAULT NULL AFTER `protected`;

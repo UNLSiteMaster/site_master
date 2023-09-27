@@ -65,6 +65,20 @@ class Plugin extends PluginInterface
                 'description' => 'responsible for system hosting the site'
             ));
         }
+
+        if (!Role::getByRoleName('Primary Site Manager')) {
+            Role::createRole('Primary Site Manager', array(
+                'description' => 'The Primary Site Manager. Only 1 per site.',
+                'max_number_per_site' => 1
+            ));
+        }
+
+        if (!Role::getByRoleName('Backup Site Manager')) {
+            Role::createRole('Backup Site Manager', array(
+                'description' => 'The Backup Site Manager. Only 1 per site.',
+                'max_number_per_site' => 1
+            ));
+        }
         
         return true;
     }
@@ -309,6 +323,28 @@ class Plugin extends PluginInterface
                 return false;
             }
         }
+
+        if ($previousVersion <= 2017053101) {
+            $sql = file_get_contents(Util::getRootDir() . "/data/update-2023092701.sql");
+
+            if (!Util::execMultiQuery($sql, true)) {
+                return false;
+            }
+
+            if (!Role::getByRoleName('Primary Site Manager')) {
+                Role::createRole('Primary Site Manager', array(
+                    'description' => 'The Primary Site Manager. Only 1 per site.',
+                    'max_number_per_site' => 1
+                ));
+            }
+    
+            if (!Role::getByRoleName('Backup Site Manager')) {
+                Role::createRole('Backup Site Manager', array(
+                    'description' => 'The Backup Site Manager. Only 1 per site.',
+                    'max_number_per_site' => 1
+                ));
+            }
+        }
         
         return true;
     }
@@ -334,7 +370,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 2017053101;
+        return 2023092701;
     }
 
     /**
