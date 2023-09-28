@@ -66,20 +66,32 @@ class Plugin extends PluginInterface
             ));
         }
 
-        if (!Role::getByRoleName('Primary Site Manager')) {
-            Role::createRole('Primary Site Manager', array(
-                'description' => 'The Primary Site Manager. Only 1 per site.',
+        if (!Role::getByRoleName('Primary Site Manager') && !Role::getByRoleName('Secondary Site Manager')) {
+            $primaryManager = Role::createRole('Primary Site Manager', array(
+                'description' => 'The primary site manager. Only 1 per site.',
+                'max_number_per_site' => 1
+            ));
+            if ($primaryManager !== false) {
+                $secondaryManager = Role::createRole('Secondary Site Manager', array(
+                    'description' => 'The Secondary site manager. Only 1 per site.',
+                    'max_number_per_site' => 1,
+                    'distinct_from' => $primaryManager->id
+                ));
+
+                if ($secondaryManager !== false) {
+                    $primaryManager->distinct_from = $secondaryManager->id;
+                    $primaryManager->save();
+                }
+            }
+        }
+
+        if (!Role::getByRoleName('Owner')) {
+            Role::createRole('Owner', array(
+                'description' => 'The owner of site. Only 1 per site.',
                 'max_number_per_site' => 1
             ));
         }
 
-        if (!Role::getByRoleName('Secondary Site Manager')) {
-            Role::createRole('Secondary Site Manager', array(
-                'description' => 'The Secondary Site Manager. Only 1 per site.',
-                'max_number_per_site' => 1
-            ));
-        }
-        
         return true;
     }
 
@@ -331,18 +343,23 @@ class Plugin extends PluginInterface
                 return false;
             }
 
-            if (!Role::getByRoleName('Primary Site Manager')) {
-                Role::createRole('Primary Site Manager', array(
-                    'description' => 'The primary site manager. Only 1 per site.',
+            if (!Role::getByRoleName('Primary Site Manager') && !Role::getByRoleName('Secondary Site Manager')) {
+                $primaryManager = Role::createRole('Primary Site Manager', array(
+                    'description' => 'The primary site manager. Only 1 per site, you can not be both the primary and secondary.',
                     'max_number_per_site' => 1
                 ));
-            }
+                if ($primaryManager !== false) {
+                    $secondaryManager = Role::createRole('Secondary Site Manager', array(
+                        'description' => 'The secondary site manager. Only 1 per site, you can not be both the primary and secondary.',
+                        'max_number_per_site' => 1,
+                        'distinct_from' => $primaryManager->id
+                    ));
     
-            if (!Role::getByRoleName('Secondary Site Manager')) {
-                Role::createRole('Secondary Site Manager', array(
-                    'description' => 'The Secondary site manager. Only 1 per site.',
-                    'max_number_per_site' => 1
-                ));
+                    if ($secondaryManager !== false) {
+                        $primaryManager->distinct_from = $secondaryManager->id;
+                        $primaryManager->save();
+                    }
+                }
             }
 
             if (!Role::getByRoleName('Owner')) {
