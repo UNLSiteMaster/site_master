@@ -73,9 +73,9 @@ class Plugin extends PluginInterface
             ));
         }
 
-        if (!Role::getByRoleName('Backup Site Manager')) {
-            Role::createRole('Backup Site Manager', array(
-                'description' => 'The Backup Site Manager. Only 1 per site.',
+        if (!Role::getByRoleName('Secondary Site Manager')) {
+            Role::createRole('Secondary Site Manager', array(
+                'description' => 'The Secondary Site Manager. Only 1 per site.',
                 'max_number_per_site' => 1
             ));
         }
@@ -338,9 +338,9 @@ class Plugin extends PluginInterface
                 ));
             }
     
-            if (!Role::getByRoleName('Backup Site Manager')) {
-                Role::createRole('Backup Site Manager', array(
-                    'description' => 'The backup site manager. Only 1 per site.',
+            if (!Role::getByRoleName('Secondary Site Manager')) {
+                Role::createRole('Secondary Site Manager', array(
+                    'description' => 'The Secondary site manager. Only 1 per site.',
                     'max_number_per_site' => 1
                 ));
             }
