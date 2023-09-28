@@ -156,6 +156,15 @@ class Member extends Record
                 }
             }
 
+            // Check if the user has the role that this one is being distinct from
+            if (isset($role->distinct_from)) {
+                foreach ($this->getRoles() as $role_to_check) {
+                    if ($role->distinct_from === $role_to_check->roles_id) {
+                        throw new RuntimeException('This role is conflicting with another role.', 400);
+                    }
+                }
+            }
+
             if (!Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved))) {
                 throw new RuntimeException('Unable to create role ' . $role->role_name, 500);
             }

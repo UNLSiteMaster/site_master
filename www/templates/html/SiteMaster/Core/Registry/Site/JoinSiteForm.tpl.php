@@ -6,7 +6,7 @@
         foreach ($context->all_roles as $role) {
             $checked = '';
             $pending = '';
-            $max_limit_hit = '';
+            $max_limit_hit_or_not_distinct = '';
             if ($context->userHasRole($role->id)) {
                 $checked = 'checked="checked"';
                 $member_role = $context->join_user_membership->getRole($role->id);
@@ -17,12 +17,15 @@
             if (isset($role->max_number_per_site) && !$context->userHasRole($role->id)) {
                 $members_with_role = $context->countNumberOfUsersWithRole($role->id);
                 if ($members_with_role >= intval($role->max_number_per_site)) {
-                    $max_limit_hit = 'disabled="disabled"';
+                    $max_limit_hit_or_not_distinct = 'disabled="disabled"';
                 }
+            }
+            if (isset($role->distinct_from) && $context->userHasRole($role->distinct_from)) {
+                $max_limit_hit_or_not_distinct = 'disabled="disabled"';
             }
             ?>
             <li class="dcf-input-checkbox">
-                <input type="checkbox" id="role_<?php echo $role->id ?>" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked; ?> <?php echo $max_limit_hit; ?>>
+                <input type="checkbox" id="role_<?php echo $role->id ?>" name="role_ids[]" value="<?php echo $role->id; ?>" <?php echo $checked; ?> <?php echo $max_limit_hit_or_not_distinct; ?>>
                 <label for="role_<?php echo $role->id ?>">
                     <?php echo $role->role_name ?> - <?php echo $pending . ' ' . $role->description ?>
                 </label>
