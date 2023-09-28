@@ -9,6 +9,8 @@ class Role extends Record
     public $role_name;        //varchar required
     public $description;      //longtext
     public $protected;        //ENUM('YES', 'NO') default = 'NO';
+    public $max_number_per_site; //int default = null
+    public $distinct_from;       //int default = null
 
     public function keys()
     {

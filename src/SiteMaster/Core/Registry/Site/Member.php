@@ -146,6 +146,25 @@ class Member extends Record
                 continue;
             }
 
+            // Check if we have hit the limit yet
+            if (isset($role->max_number_per_site)) {
+                $members_with_role = $this->countNumberOfUsersWithRole($role->id);
+
+                // If we hit the limit do not let them add the role
+                if ($members_with_role >= intval($role->max_number_per_site)) {
+                    throw new RuntimeException('The maximum number of users with that role have already been assigned.', 400);
+                }
+            }
+
+            // Check if the user has the role that this one is being distinct from
+            if (isset($role->distinct_from)) {
+                foreach ($this->getRoles() as $role_to_check) {
+                    if ($role->distinct_from === $role_to_check->roles_id) {
+                        throw new RuntimeException('This role is conflicting with another role.', 400);
+                    }
+                }
+            }
+
             if (!Member\Role::createRoleForSiteMember($role, $this, array('approved' => $approved))) {
                 throw new RuntimeException('Unable to create role ' . $role->role_name, 500);
             }
@@ -216,5 +235,17 @@ class Member extends Record
         }
         
         return parent::delete();
+    }
+
+    /**
+     * Counts the number of users with that role on this site
+     * 
+     * @param int $role_id The role to count the users by
+     * @return int
+     */
+    public function countNumberOfUsersWithRole(int $role_id):int
+    {
+        $members_with_role = new Members\WithRole(array('site_id' => $this->sites_id, 'role_id' => $role_id));
+        return count($members_with_role);
     }
 }

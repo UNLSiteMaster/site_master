@@ -65,7 +65,33 @@ class Plugin extends PluginInterface
                 'description' => 'responsible for system hosting the site'
             ));
         }
-        
+
+        if (!Role::getByRoleName('Primary Site Manager') && !Role::getByRoleName('Secondary Site Manager')) {
+            $primaryManager = Role::createRole('Primary Site Manager', array(
+                'description' => 'The primary site manager. Only 1 per site.',
+                'max_number_per_site' => 1
+            ));
+            if ($primaryManager !== false) {
+                $secondaryManager = Role::createRole('Secondary Site Manager', array(
+                    'description' => 'The Secondary site manager. Only 1 per site.',
+                    'max_number_per_site' => 1,
+                    'distinct_from' => $primaryManager->id
+                ));
+
+                if ($secondaryManager !== false) {
+                    $primaryManager->distinct_from = $secondaryManager->id;
+                    $primaryManager->save();
+                }
+            }
+        }
+
+        if (!Role::getByRoleName('Owner')) {
+            Role::createRole('Owner', array(
+                'description' => 'The owner of site. Only 1 per site.',
+                'max_number_per_site' => 1
+            ));
+        }
+
         return true;
     }
 
@@ -309,6 +335,40 @@ class Plugin extends PluginInterface
                 return false;
             }
         }
+
+        if ($previousVersion <= 2017053101) {
+            $sql = file_get_contents(Util::getRootDir() . "/data/update-2023092701.sql");
+
+            if (!Util::execMultiQuery($sql, true)) {
+                return false;
+            }
+
+            if (!Role::getByRoleName('Primary Site Manager') && !Role::getByRoleName('Secondary Site Manager')) {
+                $primaryManager = Role::createRole('Primary Site Manager', array(
+                    'description' => 'The primary site manager. Only 1 per site, you can not be both the primary and secondary.',
+                    'max_number_per_site' => 1
+                ));
+                if ($primaryManager !== false) {
+                    $secondaryManager = Role::createRole('Secondary Site Manager', array(
+                        'description' => 'The secondary site manager. Only 1 per site, you can not be both the primary and secondary.',
+                        'max_number_per_site' => 1,
+                        'distinct_from' => $primaryManager->id
+                    ));
+    
+                    if ($secondaryManager !== false) {
+                        $primaryManager->distinct_from = $secondaryManager->id;
+                        $primaryManager->save();
+                    }
+                }
+            }
+
+            if (!Role::getByRoleName('Owner')) {
+                Role::createRole('Owner', array(
+                    'description' => 'The owner of site. Only 1 per site.',
+                    'max_number_per_site' => 1
+                ));
+            }
+        }
         
         return true;
     }
@@ -334,7 +394,7 @@ class Plugin extends PluginInterface
      */
     public function getVersion()
     {
-        return 2017053101;
+        return 2023092701;
     }
 
     /**

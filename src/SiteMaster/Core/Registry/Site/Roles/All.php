@@ -29,7 +29,7 @@ class All extends RecordList
         //Build the list
         $sql = "SELECT id
                 FROM roles
-                ORDER by role_name ASC";
+                ORDER by max_number_per_site asc, role_name ASC";
 
         return $sql;
     }
