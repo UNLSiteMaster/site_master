@@ -137,7 +137,7 @@ class JoinSiteForm implements ViewableInterface, PostHandlerInterface
      */
     public function getPageTitle()
     {
-        return 'Add\Edit Roles for ' . $this->join_user->getName();
+        return 'Add/Edit Roles for ' . $this->join_user->getName();
     }
 
     /**
