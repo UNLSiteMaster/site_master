@@ -19,6 +19,12 @@ Config::set('DB_USER'     , 'sitemaster');
 Config::set('DB_PASSWORD' , 'password');
 Config::set('DB_NAME'     , 'sitemaster');
 
+// If using docker
+// Config::set('DB_HOST'     , 'db');
+// Config::set('DB_USER'     , 'root');
+// Config::set('DB_PASSWORD' , 'mariadb');
+// Config::set('DB_NAME'     , 'sitemaster');
+
 /**********************************************************************************************************************
  * Other settings, including theme
  */
@@ -59,6 +65,12 @@ Config::set('TEST_DB_HOST'     , 'localhost');
 Config::set('TEST_DB_USER'     , 'sitemaster_test');
 Config::set('TEST_DB_PASSWORD' , 'password');
 Config::set('TEST_DB_NAME'     , 'sitemaster_test');
+
+// If using docker
+// Config::set('TEST_DB_HOST'     , 'db');
+// Config::set('TEST_DB_USER'     , 'root');
+// Config::set('TEST_DB_PASSWORD' , 'mariadb');
+// Config::set('TEST_DB_NAME'     , 'sitemaster_test');
 
 /**********************************************************************************************************************
  * TRAVIS settings
