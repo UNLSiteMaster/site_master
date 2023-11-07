@@ -12,6 +12,7 @@ use SiteMaster\Core\Auditor\Scans\FinishedForSite;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Registry\Site\Member;
 use SiteMaster\Core\Auditor\Scan;
+use SiteMaster\Core\User\Session;
 use SiteMaster\Core\User\User;
 use SiteMaster\Core\Util;
 
@@ -199,6 +200,38 @@ class Site extends Record
     public function getMembershipForUser(User $user)
     {
          return Member::getByUserIDAndSiteID($user->id, $this->id);
+    }
+
+    /**
+     * Checks to see if the current user is an admin on this site
+     *
+     * @return bool
+     */
+    public function isCurrentUserAdmin(): bool
+    {
+        // Get current user
+        $currentUser = Session::getCurrentUser();
+        if ($currentUser === false) {
+            return false;
+        }
+
+        // Get their membership
+        $membership = $this->getMembershipForUser($currentUser);
+        if ($membership === false) {
+            return false;
+        }
+
+        // Get their roles and look for the admin role
+        $members_roles = $membership->getRoles();
+        $admin_role = Role::getByRoleName('admin');
+        foreach ($members_roles as $members_role) {
+            if ($members_role->roles_id === $admin_role->id && $members_role->approved === "YES") {
+                return true;
+            }
+        }
+
+        // If we get here they are not an admin
+        return false;
     }
 
     /**
