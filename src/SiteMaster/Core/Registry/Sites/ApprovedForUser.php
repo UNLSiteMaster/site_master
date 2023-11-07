@@ -2,20 +2,15 @@
 namespace SiteMaster\Core\Registry\Sites;
 
 use DB\RecordList;
-use SiteMaster\Core\User\User;
 use SiteMaster\Core\InvalidArgumentException;
 
 class ApprovedForUser extends RecordList
 {
-    public $user;
-
     public function __construct(array $options = array())
     {
         if (!isset($options['user_id'])) {
             throw new InvalidArgumentException('A user_id must be set', 500);
         }
-
-        $this->user = User::getByID($options['user_id']);
 
         $options['array'] = self::getBySQL(array(
             'sql'         => $this->getSQL($options['user_id']),
@@ -47,10 +42,5 @@ class ApprovedForUser extends RecordList
                 ORDER BY sites.base_url ASC";
 
         return $sql;
-    }
-
-    public function getCurrentUser()
-    {
-        return $this->user;
     }
 }
