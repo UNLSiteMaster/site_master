@@ -11,7 +11,7 @@ class ApprovedForUser extends RecordList
         if (!isset($options['user_id'])) {
             throw new InvalidArgumentException('A user_id must be set', 500);
         }
-
+        
         $options['array'] = self::getBySQL(array(
             'sql'         => $this->getSQL($options['user_id']),
             'returnArray' => true
