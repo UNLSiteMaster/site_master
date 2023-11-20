@@ -13,6 +13,39 @@ $site_pass_fail = $context->scan->isPassFail();
 <p>
     <?php echo \SiteMaster\Core\Config::get('SITE_TITLE') ?> has a <a href="<?php echo $site->getURL();?>">new report</a> for your site <?php echo $site->base_url ?>.
 </p>
+<?php
+    $owner = 'None';
+    $primary = 'None';
+    $secondary = 'None';
+
+    $owner_members = $site->getMembersWithRoleName('Owner');
+    if (count($owner_members) > 0) {
+        $owner_members->rewind();
+        $owner_user = $owner_members->current()->getUser();
+        $owner = $owner_user->first_name . " " . $owner_user->last_name;
+    }
+
+    $primary_members = $site->getMembersWithRoleName('Primary Site Manager');
+    if (count($primary_members) > 0) {
+        $primary_members->rewind();
+        $primary_user = $primary_members->current()->getUser();
+        $primary = $primary_user->first_name . " " . $primary_user->last_name;
+    }
+
+    $secondary_members = $site->getMembersWithRoleName('Secondary Site Manager');
+    if (count($secondary_members) > 0) {
+        $secondary_members->rewind();
+        $secondary_user = $secondary_members->current()->getUser();
+        $secondary = $secondary_user->first_name . " " . $secondary_user->last_name;
+    }
+?>
+
+<?php if ($owner === 'None' || $primary === 'None' || $secondary === 'None'): ?>
+    <p>
+        Please assign users to the Owner, Primary Site Manager, and Secondary Site Manager roles.
+        (<a href="<?php echo $site->getURL() ?>members/">Edit roles</a>)
+    </p>
+<?php endif; ?>
 
 <?php
 $arrow = "&#8596; (same)";
