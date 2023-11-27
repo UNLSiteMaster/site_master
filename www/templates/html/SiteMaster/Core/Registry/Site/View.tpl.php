@@ -52,6 +52,49 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
 echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.php');
 ?>
 
+<?php
+    $owner = 'None';
+    $primary = 'None';
+    $secondary = 'None';
+
+    $owner_members = $context->site->getMembersWithRoleName('Owner');
+    if (count($owner_members) > 0) {
+        $owner_members->rewind();
+        $owner_user = $owner_members->current()->getUser();
+        $owner = $owner_user->first_name . " " . $owner_user->last_name;
+    }
+
+    $primary_members = $context->site->getMembersWithRoleName('Primary Site Manager');
+    if (count($primary_members) > 0) {
+        $primary_members->rewind();
+        $primary_user = $primary_members->current()->getUser();
+        $primary = $primary_user->first_name . " " . $primary_user->last_name;
+    }
+
+    $secondary_members = $context->site->getMembersWithRoleName('Secondary Site Manager');
+    if (count($secondary_members) > 0) {
+        $secondary_members->rewind();
+        $secondary_user = $secondary_members->current()->getUser();
+        $secondary = $secondary_user->first_name . " " . $secondary_user->last_name;
+    }
+?>
+
+<?php if ($owner === 'None' || $primary === 'None' || $secondary === 'None'): ?>
+    <div class="dcf-mt-6">
+        <div class="dcf-notice dcf-notice-warning" hidden>
+            <h2>Your site is missing important roles</h2>
+            <div>
+                Please assign users to the Owner, Primary Site Manager, and Secondary Site Manager roles.
+                <?php if ($context->site->isCurrentUserAdmin()): ?>
+                    (<a href="<?php echo $context->site->getURL() ?>members/">Edit roles</a>)
+                <?php else: ?>
+                    (<a href="<?php echo $context->site->getURL() ?>join/">Edit my roles</a>)
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <div class="scan-include">
     <?php
     if ($scan = $context->getScan()) {
