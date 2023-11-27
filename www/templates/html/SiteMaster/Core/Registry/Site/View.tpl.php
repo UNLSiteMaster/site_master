@@ -48,8 +48,6 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
         <?php
     }
 }
-
-echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.php');
 ?>
 
 <?php
@@ -94,6 +92,10 @@ echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.p
         </div>
     </div>
 <?php endif; ?>
+
+<?php
+    echo $savvy->render($context, 'SiteMaster/Core/Registry/Site/history-graph.tpl.php');
+?>
 
 <div class="scan-include">
     <?php
