@@ -53,7 +53,6 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
 <?php
     $owner = 'None';
     $primary = 'None';
-    $secondary = 'None';
 
     $owner_members = $context->site->getMembersWithRoleName('Owner');
     if (count($owner_members) > 0) {
@@ -68,16 +67,9 @@ if ($user && $membership = $context->site->getMembershipForUser($user->getRawObj
         $primary_user = $primary_members->current()->getUser();
         $primary = $primary_user->first_name . " " . $primary_user->last_name;
     }
-
-    $secondary_members = $context->site->getMembersWithRoleName('Secondary Site Manager');
-    if (count($secondary_members) > 0) {
-        $secondary_members->rewind();
-        $secondary_user = $secondary_members->current()->getUser();
-        $secondary = $secondary_user->first_name . " " . $secondary_user->last_name;
-    }
 ?>
 
-<?php if ($owner === 'None' || $primary === 'None' || $secondary === 'None'): ?>
+<?php if ($owner === 'None' || $primary === 'None'): ?>
     <div class="dcf-mt-6">
         <div class="dcf-notice dcf-notice-warning" hidden>
             <h2>Your site is missing important roles</h2>
