@@ -16,7 +16,6 @@ $site_pass_fail = $context->scan->isPassFail();
 <?php
     $owner = 'None';
     $primary = 'None';
-    $secondary = 'None';
 
     $owner_members = $site->getMembersWithRoleName('Owner');
     if (count($owner_members) > 0) {
@@ -31,16 +30,9 @@ $site_pass_fail = $context->scan->isPassFail();
         $primary_user = $primary_members->current()->getUser();
         $primary = $primary_user->first_name . " " . $primary_user->last_name;
     }
-
-    $secondary_members = $site->getMembersWithRoleName('Secondary Site Manager');
-    if (count($secondary_members) > 0) {
-        $secondary_members->rewind();
-        $secondary_user = $secondary_members->current()->getUser();
-        $secondary = $secondary_user->first_name . " " . $secondary_user->last_name;
-    }
 ?>
 
-<?php if ($owner === 'None' || $primary === 'None' || $secondary === 'None'): ?>
+<?php if ($owner === 'None' || $primary === 'None'): ?>
     <p>
         Please assign users to the Owner, Primary Site Manager, and Secondary Site Manager roles.
         (<a href="<?php echo $site->getURL() ?>members/">Edit roles</a>)
