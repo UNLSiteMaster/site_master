@@ -50,6 +50,18 @@ class Metric extends MetricInterface
      */
     public function __construct($plugin_name, array $options = array())
     {
+        // Set up list of suppressed domains
+        $suppressed_domains = array();
+        $suppressed_domains_filename = dirname(__DIR__) . '/data/suppressed_domains.txt';
+        if (file_exists($suppressed_domains_filename)) {
+            $suppressed_domains_file_contents = file_get_contents($suppressed_domains_filename);
+            $exploded_domains = explode("\n", $suppressed_domains_file_contents);
+
+            foreach ($exploded_domains as $single_domain) {
+                $suppressed_domains[] = trim($single_domain);
+            }
+        }
+
         $options = array_replace_recursive(array(
             'grading_method' => self::GRADE_METHOD_DEFAULT,
             'http_error_codes' => array(
@@ -89,6 +101,7 @@ class Metric extends MetricInterface
                 'link_http_code_503' => 'This will usually get resolved without any need for action on your part.  If not, you will have to contact the server administrator or remove this link.',
                 self::MARK_LINK_LIMIT_HIT => 'The link limit was hit, so not all links on the page were scanned. You will have to manually check links on the page.',
             ),
+            'suppressed_domains' => $suppressed_domains,
         ), $options);
         
         parent::__construct($plugin_name, $options);
@@ -169,6 +182,12 @@ class Metric extends MetricInterface
         $links = $page->getLinks();
         
         foreach ($links as $link) {
+
+            // Ignore suppressed domains
+            if ($this->isSuppressedDomain($link)) {
+                continue;
+            }
+
             if (!$this->isError($link)) {
                 //don't mark it...
                 continue;
@@ -255,6 +274,31 @@ class Metric extends MetricInterface
         }
         
         return false;
+    }
+
+    /**
+     * Determine if a URL matches a suppressed domain
+     *
+     * @param Page\Link $link
+     * @internal param Page\Link $original_url
+     * @internal param Page\Link $final_url
+     * @return bool
+     */
+    public function isSuppressedDomain(Page\Link $link) {
+        $suppressed_domain_check = false;
+        $final_URL_obj = parse_url($link->final_url);
+        $starting_URL_obj = parse_url($link->original_url);
+
+        foreach($this->options['suppressed_domains'] as $suppressed_domains) {
+            if (
+                strpos($final_URL_obj['host'], $suppressed_domains) !== false ||
+                strpos($starting_URL_obj['host'], $suppressed_domains) !== false
+            ) {
+                $suppressed_domain_check = true;
+            }
+        }
+
+        return $suppressed_domain_check;
     }
 
     /**
