@@ -13,7 +13,7 @@
     "nightmare": "^2.10.0",
     "nightmare-download-manager": "^0.2.5",
     "nspell": "^2.1.5",
-    "puppeteer": "^22.8.1",
+    "puppeteer": "^19.11.1",
     "xregexp": "^5.0.2",
     "xvfb-maybe": "^0.2.1"
   },
