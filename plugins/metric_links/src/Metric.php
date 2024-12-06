@@ -83,6 +83,14 @@ class Metric extends MetricInterface
                 'link_http_code_501' => 'Not Implemented (501)',
                 'link_http_code_502' => 'Bad Gateway (502)',
                 'link_http_code_503' => 'Service Unavailable (503)',
+                'link_http_code_400' => 'Bad Request (400)',
+                'link_http_code_402' => 'Payment Required (402)',
+                'link_http_code_403' => 'Forbidden (403)',
+                'link_http_code_404' => 'Not Found (404)',
+                'link_http_code_500' => 'Internal Server Error (500)',
+                'link_http_code_501' => 'Not Implemented (501)',
+                'link_http_code_502' => 'Bad Gateway (502)',
+                'link_http_code_503' => 'Service Unavailable (503)',
                 self::MARK_LINK_LIMIT_HIT => 'Link limit was hit, not all links were scanned',
             ),
             'help_text' => array(
@@ -188,31 +196,48 @@ class Metric extends MetricInterface
                 continue;
             }
 
-            if (!$this->isError($link)) {
-                //don't mark it...
-                continue;
+            if ($this->isOriginalError($link)) {
+                $machine_name = $this->getMachineNameForOriginalStatus($link);
+                $message      = $this->getStatusMessage($machine_name);
+                $help_text    = $this->getStatusHelpText($machine_name);
+                $points       = $this->getPointDeduction($link->original_status_code);
+
+                $allows_perm_override = false;
+                if ($points === 0) {
+                    //Allow notices for this metric to be permanently overridden, because they likely do not need to be reviewed again.
+                    $allows_perm_override = true;
+                }
+                $mark = $this->getMark($machine_name, $message, $points, null, $help_text, $allows_perm_override);
+
+                $value_found = $link->original_url;
+                if ($link->isRedirect()) {
+                    $value_found .= ' which redirected to ' . $link->final_url;
+                }
+                
+                $page->addMark($mark, array(
+                    'value_found' => $value_found
+                ));
             }
 
-            $machine_name = $this->getMachineNameForStatus($link);
-            $message      = $this->getStatusMessage($machine_name);
-            $help_text    = $this->getStatusHelpText($machine_name);
-            $points       = $this->getPointDeduction($link->original_status_code);
+            if ($link->isRedirect() && $this->isFinalError($link)) {
+                $machine_name = $this->getMachineNameForFinalStatus($link);
+                $message      = $this->getStatusMessage($machine_name);
+                $help_text    = $this->getStatusHelpText($machine_name);
+                $points       = $this->getPointDeduction($link->final_status_code);
 
-            $allows_perm_override = false;
-            if ($points === 0) {
-                //Allow notices for this metric to be permanently overridden, because they likely do not need to be reviewed again.
-                $allows_perm_override = true;
-            }
-            $mark = $this->getMark($machine_name, $message, $points, null, $help_text, $allows_perm_override);
+                $allows_perm_override = false;
+                if ($points === 0) {
+                    //Allow notices for this metric to be permanently overridden, because they likely do not need to be reviewed again.
+                    $allows_perm_override = true;
+                }
+                $mark = $this->getMark($machine_name, $message, $points, null, $help_text, $allows_perm_override);
 
-            $value_found = $link->original_url;
-            if ($link->isRedirect()) {
-                $value_found .= ' which redirected to ' . $link->final_url;
+                $value_found = $link->original_url . ' which redirected to ' . $link->final_url;
+
+                $page->addMark($mark, array(
+                    'value_found' => $value_found
+                ));
             }
-            
-            $page->addMark($mark, array(
-                'value_found' => $value_found
-            ));
         }
         
         if (Page::LIMIT_LIMIT_HIT_YES == $page->link_limit_hit) {
@@ -263,13 +288,33 @@ class Metric extends MetricInterface
      * @internal param Page\Link $status
      * @return bool
      */
-    public function isError(Page\Link $link)
+    public function isOriginalError(Page\Link $link)
     {
         if ($link->isCurlError()) {
             return true;
         }
         
         if (in_array($link->original_status_code, $this->options['http_error_codes'])) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Determine if a status is an error and should be logged
+     *
+     * @param Page\Link $link
+     * @internal param Page\Link $status
+     * @return bool
+     */
+    public function isFinalError(Page\Link $link)
+    {
+        if ($link->isCurlError()) {
+            return true;
+        }
+        
+        if (in_array($link->final_status_code, $this->options['http_error_codes'])) {
             return true;
         }
         
@@ -308,13 +353,29 @@ class Metric extends MetricInterface
      * @internal param Page\Link $status
      * @return string
      */
-    public function getMachineNameForStatus(Page\Link $link)
+    public function getMachineNameForOriginalStatus(Page\Link $link)
     {
         if ($link->isCurlError()) {
             return 'link_connection_error_' . $link->original_curl_code;
         }
         
         return 'link_http_code_' . $link->original_status_code;
+    }
+
+    /**
+     * Get the machine name for a status
+     *
+     * @param Page\Link $link
+     * @internal param Page\Link $status
+     * @return string
+     */
+    public function getMachineNameForFinalStatus(Page\Link $link)
+    {
+        if ($link->isCurlError()) {
+            return 'link_connection_error_' . $link->final_curl_code;
+        }
+        
+        return 'link_http_code_' . $link->final_status_code;
     }
 
     /**
