@@ -166,6 +166,20 @@ class Link extends Record
     }
 
     /**
+     * Determine if this link's final was a redirect
+     * 
+     * @return bool
+     */
+    public function isFinalRedirect()
+    {
+        if (in_array($this->final_status_code, array(301, 302))) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
      * Determine if this link resulted in a CURL error
      * 
      * @return bool

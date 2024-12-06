@@ -205,7 +205,8 @@ class Metric extends MetricInterface
             }
 
             // If we get an error after the redirect
-            if ($link->isRedirect() && $this->isFinalError($link)) {
+            // If the final status code is a redirect that means the redirect chain was too long and we don't care about it anymore just give them a notice
+            if ($link->isRedirect() && !$link->isFinalRedirect() && $this->isFinalError($link)) {
                 $machine_name = $this->getMachineNameForFinalStatus($link);
                 $message      = $this->getStatusMessage($machine_name);
                 $help_text    = $this->getStatusHelpText($machine_name);
