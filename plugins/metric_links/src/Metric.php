@@ -384,7 +384,7 @@ class Metric extends MetricInterface
             return 'link_connection_error_' . $link->final_curl_code;
         }
 
-        return 'link_http_code_after_redirect' . $link->final_status_code;
+        return 'link_http_code_after_redirect_' . $link->final_status_code;
     }
 
     /**
