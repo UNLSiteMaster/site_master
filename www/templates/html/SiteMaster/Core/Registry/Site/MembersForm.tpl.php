@@ -71,7 +71,7 @@ if ($can_edit) {
                     ?>
                     <li class="dcf-input-checkbox">
                         <input id="approve-<?php echo $member_role->id; ?>" type="checkbox" name="approve[]" value="<?php echo $member_role->id; ?>">
-                        <label for="approve-<?php echo $member_role->id; ?>"><?php echo $user->getName(true) . ' - ' . $role->role_name ?>label>
+                        <label for="approve-<?php echo $member_role->id; ?>"><?php echo $user->getName(true) . ' - ' . $role->role_name ?></label>
                     </li>
                     <?php
                 }
