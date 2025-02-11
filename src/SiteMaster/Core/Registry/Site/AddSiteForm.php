@@ -120,7 +120,7 @@ class AddSiteForm extends AbstractPostHandler implements ViewableInterface
     public function getEditURL()
     {
         if (isset($_GET['recommended']) && !empty($_GET['recommended'])) {
-            return $this->getURL() . "?recommended=" . $_GET['recommended'];
+            return $this->getURL() . "?recommended=" . urlencode($_GET['recommended']);
         }
 
         return $this->getURL();
