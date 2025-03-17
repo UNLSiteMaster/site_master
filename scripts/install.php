@@ -6,7 +6,7 @@ echo 'This could take awhile...' . PHP_EOL;
 $root = dirname(__DIR__);
 
 //Update composer
-passthru('php ' . $root. '/composer.phar install');
+passthru('php ' . $root. '/composer.phar install -n');
 
 require_once($root. '/scripts/update_libs.php');
 
