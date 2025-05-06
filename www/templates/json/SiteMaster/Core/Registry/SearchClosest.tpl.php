@@ -3,7 +3,7 @@
 $site = $context->getSite();
 
 if (!$site) {
-    return json_encode(false);
+    echo "{}";
 } else {
     $result = array();
 
