@@ -7,9 +7,26 @@ foreach ($metrics as $metric) {
 
 $names[count($names)-1] = 'and ' . $names[count($names)-1];
 
+$sites = $context->getSites();
+$site_count = 0;
+
+foreach ($sites as $site) {
+    if ($site->production_status == \SiteMaster\Core\Registry\Site::PRODUCTION_STATUS_ARCHIVED) {
+        //exclude archived
+        continue;
+    }
+
+    if ($site->production_status == \SiteMaster\Core\Registry\Site::PRODUCTION_STATUS_DEVELOPMENT) {
+        //exclude sites that are in development
+        continue;
+    }
+
+    $site_count++;;
+}
+
 ?>
 
-<p>The <?php echo $context->getGroupName() ?> group uses the <?php echo implode(', ', $names) ?> metrics. The group contains <?php echo $context->getSites()->count() ?> sites. The group has a total of <?php echo $context->getTotalPages() ?> pages.</p>
+<p>The <?php echo $context->getGroupName() ?> group uses the <?php echo implode(', ', $names) ?> metrics. The group contains <?php echo $site_count; ?> sites. The group has a total of <?php echo $context->getTotalPages() ?> pages.</p>
 
 <?php $nav = $context->getGroupNavigation(); ?>
 <?php if (!empty($nav)): ?>

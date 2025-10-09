@@ -42,7 +42,7 @@ foreach (Config::get('GROUPS') as $group_name=>$group) {
             continue;
         }
 
-        $history->seek(count($history)-1);
+        $history->seek(0);
         $latest = $history->current();
 
         /**
