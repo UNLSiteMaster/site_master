@@ -131,7 +131,7 @@ class View implements ViewableInterface
      */
     public function getSites()
     {
-        return new WithGroup(['group_name'=>$this->group_name, 'limit'=>90]);
+        return new WithGroup(['group_name'=>$this->group_name]);
     }
 
     public function getHonorRoll100()
