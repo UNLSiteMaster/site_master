@@ -267,7 +267,12 @@ Dashboard
     background-color: var(--bg-dialog);
     border:3px solid var(--b);
     border-radius:3px;
-    margin-bottom:1em;min-height:9.2em
+    margin-bottom:1em;
+    min-height:9.2em;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .dashboard .section-title {
